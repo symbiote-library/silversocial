@@ -25,7 +25,7 @@ sapphire:master git://github.com/silverstripe/sapphire.git
 
 multivaluefield git://github.com/nyeholt/silverstripe-multivaluefield.git
 
-restrictedobjects git@github.com:nyeholt/silverstripe-restrictedobjects.git
+# restrictedobjects git@github.com:nyeholt/silverstripe-restrictedobjects.git
 
 # securefiles http://svn.polemic.net.nz/silverstripe/modules/SecureFiles/tags/0.30/
 # versionedfiles:master:c3bd2ca1710a8241b99a git://github.com/ajshort/silverstripe-versionedfiles.git
@@ -67,3 +67,5 @@ restrictedobjects git@github.com:nyeholt/silverstripe-restrictedobjects.git
 # fullcalendar git@github.com:ajshort/silverstripe-fullcalendar.git 
 
 # groupedcmsmenu git@github.com:ajshort/silverstripe-groupedcmsmenu.git
+
+webservices git://github.com/nyeholt/silverstripe-webservices.git local

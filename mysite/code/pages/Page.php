@@ -36,9 +36,32 @@ class Page_Controller extends ContentController {
 	);
 	
 	public function init() {
+		
 		parent::init();
-
+		Requirements::block(THIRDPARTY_DIR . '/prototype/prototype.js');
+		Requirements::combine_files('silvertwit.js', array(
+			THIRDPARTY_DIR . '/jquery/jquery.js',
+			THIRDPARTY_DIR . '/jquery-livequery/jquery.livequery.js',
+			'microblog/javascript/date.js',
+			'microblog/javascript/jquery.tmpl.min.js',
+			'microblog/javascript/microblog.js'
+		));
 	}
 	
+	public function SecurityID() {
+		return SecurityToken::inst()->getValue();
+	}
 	
+	public function MemberDetails() {
+		$m = Member::currentUser();
+		if ($m) {
+			return Convert::raw2json(array(
+				'Title'			=> $m->getTitle(),
+				'FirstName'		=> $m->FirstName,
+				'Surname'		=> $m->Surname,
+				'ID'			=> $m->ID
+			));
+		}
+		
+	}
 }

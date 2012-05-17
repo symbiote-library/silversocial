@@ -53,7 +53,8 @@ class MicroBlogService {
 			$number = (int) $number;
 			$userIds[] = $member->ID;
 			$sinceTime = Convert::raw2sql($sinceTime ? $sinceTime : '1980-09-22 00:00:00');
-			$filter = '"OwnerID" IN (' . implode(',', $userIds) . ') AND "Created" > \'' . $sinceTime .'\'';
+			$filter = array('OwnerID' => $userIds, 'Created:GreaterThan' => $sinceTime);
+			
 			$posts = singleton('DataService')->getAllMicroPost($filter, '"Created" DESC', '', '0, ' . $number);
 			return $posts;
 		}
@@ -80,7 +81,7 @@ class MicroBlogService {
 		$sinceTime = Convert::raw2sql($sinceTime ? $sinceTime : '1980-09-22 00:00:00');
 		$filter = '"OwnerID" IN (' . implode(',', $userIds) . ') AND "Created" > \'' . $sinceTime .'\'';
 		
-		$filter = array('OwnerID' => $userIds, 'Created' => $sinceTime);
+		$filter = array('OwnerID' => $userIds, 'Created:GreaterThan' => $sinceTime);
 		
 		$posts = singleton('DataService')->getAllMicroPost($filter, '"Created" DESC', '', '0, ' . $number);
 		return $posts;

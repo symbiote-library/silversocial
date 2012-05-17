@@ -117,11 +117,13 @@ class MicroBlogPage_Controller extends Page_Controller {
 		if ($id) {
 			$user = DataObject::get_by_id('Member', $id);
 			if ($user && $user->exists()) {
-				return singleton('MicroBlogService')->getStatusUpdates($user);
+				$data = singleton('MicroBlogService')->getStatusUpdates($user);
+				
 			}
 		} else if (Member::currentUserID()) {
-			return singleton('MicroBlogService')->getTimeline(Member::currentUser());
+			$data = singleton('MicroBlogService')->getTimeline(Member::currentUser());
 		}
+		return $data;
 	}
 
 	public function ViewingUserID() {
