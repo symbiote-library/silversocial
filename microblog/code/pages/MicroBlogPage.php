@@ -1,29 +1,26 @@
 <?php
 
 /**
- *
  * @author marcus@silverstripe.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class MicroBlogPage extends Page {
-//	public static $has_one = array(
-//		'RelatedTwitterFeed'		=> 'ExternalContentSource'
-//	);
-//	
-//	
-//	public function getCMSFields() {
-//		$fields = parent::getCMSFields();
-//		$fields->addFieldToTab('Root.Content.Main', 
-//			new ExternalTreeDropdownField('RelatedTwitterFeedID', _t('MicroBlog.RELATED_FEED', 'Related Twitter Feed'), 'ExternalContentSource'),
-//			'Content'
-//		);
-//		
-//		return $fields;
-//	}
+
 }
 
 class MicroBlogPage_Controller extends Page_Controller {
+	public $microBlogService;
+	public $securityContext;
+
+	static $dependencies = array(
+		'microBlogService'		=> '%$MicroBlogService',
+		'securityContext'		=> '%$SecurityContext',
+	);
 	
+	public function __construct($dataRecord = null) {
+		parent::__construct($dataRecord);
+	}
+
 	public function StatusForm () {
 		$fields = new FieldList(
 			$taf = new TextareaField('Title', _t('MicroBlog.POST', 'Post'))
@@ -38,7 +35,7 @@ class MicroBlogPage_Controller extends Page_Controller {
 		$form = new Form($this, 'StatusForm', $fields, $actions);
 		return $form;
 	}
-	
+
 	public function FollowForm() {
 		$fields = new FieldList(
 			new HiddenField('OtherID', 'Other', $this->ViewingUserID())
@@ -60,35 +57,35 @@ class MicroBlogPage_Controller extends Page_Controller {
 	}
 	
 	public function savepost($data, Form $form) {
-		if (!Member::currentUserID()) {
+		if (!$this->securityContext->getMember()) {
 			return Security::permissionFailure($this);
 		}
 		if (isset($data['Title']) && strlen($data['Title'])) {
-			singleton('MicroBlogService')->createPost(Member::currentUser(), $data['Title']);
+			$this->microBlogService->createPost($this->securityContext->getMember(), $data['Title']);
 		}
 		$this->redirect($this->data()->Link());
 	}
 
 	public function follow($data, $form) {
-		if (!Member::currentUserID()) {
+		if (!$this->securityContext->getMember()) {
 			return Security::permissionFailure($this);
 		}
 		$otherID = (int) (isset($data['OtherID']) ? $data['OtherID'] : null);
 		if ($otherID) {
 			$other = DataObject::get_by_id('Member', $otherID);
-			singleton('MicroBlogService')->addFollower($other, Member::currentUser());
+			$this->microBlogService->addFollower($other, $this->securityContext->getMember());
 		}
 		$this->redirectBack();
 	}
 	
 	public function unfollow($data, $form) {
-		if (!Member::currentUserID()) {
+		if (!$this->securityContext->getMember()) {
 			return Security::permissionFailure($this);
 		}
 		$otherID = (int) (isset($data['OtherID']) ? $data['OtherID'] : null);
 		if ($otherID) {
 			$other = DataObject::get_by_id('Member', $otherID);
-			singleton('MicroBlogService')->removeFollower($other, Member::currentUser());
+			$this->microBlogService->removeFollower($other, $this->securityContext->getMember());
 		}
 		$this->redirectBack();
 	}
@@ -97,11 +94,11 @@ class MicroBlogPage_Controller extends Page_Controller {
 	 * Output RSS feed
 	 */
 	public function rss() {
-		$entries = singleton('MicroBlogService')->globalFeed();
+		$entries = $this->microBlogService->globalFeed();
 		$feed = new RSSFeed($entries, $this->Link('rss'), 'Global updates');
 		$feed->outputToBrowser();
 	}
-	
+
 	/**
 	 * View a particular user's feed
 	 */
@@ -110,18 +107,18 @@ class MicroBlogPage_Controller extends Page_Controller {
 	}
 	
 	public function UserFeed() {
-		if (!Member::currentUserID()) {
+		if (!$this->securityContext->getMember()) {
 			// return;
 		}
 		$id = $this->ViewingUserID();
 		if ($id) {
 			$user = DataObject::get_by_id('Member', $id);
 			if ($user && $user->exists()) {
-				$data = singleton('MicroBlogService')->getStatusUpdates($user);
+				$data = $this->microBlogService->getStatusUpdates($user);
 				
 			}
-		} else if (Member::currentUserID()) {
-			$data = singleton('MicroBlogService')->getTimeline(Member::currentUser());
+		} else if ($this->securityContext->getMember()) {
+			$data = $this->microBlogService->getTimeline($this->securityContext->getMember());
 		}
 		return $data;
 	}
@@ -132,14 +129,14 @@ class MicroBlogPage_Controller extends Page_Controller {
 	}
 
 	public function CanFollow() {
-		if (!Member::currentUserID()) {
+		if (!$this->securityContext->getMember()) {
 			return false;
 		}
 
 		$viewing = $this->ViewingUserID();
-		if ($viewing && $viewing != Member::currentUserID()) {
+		if ($viewing && $viewing != $this->securityContext->getMember()->ID) {
 			// check if in the list of followers
-			$following = Member::currentUser()->Following();
+			$following = $this->securityContext->getMember()->Following();
 			if ($following) {
 				$exists = $following->find('ID', $viewing);
 				if ($exists) {
@@ -152,14 +149,14 @@ class MicroBlogPage_Controller extends Page_Controller {
 	}
 	
 	public function CanUnFollow() {
-		if (!Member::currentUserID()) {
+		if (!$this->securityContext->getMember()) {
 			return false;
 		}
 
 		$viewing = $this->ViewingUserID();
-		if ($viewing && $viewing != Member::currentUserID()) {
+		if ($viewing && $viewing != $this->securityContext->getMember()->ID) {
 			// check if in the list of followers
-			$following = Member::currentUser()->Following();
+			$following = $this->securityContext->getMember()->Following();
 			if ($following) {
 				$exists = $following->find('ID', $viewing);
 				if ($exists) {

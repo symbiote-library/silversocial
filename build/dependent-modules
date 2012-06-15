@@ -19,13 +19,16 @@
 # themes/mytheme git://local.server/themes/mytheme.git false
 #
 
-sqlite3:master git://github.com/smindel/silverstripe-sqlite3.git local
-cms:master git://github.com/silverstripe/silverstripe-cms.git 
-sapphire:master git://github.com/silverstripe/sapphire.git 
+sqlite3:master git://github.com/silverstripe-labs/silverstripe-sqlite3.git local
+cms:master git@github.com:nyeholt/silverstripe-cms.git 
+sapphire:master git@github.com:nyeholt/sapphire.git 
 
-multivaluefield git://github.com/nyeholt/silverstripe-multivaluefield.git
+multivaluefield:ss3 git://github.com/nyeholt/silverstripe-multivaluefield.git
 
 # restrictedobjects git@github.com:nyeholt/silverstripe-restrictedobjects.git
+
+widgets git://github.com/silverstripe/silverstripe-widgets.git
+dashboards git@github.com:nyeholt/silverstripe-dashboards.git
 
 # securefiles http://svn.polemic.net.nz/silverstripe/modules/SecureFiles/tags/0.30/
 # versionedfiles:master:c3bd2ca1710a8241b99a git://github.com/ajshort/silverstripe-versionedfiles.git

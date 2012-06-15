@@ -1,0 +1,33 @@
+.navbar form#SearchForm_SearchForm legend { display: none !important } 
+.navbar form#SearchForm_SearchForm { float: right; }
+.navbar form#SearchForm_SearchForm * {
+    display: inline !important;
+    margin-bottom: 0px;
+}
+
+#SearchResults li {
+	display: block;
+	overflow: auto;
+	min-height: 100px;
+}
+
+#SearchResults a.thumbnail {
+	width: 100px;
+	float: left;
+}
+
+.resultDescription {
+	margin-left: 130px;
+}
+
+.searchResultHeader {
+	font-size: 16px;
+}
+
+ul.facetCrumbs {
+	list-style-type: none;
+}
+
+ul.facetCrumbs li {
+	display: inline;
+}
