@@ -22,6 +22,12 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 	}
 	
 	public function PostForm () {
+		Requirements::combine_files('minimal_uploadfield.js', array(
+			THIRDPARTY_DIR . '/jquery-fileupload/jquery.iframe-transport.js',
+			THIRDPARTY_DIR . '/jquery-fileupload/jquery.fileupload.js',
+			THIRDPARTY_DIR . '/jquery-fileupload/jquery.fileupload-ui.js',
+		));
+
 		$fields = new FieldList(
 			$taf = new TextareaField('Title', _t('MicroBlog.POST', 'Post'))
 		);
@@ -44,6 +50,12 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 			$this->microBlogService->createPost($this->securityContext->getMember(), $data['Title']);
 		}
 		$this->redirectBack();
+	}
+	
+	public function uploadFile($request) {
+		if ($request) {
+			$one = '';
+		}
 	}
 	
 	public function OwnerFeed() {

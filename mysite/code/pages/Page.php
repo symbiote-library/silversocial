@@ -36,16 +36,21 @@ class Page_Controller extends ContentController {
 	);
 	
 	public function init() {
+		Requirements::block(THIRDPARTY_DIR . '/prototype/prototype.js');
+		
+		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/jquery-ui/jquery-ui.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/jquery-entwine/dist/jquery.entwine-dist.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/javascript-templates/tmpl.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/javascript-loadimage/load-image.js');
+		
+		Requirements::javascript(FRAMEWORK_DIR . '/javascript/i18n.js');
+		Requirements::javascript(FRAMEWORK_ADMIN_DIR . '/javascript/ssui.core.js');
+		
+		Requirements::javascript('microblog/javascript/date.js');
+		Requirements::javascript('microblog/javascript/microblog.js');
 		
 		parent::init();
-		Requirements::block(THIRDPARTY_DIR . '/prototype/prototype.js');
-		Requirements::combine_files('silvertwit.js', array(
-			THIRDPARTY_DIR . '/jquery/jquery.js',
-			THIRDPARTY_DIR . '/jquery-livequery/jquery.livequery.js',
-			'microblog/javascript/date.js',
-			'microblog/javascript/jquery.tmpl.min.js',
-			'microblog/javascript/microblog.js'
-		));
 	}
 	
 	public function SecurityID() {
