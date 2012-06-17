@@ -21,7 +21,7 @@ class MicroBlogMember extends DataExtension {
 	
 	public function onBeforeWrite() {
 		parent::onBeforeWrite();
-		$this->uploadFolder();
+		$this->memberFolder();
 	}
 	
 	public function follow($otherMember) {

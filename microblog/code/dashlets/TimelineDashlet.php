@@ -25,7 +25,6 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 		Requirements::combine_files('minimal_uploadfield.js', array(
 			THIRDPARTY_DIR . '/jquery-fileupload/jquery.iframe-transport.js',
 			THIRDPARTY_DIR . '/jquery-fileupload/jquery.fileupload.js',
-			THIRDPARTY_DIR . '/jquery-fileupload/jquery.fileupload-ui.js',
 		));
 
 		$fields = new FieldList(
