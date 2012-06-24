@@ -21,6 +21,13 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 		parent::__construct($widget, $parent);
 	}
 	
+	public function init() {
+		parent::init();
+		
+		Requirements::javascript(THIRDPARTY_DIR . '/jquery-form/jquery.form.js');
+		Requirements::javascript('microblog/javascript/timeline.js');
+	}
+	
 	public function PostForm () {
 		$fields = new FieldList(
 			$taf = new TextareaField('Content', _t('MicroBlog.POST', 'Post'))
@@ -60,6 +67,9 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 		if (isset($data['Content']) && strlen($data['Content'])) {
 			$this->microBlogService->createPost($this->securityContext->getMember(), $data['Content']);
 		}
+		if (Director::is_ajax()) {
+			return '{"status": "ok"}';
+		}
 		$this->redirectBack();
 	}
 	
@@ -79,17 +89,21 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 	}
 	
 	public function Timeline() {
-		return $this->microBlogService->getTimeline($this->securityContext->getMember())->renderWith('Timeline');
+		$since = $this->request->getVar('since');
+		$before = $this->request->getVar('before');
+		
+		return $this->microBlogService->getTimeline($this->securityContext->getMember(), $since, $before)->renderWith('Timeline');
 	}
 	
 	public function OwnerFeed() {
+		$since = $this->request->getVar('since');
+		$before = $this->request->getVar('before');
+		
 		$owner = $this->getWidget()->Owner();
 		if (!$owner || !$owner->exists()) {
 			throw new Exception("Invalid user feed for " . $this->getWidget()->OwnerID);
 		}
-
-		$data = $this->microBlogService->getStatusUpdates($owner);
-
+		$data = $this->microBlogService->getStatusUpdates($owner, $since, $before);
 		return $data->renderWith('Timeline');
 	}
 }

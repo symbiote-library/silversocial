@@ -6,7 +6,7 @@ div.TimelineDashlet div.postForm > form {
 div.TimelineDashlet textarea[name=Content] {
 	width: 80%;
 	display: inline;
-	height: 1.2em;
+	height: 1.5em;
 }
 
 div.TimelineDashlet textarea[name=Content].expanded-content {

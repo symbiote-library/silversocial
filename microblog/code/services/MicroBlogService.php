@@ -48,7 +48,7 @@ class MicroBlogService {
 	 * @param type $beforeTime
 	 * @param type $number 
 	 */
-	public function getStatusUpdates(DataObject $member, $sinceTime = null, $number = 10) {
+	public function getStatusUpdates(DataObject $member, $sinceTime = null, $beforePost = null, $number = 10) {
 		if ($member) {
 			$number = (int) $number;
 			$userIds[] = $member->ID;
@@ -58,6 +58,10 @@ class MicroBlogService {
 				'Created:GreaterThan'	=> $sinceTime,
 				'ParentID'				=> 0
 			);
+			
+			if ($beforePost) {
+				$filter['ID:LessThan']	= $beforePost;
+			}
 			
 			$posts = singleton('DataService')->getAllMicroPost($filter, '"Created" DESC', '', '0, ' . $number);
 			return $posts;
@@ -72,7 +76,7 @@ class MicroBlogService {
 	 * @param type $beforeTime
 	 * @param type $number 
 	 */
-	public function getTimeline(DataObject $member, $sinceTime = null, $number = 10) {
+	public function getTimeline(DataObject $member, $sinceTime = null, $beforePost = null, $number = 10) {
 		$following = $member->Following();
 		$number = (int) $number;
 		$userIds = array();
@@ -84,17 +88,21 @@ class MicroBlogService {
 		$userIds[] = $member->ID;
 		$sinceTime = Convert::raw2sql($sinceTime ? $sinceTime : '1980-09-22 00:00:00');
 		$filter = '"OwnerID" IN (' . implode(',', $userIds) . ') AND "Created" > \'' . $sinceTime .'\'';
-		
+
 		$filter = array(
 			'OwnerID'				=> $userIds, 
 			'Created:GreaterThan'	=> $sinceTime,
 			'ParentID'				=> 0
 		);
 		
+		if ($beforePost) {
+			$filter['ID:LessThan']	= $beforePost;
+		}
+		
 		$posts = singleton('DataService')->getAllMicroPost($filter, '"Created" DESC', '', '0, ' . $number);
 		return $posts;
 	}
-	
+
 	public function addFollower(DataObject $member, DataObject $follower) {
 		$follower->follow($member);
 		return $follower;

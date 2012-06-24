@@ -1,6 +1,13 @@
 <% if CurrentMember %>
+
 	<% if $CurrentMember.ID != $OwnerID %>
+		<input type="hidden" name="timelineUpdateUrl" value="$Link(OwnerFeed)" />
+		<div id="StatusFeed">
 		$OwnerFeed
+			<div class="feed-actions">
+				<a href="#" class="moreposts">Load more...</a>
+			</div>
+		</div>
 	<% else %>
 	<div class="row">
 		<div class="postForm span5">
@@ -30,7 +37,14 @@
 		</div>
 	</div>
 	
+	<input type="hidden" name="timelineUpdateUrl" value="$Link(Timeline)" />
+	
+	<div id="StatusFeed">
 	$Timeline
+		<div class="feed-actions">
+			<a href="#" class="moreposts">Load more...</a>
+		</div>
+	</div>
 	
 	<% end_if %>
 	

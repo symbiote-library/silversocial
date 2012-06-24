@@ -32,7 +32,7 @@
 	$UnFollowForm
 <% end_if %>
 <% if UserFeed %>
-<div id="UserFeed">
+<div id="StatusFeed">
 	<% control UserFeed %>
 	<div class="microPost">
 		<h3>Posted by $Owner.Title at $Created.Nice</h3>

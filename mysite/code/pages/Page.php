@@ -47,8 +47,11 @@ class Page_Controller extends ContentController {
 		Requirements::javascript(FRAMEWORK_DIR . '/javascript/i18n.js');
 		Requirements::javascript(FRAMEWORK_ADMIN_DIR . '/javascript/ssui.core.js');
 		
+		Requirements::javascript('webservices/javascript/webservices.js');
+		
 		Requirements::javascript('microblog/javascript/date.js');
 		Requirements::javascript('microblog/javascript/microblog.js');
+		
 		
 		parent::init();
 	}

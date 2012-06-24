@@ -85,6 +85,7 @@
     <script src="$ThemeDir/js/bootstrap-carousel.js"></script>
     <script src="$ThemeDir/js/bootstrap-typeahead.js"></script>
 
+	<script src="$ThemeDir/js/jquery.timeago.js"></script>
   </body>
 </html>
 
