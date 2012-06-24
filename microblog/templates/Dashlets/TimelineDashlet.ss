@@ -2,20 +2,34 @@
 	<% if $CurrentMember.ID != $OwnerID %>
 		
 	<% else %>
+	<div class="row">
+		<div class="postForm span5">
 		<% control PostForm %>
 		<form $FormAttributes >
-			$Fields	
-
-			
-<br/>
+			<% with FieldMap %>
+			$Content
+			<input type="hidden" name="SecurityID" value="$SecurityID" />
+			<% end_with %>
+			<br/>
 			$Actions
 		</form>
 		<% end_control %>
+		</div>
 		
-		<form class="fileUploadForm" enctype="application/x-www-form-urlencoded" method="post" action="$Top.Link(uploadFile)">
-			<input id="fileupload" class="fancy-upload" type="file" name="FileUpload" multiple>
-			<div id="dropZone" style="height: 50px; border: 1px solid black;"></div>
-		</form>
+		<div class="uploadForm span3">
+			<% with $UploadForm %>
+			<form $FormAttributes>
+				<% with FieldMap %>
+				<input type="hidden" name="SecurityID" value="$SecurityID" />
+				$Attachment
+				<% end_with %>
+				<div id="dropZone"></div>
+				<ul id="uploadedFiles"></ul>
+			</form>
+			<% end_with %>
+		
+		</div>
+	</div>
 	<% end_if %>
 	
 	<div id="UserFeed">
@@ -24,7 +38,10 @@
 			<div class="microPost">
 				<h3>Posted by $Owner.Title at $Created.Nice</h3>
 				<div class="microPostContent">
-					$formattedPost
+					<% if $Attachment && $Attachment.ClassName == 'Image' %>
+					<img src="$Attachment.Link" />
+					<% end_if %>
+					$Content
 				</div>
 			</div>
 			<% end_control %>

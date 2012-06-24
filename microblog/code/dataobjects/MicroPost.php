@@ -8,7 +8,13 @@
 class MicroPost extends DataObject {
 	public static $db = array(
 		'Title'			=> 'Varchar(255)',
+		'Content'		=> 'Text',
 		'Author'		=> 'Varchar(255)',
+	);
+	
+	public static $has_one = array(
+		'Parent'		=> 'MicroPost',
+		'Attachment'	=> 'File',
 	);
 	
 	public static $defaults = array(
@@ -23,9 +29,9 @@ class MicroPost extends DataObject {
 		parent::onBeforeWrite();
 		$this->Author = Member::currentUser()->getTitle();
 	}
-	
+
 	public function formattedPost() {
-		return Convert::raw2xml($this->Title);
+		return Convert::raw2xml($this->Content);
 	}
 	
 	public function Link() {

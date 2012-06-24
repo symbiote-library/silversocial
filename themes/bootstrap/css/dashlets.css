@@ -1,0 +1,19 @@
+
+div.TimelineDashlet div.postForm > form {
+	padding: 10px;
+}
+
+div.TimelineDashlet textarea[name=Content] {
+	width: 100%;
+	height: 1.2em;
+}
+
+div.TimelineDashlet textarea[name=Content].expanded-content {
+	height: 10em;
+}
+
+#dropZone {
+	border-radius: 5px;
+	box-shadow: inset 0 0 8px #ccc;
+	height: 50px;
+}
