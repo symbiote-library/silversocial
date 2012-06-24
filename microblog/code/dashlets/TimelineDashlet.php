@@ -72,9 +72,14 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 				$post->write();
 				
 				// @todo clean this up for NON js browsers
+				
 				return Convert::raw2json($post->toMap());
 			}
 		}
+	}
+	
+	public function Timeline() {
+		return $this->microBlogService->getTimeline($this->securityContext->getMember())->renderWith('Timeline');
 	}
 	
 	public function OwnerFeed() {
@@ -85,6 +90,6 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 
 		$data = $this->microBlogService->getStatusUpdates($owner);
 
-		return $data;
+		return $data->renderWith('Timeline');
 	}
 }

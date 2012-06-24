@@ -1,6 +1,6 @@
 <% if CurrentMember %>
 	<% if $CurrentMember.ID != $OwnerID %>
-		
+		$OwnerFeed
 	<% else %>
 	<div class="row">
 		<div class="postForm span5">
@@ -29,23 +29,10 @@
 		
 		</div>
 	</div>
-	<% end_if %>
 	
-	<div id="UserFeed">
-		<% if OwnerFeed %>
-			<% control OwnerFeed %>
-			<div class="microPost">
-				<h3>Posted by $Owner.Title at $Created.Nice</h3>
-				<div class="microPostContent">
-					<% if $Attachment && $Attachment.ClassName == 'Image' %>
-					<img src="$Attachment.Link" />
-					<% end_if %>
-					$Content
-				</div>
-			</div>
-			<% end_control %>
-		<% end_if %>
-	</div>
+	$Timeline
+	
+	<% end_if %>
 	
 	<script id="MicroPostTmpl" type="text/x-jquery-tmpl">
 		<div class="microPost newPost">
