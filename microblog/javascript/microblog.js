@@ -46,11 +46,16 @@
 							});
 						},
 						done: function (e, data) {
-							if (data.files[0] && data.files[0].listElem) {
-								data.files[0].listElem.find('span').text('100%');
-							}
 							
-							console.log(data.result);
+							if (data.result && data.files[0] && data.files[0].listElem) {
+								if (data.result.ID) {
+									data.files[0].listElem.find('span').text('100%');
+								} else if (data.result[0]) {
+									data.files[0].listElem.find('span').text(data.result[0].message).css('color', 'red');
+								} else {
+									data.files[0].listElem.find('span').text('Err').css('color', 'red');
+								}
+							} 
 						},
 						
 						send: function(e, data) {
@@ -67,7 +72,7 @@
 							// if (data.context) {
 								var value = parseInt(data.loaded / data.total * 100, 10) + '%';
 								if (data.files[0] && data.files[0].listElem) {
-									data.files[0].listElem.find('span').text(value + '%');
+									data.files[0].listElem.find('span').text(value);
 								}
 								// data.contextElem.find('span')
 								// data.context.find('.ss-uploadfield-item-status').html((data.total == 1)?ss.i18n._t('UploadField.LOADING'):value);

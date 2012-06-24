@@ -4,12 +4,15 @@ div.TimelineDashlet div.postForm > form {
 }
 
 div.TimelineDashlet textarea[name=Content] {
-	width: 100%;
+	width: 80%;
+	display: inline;
 	height: 1.2em;
 }
 
 div.TimelineDashlet textarea[name=Content].expanded-content {
 	height: 10em;
+	width: 100%;
+	display: block;
 }
 
 #dropZone {

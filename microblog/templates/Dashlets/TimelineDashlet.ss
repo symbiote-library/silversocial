@@ -10,7 +10,6 @@
 			$Content
 			<input type="hidden" name="SecurityID" value="$SecurityID" />
 			<% end_with %>
-			<br/>
 			$Actions
 		</form>
 		<% end_control %>
