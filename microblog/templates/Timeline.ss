@@ -3,7 +3,7 @@
 		<div class="microPostContent">
 			<% if $Attachment %> 
 				<% if $Attachment.ClassName == 'Image' %>
-					$Attachment.MaxWidth(450)
+					<a href="$Attachment.Link" target="_blank" title="Download attached file">$Attachment.MaxWidth(450)</a>
 				<% else %>
 				<a href="$Attachment.Link" title="Download attached file">$Title</a>
 				<% end_if %>
