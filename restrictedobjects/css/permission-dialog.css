@@ -1,0 +1,27 @@
+
+.dialog {
+	display: none;
+}
+
+#AddAuthorityDialog label {
+	font-size: 10px;
+	display: inline-block;
+	width: 110px;
+	text-align: right;
+}
+
+#AddAuthorityDialog select, #AddAuthorityDialog input {
+	width: 130px;
+}
+
+#AddAuthorityDialog select {
+	width: 140px;
+}
+
+#AddAuthorityDialog div {
+	margin-bottom: 10px;
+}
+
+#PermissionManagementDialog .selectedAuthority {
+	background-color: #FFD;
+}

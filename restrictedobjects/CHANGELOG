@@ -1,0 +1,99 @@
+
+2012-05-02 v0.3.1
+-----------------
+
+* Fixed issue in JS dialog that meant the grant/deny setting wasn't passed
+
+2012-05-01 v0.3.0
+-----------------
+
+* Allow the passing of a permission other than 'view' for objects
+  to appear in resultsets of dataService calls
+
+2012-04-26 v0.2.4
+-----------------
+
+* Null reference checks from Shea
+
+2012-04-17 v0.2.3
+-----------------
+
+* FEATURE Added ability to check for ALL items in a role
+
+2012-04-16 v0.2.2
+-----------------
+
+* Fixed possible access of a null object
+
+2012-04-13 v0.2.1
+-----------------
+
+* FEATURE Use the tracked role to update any applied permissions when the
+  permission set changes
+
+2012-04-11 v0.2.0
+-----------------
+
+* Change the way default permissions are put together
+* BUGFIX: Only check permission if the object actually exists
+* FEATURE: Track the role that was used when applying apermission so that it 
+  can be updated later if the role changes
+
+
+2012-04-02 v0.1.9
+-----------------
+
+* Fixed issue where restrictable was always being enabled by SecurityContext
+  when it should be resetting to previous value
+
+2012-03-15 v0.1.8
+-----------------
+
+* Make sure ownerID field only lists members we have access to
+
+2012-02-28 v0.1.7
+-----------------
+
+* Forcefully remove ownerID from list of changed fields so that an owner is
+  always set
+
+2012-02-22 v0.1.6
+-----------------
+
+* Better error message for write perm error
+* Info about an index that needs to be created added
+
+2011-11-04 v0.1.5
+-----------------
+ 
+* Small changes to disable perm checks before users are auto logged in
+
+2011-11-03 v0.1.4
+-----------------
+
+* Frontend fields updated to have inherit set true on create
+
+2011-10-27 v0.1.3
+-----------------
+
+* Added controller action to do logouts as an admin user otherwise member 
+  write is called without a context user
+* Fixed bug with a custom group type being referenced (oops!)
+
+2011-09-30 v0.1.2
+-----------------
+
+* Added multiple effective parents for permission sources
+
+2011-09-08 v0.1.1
+-----------------
+
+* Fix to allow non-owned item to take on a default owner and have
+  that owner recognised as being able to do that
+
+2011-06-12 v0.1.0
+-----------------
+
+* First release
+
+
