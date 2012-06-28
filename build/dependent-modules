@@ -31,3 +31,6 @@ widgets git://github.com/silverstripe/silverstripe-widgets.git local
 dashboards:ss3 git@github.com:nyeholt/silverstripe-dashboards.git local
 
 webservices:master:ss3 git://github.com/nyeholt/silverstripe-webservices.git local
+
+memberprofiles:development git://github.com/ajshort/silverstripe-memberprofiles.git local
+orderable git://github.com/ajshort/silverstripe-orderable.git local

@@ -1,0 +1,30 @@
+#member-list {
+	width: 100%;
+}
+#member-list th, #member-list td {
+	padding: 5px;
+}
+#member-list a {
+	border: none;
+}
+
+.member-profile-section {
+	border-bottom: 1px solid #CCC;
+	margin-top: 10px;
+	padding-bottom: 10px;
+}
+
+.member-profile-fields dt {
+	clear: left;
+	float: left;
+	font-weight: bold;
+	width: 80px;
+}
+.member-profile-fields dd {
+	margin-left: 100px;
+}
+
+.member-profile-section { overflow: auto; margin: 0; }
+#MemberProfile .memberProfileFields dt {
+	clear: left; float: left; font-weight: bold; width: 80px; }
+#MemberProfile .memberProfileFields dd { float: left; }

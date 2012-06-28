@@ -3,7 +3,7 @@
   <head>
     <% base_tag %>
     <meta charset="utf-8">
-    <title>$Title | Bootstrap Theme</title>
+    <title>$SiteConfig.Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/">Company</a>
+          <a class="brand" href="/">$SiteConfig.Title</a>
 	  <% if Menu(1) %>
           <div class="nav-collapse">
             <ul class="nav">
