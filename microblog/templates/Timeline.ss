@@ -15,9 +15,9 @@
 				<div class="edit-placeholder"><em>Click to update</em></div>
 				<% end_if %>
 			<% end_if %>
-			
+
 			<p>
-			<abbr class="timeago postTime" title="$Created">$Created.Nice</abbr>
+			<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr>
 			</p>
 		</div>
 	</div>

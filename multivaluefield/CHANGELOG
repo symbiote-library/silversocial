@@ -1,0 +1,17 @@
+2012-03-02 v0.2.2
+-----------------
+
+* forTemplate() now includes the Key as a property that can be output in 
+  the template
+
+2011-11-24 v0.2.1
+-----------------
+
+* Change setName to not do anything if there's already a name. DataObject 
+  sometimes calls this (even though it shouldn't...)
+
+2011-07-12 v0.2.0
+-----------------
+
+* Added a KeyValueField for entering in key/value pairs that get stored in the
+  MultiValueField

@@ -20,14 +20,14 @@
 #
 
 sqlite3:master git://github.com/silverstripe-labs/silverstripe-sqlite3.git local
-cms:master git@github.com:nyeholt/silverstripe-cms.git 
-sapphire:master git@github.com:nyeholt/sapphire.git 
+cms:master git@github.com:nyeholt/silverstripe-cms.git local
+framework:master git@github.com:nyeholt/sapphire.git local
 
-multivaluefield:ss3 git://github.com/nyeholt/silverstripe-multivaluefield.git
+multivaluefield:ss3 git://github.com/nyeholt/silverstripe-multivaluefield.git local
 
-# restrictedobjects git@github.com:nyeholt/silverstripe-restrictedobjects.git
+restrictedobjects:ss3 git://github.com/nyeholt/silverstripe-restrictedobjects.git local
 
-widgets git://github.com/silverstripe/silverstripe-widgets.git
-dashboards:master:ss3 git@github.com:nyeholt/silverstripe-dashboards.git
+widgets git://github.com/silverstripe/silverstripe-widgets.git local
+dashboards:ss3 git@github.com:nyeholt/silverstripe-dashboards.git local
 
 webservices:master:ss3 git://github.com/nyeholt/silverstripe-webservices.git local

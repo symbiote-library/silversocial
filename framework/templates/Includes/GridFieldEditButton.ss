@@ -1,0 +1,1 @@
+<a class="action action-detail edit-link" href="$Link" title="Edit">edit</a>

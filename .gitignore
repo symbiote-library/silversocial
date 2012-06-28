@@ -14,7 +14,3 @@ build/archive
 build/build.properties
 build/phing-metadata
 _ss_environment.php
-cms
-sapphire
-multivaluefield
-restrictedobjectsdashboardswidgets

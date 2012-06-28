@@ -91,7 +91,6 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 	public function Timeline() {
 		$since = $this->request->getVar('since');
 		$before = $this->request->getVar('before');
-		
 		return $this->microBlogService->getTimeline($this->securityContext->getMember(), $since, $before)->renderWith('Timeline');
 	}
 	

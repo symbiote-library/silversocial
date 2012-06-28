@@ -25,6 +25,17 @@ class MicroPost extends DataObject {
 		'Restrictable'
 	);
 	
+	public static $summary_fields = array(
+		'Title', 
+		'Content',
+		'Created'
+	);
+	
+	public static $searchable_fields = array(
+		'Title',
+		'Content'
+	);
+	
 	public function onBeforeWrite() {
 		parent::onBeforeWrite();
 		$this->Author = Member::currentUser()->getTitle();

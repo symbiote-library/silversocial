@@ -1,0 +1,21 @@
+.SecurityAdmin {
+	// Same rules in .member-profile-form
+	.permissioncheckboxset, .permissioncheckboxsetfield_readonly {
+		.optionset {
+			li {
+				float: none;
+				width: auto;
+			}	
+		}
+	}
+}
+
+.cms .cms-content .SecurityAdmin { //datagrid overflow on Security Admin	
+	.cms-content-fields {
+		overflow-y:auto;
+		.aligned-right-label { //align the label with the parent group field in add new group
+			margin-left:$grid-x*23;
+			padding:$grid-x 0;
+		}
+	}
+}

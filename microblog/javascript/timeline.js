@@ -6,22 +6,39 @@ window.Microblog = window.Microblog || {}
 	Microblog.Timeline = function () {
 		var feed = $('#StatusFeed');
 		
+		var refreshTime = 10000;
 		var pendingUpdate = false;
 		var pendingLoad = false;
+		
+		var loading = false;
 		
 		var refreshTimeline = function (since) {
 			if (pendingUpdate) {
 				return pendingUpdate;
 			}
+
 			if (!since) {
-				var times = $('abbr.postTime');
+				var times = $('abbr.postTime:first');
 				// top down latest, so take the first one's time
-				since = $(times[0]).attr('title');
+				since = $(times).attr('data-created');
 			}
 			
+			loading = true;
 			pendingUpdate = getPosts({since: since});
+			
+			pendingUpdate.done(function () {
+				pendingUpdate = null;
+				loading = false;
+				setTimeout(function () {
+					refreshTimeline();
+				}, refreshTime);
+			})
 			return pendingUpdate;
 		}
+		
+		setTimeout(function () {
+			refreshTimeline();
+		}, refreshTime)
 		
 		var morePosts = function () {
 			if (pendingLoad) {
