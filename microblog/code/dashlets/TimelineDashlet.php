@@ -5,7 +5,7 @@
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class TimelineDashlet extends Dashlet {
-	
+	public static $title = 'Timeline';
 }
 
 class TimelineDashlet_Controller extends Dashlet_Controller {
