@@ -6,6 +6,7 @@ ssautesting/logs/
 ssautesting/testing.conf.php
 mysite/*.conf.php
 mysite/BUILD_NUMBER
+mysite/build/*
 mysite/*.log
 mysite/VERSION
 mysite/configs
