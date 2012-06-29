@@ -10,10 +10,19 @@
 				})
 			}
 		})
-		
+
 		$('input.addFriendButton').entwine({
 			onclick: function () {
-				
+				var params = {
+					'memberType': 'Member',
+					'memberID': $(this).parents('div.FriendsDashlet').find('input[name=MemberID]').val(),
+					'followerType': 'Member',
+					'followerID': $(this).attr('data-id')
+				};
+
+				SSWebServices.post('microBlog', 'addFriendship', params, function (data) {
+					console.log(data);
+				})
 			}
 		})
 	})

@@ -1,5 +1,5 @@
 <% if CurrentMember %>
-
+	<input type="hidden" value="$Owner.ID" name="MemberID" />
 	<% if $CurrentMember.ID != $OwnerID %>
 		<!-- add the user we're looking at as a friend -->
 		
@@ -12,9 +12,14 @@
 	<% end_if %>
 	
 	<!-- list of this user's friends -->
-	<% with Owner.Friends %>
-	
-	<% end_with %>
+	<% loop Owner.Friends %>
+	<div class="userFriend">
+		<a href="$Link">
+			<img src="http://www.gravatar.com/avatar/$Owner.gravatarHash" />
+			$FirstName $Surname
+		</a>
+	</div>
+	<% end_loop %>
 <% else %>
 	Please login
 <% end_if %>

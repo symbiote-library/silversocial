@@ -11,8 +11,12 @@ class MicroBlogService {
 	 */
 	public $dataService;
 	
+	public $securityContext;
+	
 	public static $dependencies = array(
 		'dataService'		=> '%$DataService',
+		'permissionService'	=> '%$PermissionService',
+		'securityContext'	=> '%$SecurityContext',
 	);
 	
 	public function __construct() {
@@ -23,6 +27,7 @@ class MicroBlogService {
 		return array(
 			'getStatusUpdates'	=> 'GET',
 			'getTimeline'		=> 'GET',
+			'addFriendship'		=> 'POST',
 		);
 	}
 	
@@ -135,9 +140,41 @@ class MicroBlogService {
 //		$list = DataList::create('Member')->dataQuery()->
 	}
 
-	public function addFollower(DataObject $member, DataObject $follower) {
-		$follower->follow($member);
-		return $follower;
+	public function addFriendship(DataObject $member, DataObject $follower) {
+		
+		if (!$member || !$follower) {
+			throw new PermissionDeniedException('Read', 'Cannot read those users');
+		}
+
+		if (!$member->ID == $this->securityContext->getMember()->ID) {
+			throw new PermissionDeniedException('Write', 'Cannot create a friendship for that user');
+		}
+
+		$existing = DataList::create('Friendship')->filter(array(
+			'InitiatorID'		=> $member->ID,
+			'OtherID'			=> $follower->ID,
+		))->first();
+
+		if ($existing) {
+			return $existing;
+		}
+		
+		// otherwise, we have a new one!
+		$friendship = new Friendship;
+		$friendship->InitiatorID = $member->ID;
+		$friendship->OtherID = $follower->ID;
+		
+		$friendship->write();
+		
+		
+		return $friendship;
+	}
+	
+	public function friendsList(DataObject $member) {
+		$list = DataList::create('Member')
+				->innerJoin('Friendship', '"Friendship"."OtherID" = "Member"."ID"')
+				->filter(array('InitiatorID' => $member->ID));
+		return $list;
 	}
 	
 	public function removeFollower($member, $follower) {

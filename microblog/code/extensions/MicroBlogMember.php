@@ -19,6 +19,15 @@ class MicroBlogMember extends DataExtension {
 		'Followers'			=> 'Member',
 	);
 	
+	public static $dependencies = array(
+		'microBlogService'		=> '%$MicroBlogService',
+	);
+	
+	/**
+	 * @var MicroBlogService
+	 */
+	public $microBlogService;
+	
 	public function onBeforeWrite() {
 		parent::onBeforeWrite();
 		$this->memberFolder();
@@ -47,8 +56,23 @@ class MicroBlogMember extends DataExtension {
 		return $this->owner->UploadFolder();
 	}
 	
-	public function Friends() {
+	public function toFilteredMap() {
+		$allowed = array(
+			'FirstName',
+			'Surname',
+			'Email',
+		);
+
+		$map = array();
+		foreach ($allowed as $prop) {
+			$map[$prop] = $this->owner->$prop;
+		}
 		
+		return $map;
+	}
+	
+	public function Friends() {
+		return $this->microBlogService->friendsList($this->owner);
 	}
 	
 	public function Link() {
