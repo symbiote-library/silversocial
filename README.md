@@ -14,13 +14,7 @@ A social networking platform in SilverStripe
 * Edit mysite/local.conf.php to reflect appropriate DB settings. The following should work for SQLite
 
 <pre>
-    <?php
 
-    /*
-    * Include any local instance specific configuration here - typically
-    * this includes any database settings, email settings, etc that change
-    * between installations. 
-    */
 
     global $databaseConfig;
     $databaseConfig = array(
@@ -42,7 +36,7 @@ A social networking platform in SilverStripe
 * Create an _ss_environment.php file in the root folder with the following
 
 <pre>
-    <?php
+
     // Set the $_FILE_MAPPING for running the test cases, it's basically a fake but useful
     global $_FILE_TO_URL_MAPPING;
     $_FILE_TO_URL_MAPPING[dirname(__FILE__)] = 'http://localhost';
