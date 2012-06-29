@@ -5,6 +5,16 @@
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class MicroBlogService {
+	
+	/**
+	 * @var DataService 
+	 */
+	public $dataService;
+	
+	public static $dependencies = array(
+		'dataService'		=> '%$DataService',
+	);
+	
 	public function __construct() {
 		
 	}
@@ -23,7 +33,7 @@ class MicroBlogService {
 	 */
 	public function globalFeed($number = 20) {
 		$number = (int) $number;
-		return singleton('DataService')->getAllMicroPost(null, '"Created" DESC', '', '0,' . $number);
+		return $this->dataService->getAllMicroPost(null, '"Created" DESC', '', '0,' . $number);
 	}
 	
 	/**
@@ -63,7 +73,7 @@ class MicroBlogService {
 				$filter['ID:LessThan']	= $beforePost;
 			}
 			
-			$posts = singleton('DataService')->getAllMicroPost($filter, '"Created" DESC', '', '0, ' . $number);
+			$posts = $this->dataService->getAllMicroPost($filter, '"Created" DESC', '', '0, ' . $number);
 			return $posts;
 		}
 	}
@@ -99,8 +109,30 @@ class MicroBlogService {
 			$filter['ID:LessThan']	= $beforePost;
 		}
 		
-		$posts = singleton('DataService')->getAllMicroPost($filter, '"Created" DESC', '', '0, ' . $number);
+		$posts = $this->dataService->getAllMicroPost($filter, '"Created" DESC', '', '0, ' . $number);
 		return $posts;
+	}
+	
+	/**
+	 * Search for a member or two
+	 * 
+	 * @param string $searchTerm 
+	 */
+	public function findMember($searchTerm) {
+		$term = Convert::raw2sql($searchTerm);
+		$filter = '"FirstName" LIKE \'%' . $term .'%\' OR "Surname" LIKE \'%' . $term . '%\'';
+		
+		$items = $this->dataService->getAllMember($filter);
+		
+		return $items;
+
+//				$filter = array(
+//			'FirstName:PartialMatch'		=> $searchTerm,
+//			'Surname:PartialMatch'		=> $searchTerm,
+//			'Email:PartialMatch'		=> $searchTerm,
+//		);
+//		
+//		$list = DataList::create('Member')->dataQuery()->
 	}
 
 	public function addFollower(DataObject $member, DataObject $follower) {

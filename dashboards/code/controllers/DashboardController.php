@@ -88,8 +88,6 @@ class DashboardController extends FrontendModelController {
 			Security::permissionFailure($this, "You must be logged in");
 			return;
 		}
-		
-		
 
 		// add the following to your own page init() to ensure requirements
 		// are met - but you're likely to have them anyway.

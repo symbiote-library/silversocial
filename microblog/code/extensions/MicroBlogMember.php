@@ -46,4 +46,13 @@ class MicroBlogMember extends DataExtension {
 		
 		return $this->owner->UploadFolder();
 	}
+	
+	public function Friends() {
+		
+	}
+	
+	public function Link() {
+		$microblog = DataObject::get_one('SiteDashboardPage', '"ParentID" = 0');
+		return $microblog->Link('board/main/' . $this->owner->ID);
+	}
 }
