@@ -52,7 +52,7 @@ class BBCodeParser extends TextParser {
 	static function disable_autolink_urls($autolink = false) {
 		BBCodeParser::$autolinkUrls = $autolink;
 	}
-	
+
 	static function smiliesAllowed() {
 		return (self::$allowSimilies != null) ? true : false;
 	}
@@ -142,7 +142,7 @@ class BBCodeParser extends TextParser {
 	 */
 	function parse() {
 		$this->content = str_replace(array('&', '<', '>'), array('&amp;', '&lt;', '&gt;'), $this->content);
-		$this->content = SSHTMLBBCodeParser::staticQparse($this->content);
+		$this->content = singleton('SSHTMLBBCodeParser')->staticQparse($this->content);
 		$this->content = "<p>".$this->content."</p>";
 
 		$this->content = preg_replace('/(<p[^>]*>)\s+/i', '\\1', $this->content);

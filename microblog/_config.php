@@ -1,6 +1,10 @@
 <?php
 
 Object::add_extension('Member', 'MicroBlogMember');
+Object::add_extension('Member', 'Restrictable');
+Object::add_extension('Group', 'Restrictable');
+
+Object::add_extension('DashboardPage', 'MicroblogDashboard');
 
 Object::add_extension('SiteConfig', 'Restrictable');
 
@@ -13,3 +17,5 @@ DashboardController::set_allowed_dashlets(array(
 ));
 
 DashboardUser::$default_dashlets = array(array('TimelineDashlet'), array('UserProfileDashlet'));
+
+BBCodeParser::enable_smilies(true);

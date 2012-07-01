@@ -58,16 +58,17 @@ window.Microblog = window.Microblog || {}
 				return;
 			}
 			return $.get(url, params, function (data) {
-				
-				var newPosts = $('<div class="newposts">');
-				if (append) {
-					newPosts.appendTo(feed);
-				} else {
-					newPosts.prependTo(feed);
-				}
+				if (data && data.length > 0) {
+					var newPosts = $('<div class="newposts">');
+					if (append) {
+						newPosts.appendTo(feed);
+					} else {
+						newPosts.prependTo(feed);
+					}
 
-				newPosts.append(data);
-				newPosts.effect("highlight", {}, 3000);
+					newPosts.append(data);
+					newPosts.effect("highlight", {}, 3000);
+				}
 			});
 		}
 

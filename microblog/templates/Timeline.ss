@@ -9,7 +9,7 @@
 				<% end_if %>
 			<% end_if %>
 			<% if Content %>
-			$Content
+			$Content.Parse(BBCodeParser)
 			<% else %>
 				<% if OwnerID == $CurrentMember.ID %>
 				<div class="edit-placeholder"><em>Click to update</em></div>
@@ -17,7 +17,7 @@
 			<% end_if %>
 
 			<p>
-			<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr>
+			<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr> by $Owner.Title
 			</p>
 		</div>
 	</div>

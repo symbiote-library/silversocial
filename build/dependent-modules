@@ -34,3 +34,5 @@ webservices:master:ss3 git://github.com/nyeholt/silverstripe-webservices.git loc
 
 memberprofiles:development git://github.com/ajshort/silverstripe-memberprofiles.git local
 orderable git://github.com/ajshort/silverstripe-orderable.git local
+
+# markdowneditorfield git://github.com/wolfv/silverstripe-markdowneditorfield.git local

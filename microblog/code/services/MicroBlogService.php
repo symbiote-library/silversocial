@@ -38,7 +38,7 @@ class MicroBlogService {
 	 */
 	public function globalFeed($number = 20) {
 		$number = (int) $number;
-		return $this->dataService->getAllMicroPost(null, '"Created" DESC', '', '0,' . $number);
+		return $this->dataService->getAllMicroPost(null, '"ID" DESC', '', '0,' . $number);
 	}
 	
 	/**
@@ -78,7 +78,7 @@ class MicroBlogService {
 				$filter['ID:LessThan']	= $beforePost;
 			}
 			
-			$posts = $this->dataService->getAllMicroPost($filter, '"Created" DESC', '', '0, ' . $number);
+			$posts = $this->dataService->getAllMicroPost($filter, '"ID" DESC', '', '0, ' . $number);
 			return $posts;
 		}
 	}
@@ -92,7 +92,8 @@ class MicroBlogService {
 	 * @param type $number 
 	 */
 	public function getTimeline(DataObject $member, $sinceTime = null, $beforePost = null, $number = 10) {
-		$following = $member->Following();
+		$following = $this->friendsList($member);
+
 		$number = (int) $number;
 		$userIds = array();
 		if ($following) {
@@ -114,7 +115,7 @@ class MicroBlogService {
 			$filter['ID:LessThan']	= $beforePost;
 		}
 		
-		$posts = $this->dataService->getAllMicroPost($filter, '"Created" DESC', '', '0, ' . $number);
+		$posts = $this->dataService->getAllMicroPost($filter, '"ID" DESC', '', '0, ' . $number);
 		return $posts;
 	}
 	
@@ -179,5 +180,14 @@ class MicroBlogService {
 	
 	public function removeFollower($member, $follower) {
 		$follower->unfollow($member);
+	}
+}
+
+class MicroblogPermissions implements PermissionDefiner {
+	public function definePermissions() {
+		return array(
+			'ViewPosts',
+			'ViewProfile',
+		);
 	}
 }

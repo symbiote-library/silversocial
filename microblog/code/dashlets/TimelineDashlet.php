@@ -103,6 +103,6 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 			throw new Exception("Invalid user feed for " . $this->getWidget()->OwnerID);
 		}
 		$data = $this->microBlogService->getStatusUpdates($owner, $since, $before);
-		return $data->renderWith('Timeline');
+		return trim($data->renderWith('Timeline'));
 	}
 }

@@ -30,7 +30,19 @@ class MicroBlogMember extends DataExtension {
 	
 	public function onBeforeWrite() {
 		parent::onBeforeWrite();
+		if ($this->owner->OwnerID != $this->owner->ID) {
+			$this->owner->OwnerID = $this->owner->ID;
+		}
+		
+		if (!$this->owner->ID) {
+			$this->owner->InheritPerms = true;
+		}
+		
 		$this->memberFolder();
+	}
+	
+	public function permissionSources() {
+		return $this->owner->Groups();
 	}
 	
 	public function follow($otherMember) {
