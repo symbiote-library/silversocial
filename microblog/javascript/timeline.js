@@ -47,7 +47,9 @@ window.Microblog = window.Microblog || {}
 			var allPosts = $('.microPost');
 			var earliest = $(allPosts[allPosts.length-1]).attr('data-id');
 			if (earliest) {
-				pendingLoad = getPosts({before: earliest}, true);
+				pendingLoad = getPosts({before: earliest}, true).done(function () {
+					pendingLoad = null;
+				});
 				return pendingLoad;
 			}
 		}
@@ -114,7 +116,7 @@ window.Microblog = window.Microblog || {}
 				onmatch: function () {
 					$(this).attr('action', $('#Form_PostForm').attr('action'));
 					this.ajaxForm(function (done) {
-						$(this).find('textarea').empty();
+						$('form.replyForm').find('textarea').val('');
 						Microblog.Timeline.refresh();
 					})
 				}
@@ -123,7 +125,7 @@ window.Microblog = window.Microblog || {}
 			$('#Form_PostForm').entwine({
 				onmatch: function () {
 					this.ajaxForm(function (done) {
-						$('#Form_PostForm_Content').empty();
+						$('#Form_PostForm').find('textarea').val('');
 						Microblog.Timeline.refresh();
 					})
 				}
