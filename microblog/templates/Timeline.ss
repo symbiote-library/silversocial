@@ -1,4 +1,4 @@
-	<% loop Me %>
+	<% loop Posts %>
 	<div class="microPost" data-id="$ID">
 		<div class="microPostContent">
 			<% if $Attachment %> 
@@ -19,6 +19,21 @@
 			<p>
 			<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr> by $Owner.Title
 			</p>
+			
+			<!-- note that the action is left blank and filled in with JS because otherwise the
+				recursive template loses context of what to fill in, so we use our top level form -->
+			<form method="POST" action="" class="replyForm">
+				<input type="hidden" value="$SecurityID" name="SecurityID" />
+				<input type="hidden" name="ParentID" value="$ID" />
+				<textarea placeholder="Add reply..." name="Content" class="expandable"></textarea>
+				<input type="submit" value="Reply" name="action_savepost" />
+			</form>
+			
+			<% if Replies %>
+			<div class="postReplies">
+			<% include Timeline %>
+			</div>
+			<% end_if %>
 		</div>
 	</div>
 	<% end_loop %>

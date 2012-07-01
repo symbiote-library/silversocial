@@ -88,7 +88,7 @@ window.Microblog = window.Microblog || {}
 					}
 				}
 			})
-			$('#Form_PostForm_Content').entwine({
+			$('textarea.expandable').entwine({
 				onmatch: function () {
 					this.keydown(function (e) {
 						if (e.which == 13) {
@@ -107,6 +107,16 @@ window.Microblog = window.Microblog || {}
 					});
 					
 					return false;
+				}
+			})
+			
+			$('form.replyForm').entwine({
+				onmatch: function () {
+					$(this).attr('action', $('#Form_PostForm').attr('action'));
+					this.ajaxForm(function (done) {
+						$(this).find('textarea').empty();
+						Microblog.Timeline.refresh();
+					})
 				}
 			})
 			

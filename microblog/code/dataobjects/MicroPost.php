@@ -17,6 +17,10 @@ class MicroPost extends DataObject {
 		'Attachment'	=> 'File',
 	);
 	
+	public static $has_many = array(
+		'Replies'		=> 'MicroPost',
+	);
+	
 	public static $defaults = array(
 		'PublicAccess'		=> true
 	);
@@ -40,6 +44,17 @@ class MicroPost extends DataObject {
 		parent::onBeforeWrite();
 		$this->Author = Member::currentUser()->getTitle();
 	}
+	
+	/**
+	 * handles SiteTree::canAddChildren, useful for other types too
+	 */
+	public function canAddChildren() {
+		if ($this->checkPerm('View')) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public function formattedPost() {
 		return Convert::raw2xml($this->Content);
@@ -48,5 +63,9 @@ class MicroPost extends DataObject {
 	public function Link() {
 		$page = DataObject::get_one('MicroBlogPage');
 		return $page->Link('user') . '/' . $this->OwnerID;
+	}
+	
+	public function Posts() {
+		return $this->Replies();
 	}
 }

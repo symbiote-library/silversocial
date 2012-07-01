@@ -48,10 +48,17 @@ class MicroBlogService {
 	 * @param type $content
 	 * @return MicroPost 
 	 */
-	public function createPost(DataObject $member, $content) {
+	public function createPost(DataObject $member, $content, $parentId = 0) {
 		$post = new MicroPost();
 		$post->Content = $content;
 		$post->OwnerID = $member->ID;
+		if ($parentId) {
+			$parent = $this->dataService->microPostById($parentId);
+			if ($parent) {
+				$post->ParentID = $parentId;
+			}
+		}
+		
 		$post->write();
 		return $post;
 	}

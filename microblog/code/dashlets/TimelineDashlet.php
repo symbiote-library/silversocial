@@ -34,6 +34,7 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 		);
 		$taf->setRows(3);
 		$taf->setColumns(120);
+		$taf->addExtraClass('expandable');
 		
 		$actions = new FieldList(
 			new FormAction('savepost', _t('MicroBlog.SAVE', 'Add'))
@@ -64,11 +65,17 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 		if (!$this->securityContext->getMember()) {
 			return Security::permissionFailure($this);
 		}
+		$post = null;
+		
 		if (isset($data['Content']) && strlen($data['Content'])) {
-			$this->microBlogService->createPost($this->securityContext->getMember(), $data['Content']);
+			$parentId = isset($data['ParentID']) ? $data['ParentID'] : 0;
+			$post = $this->microBlogService->createPost($this->securityContext->getMember(), $data['Content'], $parentId);
 		}
-		if (Director::is_ajax()) {
-			return '{"status": "ok"}';
+		if (Director::is_ajax() && $post && $post->ID) {
+			$result = array(
+				'response'		=> $post->toMap(),
+			);
+			return Convert::raw2json($result);
 		}
 		$this->redirectBack();
 	}
@@ -91,7 +98,8 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 	public function Timeline() {
 		$since = $this->request->getVar('since');
 		$before = $this->request->getVar('before');
-		return $this->microBlogService->getTimeline($this->securityContext->getMember(), $since, $before)->renderWith('Timeline');
+		$timeline = $this->microBlogService->getTimeline($this->securityContext->getMember(), $since, $before);
+		return $this->customise(array('Posts' => $timeline))->renderWith('Timeline');
 	}
 	
 	public function OwnerFeed() {
