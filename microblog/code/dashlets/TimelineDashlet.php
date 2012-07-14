@@ -40,11 +40,14 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 		$taf->setColumns(120);
 		$taf->addExtraClass('expandable');
 		
+		$taf->addExtraClass('postContent');
+		
 		$actions = new FieldList(
 			new FormAction('savepost', _t('MicroBlog.SAVE', 'Add'))
 		);
 		
 		$form = new Form($this, 'PostForm', $fields, $actions);
+		
 		return $form;
 	}
 	
@@ -88,10 +91,11 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 		if (isset($data['Attachment'])) {
 			$post = new MicroPost();
 			$form->saveInto($post);
-			
 			if ($post->AttachmentID) {
+				if (isset($data['ParentID'])) {
+					$post->ParentID = $data['ParentID'];
+				}
 				$post->write();
-				
 				// @todo clean this up for NON js browsers
 				
 				return Convert::raw2json($post->toMap());

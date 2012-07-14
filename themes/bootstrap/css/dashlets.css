@@ -36,3 +36,11 @@ div.microPostContent {
 form.replyForm {
 	display: none;
 }
+
+div.uploadForm {
+	position: fixed;
+	bottom: 0px;
+	right: 0px;
+	background: #fff;
+	display: none;
+}

@@ -6,12 +6,11 @@
 			<p class="posterInfo">
 				<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr> by <a href="$Owner.Link">$Owner.Title</a>
 			</p>
-			
-			<% if $Attachment %> 
+			<% if Attachment %> 
 				<% if $Attachment.ClassName == 'Image' %>
 					<a href="$Attachment.Link" target="_blank" title="Download attached file">$Attachment.MaxWidth(450)</a>
 				<% else %>
-				<a href="$Attachment.Link" title="Download attached file">$Title</a>
+				<a href="$Attachment.Link" title="Download attached file">$Attachment.Title</a>
 				<% end_if %>
 			<% end_if %>
 			<% if Content %>
@@ -30,9 +29,11 @@
 			<form method="POST" action="" class="replyForm">
 				<input type="hidden" value="$SecurityID" name="SecurityID" />
 				<input type="hidden" name="ParentID" value="$ID" />
-				<textarea placeholder="Add reply..." name="Content" class="expandable"></textarea>
+				<textarea placeholder="Add reply..." name="Content" class="expandable postContent"></textarea>
 				<input type="submit" value="Reply" name="action_savepost" />
 			</form>
+			
+			
 			
 			<div class="postReplies">
 			<% if Replies %>

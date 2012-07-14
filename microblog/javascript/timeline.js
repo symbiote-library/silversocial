@@ -22,8 +22,9 @@ window.Microblog = window.Microblog || {}
 			if (!since) {
 				var maxId = 0;
 				$('div.microPost').each(function (index) {
-					if ($(this).attr('data-id') > maxId) {
-						maxId = $(this).attr('data-id');
+					var postId = parseInt($(this).attr('data-id'));
+					if (postId > maxId) {
+						maxId = postId;
 					}
 				})
 				since = maxId;
@@ -159,26 +160,41 @@ window.Microblog = window.Microblog || {}
 				}
 			});
 
-			$('a.replyToPost').click(function (e) {
-				e.preventDefault();
-				$(this).parent().siblings('form.replyForm').show();
-				return false;
-			})
+			$('a.replyToPost').entwine({
+				onclick: function (e) {
+					e.preventDefault();
+					$(this).parent().siblings('form.replyForm').show();
+					return false;
+				}
+			});
 
 			$('.fileUploadForm').entwine({
 				onmatch: function () {
 					var uploadList = $('#uploadedFiles');
+					var uploadParent = 0;
 					$(this).fileupload({
 						dataType: 'json',
-						dropZone: $('#dropZone'),
+						dropZone: $('textarea.postContent'),
 						formData: function(form) {
 							var formData = [
 								{name: 'SecurityID', value: $('input[name=SecurityID]').val()}
 								// {name: 'ID', value: $(form).find(':input[name=ID]').val()}
 							];
+							if (uploadParent > 0) {
+								formData.push({name: 'ParentID', value: uploadParent})
+							}
 							return formData;
 						},
 						drop: function (e, data) {
+							$('div.uploadForm').show();
+							uploadParent = 0;
+							if (e.currentTarget) {
+								var parent = $(e.currentTarget).closest('div.microPost');
+								if (parent.length) {
+									// set the uploadParent id
+									uploadParent = parent.attr('data-id');
+								}
+							}
 							$.each(data.files, function (index, file) {
 								var li = $('<li class="pending">').appendTo(uploadList).text(file.name);
 								li.attr('data-name', file.name);
