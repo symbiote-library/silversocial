@@ -10,6 +10,8 @@ window.Microblog = window.Microblog || {}
 		var pendingUpdate = false;
 		var pendingLoad = false;
 		
+		var postContainer = $('<div>');
+		
 		var loading = false;
 		
 		var refreshTimeline = function (since) {
@@ -18,13 +20,17 @@ window.Microblog = window.Microblog || {}
 			}
 
 			if (!since) {
-				var times = $('abbr.postTime:first');
-				// top down latest, so take the first one's time
-				since = $(times).attr('data-created');
+				var maxId = 0;
+				$('div.microPost').each(function (index) {
+					if ($(this).attr('data-id') > maxId) {
+						maxId = $(this).attr('data-id');
+					}
+				})
+				since = maxId;
 			}
 			
 			loading = true;
-			pendingUpdate = getPosts({since: since});
+			pendingUpdate = getPosts({since: since, replies: 1});
 			
 			pendingUpdate.done(function () {
 				pendingUpdate = null;
@@ -35,7 +41,7 @@ window.Microblog = window.Microblog || {}
 			})
 			return pendingUpdate;
 		}
-		
+
 		setTimeout(function () {
 			refreshTimeline();
 		}, refreshTime)
@@ -44,8 +50,15 @@ window.Microblog = window.Microblog || {}
 			if (pendingLoad) {
 				return pendingLoad;
 			}
-			var allPosts = $('.microPost');
-			var earliest = $(allPosts[allPosts.length-1]).attr('data-id');
+
+			var earliest = 0;
+			
+			$('div.microPost').each(function () {
+				if ($(this).attr('data-id') < earliest) {
+					earliest = $(this).attr('data-id');
+				}
+			})
+			
 			if (earliest) {
 				pendingLoad = getPosts({before: earliest}, true).done(function () {
 					pendingLoad = null;
@@ -60,16 +73,30 @@ window.Microblog = window.Microblog || {}
 				return;
 			}
 			return $.get(url, params, function (data) {
+				postContainer.empty();
 				if (data && data.length > 0) {
-					var newPosts = $('<div class="newposts">');
-					if (append) {
-						newPosts.appendTo(feed);
-					} else {
-						newPosts.prependTo(feed);
-					}
-
-					newPosts.append(data);
-					newPosts.effect("highlight", {}, 3000);
+					postContainer.append(data);
+					postContainer.find('div.microPost').each (function () {
+						var wrapper = $('<div class="newposts">');
+						var me = $(this);
+						
+						var parentId = parseInt(me.attr('data-parent'));
+						if (!parentId) {
+							if (append) {
+								wrapper.appendTo(feed);
+							} else {
+								wrapper.prependTo(feed);
+							}
+						} else {
+							var target = $('#post' + parentId);
+							if (target.length) {
+								var targetReplies = $('div.postReplies', target);
+								wrapper.appendTo(targetReplies);
+							}
+						}
+						wrapper.append(me);
+						wrapper.effect("highlight", {}, 3000);
+					})
 				}
 			});
 		}
@@ -81,7 +108,6 @@ window.Microblog = window.Microblog || {}
 	}();
 
 	$(function () {
-
 		$.entwine('microblog', function ($) {
 			$('.timeago').entwine({
 				onmatch: function () {
@@ -104,17 +130,19 @@ window.Microblog = window.Microblog || {}
 				onclick: function () {
 					var _this = this;
 					// caution - leak possible!! need to switch to new 'from' stuff in entwine
-					Microblog.Timeline.more().done(function () {
-						_this.appendTo('#StatusFeed')
-					});
-					
+					var doMore = Microblog.Timeline.more();
+					if (doMore) {
+						doMore.done(function () {
+							_this.appendTo('#StatusFeed')
+						});
+					}
 					return false;
 				}
 			})
-			
+
 			$('form.replyForm').entwine({
 				onmatch: function () {
-					$(this).attr('action', $('#Form_PostForm').attr('action'));
+					$(this).attr('action', $('#PostFormUrl').val());
 					this.ajaxForm(function (done) {
 						$('form.replyForm').find('textarea').val('');
 						Microblog.Timeline.refresh();
@@ -130,7 +158,13 @@ window.Microblog = window.Microblog || {}
 					})
 				}
 			});
-			
+
+			$('a.replyToPost').click(function (e) {
+				e.preventDefault();
+				$(this).parent().siblings('form.replyForm').show();
+				return false;
+			})
+
 			$('.fileUploadForm').entwine({
 				onmatch: function () {
 					var uploadList = $('#uploadedFiles');
@@ -153,7 +187,6 @@ window.Microblog = window.Microblog || {}
 							});
 						},
 						done: function (e, data) {
-							
 							if (data.result && data.files[0] && data.files[0].listElem) {
 								if (data.result.ID) {
 									data.files[0].listElem.find('span').text('100%');

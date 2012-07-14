@@ -65,31 +65,22 @@ class MicroBlogService {
 	
 	/**
 	 * Gets all the status updates for a particular user before a given time
-	 *
+	 * 
 	 * @param type $member
 	 * @param type $beforeTime
 	 * @param type $number 
 	 */
-	public function getStatusUpdates(DataObject $member, $sinceTime = null, $beforePost = null, $number = 10) {
+	public function getStatusUpdates(DataObject $member, $since= 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
 		if ($member) {
 			$number = (int) $number;
 			$userIds[] = $member->ID;
-			$sinceTime = Convert::raw2sql($sinceTime ? $sinceTime : '1980-09-22 00:00:00');
 			$filter = array(
-				'OwnerID'				=> $userIds, 
-				'Created:GreaterThan'	=> $sinceTime,
-				'ParentID'				=> 0
+				'ThreadOwnerID'		=> $userIds, 
 			);
-			
-			if ($beforePost) {
-				$filter['ID:LessThan']	= $beforePost;
-			}
-			
-			$posts = $this->dataService->getAllMicroPost($filter, '"ID" DESC', '', '0, ' . $number);
-			return $posts;
+			return $this->microPostList($filter, $since, $beforePost, $topLevelOnly, $number);
 		}
 	}
-	
+
 	/**
 	 * Gets all the updates for a given user's list of followers for a given time
 	 * period
@@ -98,7 +89,7 @@ class MicroBlogService {
 	 * @param type $beforeTime
 	 * @param type $number 
 	 */
-	public function getTimeline(DataObject $member, $sinceTime = null, $beforePost = null, $number = 10) {
+	public function getTimeline(DataObject $member, $since = 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
 		$following = $this->friendsList($member);
 
 		$number = (int) $number;
@@ -109,22 +100,32 @@ class MicroBlogService {
 		}
 
 		$userIds[] = $member->ID;
-		$sinceTime = Convert::raw2sql($sinceTime ? $sinceTime : '1980-09-22 00:00:00');
-		$filter = '"OwnerID" IN (' . implode(',', $userIds) . ') AND "Created" > \'' . $sinceTime .'\'';
-
+		
 		$filter = array(
 			'OwnerID'				=> $userIds, 
-			'Created:GreaterThan'	=> $sinceTime,
-			'ParentID'				=> 0
 		);
 		
+		return $this->microPostList($filter, $since, $beforePost, $topLevelOnly, $number);
+	}
+	
+	protected function microPostList($filter, $since= 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
+		if ($topLevelOnly) {
+			$filter['ParentID'] = '0';
+		}
+
+		if ($since) {
+			$since = Convert::raw2sql($since); 
+			$filter['ID:GreaterThan'] = $since;
+		}
+
 		if ($beforePost) {
 			$filter['ID:LessThan']	= $beforePost;
 		}
-		
+
 		$posts = $this->dataService->getAllMicroPost($filter, '"ID" DESC', '', '0, ' . $number);
 		return $posts;
 	}
+	
 	
 	/**
 	 * Search for a member or two

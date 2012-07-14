@@ -9,6 +9,10 @@ class TimelineDashlet extends Dashlet {
 }
 
 class TimelineDashlet_Controller extends Dashlet_Controller {
+	/**
+	 * @var MicroBlogService
+	 * 
+	 */
 	public $microBlogService;
 	public $securityContext;
 
@@ -66,7 +70,7 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 			return Security::permissionFailure($this);
 		}
 		$post = null;
-		
+
 		if (isset($data['Content']) && strlen($data['Content'])) {
 			$parentId = isset($data['ParentID']) ? $data['ParentID'] : 0;
 			$post = $this->microBlogService->createPost($this->securityContext->getMember(), $data['Content'], $parentId);
@@ -96,21 +100,24 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 	}
 	
 	public function Timeline() {
+		$replies = (bool) $this->request->getVar('replies');
+		
 		$since = $this->request->getVar('since');
 		$before = $this->request->getVar('before');
-		$timeline = $this->microBlogService->getTimeline($this->securityContext->getMember(), $since, $before);
-		return $this->customise(array('Posts' => $timeline))->renderWith('Timeline');
+		$timeline = $this->microBlogService->getTimeline($this->securityContext->getMember(), $since, $before, !$replies);
+		return trim($this->customise(array('Posts' => $timeline))->renderWith('Timeline'));
 	}
-	
+
 	public function OwnerFeed() {
 		$since = $this->request->getVar('since');
 		$before = $this->request->getVar('before');
-		
+
 		$owner = $this->getWidget()->Owner();
 		if (!$owner || !$owner->exists()) {
 			throw new Exception("Invalid user feed for " . $this->getWidget()->OwnerID);
 		}
-		$data = $this->microBlogService->getStatusUpdates($owner, $since, $before);
-		return trim($data->renderWith('Timeline'));
+		$replies = (bool) $this->request->getVar('replies');
+		$data = $this->microBlogService->getStatusUpdates($owner, $since, $before, !$replies);
+		return trim($this->customise(array('Posts' => $data))->renderWith('Timeline'));
 	}
 }

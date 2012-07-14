@@ -1,6 +1,12 @@
-	<% loop Posts %>
-	<div class="microPost" data-id="$ID">
+	
+<% if Posts %>
+<% loop Posts %>
+	<div class="microPost" data-id="$ID" data-parent="$ParentID" id="post$ID">
 		<div class="microPostContent">
+			<p class="posterInfo">
+				<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr> by <a href="$Owner.Link">$Owner.Title</a>
+			</p>
+			
 			<% if $Attachment %> 
 				<% if $Attachment.ClassName == 'Image' %>
 					<a href="$Attachment.Link" target="_blank" title="Download attached file">$Attachment.MaxWidth(450)</a>
@@ -16,10 +22,9 @@
 				<% end_if %>
 			<% end_if %>
 
-			<p>
-			<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr> by $Owner.Title
+			<p class="postOptions">
+				<a href="#" class="replyToPost">reply</a>
 			</p>
-			
 			<!-- note that the action is left blank and filled in with JS because otherwise the
 				recursive template loses context of what to fill in, so we use our top level form -->
 			<form method="POST" action="" class="replyForm">
@@ -29,11 +34,12 @@
 				<input type="submit" value="Reply" name="action_savepost" />
 			</form>
 			
-			<% if Replies %>
 			<div class="postReplies">
+			<% if Replies %>
 			<% include Timeline %>
-			</div>
 			<% end_if %>
+			</div>
 		</div>
 	</div>
 	<% end_loop %>
+<% end_if %>

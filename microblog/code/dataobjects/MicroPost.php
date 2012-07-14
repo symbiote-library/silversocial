@@ -11,8 +11,9 @@ class MicroPost extends DataObject {
 		'Content'		=> 'Text',
 		'Author'		=> 'Varchar(255)',
 	);
-	
+
 	public static $has_one = array(
+		'ThreadOwner'	=> 'Member',
 		'Parent'		=> 'MicroPost',
 		'Attachment'	=> 'File',
 	);
@@ -39,9 +40,17 @@ class MicroPost extends DataObject {
 		'Title',
 		'Content'
 	);
-	
+
 	public function onBeforeWrite() {
 		parent::onBeforeWrite();
+		if (!$this->ThreadOwnerID) {
+			if ($this->ParentID) {
+				$this->ThreadOwnerID = $this->Parent()->ThreadOwnerID;
+			} else {
+				$this->ThreadOwnerID = Member::currentUserID();
+			}
+		}
+		
 		$this->Author = Member::currentUser()->getTitle();
 	}
 	

@@ -1,3 +1,5 @@
+<input type="hidden" value="$PostForm.FormAction" id="PostFormUrl" />
+
 <% if CurrentMember %>
 
 	<% if $CurrentMember.ID != $OwnerID %>
@@ -40,7 +42,7 @@
 	<input type="hidden" name="timelineUpdateUrl" value="$Link(Timeline)" />
 	
 	<div id="StatusFeed">
-	$Timeline
+		$Timeline
 		<div class="feed-actions">
 			<a href="#" class="moreposts">Load more...</a>
 		</div>

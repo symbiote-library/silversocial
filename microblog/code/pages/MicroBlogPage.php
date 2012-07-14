@@ -115,7 +115,6 @@ class MicroBlogPage_Controller extends Page_Controller {
 			$user = DataObject::get_by_id('Member', $id);
 			if ($user && $user->exists()) {
 				$data = $this->microBlogService->getStatusUpdates($user);
-				
 			}
 		} else if ($this->securityContext->getMember()) {
 			$data = $this->microBlogService->getTimeline($this->securityContext->getMember());
