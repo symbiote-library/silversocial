@@ -45,6 +45,10 @@ class MicroPost extends DataObject {
 		'Content'
 	);
 	
+	public static $dependencies = array(
+		'socialGraphService' => '%$SocialGraphService',
+	);
+
 	/**
 	 * Do we automatically detect oembed data and change comments? 
 	 * 
@@ -53,6 +57,11 @@ class MicroPost extends DataObject {
 	 * @var boolean
 	 */
 	public $oembedDetect = true;
+	
+	/**
+	 * @var SocialGraphService
+	 */
+	public $socialGraphService;
 	
 
 	public function onBeforeWrite() {
@@ -67,24 +76,8 @@ class MicroPost extends DataObject {
 
 		if ($this->oembedDetect) {
 			$url = filter_var($this->Content, FILTER_VALIDATE_URL);
-			if (strlen($url)) {
-				
-				$graph = OpenGraph::fetch($url);
-				if ($graph) {
-					var_dump($graph);
-					exit();
-				} else {
-					// let's check for stuff
-					$oembed = Oembed::get_oembed_from_url($this->Content);
-					if ($oembed) {
-						$this->OriginalLink = $this->Content;
-						$this->IsOembed = true;
-						$this->Content = $oembed->forTemplate();
-					}
-				}
-			
-				
-				
+			if (strlen($url) && $this->socialGraphService->isWebpage($url)) {
+				$this->socialGraphService->findPostContent($this, $url);
 
 //				$data = array();
 //				

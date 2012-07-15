@@ -27,6 +27,9 @@
 
 			<p class="postOptions">
 				<a href="#" class="replyToPost">reply</a>
+				<% if OwnerID == $CurrentMember.ID %>
+				<a href="#" class="deletePost">delete</a>
+				<% end_if %>
 			</p>
 			<!-- note that the action is left blank and filled in with JS because otherwise the
 				recursive template loses context of what to fill in, so we use our top level form -->

@@ -52,10 +52,10 @@ window.Microblog = window.Microblog || {}
 				return pendingLoad;
 			}
 
-			var earliest = 0;
+			var earliest = -1;
 			
 			$('div.microPost').each(function () {
-				if ($(this).attr('data-id') < earliest) {
+				if ($(this).attr('data-id') < earliest || earliest == -1) {
 					earliest = $(this).attr('data-id');
 				}
 			})
@@ -113,10 +113,24 @@ window.Microblog = window.Microblog || {}
 				}
 			});
 		}
+		
+		var deletePost = function (id) {
+			var deleteUrl = $('#postDeleteUrl').val();
+			if (deleteUrl) {
+				return false; // todo do deletes neatly so the post isn't removed, just blanked
+				$.post(deleteUrl, {post: id}, function (data) {
+					if (data) {
+						$('#post' + id).remove();
+					}
+				})
+			}
+			
+		}
 
 		return {
 			refresh: refreshTimeline,
-			more: morePosts
+			more: morePosts,
+			deletePost: deletePost
 		}
 	}();
 
@@ -139,8 +153,15 @@ window.Microblog = window.Microblog || {}
 					}
 				}
 			});
+			
+			$('a.deletePost').entwine({
+				onclick:function () {
+					
+					return false;
+				}
+			})
 
-			$('.moreposts').entwine({
+			$('a.moreposts').entwine({
 				onclick: function () {
 					var _this = this;
 					// caution - leak possible!! need to switch to new 'from' stuff in entwine

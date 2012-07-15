@@ -49,7 +49,7 @@ class MicroBlogService {
 	 * @return MicroPost 
 	 */
 	public function createPost(DataObject $member, $content, $parentId = 0) {
-		$post = new MicroPost();
+		$post = MicroPost::create();
 		$post->Content = $content;
 		$post->OwnerID = $member->ID;
 		if ($parentId) {

@@ -89,7 +89,7 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 	
 	public function uploadFiles($data, Form $form) {
 		if (isset($data['Attachment'])) {
-			$post = new MicroPost();
+			$post = MicroPost::create();
 			$form->saveInto($post);
 			if ($post->AttachmentID) {
 				if (isset($data['ParentID'])) {
