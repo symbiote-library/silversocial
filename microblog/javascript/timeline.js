@@ -130,15 +130,16 @@ window.Microblog = window.Microblog || {}
 				}
 			})
 			$('textarea.expandable').entwine({
-				onmatch: function () {
-					this.keydown(function (e) {
-						if (e.which == 13) {
-							$(this).addClass('expanded-content');
-						}
-					})
+				onkeydown: function (e) {
+					if (e.which == 13 && !$(this).hasClass('expanded-content')) {
+						$(this).addClass('expanded-content');
+					}
+					if (!$(this).hasClass('expanded-content') && $(this).val().length > 80) {
+						$(this).addClass('expanded-content');
+					}
 				}
 			});
-			
+
 			$('.moreposts').entwine({
 				onclick: function () {
 					var _this = this;
@@ -157,7 +158,7 @@ window.Microblog = window.Microblog || {}
 				onmatch: function () {
 					$(this).attr('action', $('#PostFormUrl').val());
 					this.ajaxForm(function (done) {
-						$('form.replyForm').find('textarea').val('');
+						$('form.replyForm').find('textarea').removeClass('expanded-content').val('');
 						Microblog.Timeline.refresh();
 					})
 				}
@@ -166,7 +167,7 @@ window.Microblog = window.Microblog || {}
 			$('#Form_PostForm').entwine({
 				onmatch: function () {
 					this.ajaxForm(function (done) {
-						$('#Form_PostForm').find('textarea').val('');
+						$('#Form_PostForm').find('textarea').removeClass('expanded-content').val('');
 						Microblog.Timeline.refresh();
 					})
 				}

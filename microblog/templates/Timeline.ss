@@ -14,7 +14,11 @@
 				<% end_if %>
 			<% end_if %>
 			<% if Content %>
-			$Content.Parse(BBCodeParser)
+				<% if IsOembed %>
+				$Content.Raw
+				<% else %>
+				$Content.Parse(BBCodeParser)
+				<% end_if %>
 			<% else %>
 				<% if OwnerID == $CurrentMember.ID %>
 				<div class="edit-placeholder"><em>Click to update</em></div>

@@ -109,7 +109,7 @@ class Oembed {
 	/**
 	 * Takes the human-readable URL of an embeddable resource and converts it into an
 	 * Oembed_Result descriptor (which contains a full Oembed resource URL).
-	 *
+	 * 
 	 * @param $url Human-readable URL
 	 * @param $type ?
 	 * @param $options array Options to be used for constructing the resulting descriptor.
