@@ -3,32 +3,41 @@
 <% loop Posts %>
 	<div class="microPost" data-id="$ID" data-parent="$ParentID" id="post$ID">
 		<div class="microPostContent">
-			<p class="posterInfo">
-				<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr> by <a href="$Owner.Link">$Owner.Title</a>
-			</p>
-			<% if Attachment %> 
-				<% if $Attachment.ClassName == 'Image' %>
-					<a href="$Attachment.Link" target="_blank" title="Download attached file">$Attachment.MaxWidth(450)</a>
-				<% else %>
-				<a href="$Attachment.Link" title="Download attached file">$Attachment.Title</a>
-				<% end_if %>
-			<% end_if %>
-			<% if Content %>
-				<% if IsOembed %>
-				$Content.Raw
-				<% else %>
-				$Content.Parse(BBCodeParser)
-				<% end_if %>
+			<% if Deleted %>
+				<% _t('MicroPost.DELETED', '[deleted]') %>
 			<% else %>
-				<% if OwnerID == $CurrentMember.ID %>
-				<div class="edit-placeholder"><em>Click to update</em></div>
+			
+				<p class="posterInfo">
+					<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr> by <a href="$Owner.Link">$Owner.Title</a>
+				</p>
+				<% if Attachment %> 
+					<% if $Attachment.ClassName == 'Image' %>
+						<a href="$Attachment.Link" target="_blank" title="Download attached file">$Attachment.MaxWidth(450)</a>
+					<% else %>
+					<a href="$Attachment.Link" title="Download attached file">$Attachment.Title</a>
+					<% end_if %>
 				<% end_if %>
-			<% end_if %>
+				<% if Content %>
+					<% if IsOembed %>
+					$Content.Raw
+					<% else %>
+					$Content.Parse(BBCodeParser)
+					<% end_if %>
+				<% else %>
+					<% if OwnerID == $CurrentMember.ID %>
+					<div class="edit-placeholder"><em>Click to update</em></div>
+					<% end_if %>
+				<% end_if %>
 
+			<% end_if %>
+			
 			<p class="postOptions">
 				<a href="#" class="replyToPost">reply</a>
-				<% if OwnerID == $CurrentMember.ID %>
-				<a href="#" class="deletePost">delete</a>
+				<% if Deleted %>
+				<% else %>
+					<% if checkPerm('Delete') %>
+					<a href="#" class="deletePost">delete</a>
+					<% end_if %>
 				<% end_if %>
 			</p>
 			<!-- note that the action is left blank and filled in with JS because otherwise the
@@ -39,8 +48,6 @@
 				<textarea placeholder="Add reply..." name="Content" class="expandable postContent"></textarea>
 				<input type="submit" value="Reply" name="action_savepost" />
 			</form>
-			
-			
 			
 			<div class="postReplies">
 			<% if Replies %>

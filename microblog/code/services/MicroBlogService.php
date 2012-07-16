@@ -25,6 +25,7 @@ class MicroBlogService {
 	
 	public function webEnabledMethods() {
 		return array(
+			'deletePost'		=> 'POST',
 			'getStatusUpdates'	=> 'GET',
 			'getTimeline'		=> 'GET',
 			'addFriendship'		=> 'POST',
@@ -108,6 +109,17 @@ class MicroBlogService {
 		return $this->microPostList($filter, $since, $beforePost, $topLevelOnly, $number);
 	}
 	
+	/**
+	 * Create a list of posts depending on a filter and time range
+	 * 
+	 * @param type $filter
+	 * @param type $since
+	 * @param type $beforePost
+	 * @param type $topLevelOnly
+	 * @param type $number
+	 * 
+	 * @return DataList 
+	 */
 	protected function microPostList($filter, $since= 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
 		if ($topLevelOnly) {
 			$filter['ParentID'] = '0';
@@ -131,6 +143,7 @@ class MicroBlogService {
 	 * Search for a member or two
 	 * 
 	 * @param string $searchTerm 
+	 * @return DataList
 	 */
 	public function findMember($searchTerm) {
 		$term = Convert::raw2sql($searchTerm);
@@ -139,16 +152,16 @@ class MicroBlogService {
 		$items = $this->dataService->getAllMember($filter);
 		
 		return $items;
-
-//				$filter = array(
-//			'FirstName:PartialMatch'		=> $searchTerm,
-//			'Surname:PartialMatch'		=> $searchTerm,
-//			'Email:PartialMatch'		=> $searchTerm,
-//		);
-//		
-//		$list = DataList::create('Member')->dataQuery()->
 	}
 
+	/**
+	 * Create a friendship relationship object
+	 * 
+	 * @param DataObject $member
+	 * @param DataObject $follower
+	 * @return \Friendship
+	 * @throws PermissionDeniedException 
+	 */
 	public function addFriendship(DataObject $member, DataObject $follower) {
 		
 		if (!$member || !$follower) {
@@ -188,6 +201,19 @@ class MicroBlogService {
 	
 	public function removeFollower($member, $follower) {
 		$follower->unfollow($member);
+	}
+	
+	/**
+	 * Delete a post
+	 * 
+	 * @param DataObject $post 
+	 */
+	public function deletePost(DataObject $post) {
+		if ($post->checkPerm('Delete')) {
+			$post->delete();
+		}
+		
+		return $post;
 	}
 }
 

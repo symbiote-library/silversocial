@@ -115,16 +115,26 @@ window.Microblog = window.Microblog || {}
 		}
 		
 		var deletePost = function (id) {
-			var deleteUrl = $('#postDeleteUrl').val();
-			if (deleteUrl) {
-				return false; // todo do deletes neatly so the post isn't removed, just blanked
-				$.post(deleteUrl, {post: id}, function (data) {
-					if (data) {
-						$('#post' + id).remove();
-					}
-				})
+			if (!id) {
+				return;
 			}
-			
+			var params = {
+				'postType': 'MicroPost',
+				'postID': id
+			};
+
+			SSWebServices.post('microBlog', 'deletePost', params, function (data) {
+				if (data && data.response) {
+					// marked as deleted, versus completely removed
+					if (data.response.Deleted == 0) {
+						$('#post' + id).fadeOut('slow');
+					} else {
+						$('#post' + id).find('.microPostContent').html(data.response.Content);
+						
+					}
+				}
+				
+			})
 		}
 
 		return {
@@ -156,7 +166,8 @@ window.Microblog = window.Microblog || {}
 			
 			$('a.deletePost').entwine({
 				onclick:function () {
-					
+					var postId = $(this).parents('.microPost').attr('data-id');
+					Microblog.Timeline.deletePost(postId);
 					return false;
 				}
 			})

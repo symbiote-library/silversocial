@@ -41,3 +41,5 @@ $coreCache = Zend_Cache::factory(
 );
 
 Zend_Date::setOptions(array('cache' => $coreCache));
+
+Member::set_title_columns(array('FirstName', 'Surname'));

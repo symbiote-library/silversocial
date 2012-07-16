@@ -14,6 +14,7 @@ class MicroPost extends DataObject {
 		'Author'		=> 'Varchar(255)',
 		'OriginalLink'	=> 'Varchar',
 		'IsOembed'		=> 'Boolean',
+		'Deleted'		=> 'Boolean',
 	);
 
 	public static $has_one = array(
@@ -78,20 +79,28 @@ class MicroPost extends DataObject {
 			$url = filter_var($this->Content, FILTER_VALIDATE_URL);
 			if (strlen($url) && $this->socialGraphService->isWebpage($url)) {
 				$this->socialGraphService->findPostContent($this, $url);
-
-//				$data = array();
-//				
-//				if ($oembed->title) {
-//					$data['Title'] = Varchar::create_field('Varchar', $oembed->title);
-//				}
-//				
-//				$data['Thumbnail'] = $oembed->thumbnail_url ? Varchar::create_field('Varchar', $oembed->thumbnail_url) : null;
-//				$data['Type'] = Varchar::create_field('Varchar', $oembed->type);
 			}
 		}
 			
 
 		$this->Author = Member::currentUser()->getTitle();
+	}
+	
+	/**
+	 * When 'deleting' an object, we actually just remove all its content 
+	 */
+	public function delete() {
+		if ($this->checkPerm('Delete')) {
+			// if we have replies, we can't delete completely!
+			if ($this->Replies()->exists()) {
+				$this->Deleted = true;
+				$this->Content = _t('MicroPost.DELETED', '[deleted]');
+				$this->Author = $this->Content;
+				$this->write();
+			} else {
+				return parent::delete();
+			}
+		}
 	}
 	
 	/**
@@ -117,4 +126,5 @@ class MicroPost extends DataObject {
 	public function Posts() {
 		return $this->Replies();
 	}
+	
 }
