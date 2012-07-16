@@ -1,13 +1,10 @@
 <?php
 
 /**
- *
  * @author marcus@silverstripe.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class MicroPost extends DataObject {
-	
-	
 	public static $db = array(
 		'Title'			=> 'Varchar(255)',
 		'Content'		=> 'Text',
@@ -15,6 +12,9 @@ class MicroPost extends DataObject {
 		'OriginalLink'	=> 'Varchar',
 		'IsOembed'		=> 'Boolean',
 		'Deleted'		=> 'Boolean',
+		
+		'Up'			=> 'Int',
+		'Down'			=> 'Int',
 	);
 
 	public static $has_one = array(

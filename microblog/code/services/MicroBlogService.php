@@ -11,12 +11,21 @@ class MicroBlogService {
 	 */
 	public $dataService;
 	
+	/**
+	 * @var SecurityContext
+	 */
 	public $securityContext;
 	
+	/**
+	 * @var TransactionManager
+	 */
+	public $transactionManager;
+	
 	public static $dependencies = array(
-		'dataService'		=> '%$DataService',
-		'permissionService'	=> '%$PermissionService',
-		'securityContext'	=> '%$SecurityContext',
+		'dataService'			=> '%$DataService',
+		'permissionService'		=> '%$PermissionService',
+		'securityContext'		=> '%$SecurityContext',
+		'transactionManager'	=> '%$TransactionManager',
 	);
 	
 	public function __construct() {
@@ -26,6 +35,7 @@ class MicroBlogService {
 	public function webEnabledMethods() {
 		return array(
 			'deletePost'		=> 'POST',
+			'vote'				=> 'POST',
 			'getStatusUpdates'	=> 'GET',
 			'getTimeline'		=> 'GET',
 			'addFriendship'		=> 'POST',
@@ -192,6 +202,12 @@ class MicroBlogService {
 		return $friendship;
 	}
 	
+	/** 
+	 * Get a list of friends for a particular member
+	 * 
+	 * @param DataObject $member
+	 * @return DataList
+	 */
 	public function friendsList(DataObject $member) {
 		$list = DataList::create('Member')
 				->innerJoin('Friendship', '"Friendship"."OtherID" = "Member"."ID"')
@@ -199,6 +215,12 @@ class MicroBlogService {
 		return $list;
 	}
 	
+	/**
+	 * Remove someone as a follower
+	 * 
+	 * @param DataObject $member
+	 * @param DataObject $follower 
+	 */
 	public function removeFollower($member, $follower) {
 		$follower->unfollow($member);
 	}
@@ -212,6 +234,40 @@ class MicroBlogService {
 		if ($post->checkPerm('Delete')) {
 			$post->delete();
 		}
+		
+		return $post;
+	}
+	
+	/**
+	 * Vote for a particular post
+	 * 
+	 * @param DataObject $post 
+	 */
+	public function vote(DataObject $post, $dir = 1) {
+		$member = Member::currentUserID();
+		$currentVote = MicroPostVote::get()->filter(array('UserID' => $member, 'PostID' => $post->ID))->first();
+		
+		if (!$currentVote) {
+			$currentVote = MicroPostVote::create();
+			$currentVote->UserID = $member;
+			$currentVote->PostID = $post->ID;
+		}
+		
+		$currentVote->Direction = $dir > 0 ? 1 : -1;
+		$currentVote->write();
+		
+		$list = DataList::create('MicroPostVote');
+		
+		$upList = $list->filter(array('PostID' => $post->ID, 'Direction' => 1));
+		$post->Up = $upList->count();
+		
+		$downList = $list->filter(array('PostID' => $post->ID, 'Direction' => -1));
+		$post->Down = $downList->count();
+		
+		// write the post as the owner
+		$this->transactionManager->run(function () use ($post) {
+			$post->write();
+		}, $post->Owner());
 		
 		return $post;
 	}

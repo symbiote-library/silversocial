@@ -32,6 +32,12 @@
 			<% end_if %>
 			
 			<p class="postOptions">
+				
+				<span class="upCount">$Up</span> - <span class="downCount">$Down</span>
+				
+				<a href="#" class="vote" data-dir="1" data-id="$ID">Up</a>
+				<a href="#" class="vote" data-dir="-1" data-id="$ID">Down</a>
+				
 				<a href="#" class="replyToPost">reply</a>
 				<% if Deleted %>
 				<% else %>
