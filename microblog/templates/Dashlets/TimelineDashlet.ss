@@ -12,7 +12,6 @@
 			<ul id="uploadedFiles"></ul>
 		</form>
 		<% end_with %>
-
 	</div>
 
 	<% if $CurrentMember.ID != $OwnerID %>
@@ -60,5 +59,12 @@
 	</script>
 	
 <% else %>
-	Please login
+	<input type="hidden" name="timelineUpdateUrl" value="$Link(OwnerFeed)" />
+	
+	<div id="StatusFeed">
+		$OwnerFeed
+		<div class="feed-actions">
+			<a href="#" class="moreposts">Load more...</a>
+		</div>
+	</div>
 <% end_if %>

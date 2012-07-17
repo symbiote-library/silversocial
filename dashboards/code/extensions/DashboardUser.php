@@ -62,6 +62,8 @@ class DashboardUser extends DataExtension {
 					}
 				}
 			}
+
+			$dashboard = $this->getNamedDashboard($url);
 		}
 		return $dashboard;
 	}

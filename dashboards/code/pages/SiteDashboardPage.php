@@ -28,6 +28,7 @@ class SiteDashboardPage_Controller extends DashboardController {
 			Requirements::javascript('webservices/javascript/webservices.js');
 		}
 	}
+	
 
 	/**
 	 * Overridden to make sure the dashboard page is attached to the correct controller
@@ -59,5 +60,4 @@ class SiteDashboardPage_Controller extends DashboardController {
 			return $this->data()->Link($action ? $action : true);
 		}
 	}
-
 }

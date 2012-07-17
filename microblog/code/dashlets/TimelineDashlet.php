@@ -88,6 +88,9 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 	}
 	
 	public function uploadFiles($data, Form $form) {
+		if (!$this->securityContext->getMember()) {
+			throw new PermissionDeniedException('Write');
+		}
 		if (isset($data['Attachment'])) {
 			$post = MicroPost::create();
 			$form->saveInto($post);

@@ -89,6 +89,8 @@ class MicroBlogService {
 				'ThreadOwnerID'		=> $userIds, 
 			);
 			return $this->microPostList($filter, $since, $beforePost, $topLevelOnly, $number);
+		} else {
+			return $this->microPostList(array(), $since, $beforePost, $topLevelOnly, $number);
 		}
 	}
 
@@ -209,6 +211,9 @@ class MicroBlogService {
 	 * @return DataList
 	 */
 	public function friendsList(DataObject $member) {
+		if (!$member) {
+			return;
+		}
 		$list = DataList::create('Member')
 				->innerJoin('Friendship', '"Friendship"."OtherID" = "Member"."ID"')
 				->filter(array('InitiatorID' => $member->ID));
