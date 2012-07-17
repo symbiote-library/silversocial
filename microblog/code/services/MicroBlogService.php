@@ -122,6 +122,25 @@ class MicroBlogService {
 	}
 	
 	/**
+	 * Get the list of replies to a particular post
+	 * 
+	 * @param DataObject $to
+	 * @param type $since
+	 * @param type $beforePost
+	 * @param type $topLevelOnly
+	 * @param type $number 
+	 * 
+	 * @return DataList
+	 */
+	public function getRepliesTo(DataObject $to, $since = 0, $beforePost = null, $topLevelOnly = false, $number = 10) {
+		$filter = array(
+			'ParentID'			=> $to->ID, 
+		);
+		
+		return $this->microPostList($filter, $since, $beforePost, $topLevelOnly, $number);
+	}
+	
+	/**
 	 * Create a list of posts depending on a filter and time range
 	 * 
 	 * @param type $filter
@@ -146,7 +165,7 @@ class MicroBlogService {
 			$filter['ID:LessThan']	= $beforePost;
 		}
 
-		$posts = $this->dataService->getAllMicroPost($filter, '"ID" DESC', '', '0, ' . $number);
+		$posts = $this->dataService->getAllMicroPost($filter, '"WilsonRating" DESC', '', '0, ' . $number);
 		return $posts;
 	}
 	

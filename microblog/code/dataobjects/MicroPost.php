@@ -12,9 +12,7 @@ class MicroPost extends DataObject {
 		'OriginalLink'	=> 'Varchar',
 		'IsOembed'		=> 'Boolean',
 		'Deleted'		=> 'Boolean',
-		
-		'Up'			=> 'Int',
-		'Down'			=> 'Int',
+
 	);
 
 	public static $has_one = array(
@@ -32,6 +30,7 @@ class MicroPost extends DataObject {
 	);
 	
 	public static $extensions = array(
+		'Rateable',
 		'Restrictable'
 	);
 	
@@ -47,7 +46,8 @@ class MicroPost extends DataObject {
 	);
 	
 	public static $dependencies = array(
-		'socialGraphService' => '%$SocialGraphService',
+		'socialGraphService'	=> '%$SocialGraphService',
+		'microBlogService'		=> '%$MicroBlogService',
 	);
 
 	/**
@@ -63,6 +63,11 @@ class MicroPost extends DataObject {
 	 * @var SocialGraphService
 	 */
 	public $socialGraphService;
+	
+	/**
+	 * @var MicroBlogService
+	 */
+	public $microBlogService;
 	
 
 	public function onBeforeWrite() {
@@ -103,6 +108,8 @@ class MicroPost extends DataObject {
 		}
 	}
 	
+	
+	
 	/**
 	 * handles SiteTree::canAddChildren, useful for other types too
 	 */
@@ -124,7 +131,7 @@ class MicroPost extends DataObject {
 	}
 	
 	public function Posts() {
-		return $this->Replies();
+		return $this->microBlogService->getRepliesTo($this);
 	}
 	
 }
