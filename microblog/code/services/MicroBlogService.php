@@ -165,7 +165,8 @@ class MicroBlogService {
 			$filter['ID:LessThan']	= $beforePost;
 		}
 
-		$posts = $this->dataService->getAllMicroPost($filter, '"WilsonRating" DESC', '', '0, ' . $number);
+		// TODO sort by wilson rating WilsonRating
+		$posts = $this->dataService->getAllMicroPost($filter, '"ID" DESC', '', '0, ' . $number);
 		return $posts;
 	}
 	

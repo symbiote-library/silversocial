@@ -220,7 +220,12 @@ window.Microblog = window.Microblog || {}
 					this.ajaxForm(function (done) {
 						$('form.replyForm').find('textarea').removeClass('expanded-content').val('');
 						Microblog.Timeline.refresh();
+						$('form.replyForm').find('input[name=action_savepost]').removeAttr('disabled');
 					})
+				},
+				onsubmit: function () {
+					$(this).find('input[name=action_savepost]').attr('disabled', 'disabled');
+					return true;
 				}
 			})
 			
@@ -228,8 +233,13 @@ window.Microblog = window.Microblog || {}
 				onmatch: function () {
 					this.ajaxForm(function (done) {
 						$('#Form_PostForm').find('textarea').removeClass('expanded-content').val('');
+						$('#Form_PostForm').find('input[name=action_savepost]').removeAttr('disabled');
 						Microblog.Timeline.refresh();
 					})
+				},
+				onsubmit: function () {
+					$(this).find('input[name=action_savepost]').attr('disabled', 'disabled');
+					return true;
 				}
 			});
 

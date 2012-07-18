@@ -84,6 +84,10 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 			);
 			return Convert::raw2json($result);
 		}
+		if (Director::is_ajax()) {
+			return '{"message": "invalid"}';
+		}
+		
 		$this->redirectBack();
 	}
 	

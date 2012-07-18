@@ -91,6 +91,11 @@ class MicroPost extends DataObject {
 		$this->Author = Member::currentUser()->getTitle();
 	}
 	
+	public function IsImage() {
+		$url = $this->Content;
+		return preg_match('/^https?:\/\/(?:[a-z\-]+\.)+[a-z]{2,6}(?:\/[^\/#?]+)+\.(?:jpg|gif|png)$/', $this->Content);
+	}
+	
 	/**
 	 * When 'deleting' an object, we actually just remove all its content 
 	 */

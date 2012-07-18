@@ -6,6 +6,11 @@
  */
 class SocialGraphService {
 	
+	public $oembedOptions = array(
+		'maxwidth'		=> '600',
+		'maxheight'		=> '400',
+	);
+	
 	/**
 	 * Check whether a given URL is actually an html page 
 	 */
@@ -34,7 +39,7 @@ class SocialGraphService {
 	public function findPostContent($post, $url) {
 		
 		// let's check for stuff
-		$oembed = Oembed::get_oembed_from_url($post->Content);
+		$oembed = Oembed::get_oembed_from_url($post->Content, false, $this->oembedOptions);
 		if ($oembed) {
 			$post->OriginalLink = $post->Content;
 			$post->IsOembed = true;
