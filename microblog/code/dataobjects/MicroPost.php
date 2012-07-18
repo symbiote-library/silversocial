@@ -93,7 +93,8 @@ class MicroPost extends DataObject {
 	
 	public function IsImage() {
 		$url = $this->Content;
-		return preg_match('/^https?:\/\/(?:[a-z\-]+\.)+[a-z]{2,6}(?:\/[^\/#?]+)+\.(?:jpg|gif|png)$/', $this->Content);
+		$pattern = '!^https?://([a-z0-9\-\.\/\_]+\.(?:jpe?g|png|gif))$!Ui';
+		return preg_match($pattern, $url);
 	}
 	
 	/**
