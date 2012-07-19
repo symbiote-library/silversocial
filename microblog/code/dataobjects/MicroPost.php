@@ -133,7 +133,12 @@ class MicroPost extends DataObject {
 	
 	public function Link() {
 		$page = DataObject::get_one('MicroBlogPage');
-		return $page->Link('user') . '/' . $this->OwnerID;
+		
+		if ($page) {
+			return $page->Link('user') . '/' . $this->OwnerID;
+		}
+		
+		return $this->Owner()->Link();
 	}
 	
 	public function Posts() {

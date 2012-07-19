@@ -23,6 +23,9 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 	
 	public function __construct($widget = null, $parent = null) {
 		parent::__construct($widget, $parent);
+		if ($parent && $parent->getRequest()) {
+			$this->request = $parent->getRequest();
+		}
 	}
 	
 	public function init() {
@@ -110,11 +113,21 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 		}
 	}
 	
+	public function ShowReplies() {
+		return true;
+	}
+	
 	public function Timeline() {
 		$replies = (bool) $this->request->getVar('replies');
 		
 		$since = $this->request->getVar('since');
 		$before = $this->request->getVar('before');
+		
+		if ($post = $this->request->getVar('post')) {
+			$since = ((int) $post) - 1;
+			$before = $since + 2;
+		}
+		
 		$timeline = $this->microBlogService->getTimeline($this->securityContext->getMember(), null, $since, $before, !$replies);
 		return trim($this->customise(array('Posts' => $timeline))->renderWith('Timeline'));
 	}

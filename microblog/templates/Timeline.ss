@@ -9,13 +9,20 @@
 				<span class="upCount">$Up</span> - <span class="downCount">$Down</span>
 				<a href="#" class="vote" data-dir="1" data-id="$ID">Up</a>
 				<a href="#" class="vote" data-dir="-1" data-id="$ID">Down</a>
-				<a href="#" class="replyToPost">reply</a>
-				<% if Deleted %>
-				<% else %>
-					<% if checkPerm('Delete') %>
-					<a href="#" class="deletePost">delete</a>
+				<% if Top.ShowReplies %>
+					<a href="#" class="replyToPost">reply</a>
+					<% if Deleted %>
+					<% else %>
+						<% if checkPerm('Delete') %>
+						<a href="#" class="deletePost">delete</a>
+						<% end_if %>
 					<% end_if %>
+				
+				<% else %>
+				<a href="$Owner.Link?post=$ID">replies</a>
+					
 				<% end_if %>
+				
 			</p>
 			<!-- note that the action is left blank and filled in with JS because otherwise the
 				recursive template loses context of what to fill in, so we use our top level form -->
@@ -27,9 +34,11 @@
 			</form>
 			
 			<div class="postReplies">
-			<% if Replies %>
-			<% include Timeline %>
-			<% end_if %>
+				<% if Top.ShowReplies %>
+				<% if Replies %>
+				<% include Timeline %>
+				<% end_if %>
+				<% end_if %>
 			</div>
 		</div>
 	</div>

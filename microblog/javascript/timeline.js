@@ -6,7 +6,7 @@ window.Microblog = window.Microblog || {}
 	Microblog.Timeline = function () {
 		var feed = $('#StatusFeed');
 		
-		var refreshTime = 10000;
+		var refreshTime = 60000;
 		var pendingUpdate = false;
 		var pendingLoad = false;
 		
