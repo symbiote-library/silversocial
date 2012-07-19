@@ -9,6 +9,7 @@
 				<span class="upCount">$Up</span> - <span class="downCount">$Down</span>
 				<a href="#" class="vote" data-dir="1" data-id="$ID">Up</a>
 				<a href="#" class="vote" data-dir="-1" data-id="$ID">Down</a>
+				
 				<% if Top.ShowReplies %>
 					<a href="#" class="replyToPost">reply</a>
 					<% if Deleted %>
@@ -36,7 +37,7 @@
 			<div class="postReplies">
 				<% if Top.ShowReplies %>
 				<% if Replies %>
-				<% include Timeline %>
+				<% include Timeline ShowReplies=$Top.ShowReplies %>
 				<% end_if %>
 				<% end_if %>
 			</div>
