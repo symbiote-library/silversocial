@@ -1,7 +1,7 @@
 	
 <% if Posts %>
 <% loop Posts %>
-	<div class="microPost" data-id="$ID" data-parent="$ParentID" id="post$ID">
+	<div class="microPost" data-id="$ID" data-parent="$ParentID" id="post$ID" data-rating="$WilsonRating">
 		<div class="microPostContent">
 			<% include PostContent %>
 			
