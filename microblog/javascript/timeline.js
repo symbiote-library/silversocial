@@ -36,16 +36,20 @@ window.Microblog = window.Microblog || {}
 			pendingUpdate.done(function () {
 				pendingUpdate = null;
 				loading = false;
-				setTimeout(function () {
-					refreshTimeline();
-				}, refreshTime);
+				if (feed.hasClass('autorefresh')) {
+					setTimeout(function () {
+						refreshTimeline();
+					}, refreshTime);
+				}
 			})
 			return pendingUpdate;
 		}
 
-		setTimeout(function () {
-			refreshTimeline();
-		}, refreshTime)
+		if (feed.hasClass('autorefresh')) {
+			setTimeout(function () {
+				refreshTimeline();
+			}, refreshTime)
+		}
 		
 		var morePosts = function () {
 			if (pendingLoad) {
@@ -103,12 +107,13 @@ window.Microblog = window.Microblog || {}
 					$('.fileUploadForm').fileupload('disable');
 					$('.fileUploadForm').fileupload('enable');
 					*/
-					$('.fileUploadForm').fileupload(
-						'option',
-						'dropZone',
-						$('textarea.postContent')
-					);
-					
+					if ($.fileupload && $('.fileUploadForm').length) {
+						$('.fileUploadForm').fileupload(
+							'option',
+							'dropZone',
+							$('textarea.postContent')
+						);
+					}
 					
 				}
 			});

@@ -16,7 +16,7 @@
 
 	<% if $CurrentMember.ID != $OwnerID %>
 		<input type="hidden" name="timelineUpdateUrl" value="$Link(OwnerFeed)" />
-		<div id="StatusFeed">
+		<div id="StatusFeed" class="autorefresh">
 		$OwnerFeed
 			<div class="feed-actions">
 				<a href="#" class="moreposts">Load more...</a>
@@ -40,7 +40,7 @@
 	
 	<input type="hidden" name="timelineUpdateUrl" value="$Link(Timeline)" />
 	
-	<div id="StatusFeed">
+	<div id="StatusFeed" class="autorefresh">
 		$Timeline
 		<div class="feed-actions">
 			<a href="#" class="moreposts">Load more...</a>
@@ -61,7 +61,7 @@
 <% else %>
 	<input type="hidden" name="timelineUpdateUrl" value="$Link(OwnerFeed)" />
 	
-	<div id="StatusFeed">
+	<div id="StatusFeed" class="autorefresh">
 		$OwnerFeed
 		<div class="feed-actions">
 			<a href="#" class="moreposts">Load more...</a>

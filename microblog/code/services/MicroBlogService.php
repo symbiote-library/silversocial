@@ -81,16 +81,16 @@ class MicroBlogService {
 	 * @param type $beforeTime
 	 * @param type $number 
 	 */
-	public function getStatusUpdates(DataObject $member, $since= 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
+	public function getStatusUpdates(DataObject $member, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
 		if ($member) {
 			$number = (int) $number;
 			$userIds[] = $member->ID;
 			$filter = array(
 				'ThreadOwnerID'		=> $userIds, 
 			);
-			return $this->microPostList($filter, $since, $beforePost, $topLevelOnly, $number);
+			return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $number);
 		} else {
-			return $this->microPostList(array(), $since, $beforePost, $topLevelOnly, $number);
+			return $this->microPostList(array(), $sortBy, $since, $beforePost, $topLevelOnly, $number);
 		}
 	}
 
@@ -102,7 +102,7 @@ class MicroBlogService {
 	 * @param type $beforeTime
 	 * @param type $number 
 	 */
-	public function getTimeline(DataObject $member, $since = 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
+	public function getTimeline(DataObject $member, $sortBy = 'ID',  $since = 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
 		$following = $this->friendsList($member);
 
 		$number = (int) $number;
@@ -118,7 +118,7 @@ class MicroBlogService {
 			'OwnerID'				=> $userIds, 
 		);
 		
-		return $this->microPostList($filter, $since, $beforePost, $topLevelOnly, $number);
+		return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $number);
 	}
 	
 	/**
@@ -132,12 +132,12 @@ class MicroBlogService {
 	 * 
 	 * @return DataList
 	 */
-	public function getRepliesTo(DataObject $to, $since = 0, $beforePost = null, $topLevelOnly = false, $number = 10) {
+	public function getRepliesTo(DataObject $to, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = false, $number = 10) {
 		$filter = array(
 			'ParentID'			=> $to->ID, 
 		);
 		
-		return $this->microPostList($filter, $since, $beforePost, $topLevelOnly, $number);
+		return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $number);
 	}
 	
 	/**
@@ -151,7 +151,7 @@ class MicroBlogService {
 	 * 
 	 * @return DataList 
 	 */
-	protected function microPostList($filter, $since= 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
+	protected function microPostList($filter, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
 		if ($topLevelOnly) {
 			$filter['ParentID'] = '0';
 		}
@@ -164,9 +164,15 @@ class MicroBlogService {
 		if ($beforePost) {
 			$filter['ID:LessThan']	= $beforePost;
 		}
+		
+		$canSort = array('ID', 'WilsonRating');
+		$sort = '"ID" DESC';
+		if (in_array($sortBy, $canSort)) {
+			$sort = '"' . $sortBy . '" DESC';
+		}
 
 		// TODO sort by wilson rating WilsonRating
-		$posts = $this->dataService->getAllMicroPost($filter, '"ID" DESC', '', '0, ' . $number);
+		$posts = $this->dataService->getAllMicroPost($filter, $sort, '', '0, ' . $number);
 		return $posts;
 	}
 	

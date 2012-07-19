@@ -115,7 +115,7 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 		
 		$since = $this->request->getVar('since');
 		$before = $this->request->getVar('before');
-		$timeline = $this->microBlogService->getTimeline($this->securityContext->getMember(), $since, $before, !$replies);
+		$timeline = $this->microBlogService->getTimeline($this->securityContext->getMember(), null, $since, $before, !$replies);
 		return trim($this->customise(array('Posts' => $timeline))->renderWith('Timeline'));
 	}
 
@@ -128,7 +128,8 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 			throw new Exception("Invalid user feed for " . $this->getWidget()->OwnerID);
 		}
 		$replies = (bool) $this->request->getVar('replies');
-		$data = $this->microBlogService->getStatusUpdates($owner, $since, $before, !$replies);
+		
+		$data = $this->microBlogService->getStatusUpdates($owner, null, $since, $before, !$replies);
 		return trim($this->customise(array('Posts' => $data))->renderWith('Timeline'));
 	}
 }
