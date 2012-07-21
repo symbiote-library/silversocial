@@ -3,8 +3,7 @@
         <% include Sidebar %>
     </div>
 
-    <div class="span9">
-    <h1>$Title</h1>
+    <div class="span12">
 	
 	<input type="hidden" name="timelineUpdateUrl" value="$Link(Timeline)" />
 	

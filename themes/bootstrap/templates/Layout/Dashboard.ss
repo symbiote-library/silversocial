@@ -8,7 +8,12 @@
 $Dashboard
 </div>
 
-<div class="row">
+<% if $Dashboard.OwnerID == $CurrentMember.ID %>
+<div id="dashlet-editing" class="navbar navbar-fixed-bottom">
+	<div class="navbar-inner">
 	<a class="btn" data-dialog="true" href="{$Link}edit/$Dashboard.ID">Update Dashboard</a>
 	<a class="btn" data-dialog="true" href="{$Link}adddashlet">Add dashlet</a>
+	<a class="btn" id="editDashlets" href="#">Move dashlets</a>
+	</div>
 </div>
+<% end_if %>

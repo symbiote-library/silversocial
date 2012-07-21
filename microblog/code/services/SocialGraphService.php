@@ -51,9 +51,11 @@ class SocialGraphService {
 				foreach ($graph as $key => $value) {
 					$data[$key] = Varchar::create_field('Varchar', $value);
 				}
-				$post->OriginalLink = $post->Content;
-				$post->IsOembed = true;
-				$post->Content = $post->customise($data)->renderWith('OpenGraphPost');
+				if (isset($data['url'])) {
+					$post->OriginalLink = $post->Content;
+					$post->IsOembed = true;
+					$post->Content = $post->customise($data)->renderWith('OpenGraphPost');
+				}
 			}
 		}
 

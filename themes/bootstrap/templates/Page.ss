@@ -12,7 +12,7 @@
     <% require themedCSS(bootstrap) %>
     <style type="text/css">
       body {
-        padding-top: 60px;
+        padding-top: 90px;
         padding-bottom: 40px;
       }
     </style>
@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/">$SiteConfig.Title</a>
+          <a class="brand" href="">$SiteConfig.Title</a>
 	  <% if Menu(1) %>
           <div class="nav-collapse">
             <ul class="nav">
@@ -51,6 +51,15 @@
               <% end_control %>
             </ul>
           </div><!--/.nav-collapse -->
+		  <ul class="nav pull-right">
+			  <li>
+			  <% if CurrentMember %>
+			  <a href="Security/logout">logout</a>
+			  <% else %>
+			  <a href="Security/login?BackURL=">login</a>
+			  <% end_if %>
+			  </li>
+		  </ul>
           <% end_if %>
         </div>
       </div>

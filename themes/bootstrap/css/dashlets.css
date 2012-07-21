@@ -25,6 +25,7 @@ div.TimelineDashlet textarea[name=Content].expanded-content {
 div.microPost {
 	padding: 10px;
 	background: #fafafa;
+	border-radius: 10px;
 }
 
 div.microPostContent {
@@ -43,4 +44,21 @@ div.uploadForm {
 	right: 0px;
 	background: #fff;
 	display: none;
+}
+
+div.dashlet-title {
+	display: none;
+}
+
+#dashlet-editing .navbar-inner {
+	min-height: 20px;
+	padding: 10px;
+}
+
+#dashlet-editing .btn {
+	margin: 0px;
+}
+
+.dashlet-content {
+	padding: 10px;
 }
