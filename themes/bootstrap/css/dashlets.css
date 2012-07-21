@@ -24,8 +24,7 @@ div.TimelineDashlet textarea[name=Content].expanded-content {
 
 div.microPost {
 	padding: 10px;
-	background: #fafafa;
-	border-radius: 10px;
+	border-bottom: 1px dotted #ccc;
 }
 
 div.microPostContent {
@@ -60,5 +59,19 @@ div.dashlet-title {
 }
 
 .dashlet-content {
+	padding: 10px;
+}
+
+.userFriend a {
+	text-decoration: none;
+}
+
+.userProfile {
+	text-align: center;
+}
+
+div.codesnippet {
+	background-color: #efefef;
+	border: 1px dashed #ccc;
 	padding: 10px;
 }

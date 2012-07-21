@@ -15,7 +15,7 @@
 	<% loop Owner.Friends %>
 	<div class="userFriend">
 		<a href="$Link">
-			<img src="http://www.gravatar.com/avatar/$Owner.gravatarHash" />
+			<img src="http://www.gravatar.com/avatar/{$Owner.gravatarHash}.jpg?s=24" />
 			$FirstName $Surname
 		</a>
 	</div>

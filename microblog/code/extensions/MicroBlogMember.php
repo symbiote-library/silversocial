@@ -8,7 +8,8 @@
 class MicroBlogMember extends DataExtension {
 	
 	public static $has_one = array(
-		'UploadFolder'		=> 'Folder'
+		'UploadFolder'		=> 'Folder',
+		'Profile'			=> 'PublicProfile',
 	);
 	
 	public static $many_many = array(
@@ -38,7 +39,25 @@ class MicroBlogMember extends DataExtension {
 			$this->owner->InheritPerms = true;
 		}
 		
+		$changed = $this->owner->isChanged('FirstName') || $this->owner->isChanged('Surname') || $this->owner->isChanged('Email');
+		
+		if ($this->owner->ID && !$this->owner->ProfileID) {
+			$profile = PublicProfile::create();
+			$this->syncProfile($profile);
+			$this->owner->ProfileID = $profile->ID;
+		} else if ($this->owner->ProfileID && $changed) {
+			$this->syncProfile($this->owner->Profile());
+		}
+		
 		$this->memberFolder();
+	}
+	
+	protected function syncProfile($profile) {
+		$profile->FirstName = $this->owner->FirstName;
+		$profile->Surname = $this->owner->Surname;
+		$profile->Email = $this->owner->Email;
+		$profile->MemberID = $this->owner->ID;
+		$profile->write();
 	}
 	
 	public function permissionSources() {
