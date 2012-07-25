@@ -69,9 +69,25 @@ class MicroBlogService {
 				$post->ParentID = $parentId;
 			}
 		}
-		
+
 		$post->write();
+
+		$this->rewardMember($member, 3);
+		$post->RemainingVotes = $member->VotesToGive;
+
 		return $post;
+	}
+	
+	/**
+	 * Reward a member with a number of votes to be given
+	 * @param type $member
+	 * @param type $votes 
+	 */
+	public function rewardMember($member, $votes) {
+		$member->VotesToGive += $votes;
+		$this->transactionManager->run(function () use ($member) {
+			$member->write();
+		}, $member);
 	}
 	
 	/**
@@ -276,12 +292,19 @@ class MicroBlogService {
 	 * @param DataObject $post 
 	 */
 	public function vote(DataObject $post, $dir = 1) {
-		$member = Member::currentUserID();
-		$currentVote = MicroPostVote::get()->filter(array('UserID' => $member, 'PostID' => $post->ID))->first();
+		$member = Member::currentUser();
+		
+		if ($member->VotesToGive <= 0) {
+			$post->RemainingVotes = 0;
+			return $post;
+		}
+
+		// we allow multiple votes - as many as the user has to give!
+		$currentVote = null; // MicroPostVote::get()->filter(array('UserID' => $member->ID, 'PostID' => $post->ID))->first();
 		
 		if (!$currentVote) {
 			$currentVote = MicroPostVote::create();
-			$currentVote->UserID = $member;
+			$currentVote->UserID = $member->ID;
 			$currentVote->PostID = $post->ID;
 		}
 		
@@ -301,6 +324,9 @@ class MicroBlogService {
 			$post->write();
 		}, $post->Owner());
 		
+		$this->rewardMember($member, -1);
+		$post->RemainingVotes = $member->VotesToGive;
+
 		return $post;
 	}
 }

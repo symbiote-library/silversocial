@@ -10,7 +10,7 @@
 		
 	<% end_if %>
 	
-	<p>$Owner.Title</p>
+	<p>$Owner.Title (<span class="ownerVotes">$Owner.VotesToGive</span>)</p>
 	</div>
 <% else %>
 

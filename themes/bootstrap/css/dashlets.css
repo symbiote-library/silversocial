@@ -66,6 +66,10 @@ div.dashlet-title {
 	text-decoration: none;
 }
 
+.userFriend {
+	margin-bottom: 5px;
+}
+
 .userProfile {
 	text-align: center;
 }

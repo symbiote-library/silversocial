@@ -85,6 +85,7 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 			$result = array(
 				'response'		=> $post->toMap(),
 			);
+			$this->response->addHeader('Content-type', 'application/json');
 			return Convert::raw2json($result);
 		}
 		if (Director::is_ajax()) {

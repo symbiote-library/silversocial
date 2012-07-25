@@ -12,6 +12,7 @@ class PublicProfile extends DataObject {
 		'Surname' => 'Varchar',
 		'Email' => 'Varchar(256)', // See RFC 5321, Section 4.5.3.1.3.
 		'MemberID'	=> 'Int',
+		'Votes'		=> 'Int',
 	);
 	
 	public function canView($member=null) {

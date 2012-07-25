@@ -24,7 +24,7 @@ class Rateable extends DataExtension {
 	public function augmentSQL(SQLQuery &$query) {
 		$bound = '((Up + 1.9208) / (Up + Down) - ' . 
                    '1.96 * SQRT((Up * Down) / (Up + Down) + 0.9604) / ' .
-                   '(Up + Down)) / (1 + 3.8416 / (Up + Down))  / SQRT(HOUR(TIMEDIFF(NOW(), Created)))';
+                   '(Up + Down)) / (1 + 3.8416 / (Up + Down))  / SQRT(HOUR(TIMEDIFF(NOW(), Created)) + 1)';
 	
 		$query->selectField($bound, 'WilsonRating');
 	}

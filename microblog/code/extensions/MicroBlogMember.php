@@ -7,6 +7,10 @@
  */
 class MicroBlogMember extends DataExtension {
 	
+	public static $db = array(
+		'VotesToGive'		=> 'Int',
+	);
+	
 	public static $has_one = array(
 		'UploadFolder'		=> 'Folder',
 		'Profile'			=> 'PublicProfile',
@@ -57,6 +61,7 @@ class MicroBlogMember extends DataExtension {
 		$profile->Surname = $this->owner->Surname;
 		$profile->Email = $this->owner->Email;
 		$profile->MemberID = $this->owner->ID;
+		$profile->Votes = $this->owner->VotesToGive;
 		$profile->write();
 	}
 	
@@ -74,6 +79,10 @@ class MicroBlogMember extends DataExtension {
 	
 	public function canView() {
 		return true;
+	}
+	
+	public function canVote() {
+		return $this->VotesToGive > 0;
 	}
 	
 	public function memberFolder() {
