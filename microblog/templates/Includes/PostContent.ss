@@ -2,9 +2,7 @@
 	<% _t('MicroPost.DELETED', '[deleted]') %>
 <% else %>
 
-	<p class="posterInfo">
-		<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr> by <a href="$Owner.Link">$Owner.Title</a>
-	</p>
+	
 	<% if Attachment %> 
 		<% if $Attachment.ClassName == 'Image' %>
 			<a href="$Attachment.Link" target="_blank" title="Download attached file">$Attachment.MaxWidth(450)</a>

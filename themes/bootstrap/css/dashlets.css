@@ -24,10 +24,22 @@ div.TimelineDashlet textarea[name=Content].expanded-content {
 
 div.microPost {
 	padding: 10px;
-	border-bottom: 1px dotted #ccc;
+}
+
+div.postImage {
+	float: left; 
+	margin-left: -60px;
+}
+
+div.postImage img {
+	border-radius: 5px;
 }
 
 div.microPostContent {
+	background: #E8EBF2;
+}
+
+div.postContent {
 	border-radius: 10px;
 	background: #fff;
 	padding: 10px;
@@ -78,4 +90,23 @@ div.codesnippet {
 	background-color: #efefef;
 	border: 1px dashed #ccc;
 	padding: 10px;
+}
+
+body {
+	background-color: #E8EBF2;
+}
+
+.navbar {
+	background-color: #fff;
+}
+span.message.required {
+	color: #771919;
+}
+
+div.TimelineDashlet {
+	background-color: #E8EBF2;
+}
+
+abbr.postTime {
+	margin-left: 20px;
 }

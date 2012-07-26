@@ -12,7 +12,8 @@ class MicroPost extends DataObject {
 		'OriginalLink'	=> 'Varchar',
 		'IsOembed'		=> 'Boolean',
 		'Deleted'		=> 'Boolean',
-
+		'ThreadID'		=> 'Int',
+		'NumReplies'	=> 'Int',
 	);
 
 	public static $has_one = array(
@@ -20,13 +21,14 @@ class MicroPost extends DataObject {
 		'Parent'		=> 'MicroPost',
 		'Attachment'	=> 'File',
 	);
-	
+
 	public static $has_many = array(
 		'Replies'		=> 'MicroPost',
 	);
 	
 	public static $defaults = array(
-		'PublicAccess'		=> true
+		'PublicAccess'		=> true,
+		'InheritPerms'		=> false,
 	);
 	
 	public static $extensions = array(
@@ -68,7 +70,6 @@ class MicroPost extends DataObject {
 	 * @var MicroBlogService
 	 */
 	public $microBlogService;
-	
 
 	public function onBeforeWrite() {
 		parent::onBeforeWrite();
@@ -86,7 +87,6 @@ class MicroPost extends DataObject {
 				$this->socialGraphService->findPostContent($this, $url);
 			}
 		}
-			
 
 		$this->Author = Member::currentUser()->getTitle();
 	}
@@ -113,8 +113,6 @@ class MicroPost extends DataObject {
 			}
 		}
 	}
-	
-	
 	
 	/**
 	 * handles SiteTree::canAddChildren, useful for other types too

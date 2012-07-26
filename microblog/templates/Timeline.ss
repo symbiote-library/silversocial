@@ -2,13 +2,20 @@
 <% if Posts %>
 <% loop Posts %>
 	<div class="microPost" data-id="$ID" data-parent="$ParentID" id="post$ID" data-rating="$WilsonRating">
+		
+		<div class="postImage">
+			<a href="$Owner.Link"><img src="http://www.gravatar.com/avatar/{$Owner.gravatarHash}.jpg?s=40" /></a>
+		</div>
+		
 		<div class="microPostContent">
+			<div class="postContent">
 			<% include PostContent %>
-			
+			</div>
 			<p class="postOptions">
 				<span class="upCount">$Up</span> - <span class="downCount">$Down</span>
 				<a href="#" class="vote" data-dir="1" data-id="$ID">Up</a>
 				<a href="#" class="vote" data-dir="-1" data-id="$ID">Down</a>
+				
 				
 				<% if Top.ShowReplies %>
 					<a href="#" class="replyToPost">reply</a>
@@ -20,9 +27,10 @@
 					<% end_if %>
 				
 				<% else %>
-				<a href="$Owner.Link?post=$ID">replies</a>
-					
+				<a href="$Owner.Link?post=$ID">$NumReplies replies</a>
 				<% end_if %>
+				
+				<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr> by <a href="$Owner.Link">$Owner.Title</a>
 				
 			</p>
 			<!-- note that the action is left blank and filled in with JS because otherwise the

@@ -134,8 +134,7 @@ window.Microblog = window.Microblog || {}
 					if (data.response.Deleted == 0) {
 						$('#post' + id).fadeOut('slow');
 					} else {
-						$('#post' + id).find('.microPostContent').html(data.response.Content);
-						
+						$('#post' + id).find('.postContent').html(data.response.Content);
 					}
 				}
 				
@@ -248,7 +247,7 @@ window.Microblog = window.Microblog || {}
 					return true;
 				}
 			})
-			
+
 			$('#Form_PostForm').entwine({
 				onmatch: function () {
 					this.ajaxForm(function (data) {

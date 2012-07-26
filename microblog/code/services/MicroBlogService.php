@@ -67,17 +67,35 @@ class MicroBlogService {
 			$parent = $this->dataService->microPostById($parentId);
 			if ($parent) {
 				$post->ParentID = $parentId;
+				$post->ThreadID = $parent->ThreadID;
 			}
 		}
 
 		$post->write();
+		
+		// set its thread ID
+		if (!$post->ParentID) {
+			$post->ThreadID = $post->ID;
+			$post->write();
+		}
+		
+		if ($post->ID != $post->ThreadID) {
+			$thread = $this->dataService->microPostById($post->ThreadID);
+			if ($thread) {
+				$owner = $thread->Owner();
+				$this->transactionManager->run(function () use ($post, $thread) {
+					$thread->NumReplies += 1;
+					$thread->write();
+				}, $owner);
+			}
+		}
 
 		$this->rewardMember($member, 3);
 		$post->RemainingVotes = $member->VotesToGive;
 
 		return $post;
 	}
-	
+
 	/**
 	 * Reward a member with a number of votes to be given
 	 * @param type $member
@@ -282,7 +300,7 @@ class MicroBlogService {
 		if ($post->checkPerm('Delete')) {
 			$post->delete();
 		}
-		
+
 		return $post;
 	}
 	
