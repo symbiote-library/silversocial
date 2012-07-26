@@ -63,13 +63,23 @@ class Page_Controller extends ContentController {
 	public function MemberDetails() {
 		$m = Member::currentUser();
 		if ($m) {
-			return Convert::raw2json(array(
+			return Varchar::create_field('Varchar', Convert::raw2json(array(
 				'Title'			=> $m->getTitle(),
 				'FirstName'		=> $m->FirstName,
 				'Surname'		=> $m->Surname,
-				'ID'			=> $m->ID
-			));
+				'ID'			=> $m->ID,
+				'something'		=> "wi'th",
+			)));
 		}
-		
+	}
+
+	public function RegisterForm() {
+		if (!Member::currentUser()) {
+			$profile = RestrictedMemberProfilePage::get()->first();
+			if ($profile) {
+				$ctl = RestrictedMemberProfilePage_Controller::create($profile);
+				return $ctl->RegisterForm();
+			}
+		}
 	}
 }

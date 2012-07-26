@@ -11,7 +11,7 @@
  *
  * @package silverstripe-memberprofiles
  */
-class MemberProfilePage extends Page implements PermissionProvider {
+class MemberProfilePage extends Page {
 
 	public static $db = array (
 		'ProfileTitle'             => 'Varchar(255)',

@@ -151,7 +151,12 @@ window.Microblog = window.Microblog || {}
 			
 			return SSWebServices.post('microBlog', 'vote', params, function (data) {
 				if (data && data.response) {
-					$('span.ownerVotes').text(data.response.RemainingVotes).effect("highlight", {}, 2000);
+					$('span.ownerVotes').each(function () {
+						if ($(this).attr('data-id') == Microblog.Member.ID) {
+							$(this).text(data.response.RemainingVotes).effect("highlight", {}, 2000);
+						}
+					})
+					
 				}
 			})
 		};
@@ -228,9 +233,13 @@ window.Microblog = window.Microblog || {}
 						$('form.replyForm').find('textarea').removeClass('expanded-content').val('');
 						Microblog.Timeline.refresh();
 						if (data && data.response) {
-							$('span.ownerVotes').text(data.response.RemainingVotes).effect("highlight", {}, 2000);
+							$('span.ownerVotes').each(function () {
+								if ($(this).attr('data-id') == Microblog.Member.ID) {
+									$(this).text(data.response.RemainingVotes).effect("highlight", {}, 2000);
+								}
+							})
 						}
-						
+
 						$('form.replyForm').find('input[name=action_savepost]').removeAttr('disabled');
 					})
 				},
@@ -242,10 +251,17 @@ window.Microblog = window.Microblog || {}
 			
 			$('#Form_PostForm').entwine({
 				onmatch: function () {
-					this.ajaxForm(function (done) {
+					this.ajaxForm(function (data) {
 						$('#Form_PostForm').find('textarea').removeClass('expanded-content').val('');
 						$('#Form_PostForm').find('input[name=action_savepost]').removeAttr('disabled');
 						Microblog.Timeline.refresh();
+						if (data && data.response) {
+							$('span.ownerVotes').each(function () {
+								if ($(this).attr('data-id') == Microblog.Member.ID) {
+									$(this).text(data.response.RemainingVotes).effect("highlight", {}, 2000);
+								}
+							})
+						}
 					})
 				},
 				onsubmit: function () {

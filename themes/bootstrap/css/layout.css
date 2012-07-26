@@ -31,3 +31,7 @@ ul.facetCrumbs {
 ul.facetCrumbs li {
 	display: inline;
 }
+
+span.message.required {
+	color: #771919;
+}

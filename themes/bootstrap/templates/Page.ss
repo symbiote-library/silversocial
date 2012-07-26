@@ -32,6 +32,8 @@
   </head>
 
   <body>
+	  
+	  <input type="hidden" id="MemberDetails" data-member='$MemberDetails.ATT' />
 
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
