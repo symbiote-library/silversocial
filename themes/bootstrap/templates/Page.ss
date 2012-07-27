@@ -41,26 +41,26 @@
       <!-- Uncomment to enable search -->
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
           </a>
           <a class="brand" href="">$SiteConfig.Title</a>
 	  <% if Menu(1) %>
           <div class="nav-collapse">
             <ul class="nav">
-              <% control Menu(1) %>
-              <li class="$LinkingMode"><a href="$Link" title="Go to $Title">$MenuTitle</a></li>
-              <% end_control %>
-            </ul>
-          </div><!--/.nav-collapse -->
-		  <ul class="nav pull-right">
-			  <li>
+              <li>
 			  <% if CurrentMember %>
 			  <a href="Security/logout">logout</a>
 			  <% else %>
 			  <a href="Security/login?BackURL=">login</a>
 			  <% end_if %>
 			  </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+		  <ul class="nav pull-right">
+			  
+			  <% control Menu(1) %>
+              <li class="$LinkingMode"><a href="$Link" title="Go to $Title">$MenuTitle</a></li>
+              <% end_control %>
+			  
 		  </ul>
           <% end_if %>
         </div>

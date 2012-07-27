@@ -36,7 +36,7 @@ div.postImage img {
 }
 
 div.microPostContent {
-	background: #E8EBF2;
+	background: transparent;
 }
 
 div.postContent {
@@ -93,7 +93,7 @@ div.codesnippet {
 }
 
 body {
-	background-color: #E8EBF2;
+	background-color: #EFEDE6;
 }
 
 .navbar {
@@ -104,7 +104,8 @@ span.message.required {
 }
 
 div.TimelineDashlet {
-	background-color: #E8EBF2;
+	background-color: transparent;
+	border: none;
 }
 
 abbr.postTime {
