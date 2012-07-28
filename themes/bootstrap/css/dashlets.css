@@ -1,3 +1,12 @@
+a {
+	text-decoration: none;
+	color: #4444ff;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #0000ff;
+}
 
 div.TimelineDashlet div.postForm > form {
 	padding: 10px;
@@ -82,6 +91,11 @@ div.dashlet-title {
 	margin-bottom: 5px;
 }
 
+.userFriend a.deleteFriend {
+	float: right;
+	cursor: pointer;
+}
+
 .userProfile {
 	text-align: center;
 }
@@ -111,3 +125,4 @@ div.TimelineDashlet {
 abbr.postTime {
 	margin-left: 20px;
 }
+

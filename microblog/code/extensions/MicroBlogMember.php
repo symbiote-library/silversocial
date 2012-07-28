@@ -42,9 +42,9 @@ class MicroBlogMember extends DataExtension {
 		if (!$this->owner->ID) {
 			$this->owner->InheritPerms = true;
 		}
-		
+
 		$changed = $this->owner->isChanged('FirstName') || $this->owner->isChanged('Surname') || $this->owner->isChanged('Email');
-		
+
 		if ($this->owner->ID && !$this->owner->ProfileID) {
 			$profile = PublicProfile::create();
 			$this->syncProfile($profile);
@@ -63,6 +63,15 @@ class MicroBlogMember extends DataExtension {
 		$profile->MemberID = $this->owner->ID;
 		$profile->Votes = $this->owner->VotesToGive;
 		$profile->write();
+	}
+	
+	public function publicProfile() {
+		if ($this->owner->ID && !$this->owner->ProfileID) {
+			$profile = PublicProfile::create();
+			$this->syncProfile($profile);
+			$this->owner->ProfileID = $profile->ID;
+		}
+		return $this->owner->Profile();
 	}
 	
 	public function permissionSources() {

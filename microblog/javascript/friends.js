@@ -14,14 +14,28 @@
 		$('input.addFriendButton').entwine({
 			onclick: function () {
 				var params = {
-					'memberType': 'Member',
+					'memberType': 'PublicProfile',
 					'memberID': $(this).parents('div.FriendsDashlet').find('input[name=MemberID]').val(),
-					'followerType': 'Member',
+					'followerType': 'PublicProfile',
 					'followerID': $(this).attr('data-id')
 				};
 
 				SSWebServices.post('microBlog', 'addFriendship', params, function (data) {
-					console.log(data);
+					
+				})
+			}
+		})
+		
+		$('a.deleteFriend').entwine({
+			onclick: function () {
+				var params = {
+					'relationshipType':		'Friendship',
+					'relationshipID':		$(this).attr('data-id')
+				};
+				
+				var _this = $(this);
+				SSWebServices.post('microBlog', 'removeFriendship', params, function (data) {
+					_this.parent().fadeOut();
 				})
 			}
 		})

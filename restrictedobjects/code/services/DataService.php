@@ -98,7 +98,7 @@ class DataService {
 			return $item;
 		}
 		
-		if ($item && $item->canView()) {
+		if ($item && !$item->hasExtension('Restrictable') && $item->canView()) {
 			return $item;
 		}
 	}

@@ -7,7 +7,6 @@
 class FriendsDashlet extends Dashlet {
 	public static $title = "Friends";
 	
-	
 }
 
 class FriendsDashlet_Controller extends Dashlet_Controller {
@@ -32,7 +31,6 @@ class FriendsDashlet_Controller extends Dashlet_Controller {
 		);
 		
 		$actions = new FieldList(new FormAction('find', _t('MicroBlog.GO', 'Go')));
-		
 		$form = new Form($this, 'FriendSearchForm', $fields, $actions);
 		
 		return $form;

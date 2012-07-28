@@ -151,11 +151,10 @@ window.Microblog = window.Microblog || {}
 			return SSWebServices.post('microBlog', 'vote', params, function (data) {
 				if (data && data.response) {
 					$('span.ownerVotes').each(function () {
-						if ($(this).attr('data-id') == Microblog.Member.ID) {
+						if ($(this).attr('data-id') == Microblog.Member.MemberID) {
 							$(this).text(data.response.RemainingVotes).effect("highlight", {}, 2000);
 						}
 					})
-					
 				}
 			})
 		};
@@ -233,7 +232,7 @@ window.Microblog = window.Microblog || {}
 						Microblog.Timeline.refresh();
 						if (data && data.response) {
 							$('span.ownerVotes').each(function () {
-								if ($(this).attr('data-id') == Microblog.Member.ID) {
+								if ($(this).attr('data-id') == Microblog.Member.MemberID) {
 									$(this).text(data.response.RemainingVotes).effect("highlight", {}, 2000);
 								}
 							})
@@ -256,7 +255,7 @@ window.Microblog = window.Microblog || {}
 						Microblog.Timeline.refresh();
 						if (data && data.response) {
 							$('span.ownerVotes').each(function () {
-								if ($(this).attr('data-id') == Microblog.Member.ID) {
+								if ($(this).attr('data-id') == Microblog.Member.MemberID) {
 									$(this).text(data.response.RemainingVotes).effect("highlight", {}, 2000);
 								}
 							})

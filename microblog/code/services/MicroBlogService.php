@@ -39,6 +39,7 @@ class MicroBlogService {
 			'getStatusUpdates'	=> 'GET',
 			'getTimeline'		=> 'GET',
 			'addFriendship'		=> 'POST',
+			'removeFriendship'	=> 'POST',
 		);
 	}
 	
@@ -142,14 +143,14 @@ class MicroBlogService {
 		$number = (int) $number;
 		$userIds = array();
 		if ($following) {
-			$userIds = $following->map('ID', 'ID');
+			$userIds = $following->map('OtherID', 'OtherID');
 			$userIds = $userIds->toArray();
 		}
 
 		$userIds[] = $member->ID;
 		
 		$filter = array(
-			'OwnerID'				=> $userIds, 
+			'OwnerID' => $userIds, 
 		);
 		
 		return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $number);
@@ -241,7 +242,7 @@ class MicroBlogService {
 			throw new PermissionDeniedException('Read', 'Cannot read those users');
 		}
 
-		if (!$member->ID == $this->securityContext->getMember()->ID) {
+		if ($member->MemberID != $this->securityContext->getMember()->ID) {
 			throw new PermissionDeniedException('Write', 'Cannot create a friendship for that user');
 		}
 
@@ -260,9 +261,18 @@ class MicroBlogService {
 		$friendship->OtherID = $follower->ID;
 		
 		$friendship->write();
-		
-		
+
 		return $friendship;
+	}
+	
+	/**
+	 * Remove a friendship object
+	 * @param DataObject $relationship 
+	 */
+	public function removeFriendship(DataObject $relationship) {
+		if ($relationship && $relationship->canDelete()) {
+			$relationship->delete();
+		}
 	}
 	
 	/** 
@@ -275,9 +285,11 @@ class MicroBlogService {
 		if (!$member) {
 			return;
 		}
-		$list = DataList::create('Member')
-				->innerJoin('Friendship', '"Friendship"."OtherID" = "Member"."ID"')
-				->filter(array('InitiatorID' => $member->ID));
+
+//		$list = DataList::create('Member')
+//				->innerJoin('Friendship', '"Friendship"."OtherID" = "Member"."ID"')
+//				->filter(array('InitiatorID' => $member->ID));
+		$list = DataList::create('Friendship')->filter(array('InitiatorID' => $member->Profile()->ID));
 		return $list;
 	}
 	
