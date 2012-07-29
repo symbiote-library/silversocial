@@ -95,7 +95,7 @@ class MicroPost extends DataObject {
 				$this->socialGraphService->findPostContent($this, $url);
 			}
 		}
-		
+
 		if (!$this->OwnerProfileID) {
 			$this->OwnerProfileID = $member->ProfileID;
 			$this->Author = $this->securityContext->getMember()->getTitle();

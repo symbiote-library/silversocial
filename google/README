@@ -1,0 +1,19 @@
+====================================
+  Google Authentication Module 1.1
+         For SilverStripe
+====================================
+Developed and maintained by RentBox
+ support@rentbox.co.nz/@rentboxapp
+====================================
+
+Installation:
+- Extract google folder to your site root
+- Run /dev/build
+
+This adds two extra fields to the Member table, GoogleIdentity and GoogleName.
+OAuth tokens *are not* requested. You can not use this module for communicating
+with Google beyond the sign in process.
+
+This module adds a button to MemberFormFields, but not FrontendField. You can
+add your own button as well. For an example of how to do so, have a look at
+GoogleIdentifier, google.js and the three related methods in GoogleCallback.

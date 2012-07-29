@@ -126,3 +126,7 @@ abbr.postTime {
 	margin-left: 20px;
 }
 
+input[type=image] {
+	width: auto;
+	height: auto;
+}
