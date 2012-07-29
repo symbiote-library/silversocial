@@ -119,7 +119,7 @@ class MicroBlogService {
 	public function getStatusUpdates(DataObject $member, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
 		if ($member) {
 			$number = (int) $number;
-			$userIds[] = $member->ID;
+			$userIds[] = $member->ProfileID;
 			$filter = array(
 				'ThreadOwnerID'		=> $userIds, 
 			);
@@ -140,6 +140,7 @@ class MicroBlogService {
 	public function getTimeline(DataObject $member, $sortBy = 'ID',  $since = 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
 		$following = $this->friendsList($member);
 
+		// TODO Following points to a list of Profile IDs, NOT user ids.
 		$number = (int) $number;
 		$userIds = array();
 		if ($following) {
@@ -147,10 +148,10 @@ class MicroBlogService {
 			$userIds = $userIds->toArray();
 		}
 
-		$userIds[] = $member->ID;
+		$userIds[] = $member->ProfileID;
 		
 		$filter = array(
-			'OwnerID' => $userIds, 
+			'OwnerProfileID' => $userIds, 
 		);
 		
 		return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $number);

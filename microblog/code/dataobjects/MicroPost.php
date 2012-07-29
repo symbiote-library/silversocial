@@ -17,7 +17,8 @@ class MicroPost extends DataObject {
 	);
 
 	public static $has_one = array(
-		'ThreadOwner'	=> 'Member',
+		'ThreadOwner'	=> 'PublicProfile',
+		'OwnerProfile'	=> 'PublicProfile',
 		'Parent'		=> 'MicroPost',
 		'Attachment'	=> 'File',
 	);
@@ -50,6 +51,7 @@ class MicroPost extends DataObject {
 	public static $dependencies = array(
 		'socialGraphService'	=> '%$SocialGraphService',
 		'microBlogService'		=> '%$MicroBlogService',
+		'securityContext'		=> '%$SecurityContext',
 	);
 
 	/**
@@ -70,14 +72,20 @@ class MicroPost extends DataObject {
 	 * @var MicroBlogService
 	 */
 	public $microBlogService;
+	
+	/**
+	 * @var SecurityContext
+	 */
+	public $securityContext;
 
 	public function onBeforeWrite() {
 		parent::onBeforeWrite();
+		$member = $this->securityContext->getMember();
 		if (!$this->ThreadOwnerID) {
 			if ($this->ParentID) {
 				$this->ThreadOwnerID = $this->Parent()->ThreadOwnerID;
 			} else {
-				$this->ThreadOwnerID = Member::currentUserID();
+				$this->ThreadOwnerID = $member->ProfileID;
 			}
 		}
 
@@ -87,16 +95,19 @@ class MicroPost extends DataObject {
 				$this->socialGraphService->findPostContent($this, $url);
 			}
 		}
-
-		$this->Author = Member::currentUser()->getTitle();
+		
+		if (!$this->OwnerProfileID) {
+			$this->OwnerProfileID = $member->ProfileID;
+			$this->Author = $this->securityContext->getMember()->getTitle();
+		}
 	}
-	
+
 	public function IsImage() {
 		$url = filter_var($this->Content, FILTER_VALIDATE_URL);
 		$pattern = '!^https?://([a-z0-9\-\.\/\_]+\.(?:jpe?g|png|gif))$!Ui';
 		return strlen($url) && preg_match($pattern, $url);
 	}
-	
+
 	/**
 	 * When 'deleting' an object, we actually just remove all its content 
 	 */
@@ -113,7 +124,7 @@ class MicroPost extends DataObject {
 			}
 		}
 	}
-	
+
 	/**
 	 * handles SiteTree::canAddChildren, useful for other types too
 	 */
@@ -138,7 +149,7 @@ class MicroPost extends DataObject {
 		
 		return $this->Owner()->Link();
 	}
-	
+
 	public function Posts() {
 		return $this->microBlogService->getRepliesTo($this);
 	}
