@@ -164,4 +164,89 @@ class SilvertwitSecurity extends Security {
 			$this->redirect('Security/lostpassword');
 		}
 	}
+	
+	/**
+	 * Change the password
+	 *
+	 * @param array $data The user submitted data
+	 */
+	function doChangePassword(array $data) {
+		if($member = Member::currentUser()) {
+			// The user was logged in, check the current password
+			if(empty($data['OldPassword']) || !$member->checkPassword($data['OldPassword'])->valid()) {
+				$this->clearMessage();
+				$this->sessionMessage(
+					_t('Member.ERRORPASSWORDNOTMATCH', "Your current password does not match, please try again"), 
+					"bad"
+				);
+				$this->redirectBack();
+				return;
+			}
+		}
+
+		if(!$member) {
+			if(Session::get('AutoLoginHash')) {
+				$member = Member::member_from_autologinhash(Session::get('AutoLoginHash'));
+			}
+
+			// The user is not logged in and no valid auto login hash is available
+			if(!$member) {
+				Session::clear('AutoLoginHash');
+				$this->redirect('Security/login');
+				return;
+			}
+		}
+
+		// Check the new password
+		if(empty($data['NewPassword1'])) {
+			$this->clearMessage();
+			$this->sessionMessage(
+				_t('Member.EMPTYNEWPASSWORD', "The new password can't be empty, please try again"),
+				"bad");
+			$this->redirectBack();
+			return;
+		}
+		else if($data['NewPassword1'] == $data['NewPassword2']) {
+			Restrictable::set_enabled(false);
+			$isValid = $member->changePassword($data['NewPassword1']);
+			Restrictable::set_enabled(true);
+			if($isValid->valid()) {
+				$member->logIn();
+				
+				// TODO Add confirmation message to login redirect
+				Session::clear('AutoLoginHash');
+				
+				if (isset($_REQUEST['BackURL']) 
+					&& $_REQUEST['BackURL'] 
+					// absolute redirection URLs may cause spoofing 
+					&& Director::is_site_url($_REQUEST['BackURL'])
+				) {
+					$this->redirect($_REQUEST['BackURL']);
+				}
+				else {
+					// Redirect to default location - the login form saying "You are logged in as..."
+					$redirectURL = HTTP::setGetVar('BackURL', Director::absoluteBaseURL(), $this->Link('login'));
+					$this->redirect($redirectURL);
+				}
+			} else {
+				$this->clearMessage();
+				$this->sessionMessage(
+					_t(
+						'Member.INVALIDNEWPASSWORD', 
+						"We couldn't accept that password: {password}",
+						array('password' => nl2br("\n".$isValid->starredList()))
+					), 
+					"bad"
+				);
+				$this->redirectBack();
+			}
+
+		} else {
+			$this->clearMessage();
+			$this->sessionMessage(
+				_t('Member.ERRORNEWPASSWORD', "You have entered your new password differently, try again"),
+				"bad");
+			$this->redirectBack();
+		}
+	}
 }
