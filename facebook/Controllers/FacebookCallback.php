@@ -232,12 +232,15 @@ class FacebookCallback extends ThirdPartyAuthController {
 					}
 				}
 			}
-			
+
 			if($u->FacebookName != $data->name) {
-				$u->FacebookName = $data->name;
-				$u->FacebookID = $user;
-				$u->write();
+				singleton('TransactionManager')->run(function () use ($u, $data, $user) {
+					$u->FacebookName = $data->name;
+					$u->FacebookID = $user;
+					$u->write();
+				}, $u);
 			}
+
 			$u->login(Session::get('SessionForms.FacebookLoginForm.Remember'));
 		}
 		Session::clear('SessionForms.FacebookLoginForm.Remember');

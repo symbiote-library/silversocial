@@ -16,6 +16,6 @@ DashboardController::set_allowed_dashlets(array(
 	'FriendsDashlet'
 ));
 
-DashboardUser::$default_dashlets = array(array('TimelineDashlet'), array('UserProfileDashlet'));
+DashboardUser::$default_dashlets = array(array('TimelineDashlet'), array('UserProfileDashlet', 'FriendsDashlet'));
 
 BBCodeParser::enable_smilies(true);

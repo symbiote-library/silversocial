@@ -163,10 +163,13 @@ class GoogleCallback extends ThirdPartyAuthController {
 			}
 		}
 		if($u->GoogleName != $name) {
-			$u->GoogleName = $name;
-			$u->GoogleIdentity = $id;
-			$u->write();
+			singleton('TransactionManager')->run(function () use ($u, $name, $id) {
+				$u->GoogleName = $name;
+				$u->GoogleIdentity = $id;
+				$u->write();
+			}, $u);
 		}
+
 		$u->login(Session::get('SessionForms.GoogleLoginForm.Remember'));
 		Session::clear('SessionForms.GoogleLoginForm.Remember');
 		$backURL = Session::get('BackURL');
