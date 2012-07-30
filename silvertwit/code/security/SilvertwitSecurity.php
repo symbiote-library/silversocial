@@ -103,4 +103,65 @@ class SilvertwitSecurity extends Security {
 
 		return '';
 	}
+	
+	/**
+	 * Factory method for the lost password form
+	 *
+	 * @return Form Returns the lost password form
+	 */
+	public function LostPasswordForm() {
+		return MemberLoginForm::create(			$this,
+			'LostPasswordForm',
+			new FieldList(
+				new EmailField('Email', _t('Member.EMAIL', 'Email'))
+			),
+			new FieldList(
+				new FormAction(
+					'forgotPassword',
+					_t('Security.BUTTONSEND', 'Send me the password reset link')
+				)
+			),
+			false
+		);
+	}
+	
+	/**
+	 * Forgot password form handler method
+	 *
+	 * This method is called when the user clicks on "I've lost my password"
+	 *
+	 * @param array $data Submitted data
+	 */
+	function forgotPassword($data) {
+		$SQL_data = Convert::raw2sql($data);
+		$SQL_email = $SQL_data['Email'];
+		$member = DataObject::get_one('Member', "\"Email\" = '{$SQL_email}'");
+
+		if($member) {
+			Restrictable::set_enabled(false);
+			$member->generateAutologinHash();
+
+			$e = Member_ForgotPasswordEmail::create();
+			$e->populateTemplate($member);
+			$e->populateTemplate(array(
+				'PasswordResetLink' => Security::getPasswordResetLink($member->AutoLoginHash)
+			));
+			$e->setTo($member->Email);
+			$e->send();
+			Restrictable::set_enabled(true);
+
+			$this->redirect('Security/passwordsent/' . urlencode($data['Email']));
+		} elseif($data['Email']) {
+			// Avoid information disclosure by displaying the same status,
+			// regardless wether the email address actually exists
+			$this->redirect('Security/passwordsent/' . urlencode($data['Email']));
+		} else {
+			$this->sessionMessage(
+				_t('Member.ENTEREMAIL', 'Please enter an email address to get a password reset link.'),
+				'bad'
+			);
+			
+			$this->redirect('Security/lostpassword');
+		}
+	}
 }

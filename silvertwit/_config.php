@@ -1,7 +1,7 @@
 <?php
 
 Director::addRules(100, array(
-	'Security/$Action' => 'SilvertwitSecurity',
+	'Security/$Action/$ID' => 'SilvertwitSecurity',
 ));
 
 ThirdPartyAuthController::$default_group = 'Members';

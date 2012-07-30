@@ -6,9 +6,11 @@
 	<h3>Login now</h3>
     $Form
 	
+	<% if CurrentMember %>
+	<% else %>
 	$Facebook
-	
 	$Google
+	<% end_if %>
 	
 	</div>
 	
