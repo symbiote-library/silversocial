@@ -91,10 +91,40 @@ class MicroBlogService {
 			}
 		}
 
+		$this->extractTags($post);
+
 		$this->rewardMember($member, 3);
 		$post->RemainingVotes = $member->VotesToGive;
 
 		return $post;
+	}
+
+	/**
+	 * Extracts tags from an object's content where the tag is preceded by a #
+	 * 
+	 * @param MicroPost $object 
+	 * 
+	 */
+	public function extractTags(DataObject $object, $field = 'Content') {
+		if (!$object->hasExtension('TaggableExtension')) {
+			return array();
+		}
+		$content = $object->$field;
+
+		if (preg_match_all('/#([a-z0-9_-]+)/is', $content, $matches)) {
+			$object->Tags()->removeAll();
+			foreach ($matches[1] as $tag) {
+				$existing = DataList::create('Tag')->filter(array('Title' => $tag))->first();
+				if (!$existing) {
+					$existing = Tag::create();
+					$existing->Title = $tag;
+					$existing->write();
+				}
+				$object->Tags()->add($existing);
+			}
+		}
+		
+		return $object->Tags();
 	}
 
 	/**

@@ -34,7 +34,8 @@ class MicroPost extends DataObject {
 	
 	public static $extensions = array(
 		'Rateable',
-		'Restrictable'
+		'Restrictable',
+		'TaggableExtension',
 	);
 	
 	public static $summary_fields = array(

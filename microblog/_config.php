@@ -13,7 +13,8 @@ Object::add_extension('Image', 'MaximumSizeImageExtension');
 DashboardController::set_allowed_dashlets(array(
 	'TimelineDashlet',
 	'UserProfileDashlet',
-	'FriendsDashlet'
+	'FriendsDashlet',
+	'TagsDashlet'
 ));
 
 DashboardUser::$default_dashlets = array(array('TimelineDashlet'), array('UserProfileDashlet', 'FriendsDashlet'));

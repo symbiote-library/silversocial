@@ -36,6 +36,13 @@ class SocialGraphService {
 		return false;
 	}
 	
+	/**
+	 * Analyse a post and see if there's particular content that should be extracted
+	 * 
+	 * @param string $post
+	 * @param string $url
+	 * @return type 
+	 */
 	public function findPostContent($post, $url) {
 		
 		// let's check for stuff
@@ -61,4 +68,6 @@ class SocialGraphService {
 
 		return $post;
 	}
+	
+	
 }
