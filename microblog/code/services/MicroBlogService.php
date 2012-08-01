@@ -253,8 +253,29 @@ class MicroBlogService {
 		
 		$offset = ($page - 1) * $number;
 		$limit = $number ? $offset . ', ' . $number : '';
+		
+		$join = null;
+		
+		if (count($tags)) {
+			array_walk($tags, function (&$item) {
+				$item = Convert::raw2sql($item);
+			});
+			
+			
+			$join = array(
+				array(
+					'table'		=> 'MicroPost_Tags',
+					'clause'	=> 'MicroPost_Tags.MicroPostID = MicroPost.ID'
+				),
+				array(
+					'table'		=> 'Tag',
+					'clause'	=> 'MicroPost_Tags.TagID = Tag.ID',
+					'where'		=> '"Tag"."Title" IN (\''.  implode('\',\'', $tags) .'\')'
+				)
+			);
+		}
 
-		$posts = $this->dataService->getAllMicroPost($filter, $sort, '', $limit);
+		$posts = $this->dataService->getAllMicroPost($filter, $sort, $join, $limit);
 		return $posts;
 	}
 	

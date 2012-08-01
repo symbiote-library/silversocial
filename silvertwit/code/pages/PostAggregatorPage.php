@@ -20,6 +20,7 @@ class PostAggregatorPage_Controller extends Page_Controller {
 	 */
 	public $microBlogService;
 	
+	protected $tags = '';
 	
 	public function init() {
 		parent::init();
@@ -32,6 +33,8 @@ class PostAggregatorPage_Controller extends Page_Controller {
 		$since = $this->request->getVar('since');
 		$before = $this->request->getVar('before');
 		$page = $this->request->getVar('page');
+		
+		$tags = $this->request->getVar('tags') ? $this->request->getVar('tags') : $this->tags;
 
 		if (strlen($page)) {
 			$before = array(
@@ -39,11 +42,18 @@ class PostAggregatorPage_Controller extends Page_Controller {
 			);
 		}
 		
-		$timeline = $this->microBlogService->getStatusUpdates(null, 'WilsonRating', $since, $before, !$replies);
+		if (strlen($tags)) {
+			$tags = explode(',', $tags);
+		} else {
+			$tags = array();
+		}
+		
+		$timeline = $this->microBlogService->getStatusUpdates(null, 'WilsonRating', $since, $before, !$replies, $tags);
 		return trim($this->customise(array('Posts' => $timeline, 'SortBy' => 'rating'))->renderWith('Timeline'));
 	}
 	
 	public function tag() {
-		
+		$this->tags = $this->getRequest()->param('ID');
+		return array();
 	}
 }

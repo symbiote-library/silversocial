@@ -136,7 +136,19 @@ class DataService {
 			$list->limit($limit[1], $limit[0]);
 		}
 		if ($join) {
-			$list->innerJoin($join);
+			if (isset($join['table'])) {
+				$join = array($join);
+			}
+			foreach ($join as $joinVal) {
+				$list->innerJoin($joinVal['table'], $joinVal['clause']);
+				if (isset($joinVal['where'])) {
+					$list->where($joinVal['where']);
+				}
+			}
+//			$list->innerJoin($join[0], $join[1]);
+//			if (isset($join[2])) {
+//				$list->where($join[2]);
+//			}
 		}
 		
 //		$query = $list->dataQuery(); // $dummy->extendedSQL($filter, $sort, $limit, $join);
