@@ -3,6 +3,6 @@
 
 <% if Tags %>
 <% loop Tags %>
-<p><a href="?tag=$Title.ATT">$Title</a> ($Number)</p>
+<p><a href="$Link">$Title</a> ($Number)</p>
 <% end_loop %>
 <% end_if %>

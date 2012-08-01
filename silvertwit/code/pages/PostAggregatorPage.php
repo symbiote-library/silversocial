@@ -31,7 +31,19 @@ class PostAggregatorPage_Controller extends Page_Controller {
 		$replies = (bool) $this->request->getVar('replies');
 		$since = $this->request->getVar('since');
 		$before = $this->request->getVar('before');
+		$page = $this->request->getVar('page');
+
+		if (strlen($page)) {
+			$before = array(
+				'Page'			=> $page,
+			);
+		}
+		
 		$timeline = $this->microBlogService->getStatusUpdates(null, 'WilsonRating', $since, $before, !$replies);
-		return trim($this->customise(array('Posts' => $timeline))->renderWith('Timeline'));
+		return trim($this->customise(array('Posts' => $timeline, 'SortBy' => 'rating'))->renderWith('Timeline'));
+	}
+	
+	public function tag() {
+		
 	}
 }

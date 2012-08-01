@@ -8,6 +8,12 @@ class TaggableExtension extends DataExtension {
 	public static $many_many = array(
 		'Tags'		=> 'Tag'
 	);
+	
+	public static $many_many_extraFields = array(
+		'Tags'	=> array(
+			'Tagged'	=> 'SS_Datetime',
+		)
+	);
 }
 
 class Tag extends DataObject {

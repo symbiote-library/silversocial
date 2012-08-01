@@ -102,6 +102,19 @@ class MicroPost extends DataObject {
 			$this->Author = $this->securityContext->getMember()->getTitle();
 		}
 	}
+	
+	/**
+	 * Handle the wilson rating specially 
+	 * 
+	 * @param type $field
+	 * @return string 
+	 */
+	public function hasOwnTableDatabaseField($field) {
+		if ($field == 'WilsonRating') {
+			return "Double";
+		}
+		return parent::hasOwnTableDatabaseField($field);
+	}
 
 	public function IsImage() {
 		$url = filter_var($this->Content, FILTER_VALIDATE_URL);
@@ -114,6 +127,7 @@ class MicroPost extends DataObject {
 	 */
 	public function delete() {
 		if ($this->checkPerm('Delete')) {
+			$this->Tags()->removeAll();
 			// if we have replies, we can't delete completely!
 			if ($this->Replies()->exists()) {
 				$this->Deleted = true;

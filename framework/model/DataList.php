@@ -406,7 +406,6 @@ class DataList extends ViewableData implements SS_List, SS_Filterable, SS_Sortab
 	 */
 	public function leftJoin($table, $onClause, $alias = null) {
 		$this->dataQuery->leftJoin($table, $onClause, $alias);
-		
 		return $this;
 	}
 

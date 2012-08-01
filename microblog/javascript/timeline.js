@@ -10,6 +10,8 @@ window.Microblog = window.Microblog || {}
 		var pendingUpdate = false;
 		var pendingLoad = false;
 		
+		var pagenum = 1;
+		
 		var postContainer = $('<div>');
 		
 		var loading = false;
@@ -57,15 +59,20 @@ window.Microblog = window.Microblog || {}
 			}
 
 			var earliest = -1;
-			
+			var rating = false;
 			$('div.microPost').each(function () {
+				if ($(this).attr('data-sortby') == 'rating') {
+					rating = true;
+				}
 				if ($(this).attr('data-id') < earliest || earliest == -1) {
 					earliest = $(this).attr('data-id');
 				}
 			})
 
 			if (earliest) {
-				pendingLoad = getPosts({before: earliest}, true).done(function () {
+				++pagenum;
+				var restrict = rating ? {page: pagenum} : {before: earliest};
+				pendingLoad = getPosts(restrict, true).done(function () {
 					pendingLoad = null;
 				});
 				return pendingLoad;

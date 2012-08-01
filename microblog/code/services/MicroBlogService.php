@@ -120,7 +120,7 @@ class MicroBlogService {
 					$existing->Title = $tag;
 					$existing->write();
 				}
-				$object->Tags()->add($existing);
+				$object->Tags()->add($existing, array('Tagged' => date('Y-m-d H:i:s')));
 			}
 		}
 		
@@ -146,16 +146,16 @@ class MicroBlogService {
 	 * @param type $beforeTime
 	 * @param type $number 
 	 */
-	public function getStatusUpdates(DataObject $member, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
+	public function getStatusUpdates(DataObject $member, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = true, $tags = array(), $number = 10) {
 		if ($member) {
 			$number = (int) $number;
 			$userIds[] = $member->ProfileID;
 			$filter = array(
 				'ThreadOwnerID'		=> $userIds, 
 			);
-			return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $number);
+			return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $number);
 		} else {
-			return $this->microPostList(array(), $sortBy, $since, $beforePost, $topLevelOnly, $number);
+			return $this->microPostList(array(), $sortBy, $since, $beforePost, $topLevelOnly, $tags, $number);
 		}
 	}
 
@@ -167,7 +167,7 @@ class MicroBlogService {
 	 * @param type $beforeTime
 	 * @param type $number 
 	 */
-	public function getTimeline(DataObject $member, $sortBy = 'ID',  $since = 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
+	public function getTimeline(DataObject $member, $sortBy = 'ID',  $since = 0, $beforePost = null, $topLevelOnly = true, $tags = array(), $number = 10) {
 		$following = $this->friendsList($member);
 
 		// TODO Following points to a list of Profile IDs, NOT user ids.
@@ -184,7 +184,7 @@ class MicroBlogService {
 			'OwnerProfileID' => $userIds, 
 		);
 		
-		return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $number);
+		return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $number);
 	}
 	
 	/**
@@ -198,12 +198,12 @@ class MicroBlogService {
 	 * 
 	 * @return DataList
 	 */
-	public function getRepliesTo(DataObject $to, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = false, $number = 10) {
+	public function getRepliesTo(DataObject $to, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = false, $tags = array(), $number = 10) {
 		$filter = array(
 			'ParentID'			=> $to->ID, 
 		);
 		
-		return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $number);
+		return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $number);
 	}
 	
 	/**
@@ -217,7 +217,7 @@ class MicroBlogService {
 	 * 
 	 * @return DataList 
 	 */
-	protected function microPostList($filter, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = true, $number = 10) {
+	protected function microPostList($filter, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = true, $tags = array(), $number = 10) {
 		if ($topLevelOnly) {
 			$filter['ParentID'] = '0';
 		}
@@ -227,18 +227,34 @@ class MicroBlogService {
 			$filter['ID:GreaterThan'] = $since;
 		}
 
+		$page = 1;
 		if ($beforePost) {
-			$filter['ID:LessThan']	= $beforePost;
-		}
-		
-		$canSort = array('ID', 'WilsonRating');
-		$sort = '"ID" DESC';
-		if (in_array($sortBy, $canSort)) {
-			$sort = '"' . $sortBy . '" DESC';
+			if (is_array($beforePost)) {
+				foreach ($beforePost as $field => $val) {
+					if ($field == 'Page') {
+						$page = (int) $val;
+					} else {
+						$filter[$field . ':LessThan'] = $val;
+					}
+				}
+			} else {
+				$filter['ID:LessThan']	= $beforePost;
+			}
 		}
 
-		// TODO sort by wilson rating WilsonRating
-		$posts = $this->dataService->getAllMicroPost($filter, $sort, '', '0, ' . $number);
+		$canSort = array('WilsonRating');
+		$sort = array();
+		if (in_array($sortBy, $canSort)) {
+			$sort[$sortBy] = 'DESC';
+		}
+
+		// final sort if none other specified
+		$sort['ID'] = 'DESC';
+		
+		$offset = ($page - 1) * $number;
+		$limit = $number ? $offset . ', ' . $number : '';
+
+		$posts = $this->dataService->getAllMicroPost($filter, $sort, '', $limit);
 		return $posts;
 	}
 	
@@ -380,10 +396,14 @@ class MicroBlogService {
 		$downList = $list->filter(array('PostID' => $post->ID, 'Direction' => -1));
 		$post->Down = $downList->count();
 		
+		$owner = $post->Owner();
+		if (!$post->OwnerID || !$owner || !$owner->exists()) {
+			$owner = Security::findAnAdministrator();
+		}
 		// write the post as the owner
 		$this->transactionManager->run(function () use ($post) {
 			$post->write();
-		}, $post->Owner());
+		}, $owner);
 		
 		$this->rewardMember($member, -1);
 		$post->RemainingVotes = $member->VotesToGive;
