@@ -126,42 +126,4 @@ class MicroBlogPage_Controller extends Page_Controller {
 		$id = (int) $this->request->param('ID');
 		return $id;
 	}
-
-	public function CanFollow() {
-		if (!$this->securityContext->getMember()) {
-			return false;
-		}
-
-		$viewing = $this->ViewingUserID();
-		if ($viewing && $viewing != $this->securityContext->getMember()->ID) {
-			// check if in the list of followers
-			$following = $this->securityContext->getMember()->Following();
-			if ($following) {
-				$exists = $following->find('ID', $viewing);
-				if ($exists) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-	
-	public function CanUnFollow() {
-		if (!$this->securityContext->getMember()) {
-			return false;
-		}
-
-		$viewing = $this->ViewingUserID();
-		if ($viewing && $viewing != $this->securityContext->getMember()->ID) {
-			// check if in the list of followers
-			$following = $this->securityContext->getMember()->Following();
-			if ($following) {
-				$exists = $following->find('ID', $viewing);
-				if ($exists) {
-					return true;
-				}
-			}
-		}
-	}
 }

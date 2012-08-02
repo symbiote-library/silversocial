@@ -8,18 +8,25 @@
 class MicroBlogMember extends DataExtension {
 	
 	public static $db = array(
-		'VotesToGive'		=> 'Int',
+		'DefaultPostPermission'		=> 'Varchar',
+		'VotesToGive'				=> 'Int',
 	);
-	
+
 	public static $has_one = array(
 		'UploadFolder'		=> 'Folder',
 		'Profile'			=> 'PublicProfile',
+		
+		// permission holders
+		'FriendsPermissions'	=> 'PermissionParent',
+
+		// where all our friends get added 
+		'FriendsGroup'			=> 'Group',
 	);
 	
 	public static $many_many = array(
 		'Following'			=> 'Member',
 	);
-	
+
 	public static $belongs_many_many = array(
 		'Followers'			=> 'Member',
 	);
@@ -53,6 +60,8 @@ class MicroBlogMember extends DataExtension {
 			$this->syncProfile($this->owner->Profile());
 		}
 		
+		$this->getGroupForFriends();
+		
 		$this->memberFolder();
 	}
 	
@@ -74,18 +83,14 @@ class MicroBlogMember extends DataExtension {
 		return $this->owner->Profile();
 	}
 	
+	/**
+	 * @TODO Validate that this is still needed? I think it should be able to be turfed by now...
+	 * @return type 
+	 */
 	public function permissionSources() {
-		return $this->owner->Groups();
+		// return $this->owner->Groups();
 	}
-	
-	public function follow($otherMember) {
-		$this->owner->Following()->add($otherMember);
-	}
-	
-	public function unfollow($otherMember) {
-		$this->owner->Following()->remove($otherMember);
-	}
-	
+
 	public function canView() {
 		return true;
 	}
@@ -101,8 +106,29 @@ class MicroBlogMember extends DataExtension {
 			$path = 'user-files/' . $name;
 			$this->owner->UploadFolderID = Folder::find_or_make($path)->ID;
 		}
-		
 		return $this->owner->UploadFolder();
+	}
+
+	/**
+	 * gets the group that this user's friends belong to 
+	 */
+	public function getGroupForFriends() {
+		if ($this->owner->FriendsGroupID) {
+			return $this->owner->FriendsGroup();
+		}
+
+		$title = $this->owner->Email . ' friends';
+		$group = DataList::create('Group')->filter(array('Title' => $title))->first();
+		if ($group && $group->exists()) {
+			$this->owner->FriendsGroupID = $group->ID;
+			return $group;
+		} else {
+			$group = Group::create();
+			$group->Title = $title;
+			$group->write();
+			$this->owner->FriendsGroupID = $group->ID;
+			return $group;
+		}
 	}
 	
 	public function toFilteredMap() {

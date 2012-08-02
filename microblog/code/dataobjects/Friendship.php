@@ -9,12 +9,16 @@
 class Friendship extends DataObject {
 	
 	public static $db = array(
-		'Status'			=> "Enum('Approved,Pending')",
+		'Status'			=> "Enum('Approved,Pending','Pending')",
 	);
 	
 	public static $has_one = array(
 		'Initiator'			=> 'PublicProfile',
 		'Other'				=> 'PublicProfile',
+	);
+	
+	public static $defaults = array(
+		'Status'			=> 'Pending',
 	);
 	
 	public function canView($member = null) {
@@ -25,7 +29,7 @@ class Friendship extends DataObject {
 		if (!$member) {
 			$member = Member::currentUser();
 		}
-		return $member->ID == $this->InitiatorID;
+		return $member->ProfileID == $this->InitiatorID;
 	}
 	
 	public function canDelete($member = null) {

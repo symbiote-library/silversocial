@@ -328,8 +328,23 @@ class MicroBlogService {
 		$friendship->InitiatorID = $member->ID;
 		$friendship->OtherID = $follower->ID;
 		
+		
+		// lets see if we have the reciprocal; if so, we can mark these as verified 
+		$reciprocal = DataList::create('Friendship')->filter(array(
+			'InitiatorID'		=> $follower->ID,
+			'OtherID'			=> $member->ID,
+		))->first();
+		
+		if ($reciprocal) {
+			$reciprocal->Status = 'Approved';
+			$reciprocal->write();
+			
+			$friendship->Status = 'Approved';
+			
+			// add to each others' groups
+		}
+		
 		$friendship->write();
-
 		return $friendship;
 	}
 	
@@ -340,6 +355,7 @@ class MicroBlogService {
 	public function removeFriendship(DataObject $relationship) {
 		if ($relationship && $relationship->canDelete()) {
 			$relationship->delete();
+			return $relationship;
 		}
 	}
 	

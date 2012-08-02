@@ -100,6 +100,10 @@ div.dashlet-title {
 	text-align: center;
 }
 
+div.settingsForm {
+	padding-left: 10px;
+}
+
 div.codesnippet {
 	background-color: #efefef;
 	border: 1px dashed #ccc;
@@ -129,4 +133,9 @@ abbr.postTime {
 input[type=image] {
 	width: auto;
 	height: auto;
+}
+
+select {
+	color: #000;
+	background-color: #ccc;
 }

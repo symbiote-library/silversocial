@@ -145,18 +145,8 @@ class DataService {
 					$list->where($joinVal['where']);
 				}
 			}
-//			$list->innerJoin($join[0], $join[1]);
-//			if (isset($join[2])) {
-//				$list->where($join[2]);
-//			}
 		}
 		
-//		$query = $list->dataQuery(); // $dummy->extendedSQL($filter, $sort, $limit, $join);
-//		
-//		$records = $query->execute();
-//		
-//		$ret = $this->buildDataObjectSet($records, $containerClass, $query, $dummy->class, $requiredPerm);
-//		if($ret) $ret->parseQueryLimit($query);
 		
 		$ret = $list->filterByCallback(function ($item) use ($requiredPerm) {
 			if ($item->hasExtension('Restrictable')) {

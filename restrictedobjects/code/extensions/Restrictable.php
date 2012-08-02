@@ -297,7 +297,7 @@ class Restrictable extends DataExtension {
 					unset($changed['OwnerID']);
 					$allowWrite = true;
 				}
-				
+
 				// don't allow write
 				if (!$allowWrite && !$this->checkPerm('Write')) {
 					throw new PermissionDeniedException('Write', 'You must have write permission to ' . $this->owner->ClassName . ' #' . $this->owner->ID);

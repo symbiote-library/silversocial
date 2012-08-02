@@ -17,5 +17,16 @@ Microblog.Member = {};
 				}
 			})
 		}
+		
+		$('form.ajaxsubmitted').entwine({
+			onmatch: function () {
+				$(this).ajaxForm({
+					success: function (data, status, jqxhr, form) {
+						form.html($(data).html());
+						form.find('input[type=submit]').effect('highlight')
+					}
+				});
+			}
+		})
 	})
 })(jQuery);

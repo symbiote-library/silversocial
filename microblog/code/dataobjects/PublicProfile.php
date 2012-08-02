@@ -15,6 +15,11 @@ class PublicProfile extends DataObject {
 		'Votes'		=> 'Int',
 	);
 	
+	public function Link() {
+		$microblog = DataObject::get_one('SiteDashboardPage', '"ParentID" = 0');
+		return $microblog->Link('board/main/' . $this->MemberID);
+	}
+
 	public function canView($member=null) {
 		return true;
 	}

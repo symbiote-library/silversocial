@@ -12,11 +12,11 @@ Object::add_extension('Image', 'MaximumSizeImageExtension');
 
 DashboardController::set_allowed_dashlets(array(
 	'TimelineDashlet',
-	'UserProfileDashlet',
+	'ProfileDashlet',
 	'FriendsDashlet',
 	'TagsDashlet'
 ));
 
-DashboardUser::$default_dashlets = array(array('TimelineDashlet'), array('UserProfileDashlet', 'FriendsDashlet'));
+DashboardUser::$default_dashlets = array(array('TimelineDashlet'), array('ProfileDashlet', 'FriendsDashlet'));
 
 BBCodeParser::enable_smilies(true);
