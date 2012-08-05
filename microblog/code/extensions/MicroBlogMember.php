@@ -31,6 +31,10 @@ class MicroBlogMember extends DataExtension {
 		'Followers'			=> 'Member',
 	);
 	
+	public static $defaults = array(
+		'DefaultPostPermission'		=> 'Public'
+	);
+	
 	public static $dependencies = array(
 		'microBlogService'		=> '%$MicroBlogService',
 	);

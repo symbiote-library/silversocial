@@ -20,7 +20,7 @@ class ProfileDashlet_Controller extends Dashlet_Controller {
 		$fields = new FieldList();
 
 		$opts = array_combine(self::$permission_options, self::$permission_options);
-		$fields->push(new DropdownField('DefaultPostPermission', _t('ProfileDashlet.NEW_POST_PERM', 'New post settings'), $opts));
+		$fields->push(new DropdownField('DefaultPostPermission', _t('ProfileDashlet.NEW_POST_PERM', 'New posts are'), $opts));
 		
 		$opts = array_merge(array('' => ''), $opts);
 		$fields->push(new DropdownField('SetPermissions', _t('ProfileDashlet.POST_PERM', 'Set all posts to'), $opts));

@@ -121,6 +121,20 @@
 
 			return false;
 		});
+		
+		$('div.dashlet').entwine({
+			refresh: function () {
+				var id = this.attr('data-id');
+				var reloadUrl = segment + '/loaddashlet';
+				var _this = this;
+				$.get(reloadUrl, {DashletID: id}, function (data) {
+					if (data && data.length && data.indexOf('dashlet') >= 0) {
+						_this.replaceWith(data);
+						delete _this;
+					}
+				})
+			}
+		})
 
 		$(window).unload(function() {
 			$.cookie("dashlets-collapsed", collapsed.join(","), { expires: 9999 });

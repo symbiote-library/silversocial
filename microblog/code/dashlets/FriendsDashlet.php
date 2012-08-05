@@ -5,7 +5,7 @@
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class FriendsDashlet extends Dashlet {
-	public static $title = "Friends";
+	public static $title = "People";
 	
 }
 
@@ -27,7 +27,7 @@ class FriendsDashlet_Controller extends Dashlet_Controller {
 	
 	public function FriendSearchForm() {
 		$fields = new FieldList(
-			new TextField('Term', _t('MicroBlog.SEARCH_FOR_FRIENDS', 'Find new'))
+			new TextField('Term', _t('MicroBlog.SEARCH_FOR_FRIENDS', 'New people'))
 		);
 		
 		$actions = new FieldList(new FormAction('find', _t('MicroBlog.GO', 'Go')));

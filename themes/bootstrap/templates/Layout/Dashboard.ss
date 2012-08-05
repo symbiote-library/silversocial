@@ -13,7 +13,7 @@ $Dashboard
 	<div class="navbar-inner">
 	<a class="btn" data-dialog="true" href="{$Link}edit/$Dashboard.ID">Update Dashboard</a>
 	<a class="btn" data-dialog="true" href="{$Link}adddashlet">Add dashlet</a>
-	<a class="btn" id="editDashlets" href="#">Move dashlets</a>
+	<a class="btn" id="editDashlets" href="#">Edit dashlets</a>
 	</div>
 </div>
 <% end_if %>

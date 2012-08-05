@@ -20,8 +20,12 @@
 					'followerID': $(this).attr('data-id')
 				};
 
+				var _this = this;
 				SSWebServices.post('microBlog', 'addFriendship', params, function (data) {
-					
+					_this.parents('div.dashlet').refresh();
+					if ($('div.TimelineDashlet').length) {
+						$('div.TimelineDashlet').refresh();
+					}
 				})
 			}
 		})
@@ -36,6 +40,9 @@
 				var _this = $(this);
 				SSWebServices.post('microBlog', 'removeFriendship', params, function (data) {
 					_this.parent().fadeOut();
+					if ($('div.TimelineDashlet').length) {
+						$('div.TimelineDashlet').refresh();
+					}
 				})
 			}
 		})

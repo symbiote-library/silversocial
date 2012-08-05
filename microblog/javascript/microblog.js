@@ -28,5 +28,15 @@ Microblog.Member = {};
 				});
 			}
 		})
+		
+		$('form.dashletreload').entwine({
+			onmatch: function () {
+				$(this).ajaxForm({
+					success: function (data, status, jqxhr, form) {
+						$(form).parents('div.dashlet').refresh();
+					}
+				})
+			}
+		})
 	})
 })(jQuery);

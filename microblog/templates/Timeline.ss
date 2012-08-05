@@ -30,8 +30,13 @@
 				<a href="$Owner.Link?post=$ID">$NumReplies replies</a>
 				<% end_if %>
 				
-				<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr> by <a href="$Owner.Link">$Owner.Title</a>
+				<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr> by 
 				
+				<% if $Owner.ID == $CurrentMember.ID %>
+				Me
+				<% else %>
+				<a href="$Owner.Link">$Owner.Title</a>
+				<% end_if %>
 			</p>
 			<!-- note that the action is left blank and filled in with JS because otherwise the
 				recursive template loses context of what to fill in, so we use our top level form -->
