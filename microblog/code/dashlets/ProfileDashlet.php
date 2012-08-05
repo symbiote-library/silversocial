@@ -13,15 +13,17 @@ class ProfileDashlet_Controller extends Dashlet_Controller {
 	static $permission_options = array(
 		'Hidden',
 		'Friends only',
+		'Friends and followers',
 		'Public'
 	);
 	
 	public function SettingsForm() {
 		$fields = new FieldList();
 
+		// TODO Translate the permission
 		$opts = array_combine(self::$permission_options, self::$permission_options);
 		$fields->push(new DropdownField('DefaultPostPermission', _t('ProfileDashlet.NEW_POST_PERM', 'New posts are'), $opts));
-		
+
 		$opts = array_merge(array('' => ''), $opts);
 		$fields->push(new DropdownField('SetPermissions', _t('ProfileDashlet.POST_PERM', 'Set all posts to'), $opts));
 		

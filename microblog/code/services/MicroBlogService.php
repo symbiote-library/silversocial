@@ -330,12 +330,15 @@ class MicroBlogService {
 		$friendship->InitiatorID = $member->ID;
 		$friendship->OtherID = $follower->ID;
 		
+		// we add the initiator into the 
 		
 		// lets see if we have the reciprocal; if so, we can mark these as verified 
 		$reciprocal = DataList::create('Friendship')->filter(array(
 			'InitiatorID'		=> $follower->ID,
 			'OtherID'			=> $member->ID,
 		))->first();
+		
+		
 		
 		if ($reciprocal) {
 			$reciprocal->Status = 'Approved';

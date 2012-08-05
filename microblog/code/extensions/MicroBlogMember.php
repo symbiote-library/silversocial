@@ -6,6 +6,8 @@
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class MicroBlogMember extends DataExtension {
+	const FRIENDS = 'Friends';
+	const FOLLOWERS = 'Followers';
 	
 	public static $db = array(
 		'DefaultPostPermission'		=> 'Varchar',
@@ -21,14 +23,7 @@ class MicroBlogMember extends DataExtension {
 
 		// where all our friends get added 
 		'FriendsGroup'			=> 'Group',
-	);
-	
-	public static $many_many = array(
-		'Following'			=> 'Member',
-	);
-
-	public static $belongs_many_many = array(
-		'Followers'			=> 'Member',
+		'FollowersGroup'		=> 'Group',
 	);
 	
 	public static $defaults = array(
@@ -64,7 +59,8 @@ class MicroBlogMember extends DataExtension {
 			$this->syncProfile($this->owner->Profile());
 		}
 		
-		$this->getGroupForFriends();
+		$this->getGroupFor(self::FRIENDS);
+		$this->getGroupFor(self::FOLLOWERS);
 		
 		$this->memberFolder();
 	}
@@ -116,21 +112,24 @@ class MicroBlogMember extends DataExtension {
 	/**
 	 * gets the group that this user's friends belong to 
 	 */
-	public function getGroupForFriends() {
-		if ($this->owner->FriendsGroupID) {
-			return $this->owner->FriendsGroup();
+	public function getGroupFor($type) {
+		$groupType = $type.'Group';
+		$groupTypeID = $type.'GroupID';
+		
+		if ($this->owner->$groupTypeID) {
+			return $this->owner->$groupType();
 		}
 
-		$title = $this->owner->Email . ' friends';
+		$title = $this->owner->Email . ' ' . $type;
 		$group = DataList::create('Group')->filter(array('Title' => $title))->first();
 		if ($group && $group->exists()) {
-			$this->owner->FriendsGroupID = $group->ID;
+			$this->owner->$groupTypeID = $group->ID;
 			return $group;
 		} else {
 			$group = Group::create();
 			$group->Title = $title;
 			$group->write();
-			$this->owner->FriendsGroupID = $group->ID;
+			$this->owner->$groupTypeID = $group->ID;
 			return $group;
 		}
 	}

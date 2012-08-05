@@ -146,14 +146,24 @@ class DataService {
 				}
 			}
 		}
-		
-		
+
 		$ret = $list->filterByCallback(function ($item) use ($requiredPerm) {
 			if ($item->hasExtension('Restrictable')) {
 				return $item->checkPerm($requiredPerm);
 			}
 			return $item->canView();
 		});
+
+		// @TODO properly recalculate the offset that we had to use by recursively calling loadObjects
+		// with the next page of info until we have enough, then return the actual offset used in the
+		// list of objects
+		if (isset($limit[1])) {
+			if ($ret->count() < $limit[1]) {
+
+			}
+		}
+		
+		
 		return $ret;
 	}
 	
