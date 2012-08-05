@@ -68,6 +68,4 @@ class SocialGraphService {
 
 		return $post;
 	}
-	
-	
 }

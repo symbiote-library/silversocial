@@ -27,7 +27,7 @@ class PostAggregatorPage_Controller extends Page_Controller {
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-form/jquery.form.js');
 		Requirements::javascript('microblog/javascript/timeline.js');
 	}
-	
+
 	public function Timeline() {
 		$replies = (bool) $this->request->getVar('replies');
 		$since = $this->request->getVar('since');

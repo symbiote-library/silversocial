@@ -14,12 +14,13 @@ class TagsDashlet_Controller extends Dashlet_Controller {
 	
 	public function Tags() {
 		
-		$query = new SQLQuery;
+		$select = array(
+			'Title'
+		);
+		$query = new SQLQuery($select, 'Tag');
 		
-		$query->setFrom('Tag');
 		$query->selectField('count(Tag.ID)', 'Number');
 		$query->selectField('Tag.ID');
-		$query->selectField('Title');
 		
 		$query->addInnerjoin('MicroPost_Tags', 'Tag.ID = MicroPost_Tags.TagID');
 		

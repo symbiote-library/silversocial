@@ -155,7 +155,9 @@ class MicroBlogService {
 			);
 			return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $number);
 		} else {
-			return $this->microPostList(array(), $sortBy, $since, $beforePost, $topLevelOnly, $tags, $number);
+			// otherwise, we're implying that we ONLY want 'public' updates
+			$filter = array('PublicAccess'	=> 1);
+			return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $number);
 		}
 	}
 
@@ -250,12 +252,12 @@ class MicroBlogService {
 
 		// final sort if none other specified
 		$sort['ID'] = 'DESC';
-		
+
 		$offset = ($page - 1) * $number;
 		$limit = $number ? $offset . ', ' . $number : '';
-		
+
 		$join = null;
-		
+
 		if (count($tags)) {
 			array_walk($tags, function (&$item) {
 				$item = Convert::raw2sql($item);

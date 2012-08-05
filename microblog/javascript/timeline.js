@@ -230,6 +230,19 @@ window.Microblog = window.Microblog || {}
 					return false;
 				}
 			})
+			
+			$('a').entwine({
+				onmatch: function () {
+					var href = this.attr('href');
+					if (href && href.length && href.lastIndexOf('.') > 0) {
+						var ext = href.substr(href.lastIndexOf('.') + 1);
+						if ($.inArray(ext, ['png', 'jpg', 'gif']) > -1) {
+							var img = $('<img>').attr('src', href);
+							this.text('').append(img).attr('target', '_blank');
+						}
+					}
+				}
+			})
 
 			$('form.replyForm').entwine({
 				onmatch: function () {
