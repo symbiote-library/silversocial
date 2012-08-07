@@ -302,13 +302,14 @@ class MicroBlogService {
 	 * Create a friendship relationship object
 	 * 
 	 * @param DataObject $member
-	 * @param DataObject $follower
+	 *				"me", as in the person who triggered the follow
+	 * @param DataObject $followed
+	 *				"them", the person "me" is wanting to add 
 	 * @return \Friendship
 	 * @throws PermissionDeniedException 
 	 */
-	public function addFriendship(DataObject $member, DataObject $follower) {
-		
-		if (!$member || !$follower) {
+	public function addFriendship(DataObject $member, DataObject $followed) {
+		if (!$member || !$followed) {
 			throw new PermissionDeniedException('Read', 'Cannot read those users');
 		}
 
@@ -318,7 +319,7 @@ class MicroBlogService {
 
 		$existing = DataList::create('Friendship')->filter(array(
 			'InitiatorID'		=> $member->ID,
-			'OtherID'			=> $follower->ID,
+			'OtherID'			=> $followed->ID,
 		))->first();
 
 		if ($existing) {
@@ -328,27 +329,31 @@ class MicroBlogService {
 		// otherwise, we have a new one!
 		$friendship = new Friendship;
 		$friendship->InitiatorID = $member->ID;
-		$friendship->OtherID = $follower->ID;
+		$friendship->OtherID = $followed->ID;
 		
 		// we add the initiator into the 
 		
 		// lets see if we have the reciprocal; if so, we can mark these as verified 
-		$reciprocal = DataList::create('Friendship')->filter(array(
-			'InitiatorID'		=> $follower->ID,
-			'OtherID'			=> $member->ID,
-		))->first();
-		
-		
-		
+		$reciprocal = $friendship->reciprocal();
+
+		// so we definitely add the 'member' to the 'followers' group of $followed
+		$followers = $followed->member()->getGroupFor(MicroBlogMember::FOLLOWERS);
+		$member->member()->Groups()->add($followers);
+
 		if ($reciprocal) {
 			$reciprocal->Status = 'Approved';
 			$reciprocal->write();
 			
 			$friendship->Status = 'Approved';
 			
-			// add to each others' groups
+			// add to each other's friends groups
+			$friends = $followed->member()->getGroupFor(MicroBlogMember::FRIENDS);
+			$member->member()->Groups()->add($friends);
+			
+			$friends = $member->member()->getGroupFor(MicroBlogMember::FRIENDS);
+			$followed->member()->Groups()->add($friends);
 		}
-		
+
 		$friendship->write();
 		return $friendship;
 	}
@@ -359,6 +364,27 @@ class MicroBlogService {
 	 */
 	public function removeFriendship(DataObject $relationship) {
 		if ($relationship && $relationship->canDelete()) {
+			
+			// need to remove this user from the 'other's followers group and friends group
+			// if needbe
+			if ($relationship->Status == 'Approved') {
+				$reciprocal = $relationship->reciprocal();
+				if ($reciprocal) {
+					// set it back to pending
+					$reciprocal->Status = 'Pending';
+					$reciprocal->write();
+				}
+				
+				$friends = $relationship->Other()->member()->getGroupFor(MicroBlogMember::FRIENDS);
+				$relationship->Initiator()->member()->Groups()->remove($friends);
+				
+				$friends = $relationship->Initiator()->member()->getGroupFor(MicroBlogMember::FRIENDS);
+				$relationship->Other()->member()->Groups()->remove($friends);
+			}
+			
+			$followers = $relationship->Other()->member()->getGroupFor(MicroBlogMember::FOLLOWERS);
+			$relationship->Initiator()->member()->Groups()->remove($followers);
+			
 			$relationship->delete();
 			return $relationship;
 		}
@@ -380,16 +406,6 @@ class MicroBlogService {
 //				->filter(array('InitiatorID' => $member->ID));
 		$list = DataList::create('Friendship')->filter(array('InitiatorID' => $member->Profile()->ID));
 		return $list;
-	}
-	
-	/**
-	 * Remove someone as a follower
-	 * 
-	 * @param DataObject $member
-	 * @param DataObject $follower 
-	 */
-	public function removeFollower($member, $follower) {
-		$follower->unfollow($member);
 	}
 	
 	/**

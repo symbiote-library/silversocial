@@ -66,6 +66,9 @@ class MicroBlogPage_Controller extends Page_Controller {
 		$this->redirect($this->data()->Link());
 	}
 
+	/**
+	 * TODO Update to match new api... 
+	 */
 	public function follow($data, $form) {
 		if (!$this->securityContext->getMember()) {
 			return Security::permissionFailure($this);
@@ -78,6 +81,9 @@ class MicroBlogPage_Controller extends Page_Controller {
 		$this->redirectBack();
 	}
 	
+	/**
+	 * TODO Update to match new api... 
+	 */
 	public function unfollow($data, $form) {
 		if (!$this->securityContext->getMember()) {
 			return Security::permissionFailure($this);

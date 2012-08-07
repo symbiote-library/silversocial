@@ -23,4 +23,8 @@ class PublicProfile extends DataObject {
 	public function canView($member=null) {
 		return true;
 	}
+	
+	public function member() {
+		return Member::get()->filter(array('ID' => $this->MemberID))->first();
+	}
 }

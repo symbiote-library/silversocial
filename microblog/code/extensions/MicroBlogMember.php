@@ -20,6 +20,8 @@ class MicroBlogMember extends DataExtension {
 		
 		// permission holders
 		'FriendsPermissions'	=> 'PermissionParent',
+		
+		'FollowersPermissions'	=> 'PermissionParent',
 
 		// where all our friends get added 
 		'FriendsGroup'			=> 'Group',

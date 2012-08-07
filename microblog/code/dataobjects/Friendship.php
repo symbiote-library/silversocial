@@ -21,6 +21,16 @@ class Friendship extends DataObject {
 		'Status'			=> 'Pending',
 	);
 	
+	/**
+	 * get the 'other' view of this friendship 
+	 */
+	public function reciprocal() {
+		return DataList::create('Friendship')->filter(array(
+			'InitiatorID'		=> $this->OtherID,
+			'OtherID'			=> $this->InitiatorID
+		))->first();
+	}
+	
 	public function canView($member = null) {
 		return true;
 	}

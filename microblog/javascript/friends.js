@@ -16,8 +16,8 @@
 				var params = {
 					'memberType': 'PublicProfile',
 					'memberID': $(this).parents('div.FriendsDashlet').find('input[name=MemberID]').val(),
-					'followerType': 'PublicProfile',
-					'followerID': $(this).attr('data-id')
+					'followedType': 'PublicProfile',
+					'followedID': $(this).attr('data-id')
 				};
 
 				var _this = this;

@@ -25,4 +25,25 @@ POST;
 		
 		$tags = singleton('MicroBlogService')->extractTags($post);
 	}
+	
+	public function testUserFollowing() {
+		
+		Restrictable::set_enabled(false);
+		
+		$memberOne = Member::create();
+		$memberOne->Email = 'one@one.com';
+		$memberOne->Password = '1234';
+		$memberOne->write();
+		
+		$memberTwo = Member::create();
+		$memberTwo->Email = 'two@two.com';
+		$memberTwo->Password = '1234';
+		$memberTwo->write();
+
+		$svc = singleton('MicroBlogService');
+		
+		$svc->addFriendship($memberOne->Profile(), $memberTwo->Profile());
+		
+		// gah - ss3's testing setup needs to be better sorted to be able to do this bit...
+	}
 }
