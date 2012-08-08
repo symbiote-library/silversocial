@@ -21,6 +21,11 @@ class MicroBlogService {
 	 */
 	public $transactionManager;
 	
+	/**
+	 * @var PermissionService
+	 */
+	public $permissionService;
+	
 	public static $dependencies = array(
 		'dataService'			=> '%$DataService',
 		'permissionService'		=> '%$PermissionService',
@@ -29,7 +34,7 @@ class MicroBlogService {
 	);
 	
 	public function __construct() {
-		
+
 	}
 	
 	public function webEnabledMethods() {
@@ -94,7 +99,11 @@ class MicroBlogService {
 		$this->extractTags($post);
 
 		$this->rewardMember($member, 3);
+		
+		// we stick this in here so the UI can update...
 		$post->RemainingVotes = $member->VotesToGive;
+		
+		$source = $post->permissionSource();
 
 		return $post;
 	}
@@ -123,7 +132,7 @@ class MicroBlogService {
 				$object->Tags()->add($existing, array('Tagged' => date('Y-m-d H:i:s')));
 			}
 		}
-		
+
 		return $object->Tags();
 	}
 
@@ -156,7 +165,7 @@ class MicroBlogService {
 			return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $number);
 		} else {
 			// otherwise, we're implying that we ONLY want 'public' updates
-			$filter = array('PublicAccess'	=> 1);
+			$filter = array(); // array('PublicAccess'	=> 1);
 			return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $number);
 		}
 	}

@@ -21,6 +21,8 @@ class MicroPost extends DataObject {
 		'OwnerProfile'	=> 'PublicProfile',
 		'Parent'		=> 'MicroPost',
 		'Attachment'	=> 'File',
+		
+		'PermSource'	=> 'PermissionParent',
 	);
 
 	public static $has_many = array(
@@ -28,8 +30,8 @@ class MicroPost extends DataObject {
 	);
 	
 	public static $defaults = array(
-		'PublicAccess'		=> true,
-		'InheritPerms'		=> false,
+		'PublicAccess'		=> false,
+		'InheritPerms'		=> true,		// we'll have  default container set soon
 	);
 	
 	public static $extensions = array(
@@ -169,4 +171,25 @@ class MicroPost extends DataObject {
 		return $this->microBlogService->getRepliesTo($this);
 	}
 	
+	/**
+	 * We need to define a  permission source to ensure the 
+	 * ParentID isn't used for permission inheritance 
+	 */
+	public function permissionSource() {
+		if ($this->PermSourceID) {
+			return $this->PermSource();
+		}
+		
+		// otherwise, find a post by this user and use the shared parent
+		$owner = $this->Owner();
+		if ($owner) {
+			$source = $owner->postPermissionSource();
+			$this->PermSourceID = $source->ID;
+			// TODO: Remove this; it's only used until all posts have an appropriate permission source...
+			Restrictable::set_enabled(false);
+			$this->write();
+			Restrictable::set_enabled(true);
+			return $source;
+		}
+	}
 }

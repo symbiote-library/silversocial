@@ -10,22 +10,13 @@ class ProfileDashlet extends Dashlet {
 
 class ProfileDashlet_Controller extends Dashlet_Controller {
 	
-	static $permission_options = array(
-		'Hidden',
-		'Friends only',
-		'Friends and followers',
-		'Public'
-	);
 	
 	public function SettingsForm() {
 		$fields = new FieldList();
 
 		// TODO Translate the permission
-		$opts = array_combine(self::$permission_options, self::$permission_options);
-		$fields->push(new DropdownField('DefaultPostPermission', _t('ProfileDashlet.NEW_POST_PERM', 'New posts are'), $opts));
-
-		$opts = array_merge(array('' => ''), $opts);
-		$fields->push(new DropdownField('SetPermissions', _t('ProfileDashlet.POST_PERM', 'Set all posts to'), $opts));
+		$opts = array_combine(MicroBlogMember::$permission_options, MicroBlogMember::$permission_options);
+		$fields->push(new DropdownField('PostPermission', _t('ProfileDashlet.POST_PERM', 'Post permissions'), $opts));
 		
 		$actions = new FieldList(new FormAction('savesettings', _t('ProfileDashlet.SAVE', 'Update')));
 		
@@ -35,15 +26,14 @@ class ProfileDashlet_Controller extends Dashlet_Controller {
 		$form->loadDataFrom(Member::currentUser());
 		return $form;
 	}
-	
+
 	public function savesettings($data, Form $form) {
 		$fields = array(
-			'DefaultPostPermission'
+			'PostPermission'
 		);
-		
 		$form->saveInto(Member::currentUser(), $fields);
 		Member::currentUser()->write();
-		
+		Member::currentUser()->updatePostPermissions();
 		return $this->SettingsForm()->forAjaxTemplate();
 	}
 }

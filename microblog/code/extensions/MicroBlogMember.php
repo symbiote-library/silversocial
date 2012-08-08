@@ -10,36 +10,52 @@ class MicroBlogMember extends DataExtension {
 	const FOLLOWERS = 'Followers';
 	
 	public static $db = array(
-		'DefaultPostPermission'		=> 'Varchar',
+		'PostPermission'		=> 'Varchar',
 		'VotesToGive'				=> 'Int',
 	);
 
 	public static $has_one = array(
 		'UploadFolder'		=> 'Folder',
 		'Profile'			=> 'PublicProfile',
-		
-		// permission holders
-		'FriendsPermissions'	=> 'PermissionParent',
-		
-		'FollowersPermissions'	=> 'PermissionParent',
 
 		// where all our friends get added 
 		'FriendsGroup'			=> 'Group',
 		'FollowersGroup'		=> 'Group',
+		
+		'MyPermSource'			=> 'PermissionParent',
 	);
 	
 	public static $defaults = array(
-		'DefaultPostPermission'		=> 'Public'
+		'PostPermission'		=> 'Public'
 	);
 	
 	public static $dependencies = array(
 		'microBlogService'		=> '%$MicroBlogService',
+		'permissionService'		=> '%$PermissionService',
+		'transactionManager'	=> '%$TransactionManager',
+	);
+	
+	static $permission_options = array(
+		'Hidden',
+		'Friends only',
+		'Friends and followers',
+		'Public'
 	);
 	
 	/**
 	 * @var MicroBlogService
 	 */
 	public $microBlogService;
+	
+	/**
+	 * @var PermissionService
+	 */
+	public $permissionService;
+	
+	/**
+	 * @var TransactionManager 
+	 */
+	public $transactionManager;
 	
 	public function onBeforeWrite() {
 		parent::onBeforeWrite();
@@ -99,6 +115,82 @@ class MicroBlogMember extends DataExtension {
 	
 	public function canVote() {
 		return $this->VotesToGive > 0;
+	}
+	
+	/**
+	 * Retrieve the container permission source for all this user's posts 
+	 */
+	public function postPermissionSource() {
+		if ($this->owner->MyPermSourceID) {
+			return $this->owner->MyPermSource();
+		}
+
+		$source = new PermissionParent();
+		$source->PublicAccess = true;
+		$source->Title = 'Posts for ' . $this->owner->getTitle();
+		
+		$owner = $this->owner;
+		
+		$this->transactionManager->run(function () use($source, $owner) {
+			$source->write();
+			$owner->MyPermSourceID = $source->ID;
+			$owner->write();
+		}, $owner);
+		
+		return $source;
+	}
+	
+	public function clearCurrentPermissions() {
+		$source = $this->postPermissionSource();
+		
+		$this->permissionService->removePermissions($source, 'View', $this->getGroupFor(self::FOLLOWERS));
+		$this->permissionService->removePermissions($source, 'View', $this->getGroupFor(self::FRIENDS));
+
+		$source->InheritPerms = false;
+		$source->PublicAccess = false;
+	}
+	
+	/**
+	 * set permissions for this user's posts 
+	 */
+	public function updatePostPermissions() {
+		$set = $this->owner->PostPermission;
+		$source = $this->postPermissionSource();
+		
+		switch ($set) {
+			case 'Hidden': {
+				$this->permissionService->removePermissions($source, 'View', $this->getGroupFor(self::FOLLOWERS));
+				$this->permissionService->removePermissions($source, 'View', $this->getGroupFor(self::FRIENDS));
+
+				$source->InheritPerms = false;
+				$source->PublicAccess = false;
+				break;
+			}
+			case 'Friends only': {
+				$source->InheritPerms = false;
+				$source->PublicAccess = false;
+				
+				$this->permissionService->removePermissions($source, 'View', $this->getGroupFor(self::FOLLOWERS));
+				$this->permissionService->grant($source, 'View', $this->getGroupFor(self::FRIENDS));
+				break;
+			}
+			
+			case 'Friends and followers': {
+				$source->InheritPerms = false;
+				$source->PublicAccess = false;
+
+				$this->permissionService->grant($source, 'View', $this->getGroupFor(self::FOLLOWERS));
+				$this->permissionService->grant($source, 'View', $this->getGroupFor(self::FRIENDS));
+				break;
+			}
+			
+			case 'Public': {
+				$source->PublicAccess = true;
+				break;
+			}
+		}
+		
+		$source->write();
 	}
 	
 	public function memberFolder() {
