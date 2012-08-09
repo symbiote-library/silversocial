@@ -4,13 +4,12 @@ window.Microblog = window.Microblog || {}
 ;(function($) {
 	
 	Microblog.Timeline = function () {
-		var feed = $('#StatusFeed');
+		var feed = null;
 		
-		var refreshTime = 60000;
+		var refreshTimer = null;
+		var refreshTime = 10000;
 		var pendingUpdate = false;
 		var pendingLoad = false;
-		
-		var pagenum = 1;
 		
 		var postContainer = $('<div>');
 		
@@ -49,11 +48,6 @@ window.Microblog = window.Microblog || {}
 			return pendingUpdate;
 		}
 
-		if (feed.hasClass('autorefresh')) {
-			setTimeout(function () {
-				refreshTimeline();
-			}, refreshTime)
-		}
 		
 		var morePosts = function () {
 			if (pendingLoad) {
@@ -72,8 +66,7 @@ window.Microblog = window.Microblog || {}
 			})
 
 			if (earliest) {
-				++pagenum;
-				var restrict = rating ? {page: pagenum, offset: nextQueryOffset} : {before: earliest, offset: nextQueryOffset};
+				var restrict = {offset: nextQueryOffset};
 				pendingLoad = getPosts(restrict, true).done(function () {
 					pendingLoad = null;
 				});
@@ -150,7 +143,7 @@ window.Microblog = window.Microblog || {}
 				
 			})
 		}
-		
+
 		var vote = function (id, dir) {
 			var params = {
 				'postType': 'MicroPost',
@@ -168,24 +161,47 @@ window.Microblog = window.Microblog || {}
 				}
 			})
 		};
-		
+
 		var setOffset = function (o) {
 			nextQueryOffset = o;
 		}
 		
+		var setFeed = function (f) {
+			feed = f;
+			
+			if (feed.hasClass('autorefresh') && !refreshTimer) {
+				refreshTimer = setTimeout(function () {
+					refreshTimeline();
+				}, refreshTime)
+			}
+		}
+
 		return {
 			refresh: refreshTimeline,
 			more: morePosts,
 			deletePost: deletePost,
 			vote: vote,
-			setOffset: setOffset
+			setOffset: setOffset,
+			setFeed: setFeed
 		}
 	}();
 
 	$(function () {
 		Microblog.Timeline.setOffset($('.postQueryOffset').val());
+
+		$('.postQueryOffset').entwine({
+			onmatch: function () {
+				Microblog.Timeline.setOffset(this.val());
+			}
+		})
 		
 		$.entwine('microblog', function ($) {
+			$('#StatusFeed').entwine({
+				onmatch: function () {
+					Microblog.Timeline.setFeed(this);
+				}
+			})
+			
 			$('.timeago').entwine({
 				onmatch: function () {
 					if ($.fn.timeago) {

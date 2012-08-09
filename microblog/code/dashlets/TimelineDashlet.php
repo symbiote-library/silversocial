@@ -122,22 +122,23 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 		$replies = (bool) $this->request->getVar('replies');
 		
 		$since = $this->request->getVar('since');
-		$before = $this->request->getVar('before');
+		$offset = (int) $this->request->getVar('offset');
 		
+		// @TODO Fix this logic as we've switched to using offsets properly nowww
 		if ($post = $this->request->getVar('post')) {
 			$since = ((int) $post) - 1;
 			$before = $since + 2;
 		}
 		
-		$timeline = $this->microBlogService->getTimeline($this->securityContext->getMember(), null, $since, $before, !$replies);
+		$timeline = $this->microBlogService->getTimeline($this->securityContext->getMember(), null, $since, $offset, !$replies);
 		return trim($this->customise(array('Posts' => $timeline))->renderWith('Timeline'));
 	}
 
 	public function OwnerFeed() {
 		$since = $this->request->getVar('since');
-		$before = $this->request->getVar('before');
-		$offset = $this->request->getVar('offset');
+		$offset = (int) $this->request->getVar('offset');
 		
+		// @TODO Fix this logic properly!
 		if ($post = $this->request->getVar('post')) {
 			$since = ((int) $post) - 1;
 			$before = $since + 2;
@@ -149,7 +150,7 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 		}
 		$replies = (bool) $this->request->getVar('replies');
 		
-		$data = $this->microBlogService->getStatusUpdates($owner, null, $since, $before, !$replies);
+		$data = $this->microBlogService->getStatusUpdates($owner, null, $since, $offset, !$replies);
 		return trim($this->customise(array('Posts' => $data))->renderWith('Timeline'));
 	}
 }

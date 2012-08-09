@@ -157,8 +157,7 @@ class DataService {
 			$count = $ret->count();
 			$lastCount = $count;
 			$newOffset = $limit[0];
-			$offsetIncrease = 0;
-			$nextOffset = $newOffset;
+			$nextOffset = $newOffset + $limit[1];
 			while ($count < $targetNumber) {
 				$nextOffset = $newOffset = $newOffset + $limit[1];
 				$list->limit($limit[1], $newOffset);

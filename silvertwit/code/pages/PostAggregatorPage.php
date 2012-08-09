@@ -31,31 +31,17 @@ class PostAggregatorPage_Controller extends Page_Controller {
 	public function Timeline() {
 		$replies = (bool) $this->request->getVar('replies');
 		$since = $this->request->getVar('since');
-		$before = $this->request->getVar('before');
-		$page = $this->request->getVar('page');
-		$offset = $this->request->getVar('offset');
+		$offset = (int) $this->request->getVar('offset');
 		
 		$tags = $this->request->getVar('tags') ? $this->request->getVar('tags') : $this->tags;
 
-		if (strlen($page)) {
-			$before = array(
-				'Page'			=> $page,
-			);
-		}
-		
-		if ($offset) {
-			$before = array(
-				'Offset'		=> $offset,
-			);
-		}
-		
 		if (strlen($tags)) {
 			$tags = explode(',', $tags);
 		} else {
 			$tags = array();
 		}
 		
-		$timeline = $this->microBlogService->getStatusUpdates(null, 'WilsonRating', $since, $before, !$replies, $tags);
+		$timeline = $this->microBlogService->getStatusUpdates(null, 'WilsonRating', $since, $offset, !$replies, $tags);
 		return trim($this->customise(array('Posts' => $timeline, 'SortBy' => 'rating'))->renderWith('Timeline'));
 	}
 	
