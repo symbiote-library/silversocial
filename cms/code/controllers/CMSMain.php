@@ -318,7 +318,8 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 
 		// The root element should point to the pages tree view,
 		// rather than the actual controller (which would just show an empty edit form)
-		$items[0]->Title = self::menu_title_for_class('CMSPagesController');
+		$defaultTitle = self::menu_title_for_class('CMSPagesController');
+		$items[0]->Title = _t("{$this->class}.MENUTITLE", $defaultTitle);
 		$items[0]->Link = singleton('CMSPagesController')->Link();
 
 		return $items;
@@ -607,7 +608,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 			$form->addExtraClass('cms-edit-form');
 			$form->setTemplate($this->getTemplatesWithSuffix('_EditForm'));
 			// TODO Can't merge $FormAttributes in template at the moment
-			$form->addExtraClass('center ss-tabset ' . $this->BaseCSSClasses());
+			$form->addExtraClass('center ' . $this->BaseCSSClasses());
 			// if($form->Fields()->hasTabset()) $form->Fields()->findOrMakeTab('Root')->setTemplate('CMSTabSet');
 			$form->setAttribute('data-pjax-fragment', 'CurrentForm');
 
@@ -669,14 +670,16 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 	public function ListViewForm() {
 		$params = $this->request->requestVar('q');
 		$list = $this->getList($params, $parentID = $this->request->requestVar('ParentID'));
-		$gridFieldConfig = GridFieldConfig::create()->addComponents(
+		$gridFieldConfig = GridFieldConfig::create()->addComponents(			
 			new GridFieldSortableHeader(),
 			new GridFieldDataColumns(),
 			new GridFieldPaginator(15)
 		);
 		if($parentID){
 			$gridFieldConfig->addComponent(
-				new GridFieldLevelup($parentID)
+				GridFieldLevelup::create($parentID)
+					->setLinkSpec('?ParentID=%d&view=list')
+					->setAttributes(array('data-pjax' => 'ListViewForm,Breadcrumbs'))
 			);
 		}
 		$gridField = new GridField('Page','Pages', $list, $gridFieldConfig);
@@ -697,6 +700,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		$columns->setFieldCasting(array(
 			'Created' => 'Date->Ago',
 			'LastEdited' => 'Date->Ago',
+			'getTreeTitle' => 'HTMLText'
 		));
 
 		$controller = $this;
@@ -713,7 +717,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 				}
 			},
 			'getTreeTitle' => function($value, &$item) use($controller) {
-				return '<a class="cms-panel-link" href="' . $controller->Link('show') . '/' . $item->ID . '">' . $item->TreeTitle . '</a>';
+				return '<a class="action-detail" href="' . singleton('CMSPageEditController')->Link('show') . '/' . $item->ID . '">' . $item->TreeTitle . '</a>';
 			}
 		));
 		

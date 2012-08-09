@@ -295,6 +295,9 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * don't have their defaults set.
 	 */
 	function __construct($record = null, $isSingleton = false, $model = null) {
+
+		parent::__construct();
+
 		// Set the fields data.
 		if(!$record) {
 			$record = array(
@@ -344,8 +347,6 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		if(isset($record['LastEdited'])) {
 			HTTP::register_modification_date($record['LastEdited']);
 		}
-
-		parent::__construct();
 
 		// Must be called after parent constructor
 		if(!$isSingleton && (!isset($this->record['ID']) || !$this->record['ID'])) {
@@ -678,13 +679,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return array The data as a map.
 	 */
 	public function toMap() {
-		foreach ($this->record as $key => $value) {
-			if (strlen($key) > 5 && substr($key, -5) == '_Lazy') {
-				$this->loadLazyFields($value);
-				break;
-			}
-		}
-
+		$this->loadLazyFields();
 		return $this->record;
 	}
 
@@ -846,13 +841,16 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * if they are not already marked as changed.
 	 */
 	public function forceChange() {
+		// Ensure lazy fields loaded
+		$this->loadLazyFields();
+
 		// $this->record might not contain the blank values so we loop on $this->inheritedDatabaseFields() as well
 		$fieldNames = array_unique(array_merge(array_keys($this->record), array_keys($this->inheritedDatabaseFields())));
 		
 		foreach($fieldNames as $fieldName) {
 			if(!isset($this->changed[$fieldName])) $this->changed[$fieldName] = 1;
 			// Populate the null values in record so that they actually get written
-			if(!$this->$fieldName) $this->record[$fieldName] = null;
+			if(!isset($this->record[$fieldName])) $this->record[$fieldName] = null;
 		}
 		
 		// @todo Find better way to allow versioned to write a new version after forceChange
@@ -1287,7 +1285,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		
 		$result = new HasManyList($componentClass, $joinField);
 		if($this->model) $result->setDataModel($this->model);
-		$result->setForeignID($this->ID);
+		$result = $result->forForeignID($this->ID);
 
 		$result = $result->where($filter)->limit($limit)->sort($sort);
 		if($join) $result = $result->join($join);
@@ -1411,7 +1409,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 
 		// If this is called on a singleton, then we return an 'orphaned relation' that can have the
 		// foreignID set elsewhere.
-		$result->setForeignID($this->ID);
+		$result = $result->forForeignID($this->ID);
 			
 		return $result->where($filter)->sort($sort)->limit($limit);
 	}
@@ -1920,15 +1918,14 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			$helper = $this->castingHelper($field);
 			$fieldObj = Object::create_from_string($helper, $field);
 
-			// load lazy composite fields
-			$compositeFields = $fieldObj::$composite_db;
+			$compositeFields = $fieldObj->compositeDatabaseFields();
 			foreach ($compositeFields as $compositeName => $compositeType) {
 				if(isset($this->record[$field.$compositeName.'_Lazy'])) {
 					$tableClass = $this->record[$field.$compositeName.'_Lazy'];
 					$this->loadLazyFields($tableClass);
 				}
 			}
-			
+
 			// write value only if either the field value exists,
 			// or a valid record has been loaded from the database
 			$value = (isset($this->record[$field])) ? $this->record[$field] : null;
@@ -1954,13 +1951,24 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	}
 
 	/**
-	 * Loads all the stub fields than an initial lazy load didn't load fully.
+	 * Loads all the stub fields that an initial lazy load didn't load fully.
 	 *
 	 * @param tableClass Base table to load the values from. Others are joined as required.
+	 *                   Not specifying a tableClass will load all lazy fields from all tables.
 	 */
 	protected function loadLazyFields($tableClass = null) {
-		// Smarter way to work out the tableClass? Should the functionality in toMap and getField be moved into here?
-		if (!$tableClass) $tableClass = $this->ClassName;
+		if (!$tableClass) {
+			$loaded = array();
+
+			foreach ($this->record as $key => $value) {
+				if (strlen($key) > 5 && substr($key, -5) == '_Lazy' && !array_key_exists($value, $loaded)) {
+					$this->loadLazyFields($value);
+					$loaded[$value] = $value;
+				}
+			}
+
+			return;
+		}
 
 		$dataQuery = new DataQuery($tableClass);
 
@@ -2100,9 +2108,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 			// If we've just lazy-loaded the column, then we need to populate the $original array by
 			// called getField(). Too much overhead? Could this be done by a quicker method? Maybe only
 			// on a call to getChanged()?
-			if (isset($this->record[$fieldName.'_Lazy'])) {
-				$this->getField($fieldName);
-			}
+			$this->getField($fieldName);
 
 			$this->record[$fieldName] = $val;
 		// Situation 2: Passing a literal or non-DBField object
@@ -2128,9 +2134,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 				// If we've just lazy-loaded the column, then we need to populate the $original array by
 				// called getField(). Too much overhead? Could this be done by a quicker method? Maybe only
 				// on a call to getChanged()?
-				if (isset($this->record[$fieldName.'_Lazy'])) {
-					$this->getField($fieldName);
-				}
+				$this->getField($fieldName);
 
 				// Value is always saved back when strict check succeeds.
 				$this->record[$fieldName] = $val;
@@ -2510,13 +2514,14 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @param $fieldPath string
 	 * @return string
 	 */
-	public function relField($fieldPath) {
-		if(strpos($fieldPath, '.') !== false) {
-			$parts = explode('.', $fieldPath);
+	public function relField($fieldName) {
+		$component = $this;
+
+		if(strpos($fieldName, '.') !== false) {
+			$parts = explode('.', $fieldName);
 			$fieldName = array_pop($parts);
 
 			// Traverse dot syntax
-			$component = $this;
 			foreach($parts as $relation) {
 				if($component instanceof SS_List) {
 					if(method_exists($component,$relation)) $component = $component->$relation();
@@ -2525,11 +2530,10 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 					$component = $component->$relation();
 				}
 			}
-
-			return $component->$fieldName;
-		} else {
-			return $this->$fieldPath;
 		}
+
+		if ($component->hasMethod($fieldName)) return $component->$fieldName();
+		return $component->$fieldName;
 	}
 
 	/**
@@ -2604,7 +2608,7 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		// Todo: Determine if we can deprecate for 3.0.0 and use DI or something instead
 		// Todo: Make the $containerClass method redundant
 		if($containerClass != 'DataList') {
-			Deprecation::notice('3.0', '$containerClass argument is deprecated.');
+			Deprecation::notice('3.0', 'DataObject::get() - $containerClass argument is deprecated.', Deprecation::SCOPE_GLOBAL);
 		}
 
 		$result = DataList::create($callerClass)->where($filter)->sort($sort);

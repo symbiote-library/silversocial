@@ -8,7 +8,7 @@ uk:
     FOLDER: Folder
     LASTEDIT: 'Востаннє змінено'
     OWNER: Власник
-    SIZE: 'Розмір'
+    SIZE: Розмір
     TITLE: Назва
     TYPE: Тип
     URL: URL
@@ -18,9 +18,11 @@ uk:
     DROPAREA: 'Drop Area'
     EDITALL: 'Edit all'
     EDITANDORGANIZE: 'Edit & organize'
+    EDITINFO: 'Edit files'
     FILES: Files
+    FROMCOMPUTER: 'Choose files from your computer'
+    FROMCOMPUTERINFO: 'Upload from your computer'
     TOTAL: Total
-    TOUPLOAD: 'Choose file(s) to upload...'
     UPLOADINPROGRESS: 'Please wait… upload in progress'
     UPLOADOR: OR
   BBCodeParser:
@@ -53,8 +55,9 @@ uk:
     ERRORNOTADMIN: 'Цей користувач не є адміністратором.'
     ERRORNOTREC: 'Таке ім''я користувача / пароль не існує'
   Boolean:
-    ANY: Any
     0: 'False'
+    ANY: Any
+    Hello: Hi
     LOGOUT: 'Log out'
     1: 'True'
   CMSMain:
@@ -91,8 +94,8 @@ uk:
     DAYS: дні
     HOUR: година
     HOURS: годин
-    MIN: 'хв'
-    MINS: 'хв'
+    MIN: хв
+    MINS: хв
     MONTH: місяць
     MONTHS: місяці
     SEC: сек
@@ -109,7 +112,9 @@ uk:
     VALIDDATEMINDATE: 'Your date has to be newer or matching the minimum allowed date ({date})'
   Director:
     ADD: Add
+    CSVEXPORT: 'Export to CSV'
     INVALID_REQUEST: 'Invalid request'
+    NOTFOUND: 'No items found'
   DropdownField:
     CHOOSE: (Оберіть)
   EmailField:
@@ -120,6 +125,7 @@ uk:
   Enum:
     ANY: Будь-який
     LOADING: Loading...
+    REQUIREJS: 'The CMS requires that you have JavaScript enabled.'
   File:
     Content: Content
     Filename: Filename
@@ -199,18 +205,18 @@ uk:
     CHANGEPASSWORDTEXT1: 'Ви змінили свій пароль для'
     CHANGEPASSWORDTEXT2: 'Тепер Ви можете використовувати наступні дані для входу:'
     Code: 'Код групи'
-    DefaultGroupTitleAdministrators: Administrators
+    DefaultGroupTitleAdministrators: Адміністратори
     DefaultGroupTitleContentAuthors: 'Content Authors'
-    Description: Description
+    Description: Опис
     EMAIL: Email
     GroupReminder: 'If you choose a parent group, this group will take all it''s roles'
     HELLO: Привіт
     Locked: 'Заблокувати?'
-    NoRoles: 'No roles found'
+    NoRoles: 'Ролі не знайдені'
     PASSWORD: Password
     Parent: 'Батьківська група'
     RolesAddEditLink: 'Manage roles'
-    Sort: 'Sort Order'
+    Sort: 'Порядок сортування'
     TITLE: 'АйФрейм завантаження зображення'
     has_many_Permissions: Права
     many_many_Members: Члени
@@ -247,7 +253,7 @@ uk:
     IMAGEALT: 'Alternative text (alt)'
     IMAGEALTTEXT: 'Альтернативний текст (alt) - відображається якщо зображення не відображається'
     IMAGEALTTEXTDESC: 'Shown to screen readers or if image can not be displayed'
-    IMAGEDIMENSIONS: 'Розміри'
+    IMAGEDIMENSIONS: Розміри
     IMAGEHEIGHTPX: Висота
     IMAGETITLE: 'Текст заголовку (tooltip) - для додаткової інформації про зображення'
     IMAGETITLETEXT: 'Title text (tooltip)'
@@ -272,6 +278,7 @@ uk:
   Image_iframe.ss: 'ChangePasswordEmail.ss:  BackLink_Button.ss:  CMSLoadingScreen.ss:  RelationComplexTableField.ss:  ForgotPasswordEmail.ss:    APPLY FILTER: "Apply Filter"  GridFieldItemEditView.ss:    Go back: "Go back"  ModelSidebar.ss:  TableListField_PageControls.ss:  ModelAdmin_Tools.ss:  ComplexTableField_popup.ss:  TableField.ss:  FileIFrameField_iframe.ss:  ComplexTableField.ss:  TableListField.ss:  ModelAdmin_ImportSpec.ss:  LeftAndMain_Menu.ss:'
   LeftAndMain:
     ADD: 'Add a new row'
+    ADDITEM: 'Add %s'
     CANT_REORGANISE: 'You do not have permission to alter Top level pages. Your change was not saved.'
     DELETED: Deleted.
     DropdownBatchActionsDefault: Actions
@@ -298,10 +305,10 @@ uk:
     CONFIRMNEWPASSWORD: 'Підтвердіть новий пароль'
     CONFIRMPASSWORD: 'Підтвердіть пароль'
     DefaultAdminFirstname: 'Default Admin'
-    DefaultDateTime: default
+    DefaultDateTime: типовий
     EMAIL: Е-пошта
-    EMPTYNEWPASSWORD: 'The new password can''t be empty, please try again'
-    ENTEREMAIL: 'Please enter an email address to get a password reset link.'
+    EMPTYNEWPASSWORD: 'Новий пароль не може бути порожнім, будь-ласка, спробуйте ще раз'
+    ENTEREMAIL: 'Введіть, будь-ласка, електронну адресу щоб отримати посилання для відновлення паролю.'
     ERRORLOCKEDOUT: 'Ваш екаунт тимчасово заблоковано, тому що було багато невдалих спроб входу. Будь ласка спробуйте знову через 20 хвилин.'
     ERRORNEWPASSWORD: 'Ви ввели новий пароль із відмінностями, спробуйте знову'
     ERRORPASSWORDNOTMATCH: 'Ваш теперішній пароль не збігається, будь ласка, повторіть'
@@ -313,7 +320,7 @@ uk:
     NEWPASSWORD: 'Новий пароль'
     PASSWORD: Пароль
     PLURALNAME: Члени
-    PROFILESAVESUCCESS: 'Successfully saved.'
+    PROFILESAVESUCCESS: 'Збереження пройшло успішно.'
     REMEMBERME: 'Пам''ятати мене наступного разу?'
     SINGULARNAME: Член
     SUBJECTPASSWORDCHANGED: 'Ваш пароль змінено'
@@ -324,10 +331,10 @@ uk:
     WELCOMEBACK: 'Welcome Back, {firstname}'
     YOUROLDPASSWORD: 'Ваш старий пароль'
     belongs_many_many_Groups: Групи
-    db_LastVisited: 'Last Visited Date'
+    db_LastVisited: 'Дата останнього відвідування'
     db_Locale: 'Interface Locale'
     db_LockedOutUntil: 'Заблоковано поки'
-    db_NumVisit: 'Number of Visits'
+    db_NumVisit: 'Кількість відвідувань'
     db_Password: Пароль
     db_PasswordExpiry: 'Дата закінчення терміну дії пароля'
   MemberAuthenticator:
@@ -383,7 +390,9 @@ uk:
     FULLADMINRIGHTS: 'Full administrative rights'
     FULLADMINRIGHTS_HELP: 'Implies and overrules all other assigned permissions.'
     IMPORTSPECFIELDS: 'Database columns'
+    IMPORTSPECLINK: 'Show Specification for %s'
     IMPORTSPECRELATIONS: Relations
+    IMPORTSPECTITLE: 'Specification for %s'
   PermissionCheckboxSetField:
     AssignedTo: 'assigned to "{title}"'
     FromGroup: 'inherited from group "{title}"'
@@ -410,29 +419,32 @@ uk:
     PASSWORDSENTTEXT: 'Thank you! A reset link has been sent to ''{email}'', provided an account exists for this email address.'
   SecurityAdmin:
     ACCESS_HELP: 'Allow viewing, adding and editing users, as well as assigning permissions and roles to them.'
-    APPLY_ROLES: 'Apply roles to groups'
+    APPLY_ROLES: 'Застосувати ролі до груп'
     APPLY_ROLES_HELP: 'Ability to edit the roles assigned to a group. Requires the "Access to ''Users'' section" permission.'
     EDITPERMISSIONS: 'Керувати дозволами для груп'
     EDITPERMISSIONS_HELP: 'Ability to edit Permissions and IP Addresses for a group. Requires the "Access to ''Security'' section" permission.'
-    GROUPNAME: 'Group name'
-    IMPORTGROUPS: 'Import groups'
+    GROUPNAME: 'Назва групи'
+    IMPORTGROUPS: 'Імпортувати групи'
     IMPORTUSERS: 'Import users'
-    MEMBERS: Members
+    MEMBERS: Члени
     MENUTITLE: Security
     MemberListCaution: 'Caution: Removing members from this list will remove them from all groups and the database'
     NEWGROUP: 'Нова Група'
-    PERMISSIONS: Permissions
-    ROLES: Roles
+    PERMISSIONS: Дозволи
+    ROLES: Ролі
     ROLESDESCRIPTION: 'Roles are predefined sets of permissions, and can be assigned to groups.<br />They are inherited from parent groups if required.'
-    TABROLES: Roles
-    Users: Users
+    TABROLES: Ролі
+    Users: Користувачі
   SecurityAdmin_MemberImportForm:
     BtnImport: 'Import from CSV'
     FileFieldLabel: 'CSV File <small>(Allowed extensions: *.csv)</small>'
   SilverStripeNavigator:
+    DISPLAYING: Displaying
     Edit: Edit
     FILTER: Filter
     IMPORT: Import
+    OF: of
+    TO: to
     VIEWFIRST: 'View first'
     VIEWLAST: 'View last'
     VIEWNEXT: 'View next'
@@ -442,39 +454,44 @@ uk:
   SiteTree:
     TABMAIN: Головна
   TableField:
-    ADDITEM: Додати
+    ADDITEM: 'Add %s'
     ISREQUIRED: 'In %s ''%s'' is required'
+    NOITEMSFOUND: 'No items found'
     SORTASC: 'Sort in ascending order'
     SORTDESC: 'Sort in descending order'
   TableListField:
     CSVEXPORT: 'Експортувати в CSV'
     PRINT: Друкувати
-    Print: Друкувати
-    SELECT: 'Select:'
+    Print: Print
+    SELECT: 'Вибрати:'
   TimeField:
     VALIDATEFORMAT: 'Please enter a valid time format ({format})'
   ToggleField:
     LESS: менше
     MORE: більше
   UploadField:
-    ATTACHFILE: 'Attach a file'
-    ATTACHFILES: 'Attach files'
-    AttachFile: 'Attach a file'
+    ATTACHFILE: 'Прикріпити файл'
+    ATTACHFILES: 'Прикріпити файли'
+    AttachFile: 'Прикріпити файл(и)'
+    DELETE: 'Delete from files'
     DELETEINFO: 'Permanently delete this file from the file store'
-    DOEDIT: Save
+    DOEDIT: Зберегти
     DROPFILE: 'drop a file'
     DROPFILES: 'drop files'
     Dimensions: Dimensions
-    EDITINFO: 'Edit this file'
+    EDIT: Edit
+    EDITINFO: 'Редагувати цей файл'
     FIELDNOTSET: 'File information not found'
     FROMCOMPUTER: 'From your computer'
-    FROMFILES: 'From files'
+    FROMCOMPUTERINFO: 'Select from files'
+    FROMFILES: 'З файлів'
     MAXNUMBEROFFILES: 'Max number of {count} file(s) exceeded.'
     MAXNUMBEROFFILESSHORT: 'Can only upload {count} files'
     REMOVE: Remove
-    REMOVEERROR: 'Error removing file'
+    REMOVEERROR: 'Помилка видалення файла'
     REMOVEINFO: 'Remove this file from here, but do not delete it from the file store'
     STARTALL: 'Start all'
+    STARTALLINFO: 'Start all uploads'
     Saved: Saved
   Versioned:
     has_many_Versions: Версіїї

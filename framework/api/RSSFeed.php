@@ -8,6 +8,7 @@
  * @subpackage integration
  */
 class RSSFeed extends ViewableData {
+
 	/**
 	 * Casting information for this object's methods.
 	 * Let's us use $Title.XML in templates
@@ -79,6 +80,11 @@ class RSSFeed extends ViewableData {
 	 * @var string The value for the HTTP ETag header.
 	 */
 	protected $etag;
+
+	/**
+	 * @var string
+	 */
+	protected $template = 'RSSFeed';
 
 	/**
 	 * Constructor
@@ -203,9 +209,28 @@ class RSSFeed extends ViewableData {
 	function feedContent() {
 		$prevState = SSViewer::get_source_file_comments();
 		SSViewer::set_source_file_comments(false);
-		$content = str_replace('&nbsp;', '&#160;', $this->renderWith('RSSFeed'));
+		$content = str_replace('&nbsp;', '&#160;', $this->renderWith($this->getTemplate()));
 		SSViewer::set_source_file_comments($prevState);
 		return $content;
+	}
+
+	/**
+	 * Set the name of the template to use. Actual template will be resolved
+	 * via the standard template inclusion process.
+	 *
+	 * @param string
+	 */
+	public function setTemplate($template) {
+		$this->template = $template;
+	}
+
+	/**
+	 * Returns the name of the template to use.
+	 *
+	 * @return string
+	 */
+	public function getTemplate() {
+		return $this->template;
 	}
 }
 
@@ -314,6 +339,6 @@ class RSSFeed_Entry extends ViewableData {
 	function AbsoluteLink() {
 		if($this->failover->hasMethod('AbsoluteLink')) return $this->failover->AbsoluteLink();
 		else if($this->failover->hasMethod('Link')) return Director::absoluteURL($this->failover->Link());
-		else user_error($this->failover->class . " object has either an AbsoluteLink nor a Link method.  Can't put a link in the RSS feed", E_USER_WARNING);
+		else user_error($this->failover->class . " object has neither an AbsoluteLink nor a Link method.  Can't put a link in the RSS feed", E_USER_WARNING);
 	}
 }

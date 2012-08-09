@@ -162,7 +162,6 @@ class RestfulService extends ViewableData {
 		$timeout   = 5;
 		$sapphireInfo = new SapphireInfo(); 
 		$useragent = 'SilverStripe/' . $sapphireInfo->Version();
-		$useragent = 'Mozilla/5.0 (X11; Linux x86_64; rv:6.0.1) Gecko/20100101 Firefox/6.0.1';
 
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

@@ -27,7 +27,7 @@ sk:
   AssetAdmin_DeleteBatchAction:
     TITLE: 'Delete folders'
   AssetTableField:
-    BACKLINKCOUNT: 'Used on:'
+    BACKLINKCOUNT: 'Použité na:'
     PAGES: page(s)
   BasicFieldsTestPage:
     DESCRIPTION: 'Generic content page'
@@ -47,6 +47,7 @@ sk:
     HasBrokenLink: 'obsahuje porušený odkaz'
     HasBrokenLinkAndFile: 'obsahuje porušený odkaz a súbor'
     HoverTitleEditPage: 'Upraviť stránku'
+    NOITEMSFOUND: 'No items found'
     PageName: 'Názov stránky'
     ReasonDropdown: 'Problem pri skontrolovaní'
     ReasonDropdownBROKENFILE: 'Porušnený súbor'
@@ -69,6 +70,8 @@ sk:
     UNPUBLISHED_PAGES: 'Od-publikované %d stranky'
     UNPUBLISH_PAGES: Od-publikovať
   CMSFileAddController:
+    CANACCESS: 'Archivovaný web môžete navštíviť týmto odkazom:'
+    HAVEASKED: 'Požiadali ste o zobrazenie obsahu webu z'
     MENUTITLE: Súbory
   CMSMain:
     ACCESS: 'Access to ''{title}'' section'
@@ -82,6 +85,8 @@ sk:
     DELETEFP: 'Vymazať z publikovaného webu'
     DESCREMOVED: 'and {count} descendants'
     EMAIL: 'Pošli e-mailom'
+    EditTree: 'Edit Tree'
+    ListFiltered: 'Filtered list.'
     MENUTITLE: 'Upraviť stránku'
     NEW: Nový
     PAGENOTEXISTS: 'Táto stránka neexistuje.'
@@ -92,7 +97,7 @@ sk:
     PUBALLFUN: 'Funkcia "Publikovať všetko"'
     PUBALLFUN2: 'Stlačením tohto tlačidla vykonáte to isté ako keby ste navštívili každú stránku a stlačili "publikuj". Je určené na použite po rozsiahlych zmenách obsahu, napríklad keď bol web prvýkrát vytvorený.'
     PUBPAGES: 'Done: Published {count} pages'
-    PageAdded: 'Successfully created page'
+    PageAdded: 'Stránka vytvorená úspešne'
     REMOVED: 'Vymazané ''%s''%s z publikovaného webu'
     REMOVEDPAGE: 'Removed ''{title}'' from the published site'
     REMOVEDPAGEFROMDRAFT: 'Odstránené ''%s'' z pracovnej verzie stránky'
@@ -106,6 +111,8 @@ sk:
     TabContent: Obsah
     TabHistory: História
     TabSettings: Nastavenia
+    TreeFiltered: 'Filtered tree.'
+    TreeFilteredClear: 'Clear filter'
   CMSPageAddController:
     MENUTITLE: 'Add page'
     ParentMode_child: 'Under another page'
@@ -143,9 +150,12 @@ sk:
     UNKNOWN: Neznáma
     WHEN: When
   CMSSiteTreeFilter_ChangedPages:
+    DISPLAYING: Displaying
     ENABLEDRAGGING: 'Drag''n''drop'
     GO: Vykonať
     MULTISELECT: Multi-selection
+    OF: of
+    TO: to
     Title: 'Changed pages'
     VIEWFIRST: 'Zobraz prvé'
     VIEWLAST: 'Zobraz posledné'
@@ -155,6 +165,8 @@ sk:
     Title: 'All pages, including deleted'
   CMSSiteTreeFilter_Search:
     Title: 'Všetky stránky'
+  CaseStudy:
+    DESCRIPTION: 'Case study page to fature work examples'
   ContentControl:
     NOTEWONTBESHOWN: 'Poznámka: Táto správa sa nebude zobrazovať vašim návštevníkom'
   ContentController:
@@ -164,17 +176,17 @@ sk:
     DRAFTSITE: 'Pracovná verzia stránky'
     DRAFT_SITE_ACCESS_RESTRICTION: 'Pre zobrazenie návrhov alebo archivovaného obsahu sa musíte prihlásiť so svojím CMS heslom. <a href="%s">Pre návrat na publikovaný web kliknite Tu.</a>'
     Email: Email
-    InstallFilesDeleted: 'Installation files have been successfully deleted.'
+    InstallFilesDeleted: 'Inštalačné súbory boli odstranené úspešne.'
     InstallSecurityWarning: 'For security reasons you should now delete the install files, unless you are planning to reinstall later (<em>requires admin login, see above</em>). The web server also now only needs write access to the "assets" folder, you can remove write access from all other folders. <a href="{link}" style="text-align: center;">Click here to delete the install files.</a>'
-    InstallSuccessCongratulations: 'SilverStripe has been successfully installed.'
+    InstallSuccessCongratulations: 'SilverStripe bol nainštalovaný úspešne.'
     LOGGEDINAS: 'Prihlásený ako'
     LOGIN: Prihlásiť
     LOGOUT: Odhlásiť
     NOTLOGGEDIN: Neprihlásený
     PUBLISHEDSITE: 'Publikovaný web'
-    Password: Password
+    Password: Heslo
     PostInstallTutorialIntro: 'This website is a simplistic version of a SilverStripe 2 site. To extend this, please take a look at {link}.'
-    StartEditing: 'You can start editing your site\\''s content by opening <a href="{link}">the CMS</a>.'
+    StartEditing: 'Môžte začať editáciu vášho web obsahu otvorením <a href="{link}">CMS</a>.'
     UnableDeleteInstall: 'Unable to delete installation files. Please delete the files below manually'
     VIEWPAGEIN: 'Prezrieť stránku v:'
   ErrorPage:
@@ -216,6 +228,7 @@ sk:
     UploadFilesButton: Upload
   GridFieldTestPage:
     DESCRIPTION: 'Generic content page'
+    FILTER: Filter
   LeftAndMain:
     DELETED: Deleted.
     PreviewButton: Preview
@@ -225,23 +238,11 @@ sk:
     VersionUnknown: Neznáma
   LegacyTableFieldsTestPage:
     DESCRIPTION: 'Generic content page'
-  MyNonRootPage:
-    CANACCESS: 'Archivovaný web môžete navštíviť týmto odkazom:'
-    DESCRIPTION: 'Generic content page'
-    HAVEASKED: 'Požiadali ste o zobrazenie obsahu webu z'
-  MyOtherPage:
-    DESCRIPTION: 'Generic content page'
-  MyPage:
-    DESCRIPTION: 'Generic content page'
-  MyRandomPage:
-    DESCRIPTION: 'Generic content page'
-  PackageManagerPage:
-    DESCRIPTION: 'Generic content page'
-    RESET: Reset
   Page:
     DESCRIPTION: 'Generic content page'
   Permission:
     CMS_ACCESS_CATEGORY: 'Prístup do CMS'
+    RESET: Reset
   Permissions:
     CONTENT_CATEGORY: 'Právomoci k obsahu'
     PERMISSIONS_CATEGORY: 'Právomoci pre úlohy a prístupy'
@@ -262,7 +263,7 @@ sk:
   ReportAdminForm:
     FILTERBY: 'Filtrovať podľa'
   SearchForm:
-    GO: 'Štart'
+    GO: Štart
     SEARCH: Hľadať
     SearchResults: 'Výsledky vyhľadávania'
   SideReport:
@@ -323,6 +324,7 @@ sk:
     DELETEDPAGEHELP: 'Page is no longer published'
     DELETEDPAGESHORT: Deleted
     DEPENDENT_NOTE: 'Nasledujúce stránky sú závislé na tejto stránke. To zahŕňa virtuálne stránky, presmerovania a stránky s odkazmi.'
+    DESCRIPTION: 'Generic content page'
     DependtPageColumnLinkType: 'Typ odkazu'
     DependtPageColumnURL: Url
     EDITANYONE: 'Ktokoľvek kto sa môže prihlásiť do CMS'
@@ -344,6 +346,7 @@ sk:
     METATITLE: Titulok
     MODIFIEDONDRAFTHELP: 'Page has unpublished changes'
     MODIFIEDONDRAFTSHORT: Modified
+    MetadataToggle: Metadata
     PAGELOCATION: 'Pozícia stránky'
     PAGETITLE: 'Meno stránky'
     PAGETYPE: 'Typ stránky'
@@ -382,13 +385,12 @@ sk:
     many_many_ImageTracking: 'Záznamy o  obrázkov'
     many_many_LinkTracking: 'Záznamy o odkazoch'
   SiteTreeURLSegmentField:
-    HelpChars: ' Special characters are automatically converted or removed.'
+    HelpChars: 'Špeciálne znaky sú automaticky zkonvertované alebo ostránené.'
   StaticExporter:
     BASEURL: 'Základná URL adresa'
     EXPORTTO: 'Exportovať do tohto adresára'
     NAME: 'Statický export'
   TableListField:
-    FILTER: Filter
     SELECT: 'Vyberte:'
   TestFileUploadPage:
     DESCRIPTION: 'Generic content page'

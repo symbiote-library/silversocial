@@ -102,7 +102,13 @@ class FileField extends FormField {
 	 * @param int $value The value of the field.
 	 */
 	function __construct($name, $title = null, $value = null) {
-		if(count(func_get_args()) > 3) Deprecation::notice('3.0', 'Use setRightTitle() and setFolderName() instead of constructor arguments');
+		if(count(func_get_args()) > 3) {
+			Deprecation::notice(
+				'3.0', 
+				'Use setRightTitle() and setFolderName() instead of constructor arguments', 
+				Deprecation::SCOPE_GLOBAL
+			);
+		}
 
 		$this->upload = new Upload();
 	
@@ -132,8 +138,7 @@ class FileField extends FormField {
 			// assume that the file is connected via a has-one
 			$hasOnes = $record->has_one($this->name);
 			// try to create a file matching the relation
-			// $file = (is_string($hasOnes)) ? Object::create($hasOnes) : new $fileClass(); 
-			$file = new $fileClass(); 
+			$file = (is_string($hasOnes)) ? Object::create($hasOnes) : new $fileClass(); 
 		} else {
 			$file = new $fileClass();
 		}
@@ -206,4 +211,16 @@ class FileField extends FormField {
 		
 		return true;
 	}
+
+	/**
+	 * @return Upload
+	 */
+	public function getUpload() {
+		return $this->upload;
+	}
+
+	public function setUpload(Upload $upload) {
+		$this->upload = $upload;
+	}
+
 }

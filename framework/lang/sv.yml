@@ -16,12 +16,14 @@ sv:
     ChooseFiles: 'Välj filer'
     DRAGFILESHERE: 'Dra filer hit'
     DROPAREA: 'Släpp här'
-    EDITALL: 'Edit all'
+    EDITALL: 'Redigera alla'
     EDITANDORGANIZE: 'Redigera och organisera'
-    FILES: Files
-    TOTAL: Total
-    TOUPLOAD: 'Choose file(s) to upload...'
-    UPLOADINPROGRESS: 'Please wait… upload in progress'
+    EDITINFO: 'Edit files'
+    FILES: Filer
+    FROMCOMPUTER: 'Välj filer från din dator'
+    FROMCOMPUTERINFO: 'Ladda upp från din dator'
+    TOTAL: Totalt
+    UPLOADINPROGRESS: 'Var god dröj... uppladdning pågår'
     UPLOADOR: ELLER
   BBCodeParser:
     ALIGNEMENT: Justering
@@ -53,12 +55,13 @@ sv:
     ERRORNOTADMIN: 'Den användaren är inte administratör'
     ERRORNOTREC: 'Användarnamnet / lösenordet hittas inte'
   Boolean:
-    ANY: 'Vilken som helst'
     0: Falskt
-    LOGOUT: 'Log out'
+    ANY: 'Vilken som helst'
+    Hello: Hej
+    LOGOUT: 'Logga ut'
     1: Sant
   CMSMain:
-    ACCESS: 'Access to ''{title}'' section'
+    ACCESS: 'Tillgång till sektionen ''{title}'''
     ACCESSALLINTERFACES: 'Tillgång till alla CMS-sektioner'
     ACCESSALLINTERFACESHELP: 'Ersätter mer specifika behörighetsinställningar.'
     SAVE: Spara
@@ -69,12 +72,12 @@ sv:
     - Sant
   ComplexTableField:
     CLOSEPOPUP: 'Stäng popup'
-    SUCCESSADD2: 'Added {name}'
+    SUCCESSADD2: 'Lade till {name}'
     SUCCESSEDIT: 'Sparade %s %s %s'
   ConfirmedPasswordField:
-    ATLEAST: 'Passwords must be at least {min} characters long.'
-    BETWEEN: 'Passwords must be {min} to {max} characters long.'
-    MAXIMUM: 'Passwords must be at most {max} characters long.'
+    ATLEAST: 'Lösenord måste vara minst {min} tecken långa.'
+    BETWEEN: 'Lösenord måste vara {min} till {max} tecken långa.'
+    MAXIMUM: 'Lösenord får som längst vara {max} tecken långa.'
     SHOWONCLICKTITLE: 'Ändra lösenord'
   CreditCardField:
     FIRST: första
@@ -97,86 +100,89 @@ sv:
     MONTHS: 'månader '
     SEC: sek
     SECS: sekunder
-    TIMEDIFFAGO: '{difference} ago'
-    TIMEDIFFIN: 'in {difference}'
+    TIMEDIFFAGO: '{difference} sen'
+    TIMEDIFFIN: 'om {difference}'
     YEAR: år
     YEARS: år
   DateField:
     NOTSET: 'inte angivet'
     TODAY: 'i dag'
-    VALIDDATEFORMAT2: 'Please enter a valid date format ({format})'
-    VALIDDATEMAXDATE: 'Your date has to be older or matching the maximum allowed date ({date})'
-    VALIDDATEMINDATE: 'Your date has to be newer or matching the minimum allowed date ({date})'
+    VALIDDATEFORMAT2: 'Var god att ange datumet i ett giltigt format ({format})'
+    VALIDDATEMAXDATE: 'Angivet datum måste vara tidigare eller samma som det senaste godkända datumet ({date})'
+    VALIDDATEMINDATE: 'Angivet datum måste vara senare eller samma som det tidigaste godkända datumet ({date})'
   Director:
     ADD: 'Lägg till'
-    INVALID_REQUEST: 'Invalid request'
+    CSVEXPORT: 'Export to CSV'
+    INVALID_REQUEST: 'Ogiltig förfrågan'
+    NOTFOUND: 'No items found'
   DropdownField:
     CHOOSE: (Välj)
   EmailField:
-    VALIDATION: 'Please enter an email address'
+    VALIDATION: 'Var snäll och ange en epostadress'
   Email_BounceRecord:
     PLURALNAME: 'Studsade e-brev'
     SINGULARNAME: 'Studsade e-brev'
   Enum:
     ANY: 'Vilken som helst'
-    LOADING: Loading...
+    LOADING: Laddar...
+    REQUIREJS: 'The CMS requires that you have JavaScript enabled.'
   File:
     Content: Innehåll
     Filename: Filnamn
-    INVALIDEXTENSION: 'Extension is not allowed (valid: {extensions})'
-    INVALIDEXTENSIONSHORT: 'Extension is not allowed'
+    INVALIDEXTENSION: 'Filändelsen tillåts inte (tillåtna: {extensions})'
+    INVALIDEXTENSIONSHORT: 'Filändelsen tillåts inte'
     NOFILESIZE: 'Filstorleken är noll bytes'
     NOVALIDUPLOAD: 'Filen är inte giltig för uppladdning'
     Name: Namn
     PLURALNAME: Filer
     SINGULARNAME: Fil
-    TOOLARGE: 'Filesize is too large, maximum {size} allowed'
-    TOOLARGESHORT: 'Filesize exceeds {size}'
+    TOOLARGE: 'Filen är för stor, max {size} tillåts'
+    TOOLARGESHORT: 'Filstorlek överskriden {size}'
     Title: Titel
   FileIFrameField:
-    ATTACH: 'Attach {type}'
+    ATTACH: 'Bifoga {type}'
     ATTACHONCESAVED: '{type}s can be attached once you have saved the record for the first time.'
     ATTACHONCESAVED2: 'Files can be attached once you have saved the record for the first time.'
-    DELETE: 'Delete {type}'
+    DELETE: 'Radera {type}'
     DISALLOWEDFILETYPE: 'Filtypen är inte tillåten för uppladdning'
     FILE: Fil
     FROMCOMPUTER: 'Från din dator'
     FROMFILESTORE: 'Från filarkivet'
     NOSOURCE: 'Välj filen du vill bifoga'
-    REPLACE: 'Replace {type}'
+    REPLACE: 'Ersätt {type}'
   Filesystem:
-    IMPORT_TAB_HEADER: Import
-    SEARCHLISTINGS: Search
-    SYNCRESULTS: 'Sync complete: {createdcount} items created, {deletedcount} items deleted'
+    IMPORT_TAB_HEADER: Importera
+    SEARCHLISTINGS: Sök
+    SYNCRESULTS: 'Synk genomförd: {createdcount} objekt skapades, {deletedcount} objekt raderades'
   Form:
     FIELDISREQUIRED: '%s är obligatorisk'
     TITLE: 'Iframe för uppladdning av bild'
-    VALIDATIONCREDITNUMBER: 'Please ensure you have entered the {number} credit card number correctly'
+    VALIDATIONCREDITNUMBER: 'Kontrollera att du angav kortnummret {number} rätt'
     VALIDATIONNOTUNIQUE: 'Det angivna värdet är inte unikt'
     VALIDATIONPASSWORDSDONTMATCH: 'Lösenorden stämmer inte överrens '
     VALIDATIONPASSWORDSNOTEMPTY: 'Lösenordfältet får inte vara tomt'
-    VALIDATIONSTRONGPASSWORD: 'Passwords must have at least one digit and one alphanumeric character'
+    VALIDATIONSTRONGPASSWORD: 'Lösenord måste innehålla minst en siffra och en bokstav.'
     VALIDATOR: Validator
-    VALIDCURRENCY: 'Please enter a valid currency'
+    VALIDCURRENCY: 'Var vänlig ange en korrekt valuta'
   FormField:
     NONE: ingen
   GridAction:
-    DELETE_DESCRIPTION: Delete
+    DELETE_DESCRIPTION: Radera
     Delete: Radera
     UnlinkRelation: Avlänka
   GridField:
-    Add: 'Add {name}'
+    Add: 'Lägg till {name}'
     Filter: Filtrera
-    FilterBy: 'Filter by '
+    FilterBy: 'Filtrera på'
     Find: Hitta
-    LEVELUP: 'Level up'
+    LEVELUP: 'Upp en nivå'
     LinkExisting: 'Länk finns'
     NewRecord: 'Ny %s'
     NoItemsFound: 'Inget hittades'
     PRINTEDAT: Utskrivet
     PRINTEDBY: 'Utskrivet av'
-    PlaceHolder: 'Find {type}'
-    PlaceHolderWithLabels: 'Find {type} by {name}'
+    PlaceHolder: 'Hitta {type}'
+    PlaceHolderWithLabels: 'Hitta {type} efter {name}'
     RelationSearch: Relationssökning
     ResetFilter: Rensa
   GridFieldAction_Delete:
@@ -184,13 +190,13 @@ sv:
     NEXT: Nästa
     PREVIOUS: Föregående
   GridFieldDetailForm:
-    Create: Create
-    Delete: Delete
-    DeletePermissionsFailure: 'No delete permissions'
-    Deleted: 'Deleted %s %s'
+    Create: Skapa
+    Delete: Radera
+    DeletePermissionsFailure: 'Rättighet för att radera saknas'
+    Deleted: 'Raderade %s %s'
     HELLO: Hej
-    Save: Save
-    Saved: 'Saved %s %s'
+    Save: Spara
+    Saved: 'Sparade %s %s'
     TEXT1: 'Här är din'
     TEXT2: 'Återställningslänk för lösenord'
     TEXT3: för
@@ -217,19 +223,19 @@ sv:
   GroupImportForm:
     Help1: '<p>Importera en eller flera grupper i <em>CSV</em>- format (komma-separerade värden). <small><a href="#" class ="toggle-advanced">Visa avancerade val</a></small></p>'
     Help2: "<div class=\"advanced\">\\n<h4>Avancerat</h4>\\n<ul>\\n<li>Tillåtna kolumner<em>%s</em></li>\\n<li>Existerande grupper matchas deras unika <em>kod</em>-attribut och uppdateras med alla nya värden från den importerade filen</li>\\n<li>Grupphierarkier kan skapas genom att använda en <em>ParentCode</em>-kolumn.</li>\\n<li>Behörighetskoder kan anges genom en <em>PermissionCode</em>-kolumn. Existerande behörighetskoder raderas inte.</li>\\n</ul>\\n</div>"
-    ResultCreated: 'Created {count} groups'
+    ResultCreated: 'Skapade {count} grupper'
     ResultDeleted: 'Raderade %d grupper'
     ResultUpdated: 'Uppdaterade %d grupper'
   Hierarchy:
-    InfiniteLoopNotAllowed: 'Infinite loop found within the "{type}" hierarchy. Please change the parent to resolve this'
+    InfiniteLoopNotAllowed: 'Oändlig loop hittades i hierarkin "{type}". Var vänlig ändra föräldern för att lösa detta'
   HtmlEditorField:
-    ADDURL: 'Add URL'
-    ADJUSTDETAILSDIMENSIONS: 'Details &amp; dimensions'
+    ADDURL: 'Lägg till URL'
+    ADJUSTDETAILSDIMENSIONS: 'Detaljer &amp; dimensioner'
     ANCHORVALUE: Ankare
     BUTTONINSERT: Infoga
     BUTTONINSERTLINK: 'Infoga länk'
     BUTTONREMOVELINK: 'Ta bort länk'
-    BUTTONUpdate: Update
+    BUTTONUpdate: Uppdatera
     CAPTIONTEXT: Rubriktext
     CSSCLASS: 'Placering / stil'
     CSSCLASSCENTER: 'Centrerad, för sig själv'
@@ -242,18 +248,18 @@ sv:
     FOLDER: Mapp
     FROMCMS: 'Från CMSet'
     FROMCOMPUTER: 'Från din dator'
-    FROMWEB: 'From the web'
-    FindInFolder: 'Find in Folder'
-    IMAGEALT: 'Alternative text (alt)'
+    FROMWEB: 'Från webben'
+    FindInFolder: 'Hitta i mapp'
+    IMAGEALT: 'Alternativ text (alt)'
     IMAGEALTTEXT: 'Alternativ text (alt) - visas om bilden inte kan visas'
-    IMAGEALTTEXTDESC: 'Shown to screen readers or if image can not be displayed'
+    IMAGEALTTEXTDESC: 'Visas för skärmläsare eller om bilden inte kan visas'
     IMAGEDIMENSIONS: Dimensioner
     IMAGEHEIGHTPX: Höjd
     IMAGETITLE: 'Titel text (tooltip) - för ytterligare information om bilden'
-    IMAGETITLETEXT: 'Title text (tooltip)'
-    IMAGETITLETEXTDESC: 'For additional information about the image'
+    IMAGETITLETEXT: 'Titel text (tooltip)'
+    IMAGETITLETEXTDESC: 'För ytterligare information om bilden'
     IMAGEWIDTHPX: Bredd
-    INSERTMEDIA: 'Insert Media'
+    INSERTMEDIA: 'Infoga media'
     LINK: 'Infoga länk'
     LINKANCHOR: 'Ankare på den här sidan'
     LINKDESCR: Länk-beskrivning
@@ -265,32 +271,33 @@ sv:
     LINKTO: 'Länka till'
     PAGE: Sida
     URL: URL
-    URLNOTANOEMBEDRESOURCE: 'The URL ''{url}'' could not be turned into a media resource.'
-    UpdateMEDIA: 'Update Media'
+    URLNOTANOEMBEDRESOURCE: 'URLen ''{url}'' gick inte  att omvandla till ett media.'
+    UpdateMEDIA: 'Uppdatera media'
   ImageField:
     IMAGE: Bild
   Image_iframe.ss: 'ChangePasswordEmail.ss:  BackLink_Button.ss:  CMSLoadingScreen.ss:  RelationComplexTableField.ss:  ForgotPasswordEmail.ss:    APPLY FILTER: "Använd filter"  GridFieldItemEditView.ss:    Go back: "Gå tillbaka"  ModelSidebar.ss:  TableListField_PageControls.ss:  ModelAdmin_Tools.ss:  ComplexTableField_popup.ss:  TableField.ss:  FileIFrameField_iframe.ss:  ComplexTableField.ss:  TableListField.ss:  ModelAdmin_ImportSpec.ss:  LeftAndMain_Menu.ss:'
   LeftAndMain:
     ADD: 'Lägg till ny rad'
-    CANT_REORGANISE: 'You do not have permission to alter Top level pages. Your change was not saved.'
-    DELETED: Deleted.
-    DropdownBatchActionsDefault: 'Åtgärder'
+    ADDITEM: 'Lägg till %s'
+    CANT_REORGANISE: 'Du har inte tillstånd att ändra sidor på toppnivå. Dina ändringar har inte sparats.'
+    DELETED: Raderad
+    DropdownBatchActionsDefault: Åtgärder
     HELP: Hjälp
     PAGETYPE: Sidtyp
     PERMAGAIN: 'Du har blivit utloggad. Om du vill logga in igen anger du dina uppgifter nedan.'
     PERMALREADY: 'Tyvärr så har du inte tillträde till den delen av CMSet. Om du vill logga in med en annan användare kan du göra det nedan'
     PERMDEFAULT: 'Var god välj en inloggningsmetod och fyll i dina uppgifter för att logga in i CMSet.'
     PLEASESAVE: 'Var god spara sidan. Den kan inte uppdateras för att den har inte sparats ännu.'
-    PreviewButton: Preview
-    REORGANISATIONSUCCESSFUL: 'Reorganised the site tree successfully.'
-    SAVEDUP: Saved.
+    PreviewButton: Förhandsgranska
+    REORGANISATIONSUCCESSFUL: 'Omorganisationen av sidträdet luyckades.'
+    SAVEDUP: Sparad.
     VersionUnknown: okänd
   LoginAttempt:
     Email: E-postadress
     IP: IP-adress
     Status: Status
   Member:
-    ADDGROUP: 'Add group'
+    ADDGROUP: 'Lägg till grupp'
     BUTTONCHANGEPASSWORD: 'Ändra lösenord'
     BUTTONLOGIN: 'Logga in'
     BUTTONLOGINOTHER: 'Logga in som annan användare'
@@ -308,8 +315,8 @@ sv:
     ERRORWRONGCRED: 'Antingen e-postadressen eller lösenordet är fel. Försök igen.'
     FIRSTNAME: Förnamn
     INTERFACELANG: Gränssnittsspråk
-    INVALIDNEWPASSWORD: 'We couldn''t accept that password: {password}'
-    LOGGEDINAS: 'You''re logged in as {name}.'
+    INVALIDNEWPASSWORD: 'Vi kunde inte godkänna det lösenordet: {password}'
+    LOGGEDINAS: 'Du är inloggad som {name}.'
     NEWPASSWORD: 'Nytt lösenord'
     PASSWORD: Lösenord
     PLURALNAME: Medlemmar
@@ -320,8 +327,8 @@ sv:
     SUBJECTPASSWORDRESET: 'Din återställningslänk'
     SURNAME: Efternamn
     VALIDATIONMEMBEREXISTS: 'Det finns redan en medlem med samma %s'
-    ValidationIdentifierFailed: 'Can''t overwrite existing member #{id} with identical identifier ({name} = {value}))'
-    WELCOMEBACK: 'Welcome Back, {firstname}'
+    ValidationIdentifierFailed: 'Kan inte skriva över medlem #{id} med samma identifierare ({name} = {value}))'
+    WELCOMEBACK: 'Välkommen tillbaka, {firstname}'
     YOUROLDPASSWORD: 'Ditt gamla lösenord'
     belongs_many_many_Groups: Grupper
     db_LastVisited: 'Datum för senaste besöket'
@@ -355,10 +362,10 @@ sv:
   MemberImportForm:
     Help1: '<p>Importera användare i <em>CSV-format</em> (kommaseparerade värden). <small>a href="#" class="toggle-advanced">Visa avancerat</a></small></p>'
     Help2: "<div class=\"advanced\">\\n<h4>Avancerat </h4>\\n<ul>\\n<li>Tillåtna kolumner: <em>%s</em></li>\\n<li>Existerade medlemmar matchas av deras unika <em>kod</em>-attribut och uppdateras med alla nya värden från den importerade filen</li>\\n<li>Grupper kan anges i <em>Grupp</em>-kolumnen. Grupper identiferas av deras <em>Code</em>-attribut. Anges flera grupper separeras dessa med kommatecken. Existerande gruppmedlemskap tas inte bort.</li>\\n</ul>\\n</div>"
-    ResultCreated: 'Created {count} members'
+    ResultCreated: 'Skapade {count} medlemmar'
     ResultDeleted: 'Raderade %d medlemmar'
     ResultNone: 'Inga ändringar'
-    ResultUpdated: 'Updated {count} members'
+    ResultUpdated: 'Uppdaterade {count} medlemmar'
   MemberTableField: null
   ModelAdmin:
     DELETE: Radera
@@ -368,7 +375,7 @@ sv:
     NOCSVFILE: 'Var god och bläddra efter en CSV-fil för import'
     NOIMPORT: 'Inget att importera'
     RESET: Rensa
-    Title: 'Data Models'
+    Title: Datamodeller
     UPDATEDRECORDS: 'Updated {count} records.'
   MoneyField:
     FIELDLABELAMOUNT: Belopp
@@ -376,23 +383,25 @@ sv:
   NullableField:
     IsNullLabel: 'Är NULL'
   NumericField:
-    VALIDATION: '''{value}'' is not a number, only numbers can be accepted for this field'
+    VALIDATION: '''{value}'' är inget nummer, bara nummer kan accepteras för det här fältet'
   Permission:
     AdminGroup: Administratör
     CMS_ACCESS_CATEGORY: CMS-tillgång
     FULLADMINRIGHTS: 'Fulla administrativa rättigheter'
     FULLADMINRIGHTS_HELP: 'Implicerar och gäller över alla andra tillskrivna rättigheter.'
-    IMPORTSPECFIELDS: 'Database columns'
-    IMPORTSPECRELATIONS: Relations
+    IMPORTSPECFIELDS: Databaskolumner
+    IMPORTSPECLINK: 'Show Specification for %s'
+    IMPORTSPECRELATIONS: Relationer
+    IMPORTSPECTITLE: 'Specification for %s'
   PermissionCheckboxSetField:
-    AssignedTo: 'assigned to "{title}"'
-    FromGroup: 'inherited from group "{title}"'
-    FromRole: 'inherited from role "{title}"'
+    AssignedTo: 'tilldelad till "{title}"'
+    FromGroup: 'ärvde från grupp "{title}"'
+    FromRole: 'ärvde från roll "{title}"'
     FromRoleOnGroup: 'ärvt från roll "%s" i grupp "%s"'
   Permissions:
     PERMISSIONS_CATEGORY: 'Roller och tillgångsinställningar'
   PhoneNumberField:
-    Back: Back
+    Back: Tillbaka
     VALIDATION: 'Var god ange ett giltigt telefonnummer'
   Security:
     ALREADYLOGGEDIN: 'Du har inte tillträde till den här sidan. Om du har ett annat konto som har rätt behörighet kan du logga in igen nedan.'
@@ -404,10 +413,10 @@ sv:
     LOGGEDOUT: 'Du har blivit utloggad. Om du vill logga in igen anger du dina uppgifter nedan.'
     LOGIN: 'Logga in'
     NOTEPAGESECURED: 'Den här sidan är låst. Fyll i dina uppgifter nedan så skickar vi dig vidare.'
-    NOTERESETLINKINVALID: '<p>The password reset link is invalid or expired.</p><p>You can request a new one <a href="{link1}">here</a> or change your password after you <a href="{link2}">logged in</a>.</p>'
+    NOTERESETLINKINVALID: '<p>Återställningslänk för lösenord är felaktig eller för gammal.</p><p>Du kan begära en ny <a href="{link1}">här</a> eller ändra ditt lösenord när du <a href="{link2}">loggat in</a>.</p>'
     NOTERESETPASSWORD: 'Ange din e-postadress så skickar vi en länk med vilken du kan återställa ditt lösenord'
-    PASSWORDSENTHEADER: 'Password reset link sent to ''{email}'''
-    PASSWORDSENTTEXT: 'Thank you! A reset link has been sent to ''{email}'', provided an account exists for this email address.'
+    PASSWORDSENTHEADER: 'Återställningslänk för lösenord har skickats till ''{email}'''
+    PASSWORDSENTTEXT: 'Tack en återställningslänk har skickats till ''{email}'', förutsatt att ett konto med den addressen finns.'
   SecurityAdmin:
     ACCESS_HELP: 'Tillåt visning, skapande och redigerande av användare, såväl som tilldelning av tillstånd och roller till dessa.'
     APPLY_ROLES: 'Applicera roller till grupper'
@@ -418,7 +427,7 @@ sv:
     IMPORTGROUPS: 'Importera grupper'
     IMPORTUSERS: 'Importera användare'
     MEMBERS: Medlemmar
-    MENUTITLE: Security
+    MENUTITLE: Säkerhet
     MemberListCaution: 'Varning: Att radera medlemmar från den här listan kommer också att radera dem från alla grupper och från databasen helt och hållet'
     NEWGROUP: 'Ny grupp'
     PERMISSIONS: Tillstånd
@@ -430,9 +439,12 @@ sv:
     BtnImport: 'Importera från CSV'
     FileFieldLabel: 'CSV-fil <small>(Tillåtna filtyper: *.csv)</small>'
   SilverStripeNavigator:
-    Edit: Edit
-    FILTER: Filter
-    IMPORT: Import
+    DISPLAYING: Displaying
+    Edit: Ändra
+    FILTER: 'Filtrera på'
+    IMPORT: Importera
+    OF: av
+    TO: to
     VIEWFIRST: 'Visa första'
     VIEWLAST: 'Visa sista'
     VIEWNEXT: 'Visa nästa'
@@ -440,41 +452,46 @@ sv:
   SimpleImageField:
     NOUPLOAD: 'Ingen bild uppladdad'
   SiteTree:
-    TABMAIN: Main
+    TABMAIN: Huvudsaklig
   TableField:
-    ADDITEM: 'Lägg till'
-    ISREQUIRED: 'In %s ''%s'' is required'
+    ADDITEM: 'Add %s'
+    ISREQUIRED: 'För %s är ''%s'' obligatoriskt'
+    NOITEMSFOUND: 'No items found'
     SORTASC: 'Sortera i stigande ordning'
     SORTDESC: 'Sortera i fallande ordning'
   TableListField:
     CSVEXPORT: 'Exportera till CSV'
     PRINT: 'Skriv ut'
-    Print: 'Skriv ut'
+    Print: Print
     SELECT: 'Välj:'
   TimeField:
-    VALIDATEFORMAT: 'Please enter a valid time format ({format})'
+    VALIDATEFORMAT: 'Var god att ange tid i ett giltigt format ({format})'
   ToggleField:
     LESS: mindre
     MORE: mer
   UploadField:
     ATTACHFILE: 'Bifoga en fil'
     ATTACHFILES: 'Bifoga fil(er)'
-    AttachFile: 'Bifoga en fil'
+    AttachFile: 'Bifoga fil(er)'
+    DELETE: 'Delete from files'
     DELETEINFO: 'Ta bort filen permanent från filarkivet'
     DOEDIT: Spara
     DROPFILE: 'Släpp en fil'
     DROPFILES: 'släpp filer'
-    Dimensions: Dimensions
+    Dimensions: Dimensioner
+    EDIT: Edit
     EDITINFO: 'Redigera filen'
     FIELDNOTSET: 'Hittade ingen filinformation'
     FROMCOMPUTER: 'Från din dator'
+    FROMCOMPUTERINFO: 'Select from files'
     FROMFILES: 'Från filer'
-    MAXNUMBEROFFILES: 'Max number of {count} file(s) exceeded.'
-    MAXNUMBEROFFILESSHORT: 'Can only upload {count} files'
-    REMOVE: Remove
+    MAXNUMBEROFFILES: 'Max antal ({count}) filer överstiget.'
+    MAXNUMBEROFFILESSHORT: 'Kan bara ladda upp {count} files'
+    REMOVE: 'Ta bort'
     REMOVEERROR: 'Fel när filen skulle tas bort'
     REMOVEINFO: 'Ta bort filen härifrån, men radera den inte från filarkivet'
     STARTALL: 'Starta alla'
+    STARTALLINFO: 'Start all uploads'
     Saved: Sparad
   Versioned:
     has_many_Versions: Versioner
