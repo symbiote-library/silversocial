@@ -136,6 +136,7 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 	public function OwnerFeed() {
 		$since = $this->request->getVar('since');
 		$before = $this->request->getVar('before');
+		$offset = $this->request->getVar('offset');
 		
 		if ($post = $this->request->getVar('post')) {
 			$since = ((int) $post) - 1;

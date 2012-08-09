@@ -155,18 +155,18 @@ class MicroBlogService {
 	 * @param type $beforeTime
 	 * @param type $number 
 	 */
-	public function getStatusUpdates(DataObject $member, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = true, $tags = array(), $number = 10) {
+	public function getStatusUpdates(DataObject $member, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = true, $tags = array(), $offset = 0, $number = 10) {
 		if ($member) {
 			$number = (int) $number;
 			$userIds[] = $member->ProfileID;
 			$filter = array(
 				'ThreadOwnerID'		=> $userIds, 
 			);
-			return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $number);
+			return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $offset, $number);
 		} else {
 			// otherwise, we're implying that we ONLY want 'public' updates
 			$filter = array(); // array('PublicAccess'	=> 1);
-			return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $number);
+			return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $offset, $number);
 		}
 	}
 
@@ -178,7 +178,7 @@ class MicroBlogService {
 	 * @param type $beforeTime
 	 * @param type $number 
 	 */
-	public function getTimeline(DataObject $member, $sortBy = 'ID',  $since = 0, $beforePost = null, $topLevelOnly = true, $tags = array(), $number = 10) {
+	public function getTimeline(DataObject $member, $sortBy = 'ID',  $since = 0, $beforePost = null, $topLevelOnly = true, $tags = array(), $offset = 0, $number = 10) {
 		$following = $this->friendsList($member);
 
 		// TODO Following points to a list of Profile IDs, NOT user ids.
@@ -195,7 +195,7 @@ class MicroBlogService {
 			'OwnerProfileID' => $userIds, 
 		);
 		
-		return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $number);
+		return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $offset, $number);
 	}
 	
 	/**
@@ -209,12 +209,12 @@ class MicroBlogService {
 	 * 
 	 * @return DataList
 	 */
-	public function getRepliesTo(DataObject $to, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = false, $tags = array(), $number = 10) {
+	public function getRepliesTo(DataObject $to, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = false, $tags = array(), $offset = 0, $number = 10) {
 		$filter = array(
 			'ParentID'			=> $to->ID, 
 		);
 		
-		return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $number);
+		return $this->microPostList($filter, $sortBy, $since, $beforePost, $topLevelOnly, $tags, $offset, $number);
 	}
 	
 	/**
@@ -228,7 +228,7 @@ class MicroBlogService {
 	 * 
 	 * @return DataList 
 	 */
-	protected function microPostList($filter, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = true, $tags = array(), $number = 10) {
+	protected function microPostList($filter, $sortBy = 'ID', $since = 0, $beforePost = null, $topLevelOnly = true, $tags = array(), $offset = 0, $number = 10) {
 		if ($topLevelOnly) {
 			$filter['ParentID'] = '0';
 		}

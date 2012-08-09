@@ -1,8 +1,8 @@
-	
+
 <% if Posts %>
+<input type="hidden" class="postQueryOffset" value="$Posts.QueryOffset" />
 <% loop Posts %>
 	<div class="microPost" data-id="$ID" data-parent="$ParentID" id="post$ID" data-rating="$WilsonRating" data-sortby="$Top.SortBy">
-		
 		<div class="postImage">
 			<a href="$Owner.Link"><img src="http://www.gravatar.com/avatar/{$Owner.gravatarHash}.jpg?s=40" /></a>
 		</div>

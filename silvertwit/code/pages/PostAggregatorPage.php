@@ -33,12 +33,19 @@ class PostAggregatorPage_Controller extends Page_Controller {
 		$since = $this->request->getVar('since');
 		$before = $this->request->getVar('before');
 		$page = $this->request->getVar('page');
+		$offset = $this->request->getVar('offset');
 		
 		$tags = $this->request->getVar('tags') ? $this->request->getVar('tags') : $this->tags;
 
 		if (strlen($page)) {
 			$before = array(
 				'Page'			=> $page,
+			);
+		}
+		
+		if ($offset) {
+			$before = array(
+				'Offset'		=> $offset,
 			);
 		}
 		

@@ -16,6 +16,8 @@ window.Microblog = window.Microblog || {}
 		
 		var loading = false;
 		
+		var nextQueryOffset = 0;
+		
 		var refreshTimeline = function (since) {
 			if (pendingUpdate) {
 				return pendingUpdate;
@@ -34,7 +36,7 @@ window.Microblog = window.Microblog || {}
 
 			loading = true;
 			pendingUpdate = getPosts({since: since, replies: 1});
-			
+
 			pendingUpdate.done(function () {
 				pendingUpdate = null;
 				loading = false;
@@ -71,7 +73,7 @@ window.Microblog = window.Microblog || {}
 
 			if (earliest) {
 				++pagenum;
-				var restrict = rating ? {page: pagenum} : {before: earliest};
+				var restrict = rating ? {page: pagenum, offset: nextQueryOffset} : {before: earliest, offset: nextQueryOffset};
 				pendingLoad = getPosts(restrict, true).done(function () {
 					pendingLoad = null;
 				});
@@ -88,10 +90,11 @@ window.Microblog = window.Microblog || {}
 				postContainer.empty();
 				if (data && data.length > 0) {
 					postContainer.append(data);
+					nextQueryOffset = postContainer.find('.postQueryOffset').val();
 					postContainer.find('div.microPost').each (function () {
 						var wrapper = $('<div class="newposts">');
 						var me = $(this);
-						
+
 						var parentId = parseInt(me.attr('data-parent'));
 						if (!parentId) {
 							if (append) {
@@ -166,15 +169,22 @@ window.Microblog = window.Microblog || {}
 			})
 		};
 		
+		var setOffset = function (o) {
+			nextQueryOffset = o;
+		}
+		
 		return {
 			refresh: refreshTimeline,
 			more: morePosts,
 			deletePost: deletePost,
-			vote: vote
+			vote: vote,
+			setOffset: setOffset
 		}
 	}();
 
 	$(function () {
+		Microblog.Timeline.setOffset($('.postQueryOffset').val());
+		
 		$.entwine('microblog', function ($) {
 			$('.timeago').entwine({
 				onmatch: function () {
