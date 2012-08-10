@@ -5,6 +5,10 @@
 
     <div class="span12">
 	
+		<div id="PostAggregatorIntro">
+			$Content
+		</div>
+		
 	<input type="hidden" name="timelineUpdateUrl" value="$Link(Timeline)" />
 	
 	<div id="StatusFeed">
