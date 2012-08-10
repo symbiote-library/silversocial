@@ -149,7 +149,7 @@ class DataService {
 
 		$ret = $this->filterList($list, $requiredPerm);
 
-		// @TODO properly recalculate the offset that we had to use by recursively calling loadObjects
+		// properly recalculate the offset that we had to use by recursively calling loadObjects
 		// with the next page of info until we have enough, then return the actual offset used in the
 		// list of objects
 		if (isset($limit[1])) {

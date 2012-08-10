@@ -13,6 +13,11 @@ class TransactionManager {
 		
 	}
 	
+	public function runAsAdmin($closure) {
+		$admin = Security::findAnAdministrator();
+		return $this->run($closure, $admin);
+	}
+	
 	public function run($closure, $as=null) {
 		DB::getConn()->transactionStart();
 		$args = func_get_args();
@@ -22,15 +27,18 @@ class TransactionManager {
 			singleton('SecurityContext')->setMember($as);
 		}
 		
+		$return = null;
 		if (is_array($closure)) {
-			call_user_func_array($closure, $args);
+			$return = call_user_func_array($closure, $args);
 		} else {
-			$closure();
+			$return = $closure();
 		}
 
 		if ($as) {
 			singleton('SecurityContext')->setMember($current);
 		}
 		DB::getConn()->transactionEnd();
+		
+		return $return;
 	}
 }

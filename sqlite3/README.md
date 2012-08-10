@@ -9,7 +9,7 @@ Andreas Piening (Nickname: apiening)
 
 Requirements
 ------------
-SilverStripe 2.4 or newer
+SilverStripe 3.0 or newer
 
 
 Installation

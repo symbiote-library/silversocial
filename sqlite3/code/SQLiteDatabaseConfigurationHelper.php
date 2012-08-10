@@ -152,9 +152,6 @@ class SQLiteDatabaseConfigurationHelper implements DatabaseConfigurationHelper {
 	 * Ensure that the database connection is able to use an existing database,
 	 * or be able to create one if it doesn't exist.
 	 *
-	 * Unfortunately, PostgreSQLDatabase doesn't support automatically creating databases
-	 * at the moment, so we can only check that the chosen database exists.
-	 * 
 	 * @param array $databaseConfig Associative array of db configuration, e.g. "server", "username" etc
 	 * @return array Result - e.g. array('success' => true, 'alreadyExists' => 'true')
 	 */

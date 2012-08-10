@@ -76,18 +76,17 @@ class SQLite3Database extends SS_Database {
 		$file = $parameters['path'] . '/' . $dbName;
 
 		// use the very lightspeed SQLite In-Memory feature for testing
-		if(SapphireTest::using_temp_db() && $parameters['memory']) {
+		if(isset($parameters['memory']) && $parameters['memory']) {
 			$file = ':memory:';
 			$this->lives_in_memory = true;
 		} else {
 			$this->lives_in_memory = false;
+			if(!file_exists($parameters['path'])) {
+				SQLiteDatabaseConfigurationHelper::create_db_dir($parameters['path']);
+				SQLiteDatabaseConfigurationHelper::secure_db_dir($parameters['path']);
+			}
 		}
 		
-		if(!file_exists($parameters['path'])) {
-			SQLiteDatabaseConfigurationHelper::create_db_dir($parameters['path']);
-			SQLiteDatabaseConfigurationHelper::secure_db_dir($parameters['path']);
-		}
-
 		$this->dbConn = new SQLite3($file, SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE, $parameters['key']);
 		if(method_exists('SQLite3', 'busyTimeout')) $this->dbConn->busyTimeout(60000);
 
@@ -123,6 +122,10 @@ class SQLite3Database extends SS_Database {
 	 */
 	public function supportsCollations() {
 		return true;
+	}
+
+	public function supportsTimezoneOverride() {
+		return false;
 	}
 
 	/**
@@ -426,6 +429,7 @@ class SQLite3Database extends SS_Database {
 				$newColsSpec[] = "\"" . (($name == $oldName) ? $newName : $name) . "\" $spec";
 			}
 
+			// SQLite doesn't support direct renames through ALTER TABLE
 			$queries = array(
 				"BEGIN TRANSACTION",
 				"CREATE TABLE \"{$tableName}_renamefield_{$oldName}\" (" . implode(',', $newColsSpec) . ")",
@@ -435,15 +439,21 @@ class SQLite3Database extends SS_Database {
 				"COMMIT"
 			);
 
-			$indexList = $this->indexList($tableName);
+			// Remember original indexes
+			$oldIndexList = $this->indexList($tableName);
+
+			// Then alter the table column
 			foreach($queries as $query) $this->query($query.';');
 
-			foreach($indexList as $indexName => $indexSpec) {
+			// Recreate the indexes
+			foreach($oldIndexList as $indexName => $indexSpec) {
 				$renamedIndexSpec = array();
-				foreach(explode(',', $indexSpec) as $col) $renamedIndexSpec[] = $col == $oldName ? $newName : $col;
+				foreach(explode(',', $indexSpec) as $col) {
+					$col = trim($col, '"'); // remove quotes
+					$renamedIndexSpec[] = ($col == $oldName) ? $newName : $col;
+				}
 				$this->createIndex($tableName, $indexName, implode(',', $renamedIndexSpec));
 			}
-
 		}
 	}
 
@@ -452,7 +462,7 @@ class SQLite3Database extends SS_Database {
 		$fieldList = array();
 
 		if($sqlCreate && $sqlCreate['sql']) {
-			preg_match('/^[\s]*CREATE[\s]+TABLE[\s]+[\'"]?[a-zA-Z0-9_]+[\'"]?[\s]*\((.+)\)[\s]*$/ims', $sqlCreate['sql'], $matches);
+			preg_match('/^[\s]*CREATE[\s]+TABLE[\s]+[\'"]?[a-zA-Z0-9_\\\]+[\'"]?[\s]*\((.+)\)[\s]*$/ims', $sqlCreate['sql'], $matches);
 			$fields = isset($matches[1]) ? preg_split('/,(?=(?:[^\'"]*$)|(?:[^\'"]*[\'"][^\'"]*[\'"][^\'"]*)*$)/x', $matches[1]) : array();
 			foreach($fields as $field) {
 				$details = preg_split('/\s/', trim($field));
@@ -528,6 +538,7 @@ class SQLite3Database extends SS_Database {
 			foreach(DB::query('PRAGMA index_info("' . $index["name"] . '")') as $details) $list[] = $details['name'];
 			$indexList[$index["name"]] = implode(',', $list);
 		}
+		foreach($indexList as $name => $val) $indexList[$name] = "\"$val\"";
 
 		return $indexList;
 	}
@@ -1187,7 +1198,7 @@ class SQLite3Query extends SS_Query {
 	protected $handle;
 
 	/**
-	 * Hook the result-set given into a Query class, suitable for use by sapphire.
+	 * Hook the result-set given into a Query class, suitable for use by framework.
 	 * @param database The database object that created this query.
 	 * @param handle the internal sqlite3 handle that is points to the resultset.
 	 */
