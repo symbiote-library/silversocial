@@ -20,8 +20,9 @@
 #
 
 sqlite3:master git://github.com/silverstripe-labs/silverstripe-sqlite3.git local
-cms:master git@github.com:nyeholt/silverstripe-cms.git local
-framework:master git@github.com:nyeholt/sapphire.git local
+
+framework:master:3.0.1 git://github.com/silverstripe/sapphire.git local
+cms:master:3.0.1 git://github.com/silverstripe/silverstripe-cms.git local
 
 multivaluefield:ss3 git://github.com/nyeholt/silverstripe-multivaluefield.git local
 
