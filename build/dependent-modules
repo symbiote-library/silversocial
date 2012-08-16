@@ -21,11 +21,11 @@
 
 sqlite3:master git://github.com/silverstripe-labs/silverstripe-sqlite3.git local
 
-# framework:master:3.0.1 git://github.com/silverstripe/sapphire.git local
-# cms:master:3.0.1 git://github.com/silverstripe/silverstripe-cms.git local
+framework:master:3.0.1 git://github.com/silverstripe/sapphire.git local
+cms:master:3.0.1 git://github.com/silverstripe/silverstripe-cms.git local
 
-framework:composer git://github.com/ajshort/sapphire.git
-cms:composer git://github.com/ajshort/silverstripe-cms.git
+# framework:composer git://github.com/ajshort/sapphire.git
+# cms:composer git://github.com/ajshort/silverstripe-cms.git
 
 multivaluefield:ss3 git://github.com/nyeholt/silverstripe-multivaluefield.git local
 
