@@ -242,6 +242,10 @@ class SyncrotronService {
 				$existing->MasterNode = $object->MasterNode;
 				$existing->OriginalID = $object->OriginalID;
 				$existing->CreatedUTC = $object->CreatedUTC;
+
+				// need to write again because further syncro will need to lookup these values if there are circular
+				// refereces. 
+				$existing->write();
 			}
 
 			$existing->LastEditedUTC = $object->LastEditedUTC;
@@ -255,7 +259,7 @@ class SyncrotronService {
 			}
 		}
 	}
-	
+
 	/**
 	 * Converts an object into a serialised form used for sending over the wire
 	 * 
