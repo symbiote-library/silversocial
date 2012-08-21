@@ -17,8 +17,8 @@ class MicroPost extends DataObject implements Syncroable {
 
 	public static $has_one = array(
 		
-		'ThreadOwner'	=> 'PublicProfile',
-		'OwnerProfile'	=> 'PublicProfile',
+		'ThreadOwner'	=> 'PublicProfile',			// owner of the thread this is in
+		'OwnerProfile'	=> 'PublicProfile',			// owner of the actual post itself
 		'Parent'		=> 'MicroPost',
 		'Thread'		=> 'MicroPost',
 		'Attachment'	=> 'File',
@@ -59,6 +59,8 @@ class MicroPost extends DataObject implements Syncroable {
 		'securityContext'		=> '%$SecurityContext',
 		'syncrotronService'		=> '%$SyncrotronService',
 	);
+	
+	public static $default_sort = 'ID DESC';
 
 	/**
 	 * Do we automatically detect oembed data and change comments? 
@@ -190,7 +192,7 @@ class MicroPost extends DataObject implements Syncroable {
 		
 		// otherwise, find a post by this user and use the shared parent
 		$owner = $this->Owner();
-		if ($owner) {
+		if ($owner && $owner->exists()) {
 			$source = $owner->postPermissionSource();
 			$this->PermSourceID = $source->ID;
 			// TODO: Remove this; it's only used until all posts have an appropriate permission source...
@@ -214,7 +216,22 @@ class MicroPost extends DataObject implements Syncroable {
 	public function fromSyncro($properties) {
 		$this->syncrotronService->unsyncroObject($properties, $this);
 		
-		// now make sure the 
-		
+		// now make sure the other things are aligned
+		if (isset($properties->Post_ThreadEmail)) {
+			$profile = DataList::create('PublicProfile')->filter(array('Email' => $properties->Post_ThreadEmail))->first();
+			if ($profile) {
+				$this->ThreadOwnerID = $profile->ID;
+			}
+		}
+
+		if (isset($properties->Post_OwnerEmail)) {
+			$profile = DataList::create('PublicProfile')->filter(array('Email' => $properties->Post_OwnerEmail))->first();
+			if ($profile) {
+				$this->OwnerProfileID = $profile->ID;
+			}
+		}
+
+		// bind the correct permission source
+		$this->permissionSource();
 	}
 }

@@ -58,6 +58,12 @@ class MicroBlogMember extends DataExtension {
 	public $transactionManager;
 	
 	public function onBeforeWrite() {
+
+		if (!$this->owner->ID && !$this->owner->Email) {
+			throw new Exception("Cannot create user without Email");
+			throw new Exception(print_r(debug_backtrace(), true));
+		}
+
 		parent::onBeforeWrite();
 		if ($this->owner->OwnerID != $this->owner->ID) {
 			$this->owner->OwnerID = $this->owner->ID;
