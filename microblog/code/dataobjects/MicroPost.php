@@ -12,14 +12,15 @@ class MicroPost extends DataObject implements Syncroable {
 		'OriginalLink'	=> 'Varchar',
 		'IsOembed'		=> 'Boolean',
 		'Deleted'		=> 'Boolean',
-		'ThreadID'		=> 'Int',
 		'NumReplies'	=> 'Int',
 	);
 
 	public static $has_one = array(
+		
 		'ThreadOwner'	=> 'PublicProfile',
 		'OwnerProfile'	=> 'PublicProfile',
 		'Parent'		=> 'MicroPost',
+		'Thread'		=> 'MicroPost',
 		'Attachment'	=> 'File',
 
 		'PermSource'	=> 'PermissionParent',
@@ -203,10 +204,17 @@ class MicroPost extends DataObject implements Syncroable {
 	public function forSyncro() {
 		$props = $this->syncrotronService->syncroObject($this);
 		unset($props['PermSourceID']);
+		
+		$props['Post_ThreadEmail'] = $this->ThreadOwner()->Email;
+		$props['Post_OwnerEmail'] = $this->OwnerProfile()->Email;
+		
 		return $props;
 	}
 
 	public function fromSyncro($properties) {
 		$this->syncrotronService->unsyncroObject($properties, $this);
+		
+		// now make sure the 
+		
 	}
 }
