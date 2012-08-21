@@ -113,6 +113,9 @@ class SyncrotronService {
 
 		$allUpdates = array();
 		foreach ($typesToSync as $type) {
+			if ($type == 'SyncroTestObject') {
+				continue;
+			}
 			$objects = $this->dataService->getAll($type, $filter, '"LastEditedUTC" ASC', "", "", $requiredPerm);
 			if ($objects && $objects->count()) {
 				foreach ($objects as $object) {
