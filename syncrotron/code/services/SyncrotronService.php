@@ -113,6 +113,9 @@ class SyncrotronService {
 
 		$allUpdates = array();
 		foreach ($typesToSync as $type) {
+			if ($type == 'SyncroTestObject') {
+				continue;
+			}
 			$objects = $this->dataService->getAll($type, $filter, '"LastEditedUTC" ASC', "", "", $requiredPerm);
 			if ($objects && $objects->count()) {
 				foreach ($objects as $object) {
@@ -228,7 +231,7 @@ class SyncrotronService {
 				}
 			} else {
 				$cls = $object->ClassName;
-				$existing = new $cls;
+				$existing = $cls::create();
 				if (isset($object->Title)) {
 					$existing->Title = $object->Title;
 				}
