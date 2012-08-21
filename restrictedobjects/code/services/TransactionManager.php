@@ -14,6 +14,11 @@ class TransactionManager {
 	}
 	
 	public function runAsAdmin($closure) {
+		// TODO This is so horribly ugly - is there no better way to know that we're in dev/build for the first time?
+		$admins = Permission::get_members_by_permission('ADMIN')->First();
+		if (!$admins) {
+			return;
+		}
 		$admin = Security::findAnAdministrator();
 		return $this->run($closure, $admin);
 	}

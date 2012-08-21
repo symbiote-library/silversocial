@@ -85,9 +85,8 @@ class MicroBlogMember extends DataExtension {
 	
 	public function onAfterWrite() {
 		parent::onAfterWrite();
-		
 	}
-	
+
 	protected function syncProfile($profile) {
 		$profile->FirstName = $this->owner->FirstName;
 		$profile->Surname = $this->owner->Surname;
@@ -231,7 +230,9 @@ class MicroBlogMember extends DataExtension {
 				$group->write();
 				return $group;
 			});
-			$this->owner->$groupTypeID = $group->ID;
+			if ($group) {
+				$this->owner->$groupTypeID = $group->ID;
+			}
 			return $group;
 		}
 	}
