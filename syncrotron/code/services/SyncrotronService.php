@@ -11,6 +11,10 @@ class SyncrotronService {
 	
 	const SERVICE_URL = 'jsonservice/Syncrotron/listUpdates';
 	
+	public static $dependencies = array(
+		'dataService'		=> '%$DataService',
+	);
+	
 	/**
 	 * Do we require strict permission checking? 
 	 * 
@@ -39,7 +43,7 @@ class SyncrotronService {
 	/**
 	 * @var DataService
 	 */
-	private $dataService;
+	public $dataService;
 	
 	/**
 	 * Logger 
@@ -48,7 +52,6 @@ class SyncrotronService {
 	private $log;
 	
 	public function __construct() {
-		$this->dataService = singleton('DataService');
 		$this->log = new KLogger(SYNCROTRON_LOGDIR, KLogger::INFO);
 	}
 
@@ -110,7 +113,7 @@ class SyncrotronService {
 
 		$allUpdates = array();
 		foreach ($typesToSync as $type) {
-			$objects = $this->dataService->getAll($type, $filter, '"LastEditedUTC" ASC', "", "", "DataObjectSet", $requiredPerm);
+			$objects = $this->dataService->getAll($type, $filter, '"LastEditedUTC" ASC', "", "", $requiredPerm);
 			if ($objects && $objects->count()) {
 				foreach ($objects as $object) {
 					$toSync = $object->forSyncro();
@@ -282,11 +285,11 @@ class SyncrotronService {
 		foreach ($hasOne as $name => $type) {
 			// get the object
 			$object = $item->getComponent($name);
-			if ($object && $object->exists()) {
+			if ($object && $object->exists() && $object instanceof Syncroable) {
 				$has_ones[$name] = array('ContentID' => $object->ContentID, 'Type' => $type);
 			}
 		}
-		
+
 		$properties['has_one'] = $has_ones;
 		
 		return $properties;

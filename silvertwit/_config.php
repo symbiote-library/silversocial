@@ -5,3 +5,4 @@ Director::addRules(100, array(
 ));
 
 ThirdPartyAuthController::$default_group = 'Members';
+

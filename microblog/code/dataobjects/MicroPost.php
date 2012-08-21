@@ -4,7 +4,7 @@
  * @author marcus@silverstripe.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
-class MicroPost extends DataObject {
+class MicroPost extends DataObject implements Syncroable {
 	public static $db = array(
 		'Title'			=> 'Varchar(255)',
 		'Content'		=> 'Text',
@@ -21,7 +21,7 @@ class MicroPost extends DataObject {
 		'OwnerProfile'	=> 'PublicProfile',
 		'Parent'		=> 'MicroPost',
 		'Attachment'	=> 'File',
-		
+
 		'PermSource'	=> 'PermissionParent',
 	);
 
@@ -38,8 +38,9 @@ class MicroPost extends DataObject {
 		'Rateable',
 		'Restrictable',
 		'TaggableExtension',
+		'SyncroableExtension',
 	);
-	
+
 	public static $summary_fields = array(
 		'Title', 
 		'Content',
@@ -55,6 +56,7 @@ class MicroPost extends DataObject {
 		'socialGraphService'	=> '%$SocialGraphService',
 		'microBlogService'		=> '%$MicroBlogService',
 		'securityContext'		=> '%$SecurityContext',
+		'syncrotronService'		=> '%$SyncrotronService',
 	);
 
 	/**
@@ -80,6 +82,11 @@ class MicroPost extends DataObject {
 	 * @var SecurityContext
 	 */
 	public $securityContext;
+	
+	/**
+	 * @var SyncrotronService 
+	 */
+	public $syncrotronService;
 
 	public function onBeforeWrite() {
 		parent::onBeforeWrite();
@@ -191,5 +198,15 @@ class MicroPost extends DataObject {
 			Restrictable::set_enabled(true);
 			return $source;
 		}
+	}
+
+	public function forSyncro() {
+		$props = $this->syncrotronService->syncroObject($this);
+		unset($props['PermSourceID']);
+		return $props;
+	}
+
+	public function fromSyncro($properties) {
+		$this->syncrotronService->unsyncroObject($properties, $this);
 	}
 }

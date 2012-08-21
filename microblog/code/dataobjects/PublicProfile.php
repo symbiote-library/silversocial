@@ -8,13 +8,16 @@
  */
 class PublicProfile extends DataObject {
 	public static $db = array(
-		'FirstName' => 'Varchar',
-		'Surname' => 'Varchar',
-		'Email' => 'Varchar(256)', // See RFC 5321, Section 4.5.3.1.3.
-		'MemberID'	=> 'Int',
-		'Votes'		=> 'Int',
+		'FirstName'		=> 'Varchar',
+		'Surname'		=> 'Varchar',
+		'Email'			=> 'Varchar(256)', // See RFC 5321, Section 4.5.3.1.3.
+		'Votes'			=> 'Int',
 	);
-	
+
+	public static $has_one = array(
+		'Member'		=> 'Member',
+	);
+
 	public function Link() {
 		$microblog = DataObject::get_one('SiteDashboardPage', '"ParentID" = 0');
 		return $microblog->Link('board/main/' . $this->MemberID);
