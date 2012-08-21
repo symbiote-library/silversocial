@@ -20,7 +20,7 @@ class SyncrotronService {
 	 * 
 	 * If set to true, then the user requires the 'Syncro' permission to the object to be able to display 
 	 * the item
-	 *
+	 * 
 	 * @var boolean
 	 */
 	private $strictAccess = true;
@@ -38,12 +38,19 @@ class SyncrotronService {
 	 * 
 	 * @var type 
 	 */
-	private $filterDate = 'UpdatedUTC';
-	
+	private $filterDate = 'LastEditedUTC';
+
 	/**
 	 * @var DataService
 	 */
 	public $dataService;
+	
+	/**
+	 * Do we create new members who own data in the remote system but don't exist in this system yet? 
+	 * 
+	 * @var boolean
+	 */
+	public $createMembers = true;
 	
 	/**
 	 * Logger 
@@ -322,6 +329,11 @@ class SyncrotronService {
 			$owner = DataObject::get_one('Member', '"Email" = \'' . Convert::raw2sql($object->Restrictable_OwnerEmail) .'\'');
 			if ($owner && $owner->exists()) {
 				$item->OwnerID = $owner->ID;
+			} else if ($this->createMembers) {
+				$member = Member::create();
+				$member->Email = $object->Restrictable_OwnerEmail;
+				$member->write();
+				$item->OwnerID = $member->ID;
 			}
 		}
 
