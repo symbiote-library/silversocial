@@ -231,7 +231,7 @@ class SyncrotronService {
 				}
 			} else {
 				$cls = $object->ClassName;
-				$existing = new $cls;
+				$existing = $cls::create();
 				if (isset($object->Title)) {
 					$existing->Title = $object->Title;
 				}
