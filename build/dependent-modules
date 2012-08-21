@@ -37,3 +37,5 @@ memberprofiles:development git://github.com/ajshort/silverstripe-memberprofiles.
 orderable git://github.com/ajshort/silverstripe-orderable.git local
 
 # markdowneditorfield git://github.com/wolfv/silverstripe-markdowneditorfield.git local
+
+syncrotron git://github.com/nyeholt/silverstripe-syncrotron.git local
