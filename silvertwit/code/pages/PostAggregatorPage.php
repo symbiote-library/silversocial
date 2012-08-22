@@ -49,4 +49,14 @@ class PostAggregatorPage_Controller extends Page_Controller {
 		$this->tags = $this->getRequest()->param('ID');
 		return array();
 	}
+
+	public function show() {
+		$id = (int) $this->request->param('ID');
+		if ($id) {
+			$since = $id - 1;
+			$posts = $this->microBlogService->getStatusUpdates(Member::create(), 'ID', $since, 0, false, array(), 1);
+			
+			return trim($this->customise(array('Posts' => $posts))->renderWith('Timeline'));
+		}
+	}
 }

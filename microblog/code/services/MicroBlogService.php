@@ -156,7 +156,7 @@ class MicroBlogService {
 	 * @param type $number 
 	 */
 	public function getStatusUpdates(DataObject $member, $sortBy = 'ID', $since = 0, $offset = 0, $topLevelOnly = true, $tags = array(), $number = 10) {
-		if ($member) {
+		if ($member && $member->ID) {
 			$number = (int) $number;
 			$userIds[] = $member->ProfileID;
 			$filter = array(

@@ -25,9 +25,8 @@
 						<a href="#" class="deletePost">delete</a>
 						<% end_if %>
 					<% end_if %>
-				
 				<% else %>
-				<a href="$Owner.Link?post=$ID">$NumReplies replies</a>
+				<a href="$Top.Link(show)/$ID">$NumReplies replies</a>
 				<% end_if %>
 				
 				<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr> by 
