@@ -275,6 +275,10 @@ class PermissionService {
 	 * @return type 
 	 */
 	public function checkPerm(DataObject $node, $perm, $member=null) {
+		if (!$node) {
+			return false;
+		}
+
 		if (!$member) {
 			$member = singleton('SecurityContext')->getMember();
 		}
@@ -432,6 +436,10 @@ class PermissionService {
 	 */
 	protected function checkOwnerPerms(DataObject $node,$perm, $member) {
 		$ownerId = $node->OwnerID;
+		if (!$node) {
+			return;
+		}
+
 		if ($node->isChanged('OwnerID')) {
 			$changed = $node->getChangedFields();
 			$ownerId = isset($changed['OwnerID']['before']) && $changed['OwnerID']['before'] ? $changed['OwnerID']['before'] : $ownerId;
