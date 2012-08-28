@@ -59,6 +59,10 @@ form.replyForm {
 }
 
 div.uploadForm {
+	display: none;
+}
+
+ul.uploadedFiles {
 	position: fixed;
 	bottom: 0px;
 	right: 0px;
