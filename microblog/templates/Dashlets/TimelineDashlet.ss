@@ -29,19 +29,17 @@
 		
 	</div>
 	
-		<div class=" row ">
-			<div class="uploadForm span8">
-			<% with $UploadForm %>
-			<form $FormAttributes>
-				<% with FieldMap %>
-				<input type="hidden" name="SecurityID" value="$SecurityID" />
-				$Attachment
-				<% end_with %>
-				<ul id="uploadedFiles"></ul>
-			</form>
+	<div class="uploadForm">
+		<% with $UploadForm %>
+		<form $FormAttributes>
+			<% with FieldMap %>
+			<input type="hidden" name="SecurityID" value="$SecurityID" />
+			$Attachment
 			<% end_with %>
-			</div>
-		</div>
+			<ul id="uploadedFiles"></ul>
+		</form>
+		<% end_with %>
+	</div>
 	
 	<input type="hidden" name="timelineUpdateUrl" value="$Link(Timeline)" />
 	

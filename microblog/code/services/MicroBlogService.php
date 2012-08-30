@@ -209,7 +209,7 @@ class MicroBlogService {
 	 * 
 	 * @return DataList
 	 */
-	public function getRepliesTo(DataObject $to, $sortBy = 'ID', $since = 0, $offset = 0, $topLevelOnly = false, $tags = array(), $number = 10) {
+	public function getRepliesTo(DataObject $to, $sortBy = 'ID', $since = 0, $offset = 0, $topLevelOnly = false, $tags = array(), $number = 100) {
 		$filter = array(
 			'ParentID'			=> $to->ID, 
 		);

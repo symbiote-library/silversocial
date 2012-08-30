@@ -120,7 +120,7 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 	
 	public function Timeline() {
 		$replies = (bool) $this->request->getVar('replies');
-		
+
 		$since = $this->request->getVar('since');
 		$offset = (int) $this->request->getVar('offset');
 		

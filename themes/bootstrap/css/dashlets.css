@@ -59,16 +59,19 @@ form.replyForm {
 }
 
 div.uploadForm {
+	padding: 10px;
 	display: none;
-}
-
-ul.uploadedFiles {
 	position: fixed;
-	bottom: 0px;
-	right: 0px;
+	width: 280px;
+	border: 1px solid #666;
+	border-radius: 5px;
+	top: 80px;
+	right: 40px;
 	background: #fff;
 	display: none;
+	z-index:2000;
 }
+
 
 div.dashlet-title {
 	display: none;

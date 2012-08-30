@@ -189,11 +189,6 @@ window.Microblog = window.Microblog || {}
 	$(function () {
 		Microblog.Timeline.setOffset($('.postQueryOffset').val());
 
-		$('.postQueryOffset').entwine({
-			onmatch: function () {
-				Microblog.Timeline.setOffset(this.val());
-			}
-		})
 		
 		$.entwine('microblog', function ($) {
 			$('#StatusFeed').entwine({
@@ -348,7 +343,7 @@ window.Microblog = window.Microblog || {}
 							return formData;
 						},
 						drop: function (e, data) {
-							$('ul.uploadedFiles').show();
+							$('div.uploadForm').show();
 							uploadParent = 0;
 							if (e.currentTarget) {
 								var parent = $(e.currentTarget).closest('div.microPost');
