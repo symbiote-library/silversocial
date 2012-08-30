@@ -189,12 +189,6 @@ window.Microblog = window.Microblog || {}
 	$(function () {
 		Microblog.Timeline.setOffset($('.postQueryOffset').val());
 
-		$('.postQueryOffset').entwine({
-			onmatch: function () {
-				Microblog.Timeline.setOffset(this.val());
-			}
-		})
-		
 		$.entwine('microblog', function ($) {
 			$('#StatusFeed').entwine({
 				onmatch: function () {

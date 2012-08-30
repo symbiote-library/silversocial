@@ -48,7 +48,7 @@
 			
 			<div class="postReplies">
 				<% if Top.ShowReplies %>
-				<% if Replies %>
+				<% if Posts %>
 				<% include Timeline ShowReplies=$Top.ShowReplies %>
 				<% end_if %>
 				<% end_if %>
