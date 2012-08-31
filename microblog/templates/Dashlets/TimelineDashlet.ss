@@ -2,17 +2,6 @@
 
 <% if CurrentMember %>
 
-	<div class="uploadForm">
-		<% with $UploadForm %>
-		<form $FormAttributes>
-			<% with FieldMap %>
-			<input type="hidden" name="SecurityID" value="$SecurityID" />
-			$Attachment
-			<% end_with %>
-			<ul id="uploadedFiles"></ul>
-		</form>
-		<% end_with %>
-	</div>
 
 	<% if $CurrentMember.ID != $OwnerID %>
 		<input type="hidden" name="timelineUpdateUrl" value="$Link(OwnerFeed)" />
@@ -32,10 +21,24 @@
 			<input type="hidden" name="SecurityID" value="$SecurityID" />
 			<% end_with %>
 			$Actions
+			<input type="button" name="uploadTrigger" value="Upload" />
 		</form>
 		<% end_control %>
 		</div>
 		
+		
+	</div>
+	
+	<div class="uploadForm">
+		<% with $UploadForm %>
+		<form $FormAttributes>
+			<% with FieldMap %>
+			<input type="hidden" name="SecurityID" value="$SecurityID" />
+			$Attachment
+			<% end_with %>
+			<ul id="uploadedFiles"></ul>
+		</form>
+		<% end_with %>
 	</div>
 	
 	<input type="hidden" name="timelineUpdateUrl" value="$Link(Timeline)" />
