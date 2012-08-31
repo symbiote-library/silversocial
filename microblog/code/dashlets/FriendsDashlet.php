@@ -49,7 +49,7 @@ class FriendsDashlet_Controller extends Dashlet_Controller {
 			}
 		}
 		
-		$this->redirectBack();
+		return '';
 	}
 	
 }
