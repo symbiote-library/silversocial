@@ -22,6 +22,8 @@ class PostAggregatorPage_Controller extends Page_Controller {
 	
 	protected $tags = '';
 	
+	protected $showReplies = false;
+	
 	public function init() {
 		parent::init();
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-form/jquery.form.js');
@@ -56,10 +58,15 @@ class PostAggregatorPage_Controller extends Page_Controller {
 			$since = $id - 1;
 			$posts = $this->microBlogService->getStatusUpdates(Member::create(), array('ID' => 'ASC'), $since, 0, false, array(), 1);
 
+			$this->showReplies = true;
+			
 			return array(
 				'Timeline'		=> trim($this->customise(array('Posts' => $posts))->renderWith('Timeline')),
-				'ShowReplies'	=> 1,
 			);
 		}
+	}
+	
+	public function ShowReplies() {
+		return $this->showReplies;
 	}
 }
