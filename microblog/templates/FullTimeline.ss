@@ -33,6 +33,7 @@
 			<input type="hidden" name="SecurityID" value="$SecurityID" />
 			<% end_with %>
 			$Actions
+			<input type="button" name="uploadTrigger" value="Upload" />
 		</form>
 		<% end_control %>
 		</div>
