@@ -315,6 +315,13 @@ window.Microblog = window.Microblog || {}
 					return false;
 				}
 			});
+			
+			$('input[name=uploadTrigger]').entwine({
+				onclick: function () {
+					$('div.uploadForm').show();
+					return false;
+				}
+			})
 
 			// TODO Fix issue where dynamically entered textarea.postContent isn't bound as a drop source
 			$('.fileUploadForm').entwine({
