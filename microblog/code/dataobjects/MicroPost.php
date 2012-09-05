@@ -168,13 +168,7 @@ class MicroPost extends DataObject implements Syncroable {
 	}
 	
 	public function Link() {
-		$page = DataObject::get_one('MicroBlogPage');
-		
-		if ($page) {
-			return $page->Link('user') . '/' . $this->OwnerID;
-		}
-		
-		return $this->Owner()->Link();
+		return 'timeline/show/' . $this->ID;
 	}
 
 	public function Posts() {

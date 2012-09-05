@@ -15,7 +15,12 @@
 		<% end_with %>
 	</div>
 
-	<% if $CurrentMember.ID != $ContextUser.ID %>
+	<% if Post %>
+		<input type="hidden" name="timelineUpdateUrl" value="timeline/show/$Post" />
+		<div id="StatusFeed" class="autorefresh">
+		$OwnerFeed
+		</div>
+	<% else_if $CurrentMember.ID != $ContextUser.ID %>
 		<input type="hidden" name="timelineUpdateUrl" value="$Link(OwnerFeed)" />
 		<div id="StatusFeed" class="autorefresh">
 		$OwnerFeed

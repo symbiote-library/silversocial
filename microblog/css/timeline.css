@@ -1,0 +1,69 @@
+
+
+div.postForm > form {
+	padding: 10px;
+}
+
+textarea[name=Content] {
+	width: 80%;
+	display: inline;
+	height: 1.5em;
+}
+
+textarea[name=Content].expanded-content {
+	height: 10em;
+	width: 100%;
+	display: block;
+}
+
+#dropZone {
+	border-radius: 5px;
+	box-shadow: inset 0 0 8px #ccc;
+	height: 50px;
+}
+
+
+div.microPost {
+	padding: 10px;
+}
+
+div.postImage {
+	float: left; 
+	margin-left: -60px;
+}
+
+div.postImage img {
+	border-radius: 5px;
+}
+
+div.microPostContent {
+	background: transparent;
+}
+
+div.postContent {
+	border-radius: 10px;
+	background: #fff;
+	padding: 10px;
+}
+
+form.replyForm {
+	display: none;
+}
+
+div.uploadForm {
+	padding: 10px;
+	display: none;
+	position: fixed;
+	width: 280px;
+	border: 1px solid #666;
+	border-radius: 5px;
+	top: 80px;
+	right: 40px;
+	background: #fff;
+	z-index:2000;
+	
+}
+
+abbr.postTime {
+	margin-left: 20px;
+}

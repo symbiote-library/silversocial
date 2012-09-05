@@ -1,5 +1,7 @@
 <?php
 
+
+
 Object::add_extension('Member', 'MicroBlogMember');
 Object::add_extension('Member', 'Restrictable');
 Object::add_extension('Group', 'Restrictable');

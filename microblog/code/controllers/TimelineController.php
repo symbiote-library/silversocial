@@ -6,7 +6,7 @@
  * @author marcus@silverstripe.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
-class TimelineController extends Controller {
+class TimelineController extends ContentController {
 	/**
 	 * @var MicroBlogService
 	 * 
@@ -18,8 +18,12 @@ class TimelineController extends Controller {
 	protected $showReplies = true;
 	
 	/**
-	 * Context user for this request cycle
-	 * @var type 
+	 * Context user indicates who 'owns' the feed of posts being viewed
+	 * 
+	 * Only really relevant when deciding whether to show the 'add post' form in 
+	 * Dashlet view mode, which means this code really should be refactored. 
+	 * 
+	 * @var Member
 	 */
 	protected $contextUser = null;
 
@@ -39,14 +43,71 @@ class TimelineController extends Controller {
 	public function init() {
 		parent::init();
 		
+		Requirements::block(THIRDPARTY_DIR . '/prototype/prototype.js');
+		
+		Requirements::javascript(THIRDPARTY_DIR . '/jquery/jquery.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/jquery-ui/jquery-ui.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/jquery-entwine/dist/jquery.entwine-dist.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/javascript-templates/tmpl.js');
+		Requirements::javascript(THIRDPARTY_DIR . '/javascript-loadimage/load-image.js');
+		
+		Requirements::javascript(FRAMEWORK_DIR . '/javascript/i18n.js');
+		Requirements::javascript(FRAMEWORK_ADMIN_DIR . '/javascript/ssui.core.js');
+		
+		Requirements::javascript('webservices/javascript/webservices.js');
+		
+		Requirements::javascript('microblog/javascript/date.js');
+		Requirements::javascript('microblog/javascript/microblog.js');
+		
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-form/jquery.form.js');
 		Requirements::javascript('microblog/javascript/timeline.js');
+		
+		Requirements::css('microblog/css/timeline.css');
 	}
 	
 	public function index() {
 		return $this->renderWith('FullTimeline');
 	}
 
+	/**
+	 * Show a particular post
+	 * 
+	 * Note that this MAY be triggered directly from a request via 'viewpost' routing, so 
+	 * don't rely on the $this->data() var to be filled
+	 * 
+	 * @return type 
+	 */
+	public function show() {
+		$id = (int) $this->request->param('ID');
+		if ($id) {
+			$since = $this->request->getVar('since');
+			if (!$since) {
+				$since = $id - 1;
+			}
+			
+			$posts = $this->microBlogService->getStatusUpdates(Member::create(), array('ID' => 'ASC'), $since, 0, false, array(), 1);
+
+			$this->showReplies = true;
+			
+			$timeline = trim($this->customise(array('Posts' => $posts))->renderWith('Timeline'));
+			
+			if (Director::is_ajax()) {
+				return $timeline;
+			}
+
+			$data = array(
+				'Timeline'		=> $timeline,
+				'OwnerFeed'		=> $timeline,
+				'Post'			=> $id,
+			);
+			
+			$timeline = $this->customise($data)->renderWith('FullTimeline');
+			
+			return $this->customise(array('Content' => $timeline))->renderWith(array('TimelineController_show', 'Page'));
+		}
+	}
+	
+	
 	public function PostForm () {
 		$fields = new FieldList(
 			$taf = new TextareaField('Content', _t('MicroBlog.POST', 'Post'))
@@ -136,12 +197,6 @@ class TimelineController extends Controller {
 		$since = $this->request->getVar('since');
 		$offset = (int) $this->request->getVar('offset');
 		
-		// @TODO Fix this logic as we've switched to using offsets properly nowww
-		if ($post = $this->request->getVar('post')) {
-			$since = ((int) $post) - 1;
-			$before = $since + 2;
-		}
-		
 		$timeline = $this->microBlogService->getTimeline($this->securityContext->getMember(), null, $since, $offset, !$replies);
 		return trim($this->customise(array('Posts' => $timeline))->renderWith('Timeline'));
 	}
@@ -149,12 +204,6 @@ class TimelineController extends Controller {
 	public function OwnerFeed() {
 		$since = $this->request->getVar('since');
 		$offset = (int) $this->request->getVar('offset');
-		
-		// @TODO Fix this logic properly!
-		if ($post = $this->request->getVar('post')) {
-			$since = ((int) $post) - 1;
-			$before = $since + 2;
-		}
 
 		$owner = $this->contextUser;
 		if (!$owner || !$owner->exists()) {
@@ -165,13 +214,22 @@ class TimelineController extends Controller {
 		$data = $this->microBlogService->getStatusUpdates($owner, null, $since, $offset, !$replies);
 		return trim($this->customise(array('Posts' => $data))->renderWith('Timeline'));
 	}
-	
+
+	/**
+	 * Returns the object that indicates who 'owns' the feed being viewed
+	 * @return Member 
+	 */
 	public function ContextUser() {
 		return $this->contextUser;
 	}
 	
 	public function Link($action = '') {
-		$link = $this->parentController->Link('timeline');
+		if ($this->parentController) {
+			$link = $this->parentController->Link('timeline');
+		} else {
+			$link = 'timeline';
+		}
+		
 		return Controller::join_links($link, $action);
 	}
 }

@@ -34,9 +34,12 @@ class TimelineDashlet_Controller extends Dashlet_Controller {
 	}
 
 	public function ShowDashlet() {
+		// oh man this is so hacky, but I don't really quite know the best way to do what I want which is
+		// one controller and about ten different ways to access it... all depending on context of course!
 		$controller = $this->timeline();
-		$rendered = $controller->handleRequest($this->request, $this->model);
-		return $rendered instanceof SS_HTTPResponse ? $rendered->getBody() : '';
+		$controller->init();
+		$rendered = $controller->index(); // $controller->handleRequest($this->request, $this->model);
+		return $rendered instanceof SS_HTTPResponse ? $rendered->getBody() : $rendered;
 	}
 
 }

@@ -18,7 +18,7 @@
 				
 				
 				<% if Top.ShowReplies %>
-					<a href="$Top.Link(show)/$ID">permlink</a>
+					<a href="$Link">permalink</a>
 					<a href="#" class="replyToPost">reply</a>
 					<% if Deleted %>
 					<% else %>
@@ -27,7 +27,7 @@
 						<% end_if %>
 					<% end_if %>
 				<% else %>
-				<a href="$Top.Link(show)/$ID">$NumReplies replies</a>
+				<a href="$Link">$NumReplies replies</a>
 				<% end_if %>
 				
 				<abbr class="timeago postTime" title="$Created" data-created="$Created">$Created.Nice</abbr> by 

@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * 
  * @author marcus@silverstripe.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
@@ -28,6 +29,8 @@ class PostAggregatorPage_Controller extends Page_Controller {
 		parent::init();
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-form/jquery.form.js');
 		Requirements::javascript('microblog/javascript/timeline.js');
+		
+		Requirements::css('microblog/css/timeline.css');
 	}
 
 	public function Timeline() {
@@ -52,20 +55,6 @@ class PostAggregatorPage_Controller extends Page_Controller {
 		return array();
 	}
 
-	public function show() {
-		$id = (int) $this->request->param('ID');
-		if ($id) {
-			$since = $id - 1;
-			$posts = $this->microBlogService->getStatusUpdates(Member::create(), array('ID' => 'ASC'), $since, 0, false, array(), 1);
-
-			$this->showReplies = true;
-			
-			return array(
-				'Timeline'		=> trim($this->customise(array('Posts' => $posts))->renderWith('Timeline')),
-			);
-		}
-	}
-	
 	public function ShowReplies() {
 		return $this->showReplies;
 	}
