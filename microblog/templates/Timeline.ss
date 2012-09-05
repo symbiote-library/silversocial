@@ -18,6 +18,7 @@
 				
 				
 				<% if Top.ShowReplies %>
+					<a href="$Top.Link(show)/$ID">permlink</a>
 					<a href="#" class="replyToPost">reply</a>
 					<% if Deleted %>
 					<% else %>
