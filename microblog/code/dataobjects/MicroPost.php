@@ -27,7 +27,7 @@ class MicroPost extends DataObject implements Syncroable {
 	);
 
 	public static $has_many = array(
-		'Replies'		=> 'MicroPost',
+		'Replies'		=> 'MicroPost.Parent',
 	);
 	
 	public static $defaults = array(
@@ -141,7 +141,9 @@ class MicroPost extends DataObject implements Syncroable {
 		if ($this->checkPerm('Delete')) {
 			$this->Tags()->removeAll();
 			// if we have replies, we can't delete completely!
-			if ($this->Replies()->exists()) {
+			if ($this->Replies()->exists() && $this->Replies()->count() > 0) {
+				$count = $this->Replies()->count();
+				$item = $this->Replies()->first();
 				$this->Deleted = true;
 				$this->Content = _t('MicroPost.DELETED', '[deleted]');
 				$this->Author = $this->Content;
