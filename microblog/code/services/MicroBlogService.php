@@ -156,7 +156,7 @@ class MicroBlogService {
 	 * @param type $number 
 	 */
 	public function getStatusUpdates(DataObject $member, $sortBy = 'ID', $since = 0, $offset = 0, $topLevelOnly = true, $tags = array(), $number = 10) {
-		if ($member) {
+		if ($member && $member->ID) {
 			$number = (int) $number;
 			$userIds[] = $member->ProfileID;
 			$filter = array(
@@ -240,12 +240,17 @@ class MicroBlogService {
 
 		$canSort = array('WilsonRating');
 		$sort = array();
-		if (in_array($sortBy, $canSort)) {
-			$sort[$sortBy] = 'DESC';
-		}
+		
+		if (is_string($sortBy)) {
+			if (in_array($sortBy, $canSort)) {
+				$sort[$sortBy] = 'DESC';
+			}
 
-		// final sort if none other specified
-		$sort['ID'] = 'DESC';
+			// final sort if none other specified
+			$sort['ID'] = 'DESC';
+		} else {
+			$sort = $sortBy;
+		}
 
 		$limit = $number ? ((int) $offset) . ', ' . $number : '';
 

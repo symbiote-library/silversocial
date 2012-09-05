@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * 
  * @author marcus@silverstripe.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
@@ -22,10 +23,14 @@ class PostAggregatorPage_Controller extends Page_Controller {
 	
 	protected $tags = '';
 	
+	protected $showReplies = false;
+	
 	public function init() {
 		parent::init();
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-form/jquery.form.js');
 		Requirements::javascript('microblog/javascript/timeline.js');
+		
+		Requirements::css('microblog/css/timeline.css');
 	}
 
 	public function Timeline() {
@@ -48,5 +53,9 @@ class PostAggregatorPage_Controller extends Page_Controller {
 	public function tag() {
 		$this->tags = $this->getRequest()->param('ID');
 		return array();
+	}
+
+	public function ShowReplies() {
+		return $this->showReplies;
 	}
 }
