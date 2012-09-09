@@ -3,6 +3,7 @@
 ## Maintainer
 
 Marcus Nyeholt
+
 <marcus (at) silverstripe (dot) com (dot) au>
 
 ## Documentation

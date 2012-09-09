@@ -172,6 +172,10 @@ class MicroPost extends DataObject implements Syncroable {
 	public function Link() {
 		return 'timeline/show/' . $this->ID;
 	}
+	
+	public function AbsoluteLink() {
+		return Director::absoluteURL($this->Link());
+	}
 
 	public function Posts() {
 		return $this->microBlogService->getRepliesTo($this);
