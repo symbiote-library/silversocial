@@ -66,8 +66,13 @@ class GeneratePostSitemapJob extends AbstractQueuedJob {
 	
 	protected function getProcessIds() {
 		$list = DataList::create('MicroPost');
-		$list = $list->innerJoin('PermissionParent', '"PermissionParent"."ID" = "MicroPost"."PermSourceID"');
-		$list = $list->where('"PermissionParent"."PublicAccess" = 1 AND "ParentID" = 0');
+		$list = $list->filter(array(
+			'PermSource.PublicAccess:ExactMatch' => 1,
+			'ParentID'	=> 0,
+			'Up:GreaterThan'	=> 0,
+		));
+//		$list = $list->innerJoin('PermissionParent', '"PermissionParent"."ID" = "MicroPost"."PermSourceID"');
+//		$list = $list->where('"PermissionParent"."PublicAccess" = 1 AND "ParentID" = 0');
 		return $list->column('ID');
 	}
 
