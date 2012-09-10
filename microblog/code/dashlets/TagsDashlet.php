@@ -24,7 +24,7 @@ class TagsDashlet_Controller extends Dashlet_Controller {
 		
 		$query->addInnerjoin('MicroPost_Tags', 'Tag.ID = MicroPost_Tags.TagID');
 		
-		$date = date('Y-m-d H:i:s', strtotime('-1 week'));
+		$date = date('Y-m-d H:i:s', strtotime('-1 month'));
 		$query->addWhere("MicroPost_Tags.Tagged > '$date'");
 		
 		$query->addGroupBy('Tag.ID');

@@ -54,7 +54,7 @@ class MicroPost extends DataObject implements Syncroable {
 	);
 	
 	public static $dependencies = array(
-		'socialGraphService'	=> '%$SocialGraphService',
+		'queuedJobService'		=> '%$QueuedJobService',
 		'microBlogService'		=> '%$MicroBlogService',
 		'securityContext'		=> '%$SecurityContext',
 		'syncrotronService'		=> '%$SyncrotronService',
@@ -72,9 +72,9 @@ class MicroPost extends DataObject implements Syncroable {
 	public $oembedDetect = true;
 	
 	/**
-	 * @var SocialGraphService
+	 * @var QueuedJobService
 	 */
-	public $socialGraphService;
+	public $queuedJobService;
 	
 	/**
 	 * @var MicroBlogService
@@ -101,17 +101,22 @@ class MicroPost extends DataObject implements Syncroable {
 				$this->ThreadOwnerID = $member->ProfileID;
 			}
 		}
-
-		if ($this->oembedDetect) {
-			$url = filter_var($this->Content, FILTER_VALIDATE_URL);
-			if (strlen($url) && $this->socialGraphService->isWebpage($url)) {
-				$this->socialGraphService->findPostContent($this, $url);
-			}
+		
+		if (!$this->ID) {
+			$this->postProcess = true;
 		}
 
 		if (!$this->OwnerProfileID) {
 			$this->OwnerProfileID = $member->ProfileID;
 			$this->Author = $this->securityContext->getMember()->getTitle();
+		}
+	}
+	
+	public function onAfterWrite() {
+		parent::onAfterWrite();
+		if ($this->postProcess) {
+			$this->queuedJobService->queueJob(new ProcessPostJob($this));
+			$this->postProcess = false;
 		}
 	}
 	
