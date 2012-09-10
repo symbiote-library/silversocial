@@ -35,6 +35,10 @@ window.Microblog = window.Microblog || {}
 
 			loading = true;
 			pendingUpdate = getPosts({since: since, replies: 1});
+			
+			if (!pendingUpdate) {
+				return;
+			}
 
 			pendingUpdate.done(function () {
 				pendingUpdate = null;
@@ -47,7 +51,6 @@ window.Microblog = window.Microblog || {}
 			})
 			return pendingUpdate;
 		}
-
 		
 		var morePosts = function () {
 			if (pendingLoad) {

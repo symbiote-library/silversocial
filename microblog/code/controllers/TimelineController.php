@@ -83,6 +83,8 @@ class TimelineController extends ContentController {
 			$since = $this->request->getVar('since');
 			if (!$since) {
 				$since = $id - 1;
+			} else {
+				
 			}
 			
 			$posts = $this->microBlogService->getStatusUpdates(Member::create(), array('ID' => 'ASC'), $since, 0, false, array(), 1);
