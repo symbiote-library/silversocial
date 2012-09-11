@@ -89,6 +89,8 @@ class MicroBlogMember extends DataExtension {
 		$this->getGroupFor(self::FRIENDS);
 		$this->getGroupFor(self::FOLLOWERS);
 		
+		$this->owner->Balance = $this->owner->Up - $this->owner->Down;
+		
 		$this->memberFolder();
 	}
 	

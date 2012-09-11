@@ -8,6 +8,13 @@
  */
 class ProcessPostJob extends AbstractQueuedJob {
 	
+	// under what balance should a user need to pass spam checks? 
+	const USER_THRESHOLD = -20;
+	
+	// what number of downvotes does spam attract
+	const SPAM_DOWN = 10;
+	
+	
 	public static $api_key = '';
 	
 	public static $dependencies = array(
@@ -36,10 +43,11 @@ class ProcessPostJob extends AbstractQueuedJob {
 	}
 	
 	public function process() {
-		
 		$post = $this->getObject();
-		
-		if (self::$api_key) {
+		$author = $post->Owner();
+		$balance = $author->Balance;
+
+		if (self::$api_key && $balance < self::USER_THRESHOLD) {
 			require_once Director::baseFolder() . '/microblog/thirdparty/defensio/Defensio.php';
 			$defensio = new Defensio(self::$api_key);
 			$document = array(
@@ -56,18 +64,25 @@ class ProcessPostJob extends AbstractQueuedJob {
 				if ($result && isset($result[1])) {
 					if ($result[1]->allow == 'false') {
 						$post->Content = '[spam]';
-						$post->Down += 100;
+						$post->Down += self::SPAM_DOWN;
 						$post->write();
+						$author->Down += self::SPAM_DOWN;
+						$author->write();
 					}
 				}
 			} catch (Exception $e) {
 				SS_Log::log($e, SS_Log::WARN);
 			}
 		}
-
-		$url = filter_var($post->Content, FILTER_VALIDATE_URL);
-		if (strlen($url) && $this->socialGraphService->isWebpage($url)) {
-			$this->socialGraphService->convertPostContent($post, $url);
+		
+		/**
+		 *Only convert post content by authors who should 
+		 */
+		if ($balance > self::USER_THRESHOLD) {
+			$url = filter_var($post->Content, FILTER_VALIDATE_URL);
+			if (strlen($url) && $this->socialGraphService->isWebpage($url)) {
+				$this->socialGraphService->convertPostContent($post, $url);
+			}
 		}
 
 		$this->isComplete = true;

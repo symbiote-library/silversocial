@@ -460,7 +460,6 @@ class MicroBlogService {
 		$this->transactionManager->run(function () use ($post, $currentVote, $member) {
 			$author = $post->Owner();
 			if ($author && $author->exists() && $author->ID != $member->ID) {
-				$author->Balance += $currentVote->Direction;
 				if ($currentVote->Direction > 0) {
 					$author->Up += 1;
 				} else {
