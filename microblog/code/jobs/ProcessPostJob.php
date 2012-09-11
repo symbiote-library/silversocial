@@ -14,6 +14,9 @@ class ProcessPostJob extends AbstractQueuedJob {
 	// what number of downvotes does spam attract
 	const SPAM_DOWN = 10;
 	
+	// what to use as 'spam' content
+	const SPAM_CONTENT = '[spam]';
+	
 	
 	public static $api_key = '';
 	
@@ -47,7 +50,7 @@ class ProcessPostJob extends AbstractQueuedJob {
 		$author = $post->Owner();
 		$balance = $author->Balance;
 
-		if (self::$api_key && $balance < self::USER_THRESHOLD) {
+		if (self::$api_key && $balance < self::USER_THRESHOLD && $post->Content != self::SPAM_CONTENT) {
 			require_once Director::baseFolder() . '/microblog/thirdparty/defensio/Defensio.php';
 			$defensio = new Defensio(self::$api_key);
 			$document = array(
@@ -63,7 +66,7 @@ class ProcessPostJob extends AbstractQueuedJob {
 
 				if ($result && isset($result[1])) {
 					if ($result[1]->allow == 'false') {
-						$post->Content = '[spam]';
+						$post->Content = self::SPAM_CONTENT;
 						$post->Down += self::SPAM_DOWN;
 						$post->write();
 						$author->Down += self::SPAM_DOWN;
@@ -79,10 +82,8 @@ class ProcessPostJob extends AbstractQueuedJob {
 		 *Only convert post content by authors who should 
 		 */
 		if ($balance > self::USER_THRESHOLD) {
-			$url = filter_var($post->Content, FILTER_VALIDATE_URL);
-			if (strlen($url) && $this->socialGraphService->isWebpage($url)) {
-				$this->socialGraphService->convertPostContent($post, $url);
-			}
+			$this->socialGraphService->convertPostContent($post);
+			$post->write();
 		}
 
 		$this->isComplete = true;

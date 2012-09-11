@@ -148,9 +148,7 @@ class MicroPost extends DataObject implements Syncroable {
 	}
 
 	public function IsImage() {
-		$url = filter_var($this->Content, FILTER_VALIDATE_URL);
-		$pattern = '!^https?://([a-z0-9\-\.\/\_]+\.(?:jpe?g|png|gif))$!Ui';
-		return strlen($url) && preg_match($pattern, $url);
+		return $this->socialGraphService->isImage($this->Content);
 	}
 
 	/**
@@ -187,9 +185,14 @@ class MicroPost extends DataObject implements Syncroable {
 	public function formattedPost() {
 		return Convert::raw2xml($this->Content);
 	}
-	
+
 	public function Link() {
-		return 'timeline/show/' . $this->ID;
+		$additional = '';
+		if (strlen($this->Title)) {
+			$additional = str_replace('.', '-', '-' . URLSegmentFilter::create()->filter($this->Title));
+		}
+		
+		return 'timeline/show/' . $this->ID . $additional;
 	}
 	
 	public function AbsoluteLink() {

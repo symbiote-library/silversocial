@@ -3,7 +3,7 @@
   <head>
     <% base_tag %>
     <meta charset="utf-8">
-    <title>$SiteConfig.Title</title>
+    <title>$SiteConfig.Title <% if Title %>| $Title<% end_if %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">

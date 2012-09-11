@@ -75,3 +75,23 @@ abbr.postTime {
 .downCount {
 	margin-left: 10px;
 }
+
+div.openGraphPost {
+	overflow: auto;
+}
+
+div.openGraphPostContent {
+	margin-left: 120px;
+}
+
+div.openGraphPost .openGraphImage {
+	float: left;
+	padding: 5px;
+	background-color: #eee;
+	
+}
+
+.openGraphImage img {
+	max-width: 100px;
+	max-height: 100px;
+}

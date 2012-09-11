@@ -15,6 +15,11 @@ class SocialGraphService {
 	 * Check whether a given URL is actually an html page 
 	 */
 	public function isWebpage($url) {
+		$url = filter_var($url, FILTER_VALIDATE_URL);
+		if (!strlen($url)) {
+			return false;
+		}
+		
 		$c = curl_init(); 
 		curl_setopt($c, CURLOPT_URL, $url); 
 		curl_setopt($c, CURLOPT_HEADER, 1); // get the header 
@@ -36,6 +41,12 @@ class SocialGraphService {
 		return false;
 	}
 	
+	public function isImage($url) {
+		$url = filter_var($url, FILTER_VALIDATE_URL);
+		$pattern = '!^https?://([a-z0-9\-\.\/\_]+\.(?:jpe?g|png|gif))$!Ui';
+		return strlen($url) && preg_match($pattern, $url);
+	}
+	
 	/**
 	 * Extract a title from a given piece of content
 	 * 
@@ -48,10 +59,18 @@ class SocialGraphService {
 		if ($retrieveTitle) {
 			
 		} else {
+			if ($this->isImage($content)) {
+				return 'Image: ' . basename($content);
+			}
 			
+			if ($this->isWebpage($content)) {
+				return 'Website: ' . basename($content);
+			}
+			
+			return DBField::create_field('Text', $content)->LimitWordCount(5, '');
 		}
 	}
-	
+
 	/**
 	 * Analyse a post and see if there's particular content that should be extracted
 	 * 
@@ -59,29 +78,49 @@ class SocialGraphService {
 	 * @param string $url
 	 * @return type 
 	 */
-	public function convertPostContent($post, $url) {
+	public function convertPostContent($post) {
+		$url = $post->Content;
+		
+		if (!$this->isWebpage($url)) {
+			return;
+		}
 		
 		// let's check for stuff
-		$oembed = Oembed::get_oembed_from_url($post->Content, false, $this->oembedOptions);
+		$oembed = Oembed::get_oembed_from_url($url, false, $this->oembedOptions);
 		if ($oembed) {
-			$post->OriginalLink = $post->Content;
+			$post->OriginalLink = $url;
 			$post->IsOembed = true;
 			$post->Content = $oembed->forTemplate();
-		} else {
-			$graph = OpenGraph::fetch($url);
+			return;
+		} 
 
-			if ($graph) {
-				foreach ($graph as $key => $value) {
-					$data[$key] = Varchar::create_field('Varchar', $value);
-				}
-				if (isset($data['url'])) {
-					$post->OriginalLink = $post->Content;
-					$post->IsOembed = true;
-					$post->Content = $post->customise($data)->renderWith('OpenGraphPost');
-				}
+		$graph = OpenGraph::fetch($url);
+
+		if ($graph) {
+			foreach ($graph as $key => $value) {
+				$data[$key] = Varchar::create_field('Varchar', $value);
+			}
+			if (isset($data['url'])) {
+				$post->OriginalLink = $url;
+				$post->IsOembed = true;
+				$post->Title = $graph->title;
+				$post->Content = $post->customise($data)->renderWith('OpenGraphPost');
+				return;
 			}
 		}
-
+		
+		// get the post and take its <title> tag at the very least
+		$service = new RestfulService($url);
+		$response = $service->request();
+		
+		if ($response && $response->getStatusCode() == 200) {
+			if (preg_match('/<title>(.*?)<\/title>/is', $response->getBody(), $matches)) {
+				$post->Title = $matches[1];
+				$post->OriginalLink = $url;
+				$post->Content = "[url=$url]$post->Title[/url]";
+			}
+		}
+		
 		return $post;
 	}
 }

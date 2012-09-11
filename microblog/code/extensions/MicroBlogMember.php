@@ -45,6 +45,12 @@ class MicroBlogMember extends DataExtension {
 		'Public'
 	);
 	
+	static $summary_fields = array(
+		'Up',
+		'Down',
+		'Balance',
+	);
+	
 	/**
 	 * @var MicroBlogService
 	 */

@@ -16,7 +16,6 @@
 				<a href="#" class="vote" data-dir="1" data-id="$ID">Up</a>
 				<a href="#" class="vote" data-dir="-1" data-id="$ID">Down</a>
 				
-				
 				<% if Top.ShowReplies %>
 					<a href="$Link">permalink</a>
 					<a href="#" class="replyToPost">reply</a>

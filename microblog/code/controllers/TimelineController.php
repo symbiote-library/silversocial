@@ -91,7 +91,9 @@ class TimelineController extends ContentController {
 	 * @return type 
 	 */
 	public function show() {
+		// cast with int here forces the rest of the text to be stripped
 		$id = (int) $this->request->param('ID');
+
 		if ($id) {
 			$since = $this->request->getVar('since');
 			if (!$since) {
@@ -101,6 +103,7 @@ class TimelineController extends ContentController {
 			}
 			
 			$posts = $this->microBlogService->getStatusUpdates(Member::create(), array('ID' => 'ASC'), $since, 0, false, array(), 1);
+			$post = $posts->first();
 
 			$this->showReplies = true;
 			
@@ -115,10 +118,10 @@ class TimelineController extends ContentController {
 				'OwnerFeed'		=> $timeline,
 				'Post'			=> $id,
 			);
-			
+
 			$timeline = $this->customise($data)->renderWith('FullTimeline');
 			
-			return $this->customise(array('Content' => $timeline))->renderWith(array('TimelineController_show', 'Page'));
+			return $this->customise(array('Title' => $post->Title, 'Content' => $timeline))->renderWith(array('TimelineController_show', 'Page'));
 		}
 	}
 	
