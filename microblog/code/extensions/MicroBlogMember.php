@@ -12,6 +12,9 @@ class MicroBlogMember extends DataExtension {
 	public static $db = array(
 		'PostPermission'		=> 'Varchar',
 		'VotesToGive'				=> 'Int',
+		'Balance'					=> 'Int',
+		'Up'						=> 'Int',
+		'Down'						=> 'Int',
 	);
 
 	public static $has_one = array(

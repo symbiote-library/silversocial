@@ -287,7 +287,7 @@ class MicroBlogService {
 	 */
 	public function findMember($searchTerm) {
 		$term = Convert::raw2sql($searchTerm);
-		$current = (int) Member::currentUserID();
+		$current = (int) $this->securityContext->getMember()->ID;
 		$filter = '("FirstName" LIKE \'%' . $term .'%\' OR "Surname" LIKE \'%' . $term . '%\') AND "ID" <> ' . $current;
 
 		$items = $this->dataService->getAllPublicProfile($filter);
@@ -424,7 +424,7 @@ class MicroBlogService {
 	 * @param DataObject $post 
 	 */
 	public function vote(DataObject $post, $dir = 1) {
-		$member = Member::currentUser();
+		$member = $this->securityContext->getMember();
 		
 		if ($member->VotesToGive <= 0) {
 			$post->RemainingVotes = 0;
@@ -455,11 +455,22 @@ class MicroBlogService {
 		if (!$post->OwnerID || !$owner || !$owner->exists()) {
 			$owner = Security::findAnAdministrator();
 		}
-		// write the post as the owner
-		$this->transactionManager->run(function () use ($post) {
+		
+		// write the post as the owner, and calculate some changes for the author
+		$this->transactionManager->run(function () use ($post, $currentVote, $member) {
+			$author = $post->Owner();
+			if ($author && $author->exists() && $author->ID != $member->ID) {
+				$author->Balance += $currentVote->Direction;
+				if ($currentVote->Direction > 0) {
+					$author->Up += 1;
+				} else {
+					$author->Down += 1;
+				}
+				$author->write();
+			}
 			$post->write();
 		}, $owner);
-		
+
 		$this->rewardMember($member, -1);
 		$post->RemainingVotes = $member->VotesToGive;
 

@@ -31,6 +31,10 @@ class ProcessPostJob extends AbstractQueuedJob {
 		return 'Processing #' . $this->getObject()->ID;
 	}
 	
+	public function getJobType() {
+		return QueuedJob::IMMEDIATE;
+	}
+	
 	public function process() {
 		
 		$post = $this->getObject();
@@ -63,7 +67,7 @@ class ProcessPostJob extends AbstractQueuedJob {
 
 		$url = filter_var($post->Content, FILTER_VALIDATE_URL);
 		if (strlen($url) && $this->socialGraphService->isWebpage($url)) {
-			$this->socialGraphService->findPostContent($post, $url);
+			$this->socialGraphService->convertPostContent($post, $url);
 		}
 
 		$this->isComplete = true;

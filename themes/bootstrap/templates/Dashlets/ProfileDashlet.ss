@@ -10,9 +10,7 @@
 		
 	<% end_if %>
 	
-	<p>$Owner.Title (<span class="ownerVotes" data-id="$Owner.ID">$Owner.VotesToGive</span>)</p>
-	
-	
+	<p>$Owner.Title (<span class="ownerVotes" data-id="$Owner.ID" title="Votes Available">$Owner.VotesToGive</span> | <span class="ownerBalance" title="Balance">$Owner.Balance</span>)</p>
 	
 	</div>
 	

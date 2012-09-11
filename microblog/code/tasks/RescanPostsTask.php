@@ -1,4 +1,4 @@
-e<?php
+<?php
 
 /**
  * @author marcus@silverstripe.com.au

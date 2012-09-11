@@ -28,12 +28,28 @@ class SocialGraphService {
 		} 
 		
 		if (stripos($result, 'Content-type: text/html')) {
-			$svc = new RestfulService($url);
-			$response = $svc->request('', 'GET');
+//			$svc = new RestfulService($url);
+//			$response = $svc->request('', 'GET');
 			return true;
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Extract a title from a given piece of content
+	 * 
+	 * @param string $content 
+	 *					The content to get a title for
+	 * @param boolean $retrieveTitle
+	 *					Whether to pull the locations title tag down
+	 */
+	public function extractTitle($content, $retrieveTitle = false) {
+		if ($retrieveTitle) {
+			
+		} else {
+			
+		}
 	}
 	
 	/**
@@ -43,7 +59,7 @@ class SocialGraphService {
 	 * @param string $url
 	 * @return type 
 	 */
-	public function findPostContent($post, $url) {
+	public function convertPostContent($post, $url) {
 		
 		// let's check for stuff
 		$oembed = Oembed::get_oembed_from_url($post->Content, false, $this->oembedOptions);

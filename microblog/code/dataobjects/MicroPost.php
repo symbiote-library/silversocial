@@ -44,7 +44,7 @@ class MicroPost extends DataObject implements Syncroable {
 
 	public static $summary_fields = array(
 		'Title', 
-		'Content',
+		'ContentSummary',
 		'Created'
 	);
 	
@@ -54,6 +54,7 @@ class MicroPost extends DataObject implements Syncroable {
 	);
 	
 	public static $dependencies = array(
+		'socialGraphService'	=> '%$SocialGraphService',
 		'queuedJobService'		=> '%$QueuedJobService',
 		'microBlogService'		=> '%$MicroBlogService',
 		'securityContext'		=> '%$SecurityContext',
@@ -70,6 +71,11 @@ class MicroPost extends DataObject implements Syncroable {
 	 * @var boolean
 	 */
 	public $oembedDetect = true;
+	
+	/**
+	 * @var SocialGraphService
+	 */
+	public $socialGraphService;
 	
 	/**
 	 * @var QueuedJobService
@@ -110,6 +116,10 @@ class MicroPost extends DataObject implements Syncroable {
 			$this->OwnerProfileID = $member->ProfileID;
 			$this->Author = $this->securityContext->getMember()->getTitle();
 		}
+		
+		if (!$this->Title) {
+			$this->Title = $this->socialGraphService->extractTitle($this->Content);
+		}
 	}
 	
 	public function onAfterWrite() {
@@ -118,6 +128,10 @@ class MicroPost extends DataObject implements Syncroable {
 			$this->queuedJobService->queueJob(new ProcessPostJob($this));
 			$this->postProcess = false;
 		}
+	}
+	
+	public function ContentSummary() {
+		return $this->obj('Content')->ContextSummary(40, 'poweapfawepofj');
 	}
 	
 	/**
