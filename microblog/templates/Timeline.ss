@@ -12,7 +12,7 @@
 			<% include PostContent %>
 			</div>
 			<p class="postOptions">
-				<span class="upCount">$Up</span> - <span class="downCount">$Down</span>
+				<span class="upCount">$Up</span>-<span class="downCount">$Down</span>
 				<a href="#" class="vote" data-dir="1" data-id="$ID">Up</a>
 				<a href="#" class="vote" data-dir="-1" data-id="$ID">Down</a>
 				

@@ -7,11 +7,17 @@
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class TimelineController extends ContentController {
+	
+	const POOR_USER_THRESHOLD = -100;
+	
 	/**
 	 * @var MicroBlogService
-	 * 
 	 */
 	public $microBlogService;
+	
+	/**
+	 * @var SecurityContext
+	 */
 	public $securityContext;
 	
 	protected $parentController = null;
@@ -61,10 +67,17 @@ class TimelineController extends ContentController {
 		
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-form/jquery.form.js');
 		Requirements::javascript('microblog/javascript/timeline.js');
-		
+
 		Requirements::css('microblog/css/timeline.css');
+
+		$member = $this->securityContext->getMember();
+		if ($member && $member->ID) {
+			if ($member->Balance < self::POOR_USER_THRESHOLD) {
+				throw new Exception("Broken pipe");
+			}
+		}
 	}
-	
+
 	public function index() {
 		return $this->renderWith('FullTimeline');
 	}

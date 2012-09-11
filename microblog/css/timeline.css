@@ -67,3 +67,11 @@ div.uploadForm {
 abbr.postTime {
 	margin-left: 20px;
 }
+
+.upCount {
+	margin-right: 10px;
+}
+
+.downCount {
+	margin-left: 10px;
+}
