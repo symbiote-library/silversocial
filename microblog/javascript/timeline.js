@@ -206,12 +206,23 @@ window.Microblog = window.Microblog || {}
 					}
 				}
 			})
+
 			$('textarea.expandable').entwine({
 				onkeydown: function (e) {
 					if (e.which == 13 && !$(this).hasClass('expanded-content')) {
 						$(this).addClass('expanded-content');
 					}
-					if (!$(this).hasClass('expanded-content') && $(this).val().length > 80) {
+					this.checkContentSize();
+				},
+				checkContentSize: function () {
+					if ($(this).hasClass('expanded-content')) {
+						return;
+					}
+					if ($(this).val().length > 80) {
+						$(this).addClass('expanded-content');
+					}
+
+					if ($(this).val().indexOf("\n") >= 0) {
 						$(this).addClass('expanded-content');
 					}
 				}
@@ -315,7 +326,6 @@ window.Microblog = window.Microblog || {}
 				onclick: function (e) {
 					e.preventDefault();
 					$(this).parent().siblings('form.replyForm').show().find('textarea').focus();
-					return false;
 				}
 			});
 			

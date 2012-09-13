@@ -3,6 +3,14 @@ window.Microblog = window.Microblog || {};
 Microblog.Member = {};
 
 ;(function($) {
+	
+	Microblog.log = function (msg) {
+		if (console && console.log) {
+			msg = Date.now().toString('yyyy-MM-dd HH:mm:ss') + ': ' + msg;
+			console.log(msg);
+		}
+	}
+	
 	$(function () {
 		if ($('#MemberDetails').length) {
 			var member = $('#MemberDetails').data('member');

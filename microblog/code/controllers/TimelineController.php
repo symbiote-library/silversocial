@@ -67,6 +67,9 @@ class TimelineController extends ContentController {
 		
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-form/jquery.form.js');
 		Requirements::javascript('microblog/javascript/timeline.js');
+		
+		Requirements::javascript('microblog/javascript/local-storage.js');
+		Requirements::javascript('microblog/javascript/microblog-statesave.js');
 
 		Requirements::css('microblog/css/timeline.css');
 
