@@ -45,6 +45,8 @@ class MicroBlogService {
 			'getTimeline'		=> 'GET',
 			'addFriendship'		=> 'POST',
 			'removeFriendship'	=> 'POST',
+			'rawPost'			=> 'GET',
+			'savePost'			=> 'POST',
 		);
 	}
 	
@@ -106,6 +108,28 @@ class MicroBlogService {
 		$source = $post->permissionSource();
 
 		return $post;
+	}
+	
+	/**
+	 * Gets the raw post if allowed
+	 * 
+	 * @param int $id 
+	 */
+	public function rawPost($id) {
+		$item = $this->dataService->byId('MicroPost', $id);
+		if ($item->checkPerm('Write')) {
+			return $item;
+		}
+	}
+	
+	/**
+	 * Save the post
+	 * 
+	 * @param DataObject $post
+	 * @param type $data 
+	 */
+	public function savePost(DataObject $post, $data) {
+		
 	}
 
 	/**

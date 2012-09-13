@@ -178,6 +178,30 @@ window.Microblog = window.Microblog || {}
 				}, refreshTime)
 			}
 		}
+		
+		var editPost = function (id) {
+			return SSWebServices.get('microBlog', 'rawPost', {id: id}, function (post) {
+				if (post && post.response) {
+/*					
+ 					post = post.response;
+					post.Content += 'derd ';
+					var data = {
+						'Content'	: 'doood'
+					};
+					
+					var params = {
+						postID: post.ID,
+						postType: 'MicroPost',
+						data: data
+					}
+					
+					SSWebServices.post('microBlog', 'savePost', params);
+					*/
+				}
+			})
+		}
+		
+		
 
 		return {
 			refresh: refreshTimeline,
@@ -185,7 +209,8 @@ window.Microblog = window.Microblog || {}
 			deletePost: deletePost,
 			vote: vote,
 			setOffset: setOffset,
-			setFeed: setFeed
+			setFeed: setFeed,
+			editPost: editPost
 		}
 	}();
 
@@ -248,6 +273,20 @@ window.Microblog = window.Microblog || {}
 					})
 					
 					return false;
+				}
+			})
+
+			$('div.microPost').entwine({
+				onmatch: function () {
+					if ($(this).attr('data-owner') == Microblog.Member.MemberID) {
+						var editId = $(this).attr('data-id');
+						var button = $('<a href="#" class="editButton">edit post</a>');
+						$($(this).find('.postOptions')[0]).append(button);
+						button.click(function (e) {
+							e.preventDefault();
+							Microblog.Timeline.editPost(editId)
+						})
+					}
 				}
 			})
 
