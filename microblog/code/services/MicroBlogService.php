@@ -397,10 +397,6 @@ class MicroBlogService {
 		if (!$member) {
 			return;
 		}
-
-//		$list = DataList::create('Member')
-//				->innerJoin('Friendship', '"Friendship"."OtherID" = "Member"."ID"')
-//				->filter(array('InitiatorID' => $member->ID));
 		$list = DataList::create('Friendship')->filter(array('InitiatorID' => $member->Profile()->ID));
 		return $list;
 	}

@@ -71,8 +71,6 @@ class GeneratePostSitemapJob extends AbstractQueuedJob {
 			'ParentID'	=> 0,
 			'Up:GreaterThan'	=> 0,
 		));
-//		$list = $list->innerJoin('PermissionParent', '"PermissionParent"."ID" = "MicroPost"."PermSourceID"');
-//		$list = $list->where('"PermissionParent"."PublicAccess" = 1 AND "ParentID" = 0');
 		return $list->column('ID');
 	}
 
