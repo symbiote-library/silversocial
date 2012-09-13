@@ -43,8 +43,8 @@ class MicroPost extends DataObject implements Syncroable {
 	);
 
 	public static $summary_fields = array(
-		'Title', 
-		'ContentSummary',
+		'PostTitle', 
+		'PostSummary',
 		'Created'
 	);
 	
@@ -118,7 +118,11 @@ class MicroPost extends DataObject implements Syncroable {
 		}
 		
 		if (!$this->Title) {
-			$this->Title = $this->socialGraphService->extractTitle($this->Content);
+			if ($this->AttachmentID) {
+				$this->Title = basename($this->Attachment()->Filename);
+			} else {
+				$this->Title = $this->socialGraphService->extractTitle($this->Content);
+			}
 		}
 	}
 	
@@ -130,8 +134,12 @@ class MicroPost extends DataObject implements Syncroable {
 		}
 	}
 	
-	public function ContentSummary() {
+	public function PostSummary() {
 		return $this->obj('Content')->ContextSummary(40, 'poweapfawepofj');
+	}
+	
+	public function PostTitle() {
+		return $this->obj('Title')->LimitCharacters(40, 'afwef');
 	}
 	
 	/**
