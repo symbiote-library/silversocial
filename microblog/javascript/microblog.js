@@ -36,7 +36,7 @@ Microblog.Member = {};
 				});
 			}
 		})
-		
+
 		$('form.dashletreload').entwine({
 			onmatch: function () {
 				$(this).ajaxForm({

@@ -297,6 +297,7 @@ window.Microblog = window.Microblog || {}
 				},
 				onsubmit: function () {
 					$(this).find('input[name=action_savepost]').attr('disabled', 'disabled');
+					$('div.postPreview').hide();
 					return true;
 				}
 			})
@@ -318,6 +319,7 @@ window.Microblog = window.Microblog || {}
 				},
 				onsubmit: function () {
 					$(this).find('input[name=action_savepost]').attr('disabled', 'disabled');
+					$('div.postPreview').hide();
 					return true;
 				}
 			});
@@ -333,6 +335,20 @@ window.Microblog = window.Microblog || {}
 				onclick: function () {
 					$('div.uploadForm').show();
 					return false;
+				}
+			})
+			
+			var converter = new Showdown.converter();
+			
+			$('textarea.postContent').entwine({
+				onmatch: function () {
+					var parent = $(this).parents('form');
+					var preview = $('<div>').addClass('postPreview').hide();
+					preview.insertAfter(parent);
+					$(this).keyup(function () {
+						preview.html(converter.makeHtml($(this).val())).show();
+					})
+					this._super();
 				}
 			})
 

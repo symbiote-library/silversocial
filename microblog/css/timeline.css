@@ -40,7 +40,7 @@ div.microPostContent {
 	background: transparent;
 }
 
-div.postContent {
+div.postContent, div.postPreview {
 	border-radius: 10px;
 	background: #fff;
 	padding: 10px;

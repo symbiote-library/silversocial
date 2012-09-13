@@ -16,7 +16,7 @@
 		<% else_if IsImage %>
 		<img src="$Content" />
 		<% else %>
-		$Content.Parse(BBCodeParser)
+		$Content.Parse(RestrictedMarkdown)
 		<% end_if %>
 	<% else %>
 		<% if OwnerID == $CurrentMember.ID %>

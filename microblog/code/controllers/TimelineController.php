@@ -56,20 +56,22 @@ class TimelineController extends ContentController {
 		Requirements::javascript(THIRDPARTY_DIR . '/jquery-entwine/dist/jquery.entwine-dist.js');
 		Requirements::javascript(THIRDPARTY_DIR . '/javascript-templates/tmpl.js');
 		Requirements::javascript(THIRDPARTY_DIR . '/javascript-loadimage/load-image.js');
-		
+		Requirements::javascript(THIRDPARTY_DIR . '/jquery-form/jquery.form.js');
 		Requirements::javascript(FRAMEWORK_DIR . '/javascript/i18n.js');
 		Requirements::javascript(FRAMEWORK_ADMIN_DIR . '/javascript/ssui.core.js');
 		
 		Requirements::javascript('webservices/javascript/webservices.js');
 		
+		Requirements::javascript('microblog/javascript/showdown/showdown.min.js');
 		Requirements::javascript('microblog/javascript/date.js');
 		Requirements::javascript('microblog/javascript/microblog.js');
 		
-		Requirements::javascript(THIRDPARTY_DIR . '/jquery-form/jquery.form.js');
+		
 		Requirements::javascript('microblog/javascript/timeline.js');
 		
 		Requirements::javascript('microblog/javascript/local-storage.js');
 		Requirements::javascript('microblog/javascript/microblog-statesave.js');
+		
 
 		Requirements::css('microblog/css/timeline.css');
 

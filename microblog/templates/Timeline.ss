@@ -11,17 +11,20 @@
 			<div class="postContent">
 			<% include PostContent %>
 			</div>
+			
 			<p class="postOptions">
-				<span class="upCount">$Up</span>-<span class="downCount">$Down</span>
+				<span class="upCount">$Up</span>|<span class="downCount">$Down</span>
 				<a href="#" class="vote" data-dir="1" data-id="$ID">Up</a>
 				<a href="#" class="vote" data-dir="-1" data-id="$ID">Down</a>
-				
+				&middot;
 				<% if Top.ShowReplies %>
 					<a href="$Link">permalink</a>
+					&middot;
 					<a href="#" class="replyToPost">reply</a>
 					<% if Deleted %>
 					<% else %>
 						<% if checkPerm('Delete') %>
+						&middot;
 						<a href="#" class="deletePost">delete</a>
 						<% end_if %>
 					<% end_if %>

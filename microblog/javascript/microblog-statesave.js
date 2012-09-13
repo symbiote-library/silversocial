@@ -18,11 +18,11 @@
 
 			$('.postContent').entwine({
 				onmatch: function () {
-					$(this).attr('data-num', num++);
 					var _this = this;
 					// explicit focus bind because focusin gets called twice...!
 					$(this).focus(function () {
 						var current = localStorage.getItem(KEY);
+						Microblog.log("monitoring " + num + ' for content ' + current);
 						if (!current || $(this).val().length) {
 							return;
 						}
@@ -33,6 +33,8 @@
 						localStorage.removeItem(KEY);
 						_this.checkContentSize();
 					})
+					
+					this._super();
 				},
 				onkeyup: function () {
 					localStorage.setItem(KEY, $(this).val());
