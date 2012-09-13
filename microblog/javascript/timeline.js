@@ -377,19 +377,21 @@ window.Microblog = window.Microblog || {}
 				}
 			})
 			
-			var converter = new Showdown.converter();
+			if (typeof(Showdown) != 'undefined') {
+				var converter = new Showdown.converter();
+				$('textarea.postContent').entwine({
+					onmatch: function () {
+						var parent = $(this).parents('form');
+						var preview = $('<div>').addClass('postPreview').hide();
+						preview.insertAfter(parent);
+						$(this).keyup(function () {
+							preview.html(converter.makeHtml($(this).val())).show();
+						})
+						this._super();
+					}
+				})
+			}
 			
-			$('textarea.postContent').entwine({
-				onmatch: function () {
-					var parent = $(this).parents('form');
-					var preview = $('<div>').addClass('postPreview').hide();
-					preview.insertAfter(parent);
-					$(this).keyup(function () {
-						preview.html(converter.makeHtml($(this).val())).show();
-					})
-					this._super();
-				}
-			})
 
 			// TODO Fix issue where dynamically entered textarea.postContent isn't bound as a drop source
 			$('.fileUploadForm').entwine({

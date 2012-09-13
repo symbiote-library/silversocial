@@ -117,10 +117,10 @@ class SocialGraphService {
 			if (preg_match('/<title>(.*?)<\/title>/is', $response->getBody(), $matches)) {
 				$post->Title = $matches[1];
 				$post->OriginalLink = $url;
-				$post->Content = "[url=$url]$post->Title[/url]";
+				$post->Content = "[$post->Title]($url)";
 			}
 		}
-		
+
 		return $post;
 	}
 }
