@@ -108,7 +108,7 @@ class MicroPost extends DataObject implements Syncroable {
 			}
 		}
 		
-		if (!$this->ID) {
+		if (!$this->ID || $this->isChanged('Content')) {
 			$this->postProcess = true;
 		}
 

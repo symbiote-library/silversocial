@@ -138,8 +138,8 @@ class TimelineController extends ContentController {
 		$taf->setRows(3);
 		$taf->setColumns(120);
 		$taf->addExtraClass('expandable');
-		
 		$taf->addExtraClass('postContent');
+		$taf->addExtraClass('preview');
 		
 		$actions = new FieldList(
 			new FormAction('savepost', _t('MicroBlog.SAVE', 'Add'))

@@ -2,13 +2,13 @@
 <% if Posts %>
 <input type="hidden" class="postQueryOffset" value="$Posts.QueryOffset" />
 <% loop Posts %>
-	<div class="microPost" data-id="$ID" data-owner="$Owner.ID" data-parent="$ParentID" id="post$ID" data-rating="$WilsonRating" data-sortby="$Top.SortBy">
+<div class="microPost" data-id="$ID" data-owner="$Owner.ID" data-parent="$ParentID" id="post$ID" data-rating="$WilsonRating" data-sortby="$Top.SortBy" <% if IsOembed %><% else %>data-editable="1" <% end_if %>>
 		<div class="postImage">
 			<a href="$Owner.Link"><img src="http://www.gravatar.com/avatar/{$Owner.gravatarHash}.jpg?s=40" /></a>
 		</div>
 		
 		<div class="microPostContent">
-			<div class="postContent">
+			<div class="postText">
 			<% include PostContent %>
 			</div>
 			
@@ -42,10 +42,10 @@
 			</p>
 			<!-- note that the action is left blank and filled in with JS because otherwise the
 				recursive template loses context of what to fill in, so we use our top level form -->
-			<form method="POST" action="" class="replyForm">
+			<form method="POST" action="" class=" ">
 				<input type="hidden" value="$SecurityID" name="SecurityID" />
 				<input type="hidden" name="ParentID" value="$ID" />
-				<textarea placeholder="Add reply..." name="Content" class="expandable postContent"></textarea>
+				<textarea placeholder="Add reply..." name="Content" class="expandable postContent preview"></textarea>
 				<input type="submit" value="Reply" name="action_savepost" />
 			</form>
 			

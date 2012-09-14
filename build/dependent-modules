@@ -43,6 +43,6 @@ orderable git://github.com/ajshort/silverstripe-orderable.git local
 
 syncrotron git://github.com/nyeholt/silverstripe-syncrotron.git local
 
-queuedjobs:ss3 git://github.com/nyeholt/silverstripe-queuedjobs.git local
+queuedjobs git://github.com/nyeholt/silverstripe-queuedjobs.git local
 
 

@@ -51,7 +51,7 @@ window.Microblog = window.Microblog || {}
 			})
 			return pendingUpdate;
 		}
-		
+
 		var morePosts = function () {
 			if (pendingLoad) {
 				return pendingLoad;
@@ -140,7 +140,7 @@ window.Microblog = window.Microblog || {}
 					if (data.response.Deleted == 0) {
 						$('#post' + id).fadeOut('slow');
 					} else {
-						$('#post' + id).find('.postContent').html(data.response.Content);
+						$('#post' + id).find('div.postText').html(data.response.Content);
 					}
 				}
 				
@@ -182,22 +182,47 @@ window.Microblog = window.Microblog || {}
 		var editPost = function (id) {
 			return SSWebServices.get('microBlog', 'rawPost', {id: id}, function (post) {
 				if (post && post.response) {
+					
+					var editorField = $('<textarea name="Content" class="postContent expandable">');
+					editorField.val(post.response.Content);
+					
+					var postId = 'post' + id;
+					var postContent = $($('#' + postId).find('.postText')[0]);
+					postContent.append(editorField);
+					
+					var save = $('<input type="button" value="Save">');
+					save.insertAfter(editorField);
+					
+					save.click(function () {
+						var data = {
+							'Content'	: editorField.val()
+						};
+
+						var params = {
+							postID: id,
+							postType: 'MicroPost',
+							data: data
+						}
+						
+						editorField.remove()
+						save.remove()
+						
+						SSWebServices.post('microBlog', 'savePost', params).done(function (data) {
+							if (data && data.response) {
+								if (typeof(Showdown) != 'undefined') {
+									var converter = new Showdown.converter();
+									postContent.html(converter.makeHtml(data.response.Content));
+									delete converter;
+								}
+							}
+						});
+					})
+				}
 /*					
  					post = post.response;
 					post.Content += 'derd ';
-					var data = {
-						'Content'	: 'doood'
-					};
 					
-					var params = {
-						postID: post.ID,
-						postType: 'MicroPost',
-						data: data
-					}
-					
-					SSWebServices.post('microBlog', 'savePost', params);
 					*/
-				}
 			})
 		}
 		
@@ -233,6 +258,10 @@ window.Microblog = window.Microblog || {}
 			})
 
 			$('textarea.expandable').entwine({
+				onmatch: function () {
+					this.checkContentSize();
+					this._super();
+				},
 				onkeydown: function (e) {
 					if (e.which == 13 && !$(this).hasClass('expanded-content')) {
 						$(this).addClass('expanded-content');
@@ -278,7 +307,7 @@ window.Microblog = window.Microblog || {}
 
 			$('div.microPost').entwine({
 				onmatch: function () {
-					if ($(this).attr('data-owner') == Microblog.Member.MemberID) {
+					if ($(this).attr('data-owner') == Microblog.Member.MemberID && $(this).attr('data-editable')) {
 						var editId = $(this).attr('data-id');
 						var button = $('<a href="#" class="editButton">edit post</a>');
 						$($(this).find('.postOptions')[0]).append(button);
@@ -379,9 +408,9 @@ window.Microblog = window.Microblog || {}
 			
 			if (typeof(Showdown) != 'undefined') {
 				var converter = new Showdown.converter();
-				$('textarea.postContent').entwine({
+				$('textarea.postContent.preview').entwine({
 					onmatch: function () {
-						var parent = $(this).parents('form');
+						var parent = $(this).parent(); //('form');
 						var preview = $('<div>').addClass('postPreview').hide();
 						preview.insertAfter(parent);
 						$(this).keyup(function () {

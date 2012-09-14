@@ -129,7 +129,11 @@ class MicroBlogService {
 	 * @param type $data 
 	 */
 	public function savePost(DataObject $post, $data) {
-		
+		if ($post->checkPerm('Write') && isset($data['Content'])) {
+			$post->Content = $data['Content'];
+			$post->write();
+			return $post;
+		}
 	}
 
 	/**

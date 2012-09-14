@@ -22,7 +22,6 @@
 					// explicit focus bind because focusin gets called twice...!
 					$(this).focus(function () {
 						var current = localStorage.getItem(KEY);
-						Microblog.log("monitoring " + num + ' for content ' + current);
 						if (!current || $(this).val().length) {
 							return;
 						}

@@ -652,6 +652,7 @@ var writeImageTag = function(wholeMatch,m1,m2,m3,m4,m5,m6,m7) {
 
 
 var _DoHeaders = function(text) {
+	return text;
 
 	// Setext-style headers:
 	//	Header 1
