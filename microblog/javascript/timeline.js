@@ -225,8 +225,6 @@ window.Microblog = window.Microblog || {}
 					*/
 			})
 		}
-		
-		
 
 		return {
 			refresh: refreshTimeline,
@@ -243,6 +241,14 @@ window.Microblog = window.Microblog || {}
 		Microblog.Timeline.setOffset($('.postQueryOffset').val());
 
 		$.entwine('microblog', function ($) {
+			
+			$('div.postText a').entwine({
+				onclick: function () {
+					var postId = $(this).parents('.microPost').attr('data-id');
+					Microblog.track('timeline', 'post_click', $(this).attr('href'), postId);
+				}
+			})
+			
 			$('#StatusFeed').entwine({
 				onmatch: function () {
 					Microblog.Timeline.setFeed(this);

@@ -10,6 +10,12 @@ Microblog.Member = {};
 			console.log(msg);
 		}
 	}
+
+	Microblog.track = function (category, action, label, value) {
+		if (window._gaq) {
+			_gaq.push(['_trackEvent', category, action, label, value]);
+		}
+	}
 	
 	$(function () {
 		if ($('#MemberDetails').length) {
