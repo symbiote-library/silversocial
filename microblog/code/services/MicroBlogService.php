@@ -132,6 +132,8 @@ class MicroBlogService {
 		if ($post->checkPerm('Write') && isset($data['Content'])) {
 			$post->Content = $data['Content'];
 			$post->write();
+			
+			$this->extractTags($post);
 			return $post;
 		}
 	}
