@@ -5,7 +5,7 @@
 	
 	<% if Attachment %> 
 		<% if $Attachment.ClassName == 'Image' %>
-			<a href="$Attachment.Link" target="_blank" title="Download attached file">$Attachment.MaxWidth(450)</a>
+			<a href="$Attachment.Link" target="_blank" title="Download attached file">$Attachment.MaxWidth(1024)</a>
 		<% else %>
 		<a href="$Attachment.Link" title="Download attached file">$Attachment.Title</a>
 		<% end_if %>

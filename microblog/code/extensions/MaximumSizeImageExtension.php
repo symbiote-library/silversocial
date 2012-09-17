@@ -12,7 +12,7 @@ class MaximumSizeImageExtension extends DataExtension {
 		}
 		return $this->owner;
 	}
-	
+
 	public function MaxHeight($height) {
 		$curHeight = $this->owner->getWidth();
 		if ($curHeight > $height) {

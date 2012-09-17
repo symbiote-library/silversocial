@@ -339,14 +339,18 @@ window.Microblog = window.Microblog || {}
 				}
 			})
 			
+			// Auto replace image URLs 
 			$('a').entwine({
 				onmatch: function () {
 					var href = this.attr('href');
 					if (href && href.length && href.lastIndexOf('.') > 0) {
 						var ext = href.substr(href.lastIndexOf('.') + 1);
 						if ($.inArray(ext, ['png', 'jpg', 'gif']) > -1) {
-							var img = $('<img>').attr('src', href);
-							this.text('').append(img).attr('target', '_blank');
+							// see if this actually has an image already
+							if ($(this).find('img').length == 0) {
+								var img = $('<img>').attr('src', href);
+								this.text('').append(img).attr('target', '_blank');
+							}
 						}
 					}
 				}
