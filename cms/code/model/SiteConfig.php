@@ -65,7 +65,8 @@ class SiteConfig extends DataObject implements PermissionProvider {
 					$topLevelCreatorsGroupsField = ListboxField::create("CreateTopLevelGroups", _t('SiteTree.TOPLEVELCREATORGROUPS', "Top level creators"))
 						->setMultiple(true)->setSource($groupsMap)
 				)
-			)
+			),
+			new HiddenField('ID')
 		);
 
 		$themeDropdownField->setEmptyString(_t('SiteConfig.DEFAULTTHEME', '(Use default theme)'));
@@ -148,6 +149,13 @@ class SiteConfig extends DataObject implements PermissionProvider {
 		
 		return $actions;
 	}
+
+	/**
+	 * @return String
+	 */
+	function CMSEditLink() {
+		return singleton('CMSSettingsController')->Link();
+	}
 	
 	/**
 	 * Get the current sites SiteConfig, and creates a new one
@@ -197,11 +205,13 @@ class SiteConfig extends DataObject implements PermissionProvider {
 		$siteConfig->Tagline = _t('SiteConfig.TAGLINEDEFAULT',"your tagline here");
 
 		if(class_exists('Translatable') && $siteConfig->hasExtension('Translatable')){
-			$defaultConfig = DataObject::get_one('SiteConfig');
-			if($defaultConfig){
-				$siteConfig->Title = $defaultConfig->Title;
-				$siteConfig->Tagline = $defaultConfig->Tagline;
-			}
+			Translatable::disable_locale_filter();
+			$defaultConfig = SiteConfig::get()->first();
+			Translatable::enable_locale_filter();			
+			
+			if($defaultConfig){					
+				return $defaultConfig->createTranslation($locale);
+			}			
 			
 			// TODO Copy view/edit group settings
 			

@@ -326,15 +326,23 @@ class i18nTextCollector extends Object {
 	/**
 	 * @uses i18nEntityProvider
 	 */
-	function collectFromEntityProviders($filePath) {
+	function collectFromEntityProviders($filePath, $module = null) {
 		$entities = array();
+
+		// HACK Ugly workaround to avoid "Cannot redeclare class PHPUnit_Framework_TestResult" error
+		// when running text collector with PHPUnit 3.4. There really shouldn't be any dependencies
+		// here, but the class reflection enforces autloading of seemingly unrelated classes.
+		// The main problem here is the CMSMenu class, which iterates through test classes,
+		// which in turn trigger autoloading of PHPUnit.
+		$phpunitwrapper = PhpUnitWrapper::inst();
+		$phpunitwrapper->init();
 		
 		$classes = ClassInfo::classes_for_file($filePath);
 		if($classes) foreach($classes as $class) {
 			// Not all classes can be instanciated without mandatory arguments,
 			// so entity collection doesn't work for all SilverStripe classes currently
 			// Requires PHP 5.1+
-			if(class_exists($class, false) && in_array('i18nEntityProvider', class_implements($class))) {
+			if(class_exists($class) && in_array('i18nEntityProvider', class_implements($class))) {
 				$reflectionClass = new ReflectionClass($class);
 				if($reflectionClass->isAbstract()) continue;
 

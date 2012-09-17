@@ -202,8 +202,11 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		return $link;
 	}
 
-	function LinkPageAdd() {
-		return singleton("CMSPageAddController")->Link();
+	function LinkPageAdd($extraArguments = null) {
+		$link = singleton("CMSPageAddController")->Link();
+		$this->extend('updateLinkPageAdd', $link);
+		if($extraArguments) $link = Controller::join_links ($link, $extraArguments);
+		return $link;
 	}
 	
 	/**
@@ -244,8 +247,11 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 	
 	function SearchForm() {
 		// get all page types in a dropdown-compatible format
-		$pageTypes = SiteTree::page_type_classes(); 
-		$pageTypes = array_combine($pageTypes, $pageTypes);
+		$pageTypeClasses = SiteTree::page_type_classes(); 
+		$pageTypes = array();
+		foreach ($pageTypeClasses as $pageTypeClass) {
+			$pageTypes[$pageTypeClass] = _t($pageTypeClass.'.SINGULARNAME', $pageTypeClass);
+		}
 		asort($pageTypes);
 		
 		// get all filter instances
@@ -281,7 +287,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 			)
 			// new TextField('MetaTags', _t('CMSMain.SearchMetaTags', 'Meta tags'))
 		);
-		$dateGroup->subfieldParam = 'FieldHolder';
+		$dateGroup->setFieldHolderTemplate('FieldGroup_DefaultFieldHolder')->addExtraClass('stacked');
 		$dateFrom->setConfig('showcalendar', true);
 		$dateTo->setConfig('showcalendar', true);
 		$classDropdown->setEmptyString(_t('CMSMain.PAGETYPEANYOPT','Any'));
@@ -303,6 +309,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 			->unsetValidator();
 		$form->loadDataFrom($this->request->getVars());
 
+		$this->extend('updateSearchForm', $form);
 		return $form;
 	}
 	
@@ -464,21 +471,29 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 
 			$addAction = $instance->i18n_singular_name();
 			
-			// Get description
-			$description = _t($class . 'DESCRIPTION');
-			if(!$description) $description = $instance->uninherited('description');
-			if($class == 'Page' && !$description) $description = singleton('SiteTree')->uninherited('description');
+			// Get description (convert 'Page' to 'SiteTree' for correct localization lookups)
+			$description = _t((($class == 'Page') ? 'SiteTree' : $class) . '.DESCRIPTION');
+
+			if(!$description) {
+				$description = $instance->uninherited('description');
+			}
+			
+			if($class == 'Page' && !$description) {
+				$description = singleton('SiteTree')->uninherited('description');
+			}
 			
 			$result->push(new ArrayData(array(
 				'ClassName' => $class,
 				'AddAction' => $addAction,
 				'Description' => $description,
 				// TODO Sprite support
-				'IconURL' => $instance->stat('icon')
+				'IconURL' => $instance->stat('icon'),
+				'Title' => singleton($class)->i18n_singular_name(),
 			)));
 		}
 		
 		$result = $result->sort('AddAction');
+		
 		return $result;
 	}
 
@@ -561,20 +576,18 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 
 			$fields->push($idField = new HiddenField("ID", false, $id));
 			// Necessary for different subsites
-			$fields->push($liveURLField = new HiddenField("AbsoluteLink", false, $record->AbsoluteLink()));
-			$fields->push($liveURLField = new HiddenField("LiveURLSegment"));
-			$fields->push($stageURLField = new HiddenField("StageURLSegment"));
+			$fields->push($liveLinkField = new HiddenField("AbsoluteLink", false, $record->AbsoluteLink()));
+			$fields->push($liveLinkField = new HiddenField("LiveLink"));
+			$fields->push($stageLinkField = new HiddenField("StageLink"));
 			$fields->push(new HiddenField("TreeTitle", false, $record->TreeTitle));
 
-			$fields->push(new HiddenField('Sort','', $record->Sort));
-
 			if($record->ID && is_numeric( $record->ID ) ) {
-				$liveRecord = Versioned::get_one_by_stage('SiteTree', 'Live', "\"SiteTree\".\"ID\" = $record->ID");
-				if($liveRecord) $liveURLField->setValue($liveRecord->AbsoluteLink());
-			}
-			
-			if(!$deletedFromStage) {
-				$stageURLField->setValue(Controller::join_links($record->AbsoluteLink(), '?stage=Stage'));
+				$liveLink = $record->getAbsoluteLiveLink();
+				if($liveLink) $liveLinkField->setValue($liveLink);
+				if(!$deletedFromStage) {
+					$stageLink = Controller::join_links($record->AbsoluteLink(), '?stage=Stage');
+					if($stageLink) $stageLinkField->setValue($stageLink);
+				}
 			}
 			
 			// Added in-line to the form, but plucked into different view by LeftAndMain.Preview.js upon load
@@ -603,7 +616,6 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 			
 			$form = new Form($this, "EditForm", $fields, $actions, $validator);
 			$form->loadDataFrom($record);
-			$stageURLField->setValue(Controller::join_links($record->getStageURLSegment(), '?stage=Stage'));
 			$form->disableDefaultAction();
 			$form->addExtraClass('cms-edit-form');
 			$form->setTemplate($this->getTemplatesWithSuffix('_EditForm'));
@@ -691,6 +703,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 			'Created' => _t('SiteTree.CREATED', 'Date Created'),
 			'LastEdited' => _t('SiteTree.LASTUPDATED', 'Last Updated'),
 		);
+		$gridField->getConfig()->getComponentByType('GridFieldSortableHeader')->setFieldSorting(array('getTreeTitle' => 'Title'));
 
 		if(!$params) {
 			$fields = array_merge(array('listChildrenLink' => ''), $fields);
@@ -698,8 +711,8 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 
 		$columns->setDisplayFields($fields);
 		$columns->setFieldCasting(array(
-			'Created' => 'Date->Ago',
-			'LastEdited' => 'Date->Ago',
+			'Created' => 'Datetime->Ago',
+			'LastEdited' => 'Datetime->Ago',
 			'getTreeTitle' => 'HTMLText'
 		));
 
@@ -709,9 +722,8 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 				$num = $item ? $item->numChildren() : null;
 				if($num) {
 					return sprintf(
-						'<a class="cms-panel-link list-children-link" data-pjax-target="ListViewForm,Breadcrumbs" href="%s?ParentID=%d&view=list">%s</a>',
-						$controller->Link(),
-						$item->ID,
+						'<a class="cms-panel-link list-children-link" data-pjax-target="ListViewForm,Breadcrumbs" href="%s">%s</a>',
+						Controller::join_links($controller->Link(), "?ParentID={$item->ID}&view=list"),
 						$num
 					);
 				}
@@ -772,7 +784,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		$record->HasBrokenLink = 0;
 		$record->HasBrokenFile = 0;
 
-		$record->writeWithoutVersion();
+		if (!$record->ObsoleteClassName) $record->writeWithoutVersion();
 
 		// Update the class instance if necessary
 		if(isset($data['ClassName']) && $data['ClassName'] != $record->ClassName) {
@@ -835,8 +847,11 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		    	$id = $id . $suffix;
 	    }
 
-		$newItem->Title = _t('CMSMain.NEW',"New ",'"New " followed by a className').$className;
-		$newItem->URLSegment = "new-" . strtolower($className);
+		$newItem->Title = _t(
+			'CMSMain.NEWPAGE',
+			"New {pagetype}",'followed by a page type title',
+			array('pagetype' => singleton($className)->i18n_singular_name())
+		);
 		$newItem->ClassName = $className;
 		$newItem->ParentID = $parentID;
 
@@ -1047,8 +1062,12 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		
 		// Can be used in different contexts: In normal page edit view, in which case the redirect won't have any effect.
 		// Or in history view, in which case a revert causes the CMS to re-load the edit view.
+		// The X-Pjax header forces a "full" content refresh on redirect.
 		$url = Controller::join_links(singleton('CMSPageEditController')->Link('show'), $record->ID);
 		$this->response->addHeader('X-ControllerURL', $url);
+		$this->request->addHeader('X-Pjax', 'Content');  
+		$this->response->addHeader('X-Pjax', 'Content');  
+
 		return $this->getResponseNegotiator()->respond($this->request);
 	}
 

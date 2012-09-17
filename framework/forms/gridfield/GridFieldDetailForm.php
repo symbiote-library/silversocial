@@ -302,10 +302,11 @@ class GridFieldDetailForm_ItemRequest extends RequestHandler {
 			$curmbs = $this->Breadcrumbs();
 			if($curmbs && $curmbs->count()>=2){
 				$one_level_up = $curmbs->offsetGet($curmbs->count()-2);
-				$text = "
-				<a class=\"crumb ss-ui-button ss-ui-action-destructive cms-panel-link ui-corner-all\" href=\"".$one_level_up->Link."\">
-					Cancel
-				</a>";
+				$text = sprintf(
+					"<a class=\"crumb ss-ui-button ss-ui-action-destructive cms-panel-link ui-corner-all\" href=\"%s\">%s</a>",
+					$one_level_up->Link,
+					_t('GridFieldDetailForm.CancelBtn', 'Cancel')
+				);
 				$actions->push(new LiteralField('cancelbutton', $text));
 			}
 		}
@@ -316,7 +317,9 @@ class GridFieldDetailForm_ItemRequest extends RequestHandler {
 			$actions,
 			$this->component->getValidator()
 		);
-		$form->loadDataFrom($this->record);
+		if($this->record->ID !== 0) {
+		  $form->loadDataFrom($this->record);
+		}
 
 		// TODO Coupling with CMS
 		$toplevelController = $this->getToplevelController();
@@ -362,6 +365,7 @@ class GridFieldDetailForm_ItemRequest extends RequestHandler {
 
 	function doSave($data, $form) {
 		$new_record = $this->record->ID == 0;
+		$controller = Controller::curr();
 
 		try {
 			$form->saveInto($this->record);
@@ -369,7 +373,18 @@ class GridFieldDetailForm_ItemRequest extends RequestHandler {
 			$this->gridField->getList()->add($this->record);
 		} catch(ValidationException $e) {
 			$form->sessionMessage($e->getResult()->message(), 'bad');
-			return Controller::curr()->redirectBack();
+			$responseNegotiator = new PjaxResponseNegotiator(array(
+				'CurrentForm' => function() use(&$form) {
+					return $form->forTemplate();
+				},
+				'default' => function() use(&$controller) {
+					return $controller->redirectBack();
+				}
+			));
+			if($controller->getRequest()->isAjax()){
+				$controller->getRequest()->addHeader('X-Pjax', 'CurrentForm');
+			}
+			return $responseNegotiator->respond($controller->getRequest());
 		}
 
 		// TODO Save this item into the given relationship
@@ -382,7 +397,19 @@ class GridFieldDetailForm_ItemRequest extends RequestHandler {
 		
 		$form->sessionMessage($message, 'good');
 
-		return Controller::curr()->redirect($this->Link());
+		if($new_record) {
+			return Controller::curr()->redirect($this->Link());
+		} elseif($this->gridField->getList()->byId($this->record->ID)) {
+			// Return new view, as we can't do a "virtual redirect" via the CMS Ajax
+			// to the same URL (it assumes that its content is already current, and doesn't reload)
+			return $this->edit(Controller::curr()->getRequest());
+		} else {
+			// Changes to the record properties might've excluded the record from
+			// a filtered list, so return back to the main view if it can't be found
+			$noActionURL = $controller->removeAction($data['url']);
+			$controller->getRequest()->addHeader('X-Pjax', 'Content'); 
+			return $controller->redirect($noActionURL, 302); 
+		}
 	}
 
 	function doDelete($data, $form) {
@@ -462,7 +489,7 @@ class GridFieldDetailForm_ItemRequest extends RequestHandler {
 			)));	
 		} else {
 			$items->push(new ArrayData(array(
-				'Title' => sprintf(_t('GridField.NewRecord', 'New %s'), $this->record->singular_name()),
+				'Title' => sprintf(_t('GridField.NewRecord', 'New %s'), $this->record->i18n_singular_name()),
 				'Link' => false
 			)));	
 		}

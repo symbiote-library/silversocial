@@ -173,6 +173,11 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	}
 
 	/**
+	 * @var [string] - class => ClassName field definition cache for self::database_fields
+	 */
+	private static $classname_spec_cache = array();
+
+	/**
 	 * Return the complete map of fields on this object, including "Created", "LastEdited" and "ClassName".
 	 * See {@link custom_database_fields()} for a getter that excludes these "base fields".
 	 *
@@ -181,9 +186,21 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 */
 	public static function database_fields($class) {
 		if(get_parent_class($class) == 'DataObject') {
+			if(!isset(self::$classname_spec_cache[$class])) {
+				$classNames = ClassInfo::subclassesFor($class);
+
+				$db = DB::getConn();
+				if($db->hasField($class, 'ClassName')) {
+					$existing = $db->query("SELECT DISTINCT \"ClassName\" FROM \"$class\"")->column();
+					$classNames = array_unique(array_merge($existing, $classNames));
+				}
+
+				self::$classname_spec_cache[$class] = "Enum('" . implode(', ', $classNames) . "')";
+			}
+
 			return array_merge (
 				array (
-					'ClassName'  => "Enum('" . implode(', ', ClassInfo::subclassesFor($class)) . "')",
+					'ClassName'  => self::$classname_spec_cache[$class],
 					'Created'    => 'SS_Datetime',
 					'LastEdited' => 'SS_Datetime'
 				),
@@ -442,6 +459,17 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 				$destinationObject->$name = $relations;
 			}
 		}
+	}
+
+	function getObsoleteClassName() {
+		$className = $this->getField("ClassName");
+		if (!ClassInfo::exists($className)) return $className;
+	}
+
+	function getClassName() {
+		$className = $this->getField("ClassName");
+		if (!ClassInfo::exists($className)) return get_class($this);
+		return $className;
 	}
 	
 	/**
@@ -985,15 +1013,32 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		$firstWrite = false;
 		$this->brokenOnWrite = true;
 		$isNewRecord = false;
-		
-		if(self::get_validation_enabled()) {
+
+		$writeException = null;
+
+		if ($this->ObsoleteClassName) {
+			$writeException = new ValidationException(
+				"Object is of class '{$this->ObsoleteClassName}' which doesn't exist - ".
+				"you need to change the ClassName before you can write it",
+				E_USER_WARNING
+			);
+		}
+		else if(self::get_validation_enabled()) {
 			$valid = $this->validate();
-			if(!$valid->valid()) {
-				// Used by DODs to clean up after themselves, eg, Versioned
-				$this->extend('onAfterSkippedWrite');
-				throw new ValidationException($valid, "Validation error writing a $this->class object: " . $valid->message() . ".  Object not written.", E_USER_WARNING);
-				return false;
+			if (!$valid->valid()) {
+				$writeException = new ValidationException(
+					$valid,
+					"Validation error writing a $this->class object: " . $valid->message() . ".  Object not written.",
+					E_USER_WARNING
+				);
 			}
+		}
+
+		if($writeException) {
+			// Used by DODs to clean up after themselves, eg, Versioned
+			$this->extend('onAfterSkippedWrite');
+			throw $writeException;
+			return false;
 		}
 
 		$this->onBeforeWrite();
@@ -3135,7 +3180,6 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 	 * @return array
 	 */
 	public function summaryFields(){
-
 		$fields = $this->stat('summary_fields');
 
 		// if fields were passed in numeric array,
@@ -3156,6 +3200,11 @@ class DataObject extends ViewableData implements DataObjectInterface, i18nEntity
 		
 		// Final fail-over, just list ID field
 		if(!$fields) $fields['ID'] = 'ID';
+
+		// Localize fields (if possible)
+		foreach($this->fieldLabels(false) as $name => $label) {
+			if(isset($fields[$name])) $fields[$name] = $label;
+		}
 		
 		return $fields;
 	}

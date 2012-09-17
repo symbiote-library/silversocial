@@ -59,7 +59,7 @@
 						alert(ss.i18n._t('GRIDFIELD.ERRORINTRANSACTION'));
 						form.removeClass('loading');
 					}
-				}, ajaxOpts))
+				}, ajaxOpts));
 			},
 			showDetailView: function(url) {
 				window.location.href = url;

@@ -56,7 +56,7 @@ class FilesystemPublisher extends StaticPublisher {
 	 *   with the filename 'index.html'.  If you set the extension to PHP, then a simple PHP script will
 	 *   be generated that can do appropriate cache & redirect header negotation.
 	 */
-	function __construct($destFolder, $fileExtension = null) {
+	function __construct($destFolder = 'cache', $fileExtension = null) {
 		// Remove trailing slash from folder
 		if(substr($destFolder, -1) == '/') $destFolder = substr($destFolder, 0, -1);
 		
@@ -191,9 +191,10 @@ class FilesystemPublisher extends StaticPublisher {
 			
 			Requirements::clear();
 			
-			
-			
 			singleton('DataObject')->flushCache();
+
+			//skip any responses with a 404 status code. We don't want to turn those into statically cached pages
+			if (!$response || $response->getStatusCode() == '404') continue;
 
 			// Generate file content			
 			// PHP file caching will generate a simple script from a template

@@ -455,18 +455,18 @@ class SiteTree extends DataObject implements PermissionProvider,i18nEntityProvid
 	 * Get the absolute URL for this page on the Live site.
 	 */
 	public function getAbsoluteLiveLink($includeStageEqualsLive = true) {
+		$oldStage = Versioned::current_stage();
+		Versioned::reading_stage('Live');
 		$live = Versioned::get_one_by_stage('SiteTree', 'Live', '"SiteTree"."ID" = ' . $this->ID);
-		
 		if($live) {
 			$link = $live->AbsoluteLink();
-			
-			if($includeStageEqualsLive) {
-				$link .= '?stage=Live';
-			}
-			
-			return $link;
-			
+			if($includeStageEqualsLive) $link .= '?stage=Live';
+		} else {
+			$link = null;
 		}
+
+		Versioned::reading_stage($oldStage);
+		return $link;
 	}
 	
 	/**
@@ -1511,7 +1511,7 @@ class SiteTree extends DataObject implements PermissionProvider,i18nEntityProvid
 			// deconstructs any inheritance trees already.
 			$allowed = $parent->allowedChildren();
 			$subject = ($this instanceof VirtualPage) ? $this->CopyContentFrom() : $this;
-			if($subject->ID && !in_array($subject->ClassName, $allowed)) {
+			if(!in_array($subject->ClassName, $allowed)) {
 				
 				$result->error(
 					_t(
@@ -1803,7 +1803,7 @@ class SiteTree extends DataObject implements PermissionProvider,i18nEntityProvid
 		if($this->HasBrokenLink || $this->HasBrokenFile) {
 			$statusMessage[] = _t('SiteTree.HASBROKENLINKS', "This page has broken links.");
 		}
-		
+
 		$dependentNote = '';
 		$dependentTable = new LiteralField('DependentNote', '<p></p>');
 		
@@ -1876,6 +1876,20 @@ class SiteTree extends DataObject implements PermissionProvider,i18nEntityProvid
 		else $fields->removeFieldFromTab('Root', 'Dependent');
 		
 		$tabMain->setTitle(_t('SiteTree.TABCONTENT', "Main Content"));
+
+		if($this->ObsoleteClassName) {
+			$obsoleteWarning = _t(
+				'SiteTree.OBSOLETECLASS',
+				"This page is of obsolete type {type}. Saving will reset it's type and you may lose data",
+				array('type' => $this->ObsoleteClassName)
+			);
+
+			$fields->addFieldToTab(
+				"Root.Main",
+				new LiteralField("ObsoleteWarningHeader", "<p class=\"message warning\">$obsoleteWarning</p>"),
+				"Title"
+			);
+		}
 
 		if(file_exists(BASE_PATH . '/install.php')) {
 			$fields->addFieldToTab("Root.Main", new LiteralField("InstallWarningHeader", 
@@ -2699,7 +2713,9 @@ class SiteTree extends DataObject implements PermissionProvider,i18nEntityProvid
 	 * @return String
 	 */
 	function i18n_singular_name() {
-		return _t($this->class.'.SINGULARNAME', $this->singular_name());
+		// Convert 'Page' to 'SiteTree' for correct localization lookups
+		$class = ($this->class == 'Page') ? 'SiteTree' : $this->class;
+		return _t($class.'.SINGULARNAME', $this->singular_name());
 	}
 	
 	/**
@@ -2709,19 +2725,16 @@ class SiteTree extends DataObject implements PermissionProvider,i18nEntityProvid
 	function provideI18nEntities() {
 		$entities = parent::provideI18nEntities();
 		
-		if(isset($entities['Page.SINGULARNAME'])) $entities['Page.SINGULARNAME'][3] = FRAMEWORK_DIR;
-		if(isset($entities['Page.PLURALNAME'])) $entities['Page.PLURALNAME'][3] = FRAMEWORK_DIR;		
+		if(isset($entities['Page.SINGULARNAME'])) $entities['Page.SINGULARNAME'][3] = CMS_DIR;
+		if(isset($entities['Page.PLURALNAME'])) $entities['Page.PLURALNAME'][3] = CMS_DIR;		
 
-		$types = ClassInfo::subclassesFor('SiteTree');
-		foreach($types as $k => $type) {
-			$inst = singleton($type);
-			$entities[$type . '.DESCRIPTION'] = array(
-				$inst->stat('description'),
-				
-				'Description of the page type (shown in the "add page" dialog)'
-			);
-		}
-		
+		$entities[$this->class . '.DESCRIPTION'] = array(
+			$this->stat('description'),
+			'Description of the page type (shown in the "add page" dialog)'
+		);
+
+		$entities['SiteTree.SINGULARNAME'][0] = 'Page';
+		$entities['SiteTree.PLURALNAME'][0] = 'Pages';
 
 		return $entities;
 	}

@@ -308,10 +308,10 @@ class SilverStripeNavigatorItem_ArchiveLink extends SilverStripeNavigatorItem {
 
 	function getHTML() {
 			$this->recordLink = $this->record->AbsoluteLink();
-			return "<a href=\"$this->recordLink?archiveDate={$this->record->LastEdited}\" target=\"_blank\">". _t('ContentController.ARCHIVEDSITE', 'Archived Site') ."</a>";
+			return "<a class=\"ss-ui-button\" href=\"$this->recordLink?archiveDate={$this->record->LastEdited}\" target=\"_blank\">". _t('ContentController.ARCHIVEDSITE', 'Preview version') ."</a>";
 	}
 	
-	function getMessage() {
+	function getMessage() { 
 		if($date = Versioned::current_archived_date()) {
 			$dateObj = Datetime::create();
 			$dateObj->setValue($date);
@@ -320,7 +320,7 @@ class SilverStripeNavigatorItem_ArchiveLink extends SilverStripeNavigatorItem {
 	}
 	
 	function getLink() {
-		return $this->record->AbsoluteLink() . '?archiveDate=' . $date;
+		return $this->record->AbsoluteLink() . '?archiveDate=' . $this->record->LastEdited;
 	}
 	
 	function canView($member = null) {

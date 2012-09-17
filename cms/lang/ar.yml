@@ -5,6 +5,7 @@ ar:
     ActionAdd: 'Add folder'
     AppCategoryArchive: Archive
     AppCategoryAudio: Audio
+    AppCategoryDocument: Document
     AppCategoryFlash: Flash
     AppCategoryImage: Image
     AppCategoryVideo: Video
@@ -13,6 +14,7 @@ ar:
     CurrentFolderOnly: 'Limit to current folder?'
     DetailsView: Details
     FILES: Files
+    FILESYSTEMSYNC: 'Sync files'
     FILESYSTEMSYNCTITLE: 'Update the CMS database entries of files on the filesystem. Useful when new files have been uploaded outside of the CMS, e.g. through FTP.'
     FROMTHEINTERNET: 'From the internet'
     FROMYOURCOMPUTER: 'From your computer'
@@ -26,13 +28,15 @@ ar:
     Upload: Upload
   AssetAdmin_DeleteBatchAction:
     TITLE: 'Delete folders'
+  AssetAdmin_Tools:
+    FILTER: Filter
+  AssetAdmin_left.ss:
+    GO: اذهب
   AssetTableField:
     BACKLINKCOUNT: 'Used on:'
     PAGES: page(s)
-  BasicFieldsTestPage:
-    DESCRIPTION: 'Generic content page'
-  BigFamilyPage:
-    DESCRIPTION: 'Generic content page'
+  BackLink_Button.ss:
+    Back: Back
   BrokenLinksReport:
     Any: أي
     BROKENLINKS: 'تقرير الروابط المكسورة'
@@ -47,7 +51,6 @@ ar:
     HasBrokenLink: 'يحتوى مرابط مكسور'
     HasBrokenLinkAndFile: 'يحتوى ملف ورابط مكسور'
     HoverTitleEditPage: 'تعديل صفحة'
-    NOITEMSFOUND: 'No items found'
     PageName: 'اسم الصفحة'
     ReasonDropdown: 'مشكلة للتأكد'
     ReasonDropdownBROKENFILE: 'ملف مكسور'
@@ -55,8 +58,6 @@ ar:
     ReasonDropdownRPBROKENLINK: 'معيد توجيه الصفحة يشير الى صفحة غير موجودة..'
     ReasonDropdownVPBROKENLINK: 'الصفحة الظاهرية تشير الى صفحة غير موجودة..'
     RedirectorNonExistent: 'معيد توجيه الصفحة يشير الى صفحة غير موجودة..'
-    SORTASC: 'ترتيب تصاعدي'
-    SORTDESC: 'ترتيب تنازلي'
     VirtualPageNonExistent: 'الصفحة الظاهرية تشير الى صفحة غير موجودة..'
   CMSAddPageController:
     Title: 'Add page'
@@ -70,8 +71,6 @@ ar:
     UNPUBLISHED_PAGES: '%d من الصفحات غير المنشورة'
     UNPUBLISH_PAGES: 'غير منشور'
   CMSFileAddController:
-    CANACCESS: 'يمكنك الدخول إلى أرشيف الموقع عن طريق الرابط التالي :'
-    HAVEASKED: 'تم طلب مشاهدة محتوى الموقع في'
     MENUTITLE: Files
   CMSMain:
     ACCESS: 'Access to ''{title}'' section'
@@ -88,7 +87,7 @@ ar:
     EditTree: 'Edit Tree'
     ListFiltered: 'Filtered list.'
     MENUTITLE: 'Edit Page'
-    NEW: جديد
+    NEWPAGE: 'New {pagetype}'
     PAGENOTEXISTS: 'هذه الصفحة غير موجودة'
     PAGES: Pages
     PAGETYPEANYOPT: Any
@@ -113,6 +112,9 @@ ar:
     TabSettings: Settings
     TreeFiltered: 'Filtered tree.'
     TreeFilteredClear: 'Clear filter'
+  CMSMain_left.ss:
+    'APPLY FILTER': 'Apply Filter'
+    RESET: Reset
   CMSPageAddController:
     MENUTITLE: 'Add page'
     ParentMode_child: 'Under another page'
@@ -120,73 +122,67 @@ ar:
   CMSPageEditController:
     MENUTITLE: 'Edit Page'
   CMSPageHistoryController:
-    COMPAREMODE: 'Compare mode (select two)'
-    COMPAREVERSIONS: 'Compare Versions'
+    COMPAREMODE: 'وضع المقارنة (أختر أثنين)ـ'
+    COMPAREVERSIONS: 'مقارنة النسخ'
     COMPARINGVERSION: 'Comparing versions {version1} and {version2}.'
-    MENUTITLE: History
-    REVERTTOTHISVERSION: 'Revert to this version'
-    SHOWUNPUBLISHED: 'Show unpublished versions'
-    SHOWVERSION: 'Show Version'
+    MENUTITLE: السجل
+    REVERTTOTHISVERSION: 'العودة الى هذة النسخة'
+    SHOWUNPUBLISHED: 'عرض النسخ الغير منشورة'
+    SHOWVERSION: 'عرض النسخ'
     VIEW: view
     VIEWINGVERSION: 'Currently viewing version {version}.'
-  CMSPageHistoryController_versions.ss: 'BackLink_Button.ss:  AssetAdmin_Tools.ss:  TableListField.ss:  CMSPagesController_Tools.ss:  CMSPagesController_ContentToolbar.ss:  AssetAdmin_left.ss:  TableListField_PageControls.ss:  ViewArchivedEmail.ss:  CMSMain_left.ss:    APPLY FILTER: "Apply Filter"'
+  CMSPageHistoryController_versions.ss:
+    AUTHOR: الكاتب
+    NOTPUBLISHED: 'غير منشور'
+    PUBLISHER: الناشر
+    UNKNOWN: 'غير معروف'
+    WHEN: متى
   CMSPageSettingsController:
-    MENUTITLE: 'Edit Page'
+    MENUTITLE: 'تحرير صفحة'
   CMSPagesController:
     GalleryView: 'Gallery View'
-    ListView: 'List View'
-    MENUTITLE: Pages
-    TreeView: 'Tree View'
-  CMSSearch:
-    FILTERDATEFROM: From
-    FILTERDATEHEADING: Date
-    FILTERDATETO: To
-    FILTERLABELTEXT: Content
-  CMSSettingsController:
-    AUTHOR: Author
-    MENUTITLE: Settings
-    NOTPUBLISHED: 'Not published'
-    PUBLISHER: Publisher
-    UNKNOWN: Unknown
-    WHEN: When
-  CMSSiteTreeFilter_ChangedPages:
-    DISPLAYING: Displaying
+    ListView: 'قائمة العرض'
+    MENUTITLE: الصفحات
+    TreeView: 'شجرة العرض'
+  CMSPagesController_ContentToolbar.ss:
     ENABLEDRAGGING: 'Drag''n''drop'
-    GO: اذهب
     MULTISELECT: Multi-selection
-    OF: of
-    TO: to
+  CMSPagesController_Tools.ss:
+    FILTER: Filter
+  CMSSearch:
+    FILTERDATEFROM: من
+    FILTERDATEHEADING: التاريخ
+    FILTERDATETO: إلى
+    FILTERLABELTEXT: المحتوى
+  CMSSettingsController:
+    MENUTITLE: الإعدادات
+  CMSSiteTreeFilter_ChangedPages:
     Title: 'Changed pages'
-    VIEWFIRST: 'عرض الأول'
-    VIEWLAST: 'عرض الأخير'
-    VIEWNEXT: 'عرض التالي'
-    VIEWPREVIOUS: 'عرض السابق'
   CMSSiteTreeFilter_DeletedPages:
     Title: 'All pages, including deleted'
   CMSSiteTreeFilter_Search:
-    Title: 'All pages'
-  CaseStudy:
-    DESCRIPTION: 'Case study page to fature work examples'
+    Title: 'كل الصفحات'
   ContentControl:
     NOTEWONTBESHOWN: 'تنبيه: هذه الرسالة لن يتم عرضها لزوار موقعك'
   ContentController:
-    ARCHIVEDSITE: 'موقع تمت أرشفته'
+    ARCHIVEDSITE: 'Preview version'
     ARCHIVEDSITEFROM: 'موقع تمت أرشفته منذ'
     CMS: 'نظام إدارة المحتوى'
     DRAFTSITE: 'موقع في المسودة'
     DRAFT_SITE_ACCESS_RESTRICTION: 'بجب تسجيل الدخول ببيانات نظام إدارة المحتوى للتمكن من مشاهدة المسودات أو محتوى الأرشيف. <a href="%s">اضغط هنا للرجوع إلى الموقع المنشور.</a>'
     Email: Email
+    INSTALL_SUCCESS: 'Installation Successful!'
     InstallFilesDeleted: 'Installation files have been successfully deleted.'
     InstallSecurityWarning: 'For security reasons you should now delete the install files, unless you are planning to reinstall later (<em>requires admin login, see above</em>). The web server also now only needs write access to the "assets" folder, you can remove write access from all other folders. <a href="{link}" style="text-align: center;">Click here to delete the install files.</a>'
-    InstallSuccessCongratulations: 'SilverStripe has been successfully installed.'
+    InstallSuccessCongratulations: 'SilverStripe has been successfully installed!'
     LOGGEDINAS: 'الدخول كـ'
     LOGIN: الدخول
     LOGOUT: الخروج
     NOTLOGGEDIN: 'لم يتم تسجيل الدخول'
     PUBLISHEDSITE: 'موقع منشور'
     Password: Password
-    PostInstallTutorialIntro: 'This website is a simplistic version of a SilverStripe 2 site. To extend this, please take a look at {link}.'
-    StartEditing: 'You can start editing your site\\''s content by opening <a href="{link}">the CMS</a>.'
+    PostInstallTutorialIntro: 'This website is a simplistic version of a SilverStripe 3 site. To extend this, please take a look at {link}.'
+    StartEditing: 'You can start editing your site''s content by opening <a href=\\"{link}\\">the CMS</a>.'
     UnableDeleteInstall: 'Unable to delete installation files. Please delete the files below manually'
     VIEWPAGEIN: 'مشاهدة الصفحة في:'
   ErrorPage:
@@ -197,6 +193,8 @@ ar:
     DEFAULTSERVERERRORPAGETITLE: 'Server error'
     DESCRIPTION: 'Custom content for different error cases (e.g. "Page not found")'
     ERRORFILEPROBLEM: 'Error opening file "{filename}" for writing. Please check file permissions.'
+    PLURALNAME: 'Error Pags'
+    SINGULARNAME: 'Error Page'
     400: '400 - طلب خاطئ'
     401: '401 - غير مصرح'
     403: '403 - ممنوع'
@@ -226,40 +224,32 @@ ar:
     UNUSEDFILESTITLE: 'الملفات غير المستخدمة'
     UNUSEDTHUMBNAILSTITLE: 'المصغرات غير المستخدمة'
     UploadFilesButton: Upload
-  GridFieldTestPage:
-    DESCRIPTION: 'Generic content page'
-    FILTER: Filter
   LeftAndMain:
     DELETED: Deleted.
-    PreviewButton: Preview
+    PreviewButton: عرض
     SAVEDUP: Saved.
     STATUSPUBLISHEDSUCCESS: 'Published ''{title}'' successfully'
-    SearchResults: 'Search Results'
-    VersionUnknown: Unknown
-  LegacyTableFieldsTestPage:
-    DESCRIPTION: 'Generic content page'
-  Page:
-    DESCRIPTION: 'Generic content page'
+    SearchResults: 'نتائج البحث'
+    VersionUnknown: 'غير معروف'
   Permission:
     CMS_ACCESS_CATEGORY: 'الوصل لنظام إدارة المحتوى'
-    RESET: Reset
   Permissions:
     CONTENT_CATEGORY: 'تصاريح المحتوى'
     PERMISSIONS_CATEGORY: 'تصريح الدخول والقواعد'
   RedirectorPage:
-    DESCRIPTION: 'Redirects to a different internal page'
+    DESCRIPTION: 'إعادة توجية الى صفحة داخلية مختلفة '
     HASBEENSETUP: 'صفحة التحويل تم تهيئتها بدون تحديد وجهة التحويل'
     HEADER: 'هذه الصفحة سوف تقوم بتحويل الأعضاء إلى صفحة أخرى'
     OTHERURL: 'رابط موقع آخر'
+    PLURALNAME: 'Redirector Pags'
     REDIRECTTO: 'تحويل إلى'
     REDIRECTTOEXTERNAL: 'موقع آخر'
     REDIRECTTOPAGE: 'صفحة في موقعك الشخصي'
+    SINGULARNAME: 'Redirector Page'
     YOURPAGE: 'صفحة في موقعك الشخصي'
-  RelationFieldsTestPage:
-    DESCRIPTION: 'Generic content page'
-    FILTER: Filter
   ReportAdmin:
     MENUTITLE: Reports
+    ReportTitle: Title
   ReportAdminForm:
     FILTERBY: 'فرز عبر'
   SearchForm:
@@ -288,6 +278,8 @@ ar:
     EDITHEADER: 'من يستطيع تحرير الصفحات الموجودة على هذا الموقع؟'
     EDIT_PERMISSION: 'إدارة إعدادات الموقع'
     EDIT_PERMISSION_HELP: 'القدرة على تحرير إعدادات الوصول العالمي / أذونات صفحة المستوى الأعلى.'
+    PLURALNAME: 'Site Configs'
+    SINGULARNAME: 'Site Config'
     SITENAMEDEFAULT: 'اسم عنوان موقعك'
     SITETAGLINE: 'علامة / شعار الموقع'
     SITETITLE: 'عنوان الموقع'
@@ -311,7 +303,6 @@ ar:
     BUTTONSAVEPUBLISH: 'حفظ و نشر'
     BUTTONUNPUBLISH: 'غير منشور'
     BUTTONUNPUBLISHDESC: 'حذف هذه الصفحة من الموقع المنشور'
-    Back: Back
     CREATED: 'Date Created'
     Comments: التعليقات
     Content: المحتوى
@@ -337,7 +328,7 @@ ar:
     HASBROKENLINKS: 'هذه الصفحة تحتوي على روابط معطوبة'
     HTMLEDITORTITLE: محتوى
     INHERIT: 'استيراد من الصفحة المرجعية'
-    LASTUPDATED: 'Last Updated'
+    LASTUPDATED: 'أخر تحديث'
     LINKCHANGENOTE: 'تغيير هذا وصلة رابط الصفحة سوف تؤثر أيضًا على الوصلات لجميع صفحات الفرعية.'
     MENUTITLE: القائمة
     METADESC: الوصف
@@ -345,8 +336,9 @@ ar:
     METAKEYWORDS: 'الكلمات المفتاحية'
     METATITLE: العنوان
     MODIFIEDONDRAFTHELP: 'Page has unpublished changes'
-    MODIFIEDONDRAFTSHORT: Modified
+    MODIFIEDONDRAFTSHORT: معدل
     MetadataToggle: Metadata
+    OBSOLETECLASS: 'This page is of obsolete type {type}. Saving will reset it''s type and you may lose data'
     PAGELOCATION: 'موقع الضفحة'
     PAGETITLE: 'اسم الصفحة'
     PAGETYPE: 'نوع الصفحة'
@@ -356,17 +348,17 @@ ar:
     PARENTTYPE_SUBPAGE: 'صفحة فرعية أسفل صفحة رئيسية (اختر أدناه)'
     PERMISSION_GRANTACCESS_DESCRIPTION: 'التحكم في المجموعات التي لها صلاحية الدخول أو التعديل على صفحات محددة'
     PERMISSION_GRANTACCESS_HELP: 'السماح بضع القيود على الوصول صفحة محددة في قسم "الصفحات".'
-    PLURALNAME: 'هياكل الموقع'
+    PLURALNAME: Pages
     PageTypNotAllowedOnRoot: 'Page type "{type}" is not allowed on the root level'
     PageTypeNotAllowed: 'Page type "{type}" not allowed as child of this parent page'
     REMOVEDFROMDRAFTHELP: 'Page is published, but has been deleted from draft'
     REMOVEDFROMDRAFTSHORT: 'Removed from draft'
-    REMOVE_INSTALL_WARNING: 'Warning: You should remove install.php from this SilverStripe install for security reasons.'
+    REMOVE_INSTALL_WARNING: 'تحذير : يجب حذف الملف install.php من SilverStripe لاسباب أمنية '
     REORGANISE_DESCRIPTION: 'Can reorganise the site tree'
     REORGANISE_HELP: 'إعادة ترتيب الصفحات في  شجرة الموقع من خلال السحب والإسقاط.'
     SHOWINMENUS: 'عرض في قوائم ؟'
     SHOWINSEARCH: 'عرض في البحث ؟'
-    SINGULARNAME: 'هيكلة الموقع'
+    SINGULARNAME: Page
     TABBEHAVIOUR: الشسلوك
     TABCONTENT: المحتوى
     TABDEPENDENT: 'الصفحات المعتدة'
@@ -392,19 +384,28 @@ ar:
     NAME: 'المصدر الثابت Exporter'
   TableListField:
     SELECT: اختيار
-  TestFileUploadPage:
-    DESCRIPTION: 'Generic content page'
-  TestPage:
-    DESCRIPTION: 'Generic content page'
+  TableListField.ss:
+    NOITEMSFOUND: 'No items found'
+    SORTASC: 'ترتيب تصاعدي'
+    SORTDESC: 'ترتيب تنازلي'
+  TableListField_PageControls.ss:
+    DISPLAYING: Displaying
+    OF: of
+    TO: to
+    VIEWFIRST: 'عرض الأول'
+    VIEWLAST: 'عرض الأخير'
+    VIEWNEXT: 'عرض التالي'
+    VIEWPREVIOUS: 'عرض السابق'
   TreeTools:
     DisplayLabel: 'Display:'
+  ViewArchivedEmail.ss:
+    CANACCESS: 'يمكنك الدخول إلى أرشيف الموقع عن طريق الرابط التالي :'
+    HAVEASKED: 'تم طلب مشاهدة محتوى الموقع في'
   VirtualPage:
     CHOOSE: 'اختر صفحة ليتم ربطها في'
-    DESCRIPTION: 'Displays the content of another page'
+    DESCRIPTION: 'أعرض محتويات الصفحة الأخرى'
     EDITCONTENT: 'اضغط هنا لتعديل المحتوى'
     HEADER: 'هذه صفحة افتراضية'
     PLURALNAME: 'الصفحات الافتراضية'
     PageTypNotAllowedOnRoot: 'Original page type "{type}" is not allowed on the root level for this virtual page'
     SINGULARNAME: 'الصفحة الافتراضية'
-  cms:
-    FILESYSTEMSYNC: 'Sync files'

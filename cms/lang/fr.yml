@@ -3,8 +3,9 @@ fr:
     ADDFILES: 'Ajouter des fichiers'
     ALLOWEDEXTS: 'Extensions autorisées'
     ActionAdd: 'Ajouter un dossier'
-    AppCategoryArchive: Archiver
+    AppCategoryArchive: Archive
     AppCategoryAudio: Audio
+    AppCategoryDocument: Document
     AppCategoryFlash: Flash
     AppCategoryImage: Image
     AppCategoryVideo: Vidéo
@@ -13,6 +14,7 @@ fr:
     CurrentFolderOnly: 'Limiter au dossier actuel ?'
     DetailsView: Détails
     FILES: Fichiers
+    FILESYSTEMSYNC: 'Synchroniser les fichiers'
     FILESYSTEMSYNCTITLE: 'Met à jour la base de données du système de fichiers, de façon à prendre en compte des fichiers téléchargés en dehors du CMS (p. ex. par FTP).'
     FROMTHEINTERNET: 'En ligne'
     FROMYOURCOMPUTER: 'Depuis votre ordinateur'
@@ -26,13 +28,15 @@ fr:
     Upload: Télécharger
   AssetAdmin_DeleteBatchAction:
     TITLE: 'Supprimer dossiers'
+  AssetAdmin_Tools:
+    FILTER: Filtrer
+  AssetAdmin_left.ss:
+    GO: Go
   AssetTableField:
     BACKLINKCOUNT: 'Utilisé dans :'
     PAGES: page(s)
-  BasicFieldsTestPage:
-    DESCRIPTION: 'Page au contenu générique'
-  BigFamilyPage:
-    DESCRIPTION: 'Page au contenu générique'
+  BackLink_Button.ss:
+    Back: Retour
   BrokenLinksReport:
     Any: 'N''importe quel'
     BROKENLINKS: 'Rapport des liens brisés'
@@ -47,7 +51,6 @@ fr:
     HasBrokenLink: 'a cassé le lien'
     HasBrokenLinkAndFile: 'a cassé le lien et le fichier'
     HoverTitleEditPage: 'Editer la page'
-    NOITEMSFOUND: 'No items found'
     PageName: 'Nom de la page'
     ReasonDropdown: 'Problème à regarder'
     ReasonDropdownBROKENFILE: 'Fichier cassé'
@@ -55,8 +58,6 @@ fr:
     ReasonDropdownRPBROKENLINK: 'La page de redirection pointe vers une page qui n’existe pas/plus'
     ReasonDropdownVPBROKENLINK: 'La page virtuelle pointe vers une page qui n’existe pas/plus'
     RedirectorNonExistent: 'la page de redirection pointe vers une page qui n’existe pas/plus'
-    SORTASC: 'Classer en ordre ascendant'
-    SORTDESC: 'Classer en ordre descendant'
     VirtualPageNonExistent: 'page virtuelle pointe vers une page qui n’existe pas/plus'
   CMSAddPageController:
     Title: 'Ajouter page'
@@ -70,8 +71,6 @@ fr:
     UNPUBLISHED_PAGES: '%d pages non publiées'
     UNPUBLISH_PAGES: 'Non publiées'
   CMSFileAddController:
-    CANACCESS: 'Vous pouvez accéder le site archivé par ce lien :'
-    HAVEASKED: 'Vous avez demandé à voir le contenu de notre site le'
     MENUTITLE: Fichiers
   CMSMain:
     ACCESS: 'Droits d’accès à la section « {title} »'
@@ -85,10 +84,10 @@ fr:
     DELETEFP: 'Retirer du site publié'
     DESCREMOVED: 'et {count} descendants'
     EMAIL: Email
-    EditTree: 'Edit Tree'
-    ListFiltered: 'Filtered list.'
+    EditTree: 'Ağacı düzenle'
+    ListFiltered: 'Filtrelenmiş liste.'
     MENUTITLE: 'Éditer la page'
-    NEW: Nouveau
+    NEWPAGE: 'Nouveau {pagetype}'
     PAGENOTEXISTS: 'Cette page n''existe pas'
     PAGES: Pages
     PAGETYPEANYOPT: Tous
@@ -111,8 +110,11 @@ fr:
     TabContent: Contenu
     TabHistory: Historique
     TabSettings: Paramètres
-    TreeFiltered: 'Filtered tree.'
-    TreeFilteredClear: 'Clear filter'
+    TreeFiltered: 'Filtrelenmiş ağaç liste.'
+    TreeFilteredClear: 'Filtreyi temizle'
+  CMSMain_left.ss:
+    'APPLY FILTER': 'Appliquer le filtre'
+    RESET: Réinitialiser
   CMSPageAddController:
     MENUTITLE: 'Ajouter page'
     ParentMode_child: 'Sous une autre page'
@@ -129,64 +131,58 @@ fr:
     SHOWVERSION: 'Visa version'
     VIEW: Visa
     VIEWINGVERSION: 'Version affichée : {version}.'
-  CMSPageHistoryController_versions.ss: 'BackLink_Button.ss:  AssetAdmin_Tools.ss:  TableListField.ss:  CMSPagesController_Tools.ss:  CMSPagesController_ContentToolbar.ss:  AssetAdmin_left.ss:  TableListField_PageControls.ss:  ViewArchivedEmail.ss:  CMSMain_left.ss:    APPLY FILTER: "Appliquer le filtre"'
+  CMSPageHistoryController_versions.ss:
+    AUTHOR: Auteur
+    NOTPUBLISHED: 'Non publiée'
+    PUBLISHER: Yayınlayan
+    UNKNOWN: Inconnu
+    WHEN: Date
   CMSPageSettingsController:
     MENUTITLE: 'Ändra sidan'
   CMSPagesController:
     GalleryView: Galerie
     ListView: Liste
-    MENUTITLE: Sayfalar
-    TreeView: 'Ağaç Görünümü'
+    MENUTITLE: Pages
+    TreeView: Arbre
+  CMSPagesController_ContentToolbar.ss:
+    ENABLEDRAGGING: Glisser-déposer
+    MULTISELECT: 'Choix multiple'
+  CMSPagesController_Tools.ss:
+    FILTER: Filtrer
   CMSSearch:
     FILTERDATEFROM: De
     FILTERDATEHEADING: Date
     FILTERDATETO: à
-    FILTERLABELTEXT: Contenu
+    FILTERLABELTEXT: Terme
   CMSSettingsController:
-    AUTHOR: Auteur
-    MENUTITLE: Paramètres
-    NOTPUBLISHED: 'Non publiée'
-    PUBLISHER: Éditeur
-    UNKNOWN: Inconnu
-    WHEN: Date
+    MENUTITLE: Ayarlar
   CMSSiteTreeFilter_ChangedPages:
-    DISPLAYING: Displaying
-    ENABLEDRAGGING: Glisser-déposer
-    GO: Go
-    MULTISELECT: 'Choix multiple'
-    OF: of
-    TO: to
     Title: 'Pages modifiées'
-    VIEWFIRST: 'Voir le(s) premier(s)'
-    VIEWLAST: 'Voir le(s) dernier(s)'
-    VIEWNEXT: 'Voir le(s) suivant(s)'
-    VIEWPREVIOUS: 'Voir le(s) précédent(s)'
   CMSSiteTreeFilter_DeletedPages:
     Title: 'Toutes les pages, y compris les supprimées'
   CMSSiteTreeFilter_Search:
     Title: 'Toutes les pages'
-  CaseStudy:
-    DESCRIPTION: 'Case study page to fature work examples'
   ContentControl:
     NOTEWONTBESHOWN: 'Note : ce message ne sera pas visible de vos visiteurs.'
   ContentController:
-    ARCHIVEDSITE: 'Site archivé'
+    ARCHIVEDSITE: 'Version de l’aperçu'
     ARCHIVEDSITEFROM: 'Site archivé depuis'
     CMS: CMS
     DRAFTSITE: 'Site Brouillon'
     DRAFT_SITE_ACCESS_RESTRICTION: 'Vous devez vous authentifier avec votre mot de passe CMS afin de pouvoir consulter le contenu brouillon ou archivé. <a href="%s">Cliquer ici pour revenir au site publié.</a>'
     Email: 'Courrier électronique'
+    INSTALL_SUCCESS: 'Installation terminée!'
     InstallFilesDeleted: 'Les fichiers d’installation ont été supprimés. '
     InstallSecurityWarning: 'Pour des raisons de sécurité vous devriez supprimer maintenant les fichiers d’installation, à moins que vous n’ayez prévu de réinstaller le système ultérieurement (<em>ce qui nécessite de se connecter comme administrateur, voir plus haut</em>). Désormais, votre serveur n’aura besoin de droits de accès en écriture que pour le dossier « assets », vous pouvez donc les révoquer pour tous les autres dossiers. <a href="{link}" style="text-align: center;">Faites clic ici pour supprimer les fichiers d’installation.</a>'
-    InstallSuccessCongratulations: 'SilverStripe a été correctement installé.'
+    InstallSuccessCongratulations: 'SilverStripe a été installé avec succès.'
     LOGGEDINAS: 'Connecté en tant que'
     LOGIN: Connectez-vous
     LOGOUT: 'Se déconnecter'
     NOTLOGGEDIN: Non-connecté
     PUBLISHEDSITE: 'Site Publié'
     Password: 'Mot de passe'
-    PostInstallTutorialIntro: 'Ce site est une version simple sur la base de SilverStripe 2. Pour le développer, nous vous suggérons de consulter {link}.'
-    StartEditing: 'Vous pouvez commencer à éditer votre site en ouvrant <a href="{link}">le CMS</a>.'
+    PostInstallTutorialIntro: 'This website is a simplistic version of a SilverStripe 3 site. To extend this, please take a look at {link}.'
+    StartEditing: 'You can start editing your site''s content by opening <a href=\\"{link}\\">the CMS</a>.'
     UnableDeleteInstall: 'La suppression des fichiers d’installation a échoué ; faites-le manuellement pour les fichiers ci-dessous : '
     VIEWPAGEIN: 'Voir la page en :'
   ErrorPage:
@@ -196,7 +192,9 @@ fr:
     DEFAULTSERVERERRORPAGECONTENT: '<p>Nous sommes désolés, un problème nous a empêché de traiter votre requête.</p>'
     DEFAULTSERVERERRORPAGETITLE: 'Erreur du serveur'
     DESCRIPTION: 'Contenu personnalisé pour diverses erreurs (p. ex. « Page introuvable »)'
-    ERRORFILEPROBLEM: ' L''ouverture du fichier « {filename} » afin de le modifier a provoqué une erreur ; vérifiez les droits d’accès au fichier. '
+    ERRORFILEPROBLEM: ' L’ouverture du fichier « {filename} » afin de le modifier a provoqué une erreur ; vérifiez les droits d’accès au fichier. '
+    PLURALNAME: 'Pages d’erreur'
+    SINGULARNAME: 'Page d’erreur'
     400: '400 - Mauvaise demande'
     401: '401 - Non autorisé'
     403: '403 - Interdit'
@@ -226,23 +224,15 @@ fr:
     UNUSEDFILESTITLE: 'Fichiers inutilisés'
     UNUSEDTHUMBNAILSTITLE: 'Miniatures inutilisées'
     UploadFilesButton: Télécharger
-  GridFieldTestPage:
-    DESCRIPTION: 'Page au contenu générique'
-    FILTER: Filtrer
   LeftAndMain:
     DELETED: Supprimée.
     PreviewButton: Aperçu
     SAVEDUP: Sauvegardée.
     STATUSPUBLISHEDSUCCESS: '« {title} » publiée avec succès'
-    SearchResults: 'Résultats de la recherche'
-    VersionUnknown: Inconnu
-  LegacyTableFieldsTestPage:
-    DESCRIPTION: 'Page au contenu générique'
-  Page:
-    DESCRIPTION: 'Page au contenu générique'
+    SearchResults: 'Arama Sonuçları'
+    VersionUnknown: Bilinmeyen
   Permission:
     CMS_ACCESS_CATEGORY: 'Accès au CMS'
-    RESET: Réinitialiser
   Permissions:
     CONTENT_CATEGORY: 'Permissions du contenu'
     PERMISSIONS_CATEGORY: 'Rôles et autorisations d’accès'
@@ -251,15 +241,15 @@ fr:
     HASBEENSETUP: 'Une page de redirection sans adresse de redirection a été créée.'
     HEADER: 'Cette page va rediriger les utilisateurs vers une autre page'
     OTHERURL: 'Autre URL de site web'
+    PLURALNAME: 'Pages de redirection'
     REDIRECTTO: 'Rediriger vers'
     REDIRECTTOEXTERNAL: 'Autre site web'
     REDIRECTTOPAGE: 'Une page de votre site web'
+    SINGULARNAME: 'Page de redirection'
     YOURPAGE: 'Page de votre site web'
-  RelationFieldsTestPage:
-    DESCRIPTION: 'Page au contenu générique'
-    FILTER: Filtrer
   ReportAdmin:
     MENUTITLE: Rapports
+    ReportTitle: Titre
   ReportAdminForm:
     FILTERBY: 'Filtrer par'
   SearchForm:
@@ -288,7 +278,9 @@ fr:
     EDITHEADER: 'Qui peut modifier les pages sur ce site?'
     EDIT_PERMISSION: 'Configuration du site'
     EDIT_PERMISSION_HELP: 'Capacité d''édition des accès globales et permission des pages de premier niveau.'
-    SITENAMEDEFAULT: 'Notre de votre site'
+    PLURALNAME: 'Configurations du site'
+    SINGULARNAME: 'Configuration du site'
+    SITENAMEDEFAULT: 'Nom du site'
     SITETAGLINE: 'Slogan ou devise du site'
     SITETITLE: 'Titre du site'
     TABACCESS: Accès
@@ -311,7 +303,6 @@ fr:
     BUTTONSAVEPUBLISH: 'Enregistrer & Publier'
     BUTTONUNPUBLISH: 'Retirer du site publié'
     BUTTONUNPUBLISHDESC: 'Retirer cette page du site publié'
-    Back: Retour
     CREATED: 'Date de création'
     Comments: Commentaires
     Content: Contenu
@@ -324,7 +315,7 @@ fr:
     DELETEDPAGEHELP: 'La page n’est plus publique '
     DELETEDPAGESHORT: Supprimée
     DEPENDENT_NOTE: 'Les pages suivantes dépendent de cette page. Ceci inclut les pages virtuelles, les redirections et les pages avec des liens.'
-    DESCRIPTION: 'Generic content page'
+    DESCRIPTION: 'Page au contenu générique'
     DependtPageColumnLinkType: 'Type de lien'
     DependtPageColumnURL: URL
     EDITANYONE: 'Toute personne pouvant se connecter au CMS'
@@ -336,7 +327,7 @@ fr:
     Editors: 'Groupes d''éditeurs'
     HASBROKENLINKS: 'Cette page a des liens cassés.'
     HTMLEDITORTITLE: Contenu
-    INHERIT: 'hérite de la page parente'
+    INHERIT: 'Hérite de la page parente'
     LASTUPDATED: 'Dernière mise à jour'
     LINKCHANGENOTE: 'Changer le lien de cette page affectera aussi les liens des pages enfants.'
     MENUTITLE: 'Nom de navigation'
@@ -346,17 +337,18 @@ fr:
     METATITLE: Titre
     MODIFIEDONDRAFTHELP: 'La page comporte des modifications non publiées'
     MODIFIEDONDRAFTSHORT: Modifiée
-    MetadataToggle: Metadata
+    MetadataToggle: Métadonnées
+    OBSOLETECLASS: 'Cette page est de type {type}. Celui-ci est obsolète. Vous pourriez perdre des données en sauvegardant dans ce type.'
     PAGELOCATION: 'Emplacement de la page'
     PAGETITLE: 'Nom de la page'
     PAGETYPE: 'Type de page'
     PARENTID: 'Page parent'
     PARENTTYPE: 'Emplacement de la page'
-    PARENTTYPE_ROOT: 'Page de premier niveau. '
+    PARENTTYPE_ROOT: 'Page de premier niveau'
     PARENTTYPE_SUBPAGE: 'Sous-page d''une page parente (choisir en dessous) '
     PERMISSION_GRANTACCESS_DESCRIPTION: 'Contrôler les groupes qui peuvent accéder ou éditer certaines pages'
     PERMISSION_GRANTACCESS_HELP: 'Autoriser la gestion des restrictions d''accès spécifiques par page dans la section "Pages"'
-    PLURALNAME: 'Structures du site'
+    PLURALNAME: Pages
     PageTypNotAllowedOnRoot: 'Le type de page « {type} » n’est pas autorisé au niveau racine'
     PageTypeNotAllowed: 'Le type de page « {type} » n''est pas autorisé comme enfant de cette page parent'
     REMOVEDFROMDRAFTHELP: 'La page est publiée, mais a été effacée des brouillons'
@@ -366,7 +358,7 @@ fr:
     REORGANISE_HELP: 'Réorganiser les pages du site avec le glisser/déplacer'
     SHOWINMENUS: 'Afficher dans les menus ?'
     SHOWINSEARCH: 'Afficher dans les recherches ?'
-    SINGULARNAME: 'Structure du site'
+    SINGULARNAME: Page
     TABBEHAVIOUR: Comportement
     TABCONTENT: Contenu
     TABDEPENDENT: 'Pages dépendantes'
@@ -392,12 +384,23 @@ fr:
     NAME: 'Exportation Statique'
   TableListField:
     SELECT: 'Sélectionner:'
-  TestFileUploadPage:
-    DESCRIPTION: 'Page au contenu générique'
-  TestPage:
-    DESCRIPTION: 'Page au contenu générique'
+  TableListField.ss:
+    NOITEMSFOUND: 'Aucun élément trouvé'
+    SORTASC: 'Classer en ordre ascendant'
+    SORTDESC: 'Classer en ordre descendant'
+  TableListField_PageControls.ss:
+    DISPLAYING: Gösterilen
+    OF: de
+    TO: kime
+    VIEWFIRST: 'Voir le(s) premier(s)'
+    VIEWLAST: 'Voir le(s) dernier(s)'
+    VIEWNEXT: 'Voir le(s) suivant(s)'
+    VIEWPREVIOUS: 'Voir le(s) précédent(s)'
   TreeTools:
     DisplayLabel: 'Afficher :'
+  ViewArchivedEmail.ss:
+    CANACCESS: 'Vous pouvez accéder le site archivé par ce lien :'
+    HAVEASKED: 'Vous avez demandé à voir le contenu de notre site le'
   VirtualPage:
     CHOOSE: 'Choisir le lien d''une page'
     DESCRIPTION: 'Affiche le contenu d’une autre page'
@@ -406,5 +409,3 @@ fr:
     PLURALNAME: 'Pages Virtuelles'
     PageTypNotAllowedOnRoot: 'Le type de page d’origine « {type} » n’est pas autorisé au niveau racine pour cette page virtuelle'
     SINGULARNAME: 'Page virtuelle'
-  cms:
-    FILESYSTEMSYNC: 'Synchroniser fichiers'

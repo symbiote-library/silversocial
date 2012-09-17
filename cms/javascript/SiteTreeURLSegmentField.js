@@ -11,9 +11,13 @@
 			 * Constructor: onmatch
 			 */
 			onmatch : function() {
-				this._addActions(); // add elements and actions for editing
-				this.edit(); // toggle
-				this._autoInputWidth(); // set width of input field
+				// Only initialize the field if it contains an editable field.
+				// This ensures we don't get bogus previews on readonly fields.
+				if(this.find(':text').length) {
+					this._addActions(); // add elements and actions for editing
+					this.edit(); // toggle
+					this._autoInputWidth(); // set width of input field
+				}
 				
 				this._super();
 			},
@@ -90,10 +94,12 @@
 				}
 				
 				if (currentVal != updateVal) {
+					self.addClass('loading');
 					self.suggest(updateVal, function(data) {
 						var newVal = decodeURIComponent(data.value);
 						field.val(newVal);
 						self.edit(title);
+						self.removeClass('loading');
 					});
 				} else {
 					self.edit();
@@ -160,7 +166,7 @@
 				// edit button
 				editAction = $('<button />', {
 					'class': 'ss-ui-button ss-ui-button-small edit',
-					'text': 'Edit',
+					'text': ss.i18n._t('URLSEGMENT.Edit'),
 					'click': function(e) {
 						e.preventDefault();
 						self.edit();
@@ -171,7 +177,7 @@
 				// update button
 				updateAction = $('<button />', {
 					'class': 'update ss-ui-button-small',
-					'text': 'OK',
+					'text': ss.i18n._t('URLSEGMENT.OK'),
 					'click': function(e) {
 						e.preventDefault();
 						self.update();
@@ -182,7 +188,7 @@
 				cancelAction = $('<button />', {
 					'class': 'cancel ss-ui-action-minor ss-ui-button-small',
 					'href': '#',
-					'text': 'cancel',
+					'text':  ss.i18n._t('URLSEGMENT.Cancel'),
 					'click': function(e) {
 						e.preventDefault();
 						self.cancel();

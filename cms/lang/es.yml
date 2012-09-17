@@ -5,6 +5,7 @@ es:
     ActionAdd: 'Añadir carpeta'
     AppCategoryArchive: Archivar
     AppCategoryAudio: Audio
+    AppCategoryDocument: Documento
     AppCategoryFlash: Flash
     AppCategoryImage: Imagen
     AppCategoryVideo: Vídeo
@@ -13,6 +14,7 @@ es:
     CurrentFolderOnly: '¿Límite a la carpeta actual?'
     DetailsView: Detalles
     FILES: Archivos
+    FILESYSTEMSYNC: 'Sincronizar archivos'
     FILESYSTEMSYNCTITLE: 'Actualizar las entradas de base de datos del CMS de archivos en el sistema de archivos. Es útil cuando los nuevos archivos se han subido desde fuera del CMS, p.e., a través de FTP.'
     FROMTHEINTERNET: 'Desde internet'
     FROMYOURCOMPUTER: 'Desde tu ordenador'
@@ -26,13 +28,15 @@ es:
     Upload: Subir
   AssetAdmin_DeleteBatchAction:
     TITLE: 'Eliminar carpetas'
+  AssetAdmin_Tools:
+    FILTER: Filtrar
+  AssetAdmin_left.ss:
+    GO: Ir
   AssetTableField:
     BACKLINKCOUNT: 'Usado en:'
     PAGES: página(s)
-  BasicFieldsTestPage:
-    DESCRIPTION: 'Página de contenido genérico'
-  BigFamilyPage:
-    DESCRIPTION: 'Página de contenido genérico'
+  BackLink_Button.ss:
+    Back: Atras
   BrokenLinksReport:
     Any: Cualquiera
     BROKENLINKS: 'Informe de enlaces rotos'
@@ -47,7 +51,6 @@ es:
     HasBrokenLink: 'tiene un enlace roto'
     HasBrokenLinkAndFile: 'tiene un enlace y archivo roto'
     HoverTitleEditPage: 'Editar página'
-    NOITEMSFOUND: 'No se encontraron elementos'
     PageName: 'Nombre de la página'
     ReasonDropdown: 'Problema a comprobar'
     ReasonDropdownBROKENFILE: 'Archivo roto'
@@ -55,8 +58,6 @@ es:
     ReasonDropdownRPBROKENLINK: 'Página de redirección apuntando a una página que no existe'
     ReasonDropdownVPBROKENLINK: 'Página virtual apuntando a una página que no existe'
     RedirectorNonExistent: 'página de redirección apuntando a una página que no existe'
-    SORTASC: 'Ordenar de forma ascendente'
-    SORTDESC: 'Ordenar de forma descendente'
     VirtualPageNonExistent: 'página virtual apuntando a una página que no existe'
   CMSAddPageController:
     Title: 'Añadir página'
@@ -70,8 +71,6 @@ es:
     UNPUBLISHED_PAGES: 'No publicadas %d páginas'
     UNPUBLISH_PAGES: 'Sin Publicar'
   CMSFileAddController:
-    CANACCESS: 'Puede acceder al sitio archivado con este enlace:'
-    HAVEASKED: 'Ha pedido ver el contenido de nuestro sitio el'
     MENUTITLE: Archivos
   CMSMain:
     ACCESS: 'Acceso a la sección ''{title}'''
@@ -88,7 +87,7 @@ es:
     EditTree: 'Editar árbol'
     ListFiltered: 'Lista filtrada'
     MENUTITLE: 'Editar página'
-    NEW: Nueva
+    NEWPAGE: 'Nuevo {pagetype}'
     PAGENOTEXISTS: 'Esta página no existe'
     PAGES: Páginas
     PAGETYPEANYOPT: Cualquiera
@@ -113,6 +112,9 @@ es:
     TabSettings: Ajustes
     TreeFiltered: 'Árbol filtrado'
     TreeFilteredClear: 'Limpiar filtro'
+  CMSMain_left.ss:
+    'APPLY FILTER': 'Aplicar filtro'
+    RESET: Restablecer
   CMSPageAddController:
     MENUTITLE: 'Añadir página'
     ParentMode_child: 'Debajo de otra página'
@@ -129,7 +131,12 @@ es:
     SHOWVERSION: 'Mostrar Versión'
     VIEW: vista
     VIEWINGVERSION: 'Actualmente viendo la versión {version}.'
-  CMSPageHistoryController_versions.ss: 'BackLink_Button.ss:  AssetAdmin_Tools.ss:  TableListField.ss:  CMSPagesController_Tools.ss:  CMSPagesController_ContentToolbar.ss:  AssetAdmin_left.ss:  TableListField_PageControls.ss:  ViewArchivedEmail.ss:  CMSMain_left.ss:    APPLY FILTER: "Aplicar filtro"'
+  CMSPageHistoryController_versions.ss:
+    AUTHOR: Autor
+    NOTPUBLISHED: 'No publicado'
+    PUBLISHER: Editor
+    UNKNOWN: Desconocido
+    WHEN: Cuando
   CMSPageSettingsController:
     MENUTITLE: 'Editar página'
   CMSPagesController:
@@ -137,56 +144,45 @@ es:
     ListView: 'Vista de Lista'
     MENUTITLE: Paginas
     TreeView: 'Vista en árbol'
+  CMSPagesController_ContentToolbar.ss:
+    ENABLEDRAGGING: 'Drag''n''drop'
+    MULTISELECT: Multi-selecciñón
+  CMSPagesController_Tools.ss:
+    FILTER: Filtro
   CMSSearch:
     FILTERDATEFROM: De
     FILTERDATEHEADING: Fecha
     FILTERDATETO: Hasta
     FILTERLABELTEXT: Contenido
   CMSSettingsController:
-    AUTHOR: Autor
     MENUTITLE: Ajustes
-    NOTPUBLISHED: 'No publicado'
-    PUBLISHER: Editor
-    UNKNOWN: Desconocido
-    WHEN: Cuando
   CMSSiteTreeFilter_ChangedPages:
-    DISPLAYING: Mostrando
-    ENABLEDRAGGING: 'Drag''n''drop'
-    GO: Ir
-    MULTISELECT: Multi-selecciñón
-    OF: de
-    TO: a
     Title: 'Páginas cambiadas'
-    VIEWFIRST: 'Ver primero'
-    VIEWLAST: 'Ver último'
-    VIEWNEXT: 'Ver siguiente'
-    VIEWPREVIOUS: 'Ver anterior'
   CMSSiteTreeFilter_DeletedPages:
     Title: 'Todas las páginas'
   CMSSiteTreeFilter_Search:
     Title: 'Todas las paginas'
-  CaseStudy:
-    DESCRIPTION: 'Case study page to fature work examples'
   ContentControl:
     NOTEWONTBESHOWN: 'Nota: este mensaje no se mostrará a tus visitantes'
   ContentController:
-    ARCHIVEDSITE: 'Sitio archivado'
+    ARCHIVEDSITE: 'Versión de la vista previa'
     ARCHIVEDSITEFROM: 'Sitio archivado desde'
     CMS: CMS
     DRAFTSITE: 'Sitio en Borrador'
     DRAFT_SITE_ACCESS_RESTRICTION: 'Debe iniciar sesión para poder acceder a los contenidos archivados o al borrador. <a href="%s">De un click aquí para regresar al sitio publicado.</a>'
     Email: 'Correo electrónico'
+    INSTALL_SUCCESS: '¡Instalación Correcta!'
     InstallFilesDeleted: 'Los archivos de instalación han sido borrados correctamente.'
     InstallSecurityWarning: 'Por razones de seguridad ahora debes eliminar los archivos de instalación, a menos que estés planeando reinstalar más tarde (<em>requiere inicio de sesión de administrador, ver arriba</em>). El servidor web ahora tan sólo necesita acceso de escritura a la carpeta "assets", puedes quitar el acceso de escritura de todas las demás carpetas. <a href="{link}" style="text-align: center;">Haz clic aquí para borrar los archivos de instalación.</a>'
-    InstallSuccessCongratulations: 'SilverStripe ha sido instalado correctamente.'
+    InstallSuccessCongratulations: '¡SilverStripe ha sido instalado con éxito!'
     LOGGEDINAS: 'Conectado como'
     LOGIN: 'Iniciar sesión'
     LOGOUT: Desconectar
     NOTLOGGEDIN: 'No conectado'
     PUBLISHEDSITE: 'Sitio Publicado'
     Password: Contraseña
-    PostInstallTutorialIntro: 'Este sitio web es una versión simplista de un sitio SilverStripe 2. Para ampliarls, por favor, echa un vistazo a {link}.'
-    StartEditing: 'Puedes empezar a editar el  contenido de tu sitio abriendo <a href="{link}">el CMS</a>.'
+    PostInstallTutorialIntro: 'Este sitio web es una versión simple de un sitio SilverStripe 3. Para ampliarlo, por favor echa un vistazo en {link}.'
+    StartEditing: 'Puedes empezar editando el contenido de tu sitio abriendo <a href=\\"{link}\\">el CMS</a>.'
     UnableDeleteInstall: 'No se pueden eliminar los archivos de instalación. Por favor, elimina los siguientes archivos manualmente'
     VIEWPAGEIN: 'Ver página en:'
   ErrorPage:
@@ -197,6 +193,8 @@ es:
     DEFAULTSERVERERRORPAGETITLE: 'Error de servidor'
     DESCRIPTION: 'Contenido personalizado para los distintos casos de error (p.e. "Página no encontrada")'
     ERRORFILEPROBLEM: 'Error abriendo el archivo "{filename}" para escritura. Por favor comprueba los permisos del archivo.'
+    PLURALNAME: 'Páginas de error'
+    SINGULARNAME: 'Página de error'
     400: '400 - Petición incorrecta (Bad Request)'
     401: '401 - No autorizado (Unauthorized)'
     403: '403 - Prohibido (Forbidden)'
@@ -226,9 +224,6 @@ es:
     UNUSEDFILESTITLE: 'Archivos sin usar'
     UNUSEDTHUMBNAILSTITLE: 'Miniaturas sin usar'
     UploadFilesButton: Subir
-  GridFieldTestPage:
-    DESCRIPTION: 'Página de contenido genérico'
-    FILTER: Filtro
   LeftAndMain:
     DELETED: Borrado.
     PreviewButton: 'Vista previa'
@@ -236,13 +231,8 @@ es:
     STATUSPUBLISHEDSUCCESS: 'Publicado ''{title}'' correctamente'
     SearchResults: 'Resultados de la búsqueda'
     VersionUnknown: Desconocido
-  LegacyTableFieldsTestPage:
-    DESCRIPTION: 'Página de contenido genérico'
-  Page:
-    DESCRIPTION: 'Página de contenido genérico'
   Permission:
     CMS_ACCESS_CATEGORY: 'Acceso CMS'
-    RESET: Restablecer
   Permissions:
     CONTENT_CATEGORY: 'Permisos de contenido'
     PERMISSIONS_CATEGORY: 'Permisos de roles y accesos'
@@ -251,15 +241,15 @@ es:
     HASBEENSETUP: 'Se ha establecido una página redireccionadora sin ningún sitio al cual redireccionar.'
     HEADER: 'Esta página redireccionará a los usuarios a otra página'
     OTHERURL: 'Otra dirección URL de un sitio web'
+    PLURALNAME: 'Páginas de redirección'
     REDIRECTTO: 'Redireccionar a'
     REDIRECTTOEXTERNAL: 'Otro sitio web'
     REDIRECTTOPAGE: 'Una página en su sitio web'
+    SINGULARNAME: 'Página de redirección'
     YOURPAGE: 'Página en su sitio web'
-  RelationFieldsTestPage:
-    DESCRIPTION: 'Página de contenido genérico'
-    FILTER: Filtro
   ReportAdmin:
     MENUTITLE: Informes
+    ReportTitle: Título
   ReportAdminForm:
     FILTERBY: 'Filtrar por'
   SearchForm:
@@ -288,6 +278,8 @@ es:
     EDITHEADER: '¿Quién puede editar páginas en este sitio?'
     EDIT_PERMISSION: 'Gestionar configuración del sitio'
     EDIT_PERMISSION_HELP: 'Capacidad de editar el acceso de configuración global/permisos de página de nivel superior.'
+    PLURALNAME: 'Configuraciones del sitio'
+    SINGULARNAME: 'Configuración del sitio'
     SITENAMEDEFAULT: 'Nombre de tu Sitio'
     SITETAGLINE: 'Lema/Eslogan del Sitio'
     SITETITLE: 'Título de tu sitio'
@@ -311,7 +303,6 @@ es:
     BUTTONSAVEPUBLISH: 'Guardar y Publicar'
     BUTTONUNPUBLISH: 'Sin Publicar'
     BUTTONUNPUBLISHDESC: 'Elimine esta página del sitio publicado'
-    Back: Atras
     CREATED: 'Fecha de creación'
     Comments: Comentarios
     Content: Contenido
@@ -347,6 +338,7 @@ es:
     MODIFIEDONDRAFTHELP: 'La página tiene cambios sin publicar'
     MODIFIEDONDRAFTSHORT: Modificado
     MetadataToggle: Metadatos
+    OBSOLETECLASS: 'Esta página es de tipo obsoleto {type}. Guardando resetearás su tipo y puedes perder datos'
     PAGELOCATION: 'Localización de la página'
     PAGETITLE: 'Nombre de la página'
     PAGETYPE: 'Tipo de Página'
@@ -356,7 +348,7 @@ es:
     PARENTTYPE_SUBPAGE: 'Sub-página por debajo de una página padre'
     PERMISSION_GRANTACCESS_DESCRIPTION: 'Controlar qué grupos pueden acceder o editar determinadas páginas'
     PERMISSION_GRANTACCESS_HELP: 'Permitir la creación de restricciones de acceso específicas a la página en la sección "Páginas".'
-    PLURALNAME: 'Árboles del sitio'
+    PLURALNAME: Páginas
     PageTypNotAllowedOnRoot: 'La página tipo "{type}" no está permitida en el nivel raiz'
     PageTypeNotAllowed: 'El tipo de página "{type}" no está permitido como hijo de esta página padre'
     REMOVEDFROMDRAFTHELP: 'La página está publicada, pero ha sido eliminada de borrador'
@@ -366,7 +358,7 @@ es:
     REORGANISE_HELP: 'Reorganizar las páginas en el árbol del sitio a través de drag&drop.'
     SHOWINMENUS: '¿Mostrar en menús?'
     SHOWINSEARCH: '¿Mostrar en la búsqueda?'
-    SINGULARNAME: 'Árbol del Sitio'
+    SINGULARNAME: Página
     TABBEHAVIOUR: Comportamiento
     TABCONTENT: Contenido
     TABDEPENDENT: 'Páginas dependientes'
@@ -392,12 +384,23 @@ es:
     NAME: 'Exportador estático'
   TableListField:
     SELECT: Seleccionar
-  TestFileUploadPage:
-    DESCRIPTION: 'Página de contenido genérico'
-  TestPage:
-    DESCRIPTION: 'Página de contenido genérico'
+  TableListField.ss:
+    NOITEMSFOUND: 'No se encontraron elementos'
+    SORTASC: 'Ordenar de forma ascendente'
+    SORTDESC: 'Ordenar de forma descendente'
+  TableListField_PageControls.ss:
+    DISPLAYING: Mostrando
+    OF: de
+    TO: a
+    VIEWFIRST: 'Ver primero'
+    VIEWLAST: 'Ver último'
+    VIEWNEXT: 'Ver siguiente'
+    VIEWPREVIOUS: 'Ver anterior'
   TreeTools:
     DisplayLabel: 'Mostrar:'
+  ViewArchivedEmail.ss:
+    CANACCESS: 'Puede acceder al sitio archivado con este enlace:'
+    HAVEASKED: 'Ha pedido ver el contenido de nuestro sitio el'
   VirtualPage:
     CHOOSE: 'Elija una página a enlazar'
     DESCRIPTION: 'Muestra el contenido de otra página'
@@ -406,5 +409,3 @@ es:
     PLURALNAME: 'Páginas Virtuales'
     PageTypNotAllowedOnRoot: 'Tipo de página original "{type}" no se permite en el nivel raíz para esta página virtual'
     SINGULARNAME: 'Página Virtual'
-  cms:
-    FILESYSTEMSYNC: 'Sincronizar archivos'

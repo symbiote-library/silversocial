@@ -1,5 +1,7 @@
 fi:
   AssetAdmin:
+    ADDFILES: 'Lisää tiedostoja'
+    EditOrgMenu: 'Muokkaa ja järjestä'
     NEWFOLDER: 'Uusi kansio'
   AssetTableField:
     CREATED: 'Ensimmäisen kerran ladattu palvelimelle'
@@ -11,7 +13,7 @@ fi:
     SIZE: Koko
     TITLE: Otsikko
     TYPE: Tyyppi
-    URL: URL
+    URL: URL-osoite
   AssetUploadField:
     ChooseFiles: 'Valitse tiedostot'
     DRAGFILESHERE: 'Raahaa tiedotot tähän'
@@ -20,9 +22,10 @@ fi:
     EDITANDORGANIZE: 'Muokkaa & järjestele'
     EDITINFO: 'Muokkaa tiedostoja'
     FILES: Tiedostot
-    FROMCOMPUTER: 'Valitse tiedostot omalta tietokoneeltasi'
+    FROMCOMPUTER: 'Valitse tiedostoja omalta tietokoneeltasi'
     FROMCOMPUTERINFO: 'Siirrä omalta tietokoneeltasi'
     TOTAL: Yhteensä
+    TOUPLOAD: 'Valitse ladattavia tiedostoja...'
     UPLOADINPROGRESS: 'Ole hyvä ja odota... siirto käynnissä'
     UPLOADOR: TAI
   BBCodeParser:
@@ -50,16 +53,19 @@ fi:
     UNORDERED: 'Järjestämätön lista'
     UNORDEREDDESCRIPTION: 'Järjestämätön lista'
     UNORDEREDEXAMPLE1: 'järjestämätön lista 1'
+  BackLink_Button.ss:
+    Back: Takaisin
   BasicAuth:
     ENTERINFO: 'Anna käyttäjänimi ja salasana'
     ERRORNOTADMIN: 'Tämä käyttäjä ei ole ylläpitäjä'
     ERRORNOTREC: 'Tätä käyttäjänimeä/salasanaa ei tunnistettu.'
   Boolean:
-    0: Ei
+    0: Epätosi
     ANY: Yhtään
-    Hello: Hei
-    LOGOUT: 'Kirjaudu ulos'
-    1: Kyllä
+    1: Tosi
+  CMSLoadingScreen.ss:
+    LOADING: Ladataan...
+    REQUIREJS: 'CMS-järjestelmä vaatii, että selaimessasi on JavaSkriptit päällä.'
   CMSMain:
     ACCESS: 'Pääsy ''{title}'' -osioon'
     ACCESSALLINTERFACES: 'Pääsy kaikkiin CMS-osioihin'
@@ -67,13 +73,27 @@ fi:
     SAVE: Tallenna
   CMSProfileController:
     MENUTITLE: 'CMS-profiili kontrolleri'
+  ChangePasswordEmail.ss:
+    CHANGEPASSWORDTEXT1: 'Vaihdoit salasanasi osoitteelle'
+    CHANGEPASSWORDTEXT2: 'Kirjautuaksesi sisään voit käyttää seuraavia tietoja:'
+    EMAIL: Sähköposti
+    HELLO: Hei
+    PASSWORD: Salasana
   CheckboxField:
-    - Ei
-    - Kyllä
+    - 'Ei valintaa'
+    - Valittu
   ComplexTableField:
     CLOSEPOPUP: 'Sulje ponnahdusikkuna'
     SUCCESSADD2: 'Lisättiin {name}'
     SUCCESSEDIT: 'Tallennettu %s %s %s'
+  ComplexTableField.ss:
+    ADDITEM: 'Lisää %s'
+    NOITEMSFOUND: 'Kohteita ei löytynyt'
+    SORTASC: 'Nouseva järjestys'
+    SORTDESC: 'Laskeva järjestys'
+  ComplexTableField_popup.ss:
+    NEXT: Seuraava
+    PREVIOUS: Edellinen
   ConfirmedPasswordField:
     ATLEAST: 'Salasanan on oltava vähintään {min} merkkiä pitkä.'
     BETWEEN: 'Salasanan on oltava väh. {min} ja enintään {max} merkkiä pitkä.'
@@ -85,7 +105,7 @@ fi:
     SECOND: toinen
     THIRD: kolmas
   CurrencyField:
-    CURRENCYSYMBOL: $
+    CURRENCYSYMBOL: €
   DataObject:
     PLURALNAME: Dataobjektit
     SINGULARNAME: Dataobjekti
@@ -110,11 +130,10 @@ fi:
     VALIDDATEFORMAT2: 'Ole hyvä ja kirjaa päivämäärä sallitussa muodossa ({format})'
     VALIDDATEMAXDATE: 'Päivämäärän on oltava vanhempi tai sovittava asetettuun maksimiin ({date})'
     VALIDDATEMINDATE: 'Päivämäärän on oltava uudempi tai sovittava vähintään asetettuun minimiin ({date})'
+  DatetimeField:
+    NOTSET: 'Ei asetettu'
   Director:
-    ADD: Lisää
-    CSVEXPORT: 'Vie CSV:nä'
     INVALID_REQUEST: 'Pyyntö on virheellinen'
-    NOTFOUND: 'Merkintöjä ei löytynyt'
   DropdownField:
     CHOOSE: (Valitse)
   EmailField:
@@ -124,21 +143,38 @@ fi:
     SINGULARNAME: 'Palautettu sähköpostiviesti'
   Enum:
     ANY: Yhtään
-    LOADING: Ladataan...
-    REQUIREJS: 'CMS-järjestelmä vaatii, että selaimessasi on JavaSkriptit päällä.'
   File:
+    AviType: 'AVI videotiedosto'
     Content: Sisältö
+    CssType: 'CSS tiedosto'
+    DmgType: 'Apple levykuva'
+    DocType: 'Word tiedosto'
     Filename: Tiedostonimi
+    GifType: 'GIF kuva - hyvä kaaviolle'
+    GzType: 'GZIP pakattu tiedosto'
+    HtlType: 'HTML tiedosto'
+    HtmlType: 'HTML tiedosto'
     INVALIDEXTENSION: 'Tiedostopääte ei ole sallittu (sallitut muodot: {extensions})'
     INVALIDEXTENSIONSHORT: 'Tiedostopääte ei ole sallittu'
+    IcoType: 'Icon kuva'
+    JpgType: 'JPEG kuva - hyvä valokuville'
+    JsType: 'Javascript tiedosto'
+    Mp3Type: 'MP3 äänitiedosto'
+    MpgType: 'MPEG videotiedosto'
     NOFILESIZE: 'Tiedostokoko on nolla tavua.'
     NOVALIDUPLOAD: 'Tiedosto ei ole kelvollinen ladattavaksi'
     Name: Nimi
     PLURALNAME: Tiedostot
+    PdfType: 'Adobe Acrobat PDF tiedosto'
+    PngType: 'PNG kuva - hyvä yleinen muoto'
     SINGULARNAME: Tiedosto
     TOOLARGE: 'Tiedostokoko on liian suuri: maks. sallittu koko on {size}'
     TOOLARGESHORT: 'Sallittu tiedostokoko ylitetty {size}'
+    TiffType: 'Tiff kuva'
     Title: Otsikko
+    WavType: 'WAV äänitiedosto'
+    XlsType: 'Excel tiedosto'
+    ZipType: 'ZIP pakattu tiedosto'
   FileIFrameField:
     ATTACH: 'Liitä {type}'
     ATTACHONCESAVED: '{type} voidaan liittää, kun olet tallentanut tietueen ensimmäistä kertaa.'
@@ -150,13 +186,21 @@ fi:
     FROMFILESTORE: Tiedostovarastosta
     NOSOURCE: 'Valitse lähdetiedosto liitettäväksi'
     REPLACE: 'Korvaa {type}'
+  FileIFrameField_iframe.ss:
+    TITLE: 'Kuvansiirtoikkuna (iFrame)'
   Filesystem:
-    IMPORT_TAB_HEADER: Tuo
-    SEARCHLISTINGS: Etsi
     SYNCRESULTS: 'Synkronointi valmis:  {createdcount} kohdetta luotu, {deletedcount} kohdetta poistettu'
+  Folder:
+    PLURALNAME: Kansiot
+    SINGULARNAME: Kansio
+  ForgotPasswordEmail.ss:
+    HELLO: Hei
+    TEXT1: 'Tässä on sinun'
+    TEXT2: 'salasanan tyhjäys -linkki'
+    TEXT3: henkilölle
   Form:
     FIELDISREQUIRED: '%s on pakollinen.'
-    TITLE: 'Kuvansiirtoikkuna (iFrame)'
+    SubmitBtnLabel: Lähetä
     VALIDATIONCREDITNUMBER: 'Tarkista, ovatko antamasi luottokortin numerot ({number}) oikein'
     VALIDATIONNOTUNIQUE: 'Syötetty arvo ei ole yksilöllinen'
     VALIDATIONPASSWORDSDONTMATCH: 'Salasanat eivät täsmää'
@@ -187,37 +231,29 @@ fi:
     ResetFilter: Nollaa
   GridFieldAction_Delete:
     DeletePermissionsFailure: 'Ei oikeuksia poistamiseen'
-    NEXT: Seuraava
-    PREVIOUS: Edellinen
   GridFieldDetailForm:
+    CancelBtn: Peruuta
     Create: Luo
     Delete: Poista
     DeletePermissionsFailure: 'Ei oikeuksia poistamiseen'
     Deleted: 'Poistettiin %s %s'
-    HELLO: Hei
     Save: Tallenna
     Saved: 'Tallennettu %s %s'
-    TEXT1: 'Tässä on sinun'
-    TEXT2: 'salasanan tyhjäys -linkki'
-    TEXT3: henkilölle
+  GridFieldItemEditView.ss: null
   Group:
     AddRole: 'Lisää ryhmälle rooli'
-    CHANGEPASSWORDTEXT1: 'Vaihdoit salasanasi osoitteelle'
-    CHANGEPASSWORDTEXT2: 'Kirjautuaksesi sisään voit käyttää seuraavia tietoja:'
     Code: 'Ryhmän koodi'
     DefaultGroupTitleAdministrators: Järjestelmänvalvojat
     DefaultGroupTitleContentAuthors: Sisällöntuottajat
     Description: Kuvaus
-    EMAIL: Sähköposti
     GroupReminder: 'Valitessasi isäntäryhmän, roolit periytyvät tähän ryhmään'
-    HELLO: Hei
     Locked: 'Lukittu?'
     NoRoles: 'Rooleja ei löytynyt'
-    PASSWORD: Salasana
+    PLURALNAME: Ryhmät
     Parent: Yliryhmä
     RolesAddEditLink: 'Lisää/muokkaa rooleja'
+    SINGULARNAME: Ryhmä
     Sort: Järjestys
-    TITLE: 'Kuvansiirto ikkuna (iFrame)'
     has_many_Permissions: Luvat
     many_many_Members: Jäsenet
   GroupImportForm:
@@ -244,7 +280,7 @@ fi:
     CSSCLASSRIGHT: 'Oikealla, tesktin ympätöimänä.'
     DETAILS: Tiedot
     EMAIL: Sähköpostiosoite
-    FILE: Tiedosto
+    FILE: Tiedostot
     FOLDER: Kansio
     FROMCMS: CMS-järjestelmästä
     FROMCOMPUTER: 'Omalta tietokoneeltasi'
@@ -273,12 +309,17 @@ fi:
     URL: URL-osoite
     URLNOTANOEMBEDRESOURCE: 'URL-osoitetteesta ''{url}'' ei voitu liittää mediaa'
     UpdateMEDIA: 'Päivitä media'
+  Image:
+    PLURALNAME: Tiedostot
+    SINGULARNAME: Tiedosto
   ImageField:
     IMAGE: Kuva
-  Image_iframe.ss: 'ChangePasswordEmail.ss:  BackLink_Button.ss:  CMSLoadingScreen.ss:  RelationComplexTableField.ss:  ForgotPasswordEmail.ss:    APPLY FILTER: "Suodata"  GridFieldItemEditView.ss:    Go back: "Takaisin"  ModelSidebar.ss:  TableListField_PageControls.ss:  ModelAdmin_Tools.ss:  ComplexTableField_popup.ss:  TableField.ss:  FileIFrameField_iframe.ss:  ComplexTableField.ss:  TableListField.ss:  ModelAdmin_ImportSpec.ss:  LeftAndMain_Menu.ss:'
+  Image_Cached:
+    PLURALNAME: Tiedostot
+    SINGULARNAME: Tiedosto
+  Image_iframe.ss:
+    TITLE: 'Kuvansiirto ikkuna (iFrame)'
   LeftAndMain:
-    ADD: 'Lisää uusi rivi'
-    ADDITEM: 'Lisää %s'
     CANT_REORGANISE: 'Sinulla ei ole oikeuksia mennä ylemmän tason sivuille. Muutoksiasi ei tallennettu.'
     DELETED: Poistettu.
     DropdownBatchActionsDefault: Toimenpiteet
@@ -292,9 +333,14 @@ fi:
     REORGANISATIONSUCCESSFUL: 'Hakemistopuu järjestettiin uudelleen onnistuneesti.'
     SAVEDUP: Tallennettu.
     VersionUnknown: tuntematon
+  LeftAndMain_Menu.ss:
+    Hello: Hei
+    LOGOUT: 'Kirjaudu ulos'
   LoginAttempt:
     Email: Sähköpostiosoite
     IP: IP-osoite
+    PLURALNAME: Kirjautumisyritykset
+    SINGULARNAME: Kirjautumisyritys
     Status: Tila
   Member:
     ADDGROUP: 'Lisää ryhmä'
@@ -304,6 +350,7 @@ fi:
     BUTTONLOSTPASSWORD: 'Kadotin salasanani'
     CONFIRMNEWPASSWORD: 'Syötä uusi salasana uudelleen'
     CONFIRMPASSWORD: 'Syötä salasana uudelleen'
+    DATEFORMAT: Päivämäärämuoto
     DefaultAdminFirstname: Oletusylläpitäjä
     DefaultDateTime: oletus
     EMAIL: Sähköposti
@@ -322,10 +369,11 @@ fi:
     PLURALNAME: Jäsenet
     PROFILESAVESUCCESS: 'Tallennettu onnistuneesti.'
     REMEMBERME: 'Muista seuraavalla kerralla?'
-    SINGULARNAME: Jäsen
+    SINGULARNAME: Käyttäjä
     SUBJECTPASSWORDCHANGED: 'Salasanasi on vaihdettu'
     SUBJECTPASSWORDRESET: 'Salasanasi palautuslinkki'
     SURNAME: Sukunimi
+    TIMEFORMAT: Aikamuoto
     VALIDATIONMEMBEREXISTS: 'Rekisteröityneellä käyttäjällä on jo käytössä tämä sähköpostiosoite.'
     ValidationIdentifierFailed: 'Olemassa olevan käyttäjän id:n #{id} päälle ei voida kirjoittaa samalla tunnisteella ({name} = {value}))'
     WELCOMEBACK: 'Tervetuloa takaisin, {firstname}'
@@ -341,6 +389,7 @@ fi:
     TITLE: 'Sähköposti &amp; Salasana'
   MemberDatetimeOptionsetField:
     AMORPM: 'AM (aamupäivä) tai PM (iltapäivä)'
+    'APPLY FILTER': Suodata
     Custom: Muokattu
     DATEFORMATBAD: 'Päivämäärän muoto on virheellinen'
     DAYNOLEADING: 'Kuukausi ilman ensimmäistä nollaa (0)'
@@ -363,9 +412,12 @@ fi:
     Help1: '<p>Tuo käyttäjät <em>CSV-muodossa</em> (arvot pilkulla erotettuina). <small><a href="#" class="toggle-advanced">Näytä edistyksellinen käyttö</a></small></p>'
     Help2: "<div class=\"advanced\">\\n<h4>Edistynyt käyttö</h4>\\n<ul>\\n<li>Sallitut palstat: <em>%s</em></li>\\n<li>Olemassa olevat käyttäjät kohdistetaan uniikilla <em>Code</em>-arvolla, ja päivitetään uudet arvot tuodusta tiedostosta.</li>\\n<li>Ryhmät voidaan kohdistaa <em>Ryhmät</em>-palstaan. Ryhmät tunnistetaan <em>Code</em>-arvosta, useat ryhmät voidaan erottaa pilkulla. Olemassa olevat ryhmäjäsenyydet säilytetään.</li>\\n</ul>\\n</div>"
     ResultCreated: 'Luotiin {count} käyttäjä(ä)'
-    ResultDeleted: 'Poistettu %d jäsentä'
+    ResultDeleted: 'Poistettu %d käyttäjä(ä)'
     ResultNone: 'Ei muutoksia'
     ResultUpdated: 'Päivitettiin {count} käyttäjä(ä)'
+  MemberPassword:
+    PLURALNAME: 'Käyttäjän salasanat'
+    SINGULARNAME: 'Käyttäjän salasana'
   MemberTableField: null
   ModelAdmin:
     DELETE: Poista
@@ -377,6 +429,17 @@ fi:
     RESET: Nollaa
     Title: Datamallit
     UPDATEDRECORDS: 'Päivitettiin {count} tietuetta'
+  ModelAdmin_ImportSpec.ss:
+    IMPORTSPECFIELDS: 'Tietokannan sarakkeet'
+    IMPORTSPECLINK: 'Näytä erittely kohteelle %s'
+    IMPORTSPECRELATIONS: Yhteydet
+    IMPORTSPECTITLE: 'Erittely kohteelle %s'
+  ModelAdmin_Tools.ss:
+    FILTER: Suodin
+    IMPORT: Tuo
+  ModelSidebar.ss:
+    IMPORT_TAB_HEADER: Tuo
+    SEARCHLISTINGS: Etsi
   MoneyField:
     FIELDLABELAMOUNT: Määrä
     FIELDLABELCURRENCY: Valuutta
@@ -384,25 +447,37 @@ fi:
     IsNullLabel: 'On nolla'
   NumericField:
     VALIDATION: '''{value}'' ei ole numero: tähän kenttään hyväksytään vain numeroita'
+  Pagination:
+    Page: Sivu
+    View: Näytä
   Permission:
     AdminGroup: Järjestelmänvalvoja
     CMS_ACCESS_CATEGORY: CMS-pääsy
     FULLADMINRIGHTS: 'Täydet ylläpitäjän oikeudet'
     FULLADMINRIGHTS_HELP: 'Merkitsee ja ohittaa kaikki muut määritellyt käyttöoikeudet.'
-    IMPORTSPECFIELDS: 'Tietokannan sarakkeet'
-    IMPORTSPECLINK: 'Näytä erittely kohteelle %s'
-    IMPORTSPECRELATIONS: Yhteydet
-    IMPORTSPECTITLE: 'Erittely kohteelle %s'
+    PLURALNAME: Oikeudet
+    SINGULARNAME: Oikeus
   PermissionCheckboxSetField:
     AssignedTo: 'valittiin "{title}"'
     FromGroup: 'periytyivät ryhmästä "{title}"'
     FromRole: 'periytyivät roolista "{title}"'
     FromRoleOnGroup: 'periytynyt roolista "%s" ryhmässä "%s"'
+  PermissionRole:
+    OnlyAdminCanApply: 'Only admin can apply'
+    PLURALNAME: Roolit
+    SINGULARNAME: Rooli
+    Title: 'Roolin nimi'
+  PermissionRoleCode:
+    PLURALNAME: 'Käyttöoikeiden roolin koodit'
+    SINGULARNAME: 'Käyttöoikeiden roolin koodi'
   Permissions:
     PERMISSIONS_CATEGORY: 'Roolit ja käyttöoikeudet'
   PhoneNumberField:
-    Back: Takaisin
     VALIDATION: 'Kirjoita pätevä puhelinnumero'
+  RelationComplexTableField.ss:
+    ADD: Lisää
+    CSVEXPORT: 'Vie CSV-muodossa'
+    NOTFOUND: 'Yhtään kohdetta ei löytynyt'
   Security:
     ALREADYLOGGEDIN: 'Sinulla ei ole oikeuksia tälle sivulle. Jos sinulla on toinen tili, jolla on oikeudet tälle sivulle, voit kirjautua niillä sisään.'
     BUTTONSEND: 'Lähetä minulle salasanan palautuslinkki'
@@ -439,31 +514,33 @@ fi:
     BtnImport: Tuonti
     FileFieldLabel: 'CSV-tiedosto <small>(Sallitut päätteet: *.csv)</small>'
   SilverStripeNavigator:
-    DISPLAYING: Näytetään
     Edit: Muokkaa
-    FILTER: Suodin
-    IMPORT: Tuo
-    OF: /
-    TO: listalle
-    VIEWFIRST: 'Näytä ensimmäinen'
-    VIEWLAST: 'Näytä viimeinen'
-    VIEWNEXT: 'Näytä seuraava'
-    VIEWPREVIOUS: 'Näytä edellinen'
   SimpleImageField:
     NOUPLOAD: 'Kuvaa ei kopioitu palvelimelle'
   SiteTree:
     TABMAIN: Yleiset
   TableField:
-    ADDITEM: 'Lisää %s'
     ISREQUIRED: 'Kohteessa %s on ''%s'' pakollinen'
-    NOITEMSFOUND: 'Merkintöjä ei löytynyt'
-    SORTASC: 'Järjestä nousevasti'
-    SORTDESC: 'Järjestä laskevasti'
+  TableField.ss:
+    ADD: 'Lisää uusi rivi'
+    ADDITEM: 'Lisää %s'
   TableListField:
     CSVEXPORT: 'Vie CSV:nä'
     PRINT: Tulosta
-    Print: Print
+    Print: Tulosta
     SELECT: 'Valitse:'
+  TableListField.ss:
+    NOITEMSFOUND: 'Kohteita ei löytynyt'
+    SORTASC: 'Järjestä nousevasti'
+    SORTDESC: 'Järjestä laskevasti'
+  TableListField_PageControls.ss:
+    DISPLAYING: Näytetään
+    OF: /
+    TO: -»
+    VIEWFIRST: 'Näytä ensimmäinen'
+    VIEWLAST: 'Näytä viimeinen'
+    VIEWNEXT: 'Näytä seuraava'
+    VIEWPREVIOUS: 'Näytä edellinen'
   TimeField:
     VALIDATEFORMAT: 'Ole hyvä ja kirjaa päivämäärä sallitussa muodossa ({format})'
   ToggleField:
@@ -485,6 +562,7 @@ fi:
     FROMCOMPUTER: 'Omalta tietokoneeltasi'
     FROMCOMPUTERINFO: 'Valitse tiedostoista'
     FROMFILES: Tiedostoista
+    HOTLINKINFO: 'Info: Kuvalle tulee suora linkki. Varmista sivun omistajalta että sinulla on oikeus linkitä kuva.'
     MAXNUMBEROFFILES: 'Suurin sallittu määrä ({count}) tiedostoja ylitetty.'
     MAXNUMBEROFFILESSHORT: 'Voidaan siirtää vain {count} tiedostoa'
     REMOVE: Poista

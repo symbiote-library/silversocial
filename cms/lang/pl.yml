@@ -5,6 +5,7 @@ pl:
     ActionAdd: 'Dodaj katalog'
     AppCategoryArchive: Archiwum
     AppCategoryAudio: Dźwięk
+    AppCategoryDocument: Dokument
     AppCategoryFlash: Flash
     AppCategoryImage: Obraz
     AppCategoryVideo: Wideo
@@ -13,6 +14,7 @@ pl:
     CurrentFolderOnly: 'Ograniczyć do bieżącego katalogu?'
     DetailsView: Szczegóły
     FILES: Pliki
+    FILESYSTEMSYNC: 'Synchronizuj pliki'
     FILESYSTEMSYNCTITLE: 'Uaktualnia bazę plików. Przydatne, gdy nowe pliki zostały przesłane poza systemem CMS, np. przez FTP.'
     FROMTHEINTERNET: 'Z internetu'
     FROMYOURCOMPUTER: 'Z komputera'
@@ -26,13 +28,15 @@ pl:
     Upload: Prześlij
   AssetAdmin_DeleteBatchAction:
     TITLE: 'Usuń foldery'
+  AssetAdmin_Tools:
+    FILTER: Filtruj
+  AssetAdmin_left.ss:
+    GO: Przejdź
   AssetTableField:
     BACKLINKCOUNT: 'Używany na:'
     PAGES: stron(y)
-  BasicFieldsTestPage:
-    DESCRIPTION: 'Zwykła strona'
-  BigFamilyPage:
-    DESCRIPTION: 'Zwykła strona'
+  BackLink_Button.ss:
+    Back: Wstecz
   BrokenLinksReport:
     Any: Jakikolwiek
     BROKENLINKS: 'Raport uszkodzonych linków'
@@ -47,7 +51,6 @@ pl:
     HasBrokenLink: 'ma uszkodzony link'
     HasBrokenLinkAndFile: 'ma uszkodzony link oraz plik'
     HoverTitleEditPage: 'Edytuj stronę'
-    NOITEMSFOUND: 'Nic nie znaleziono'
     PageName: 'Nazwa strony'
     ReasonDropdown: 'Problem do sprawdzenia'
     ReasonDropdownBROKENFILE: 'Uszkodzony plik'
@@ -55,8 +58,6 @@ pl:
     ReasonDropdownRPBROKENLINK: 'Strona przekierowująca wskazuje na nieistniejącą stronę'
     ReasonDropdownVPBROKENLINK: 'Strona wirtualna wskazuje na nieistniejącą stronę'
     RedirectorNonExistent: 'strona przekierowująca wskazuje na nieistniejącą stronę'
-    SORTASC: 'Sortuj w porządku rosnącym'
-    SORTDESC: 'Sortuj w porządku malejącym'
     VirtualPageNonExistent: 'strona wirtualna wskazuje na nieistniejącą stronę'
   CMSAddPageController:
     Title: 'Dodaj stronę'
@@ -70,8 +71,6 @@ pl:
     UNPUBLISHED_PAGES: 'Usunięto z opublikowanych %d stron'
     UNPUBLISH_PAGES: 'Cofnij publikację'
   CMSFileAddController:
-    CANACCESS: 'Dostęp do zarchiwizowanej witryny:'
-    HAVEASKED: 'Poprosiłeś o obejrzenie treści naszej strony na'
     MENUTITLE: Pliki
   CMSMain:
     ACCESS: 'Dostęp do ''{title}'''
@@ -88,7 +87,7 @@ pl:
     EditTree: 'Edytuj drzewko'
     ListFiltered: 'Filtrowana lista.'
     MENUTITLE: 'Edytuj stronę'
-    NEW: Nowy
+    NEWPAGE: 'Nowa {pagetype}'
     PAGENOTEXISTS: 'Ta strona nie istnieje'
     PAGES: Strony
     PAGETYPEANYOPT: Jakikolwiek
@@ -113,6 +112,9 @@ pl:
     TabSettings: Ustawienia
     TreeFiltered: 'Filtruj drzewko'
     TreeFilteredClear: 'Wyczyść filtr'
+  CMSMain_left.ss:
+    'APPLY FILTER': 'Zastosuj filtr'
+    RESET: Resetuj
   CMSPageAddController:
     MENUTITLE: 'Dodaj stronę'
     ParentMode_child: 'Pod inną stroną'
@@ -129,7 +131,12 @@ pl:
     SHOWVERSION: 'Pokaż wersję'
     VIEW: zobacz
     VIEWINGVERSION: 'Obecnie oglądasz wersję {version}.'
-  CMSPageHistoryController_versions.ss: 'BackLink_Button.ss:  AssetAdmin_Tools.ss:  TableListField.ss:  CMSPagesController_Tools.ss:  CMSPagesController_ContentToolbar.ss:  AssetAdmin_left.ss:  TableListField_PageControls.ss:  ViewArchivedEmail.ss:  CMSMain_left.ss:    APPLY FILTER: "Zastosuj filtr"'
+  CMSPageHistoryController_versions.ss:
+    AUTHOR: Autor
+    NOTPUBLISHED: Nieopublikowana
+    PUBLISHER: Edytor
+    UNKNOWN: Nieznany
+    WHEN: Kiedy
   CMSPageSettingsController:
     MENUTITLE: 'Edytuj stronę'
   CMSPagesController:
@@ -137,56 +144,45 @@ pl:
     ListView: 'Widok listy'
     MENUTITLE: Strony
     TreeView: 'Widok drzewa'
+  CMSPagesController_ContentToolbar.ss:
+    ENABLEDRAGGING: 'Przeciągnij i upuść'
+    MULTISELECT: 'Multi wybór'
+  CMSPagesController_Tools.ss:
+    FILTER: Filtr
   CMSSearch:
     FILTERDATEFROM: Od
     FILTERDATEHEADING: Data
     FILTERDATETO: Do
     FILTERLABELTEXT: Zawartość
   CMSSettingsController:
-    AUTHOR: Autor
     MENUTITLE: Ustawienia
-    NOTPUBLISHED: Nieopublikowana
-    PUBLISHER: Edytor
-    UNKNOWN: Nieznany
-    WHEN: Kiedy
   CMSSiteTreeFilter_ChangedPages:
-    DISPLAYING: Wyświetlane
-    ENABLEDRAGGING: 'Przeciągnij i upuść'
-    GO: Przejdź
-    MULTISELECT: 'Multi wybór'
-    OF: z
-    TO: do
     Title: 'Zmienione strony'
-    VIEWFIRST: 'Zobacz pierwsze'
-    VIEWLAST: 'Zobacz ostatnie'
-    VIEWNEXT: 'Zobacz następne'
-    VIEWPREVIOUS: 'Zobacz poprzednie'
   CMSSiteTreeFilter_DeletedPages:
     Title: 'Wszystkie strony włącznie z usuniętymi'
   CMSSiteTreeFilter_Search:
     Title: 'Wszystkie strony'
-  CaseStudy:
-    DESCRIPTION: 'Case study page to fature work examples'
   ContentControl:
     NOTEWONTBESHOWN: 'Uwaga: ta strona nie będzie widoczna dla twoich odwiedzających  '
   ContentController:
-    ARCHIVEDSITE: 'Zarchiwizowana witryna'
+    ARCHIVEDSITE: 'Podgląd wersji'
     ARCHIVEDSITEFROM: 'Zarchiwizowana witryna od'
     CMS: 'System Zarządzania Treścią'
     DRAFTSITE: 'Szkic witryny'
     DRAFT_SITE_ACCESS_RESTRICTION: 'Musisz zalogować się za pomocą swojego hasła do CMSa, aby obejrzeć nieopublikowaną i zarchiwizowaną treść. <a href="%s">Kliknij tutaj aby powrócić do opublikowanej strony.</a>'
     Email: 'Adres e-mail'
+    INSTALL_SUCCESS: 'Instalacja przebiegła pomyślnie'
     InstallFilesDeleted: 'Pliki instalacyjne zostały pomyślnie usunięte'
     InstallSecurityWarning: 'Dla bezpieczeństwa powinieneś skasować pliki instalacyjne, chyba że planujesz reinstalację w późniejszym czasie (<em>wymaga zalogowania się jako admin, patrz wyżej</em>). Serwer potrzebuje teraz tylko dostępu do folderu "assets", możesz usunąć dostęp do innych folderów. <a href="{link}" style="text-align: center;">Kliknij tutaj aby usunąć pliki instalacyjne.</a>'
-    InstallSuccessCongratulations: 'Silverstripe został zainstalowany'
+    InstallSuccessCongratulations: 'SilverStripe został zainstalowany!'
     LOGGEDINAS: 'Zalogowany jako'
     LOGIN: Zaloguj
     LOGOUT: Wyloguj
     NOTLOGGEDIN: 'Nie zalogowany'
     PUBLISHEDSITE: 'Opublikowana witryna'
     Password: Hasło
-    PostInstallTutorialIntro: 'Ta strona jest uproszczoną wersją strony SilverStripe 2. Aby rozszerzyć ją, proszę zajrzeć do {link}.'
-    StartEditing: 'Możesz rozpocząć edycję zawartości witryn(y) otwierając <a href="{link}">CMS</a>.'
+    PostInstallTutorialIntro: 'This website is a simplistic version of a SilverStripe 3 site. To extend this, please take a look at {link}.'
+    StartEditing: 'Możesz zacząć edytować Twoją stronę otwierając <a href=\\"{link}\\">CMS</a>.'
     UnableDeleteInstall: 'Nie można usunąć plików instalacyjnych. Proszę usunąć je ręcznie'
     VIEWPAGEIN: 'Zobacz stronę w:'
   ErrorPage:
@@ -197,6 +193,8 @@ pl:
     DEFAULTSERVERERRORPAGETITLE: 'Błąd serwera'
     DESCRIPTION: 'Własna zawartość dla różnych błędów (np. "Strona nie została znaleziona")'
     ERRORFILEPROBLEM: 'Błąd podczas otwierania pliku "{filename}". Proszę sprawdzić uprawnienia do plików.'
+    PLURALNAME: 'Strony błędów'
+    SINGULARNAME: 'Strona błędu'
     400: '400 - Nieprawidłowe zapytanie'
     401: '401 - Nieautoryzowany Dostęp'
     403: '403 - Zabroniony'
@@ -226,9 +224,6 @@ pl:
     UNUSEDFILESTITLE: 'Nieużywane pliki'
     UNUSEDTHUMBNAILSTITLE: 'Nieużywane miniatury'
     UploadFilesButton: Prześlij
-  GridFieldTestPage:
-    DESCRIPTION: 'Zwykła strona'
-    FILTER: Filtr
   LeftAndMain:
     DELETED: Usunięty
     PreviewButton: Podgląd
@@ -236,13 +231,8 @@ pl:
     STATUSPUBLISHEDSUCCESS: 'Opublikowano ''{title}'' '
     SearchResults: 'Wyniki wyszukiwania'
     VersionUnknown: Nieznany
-  LegacyTableFieldsTestPage:
-    DESCRIPTION: 'Zwykła strona'
-  Page:
-    DESCRIPTION: 'Zwykła strona'
   Permission:
     CMS_ACCESS_CATEGORY: 'Dostęp do CMS'
-    RESET: Resetuj
   Permissions:
     CONTENT_CATEGORY: 'Uprawnienie edycji treści'
     PERMISSIONS_CATEGORY: 'Uprawnienia ról i dostępu'
@@ -251,15 +241,15 @@ pl:
     HASBEENSETUP: 'Strona przekierowująca została ustawiona bez celu, do którego ma przekierowywać.'
     HEADER: 'Ta strona przeniesie użytkowników na inną stronę'
     OTHERURL: 'Adres URL innej strony'
+    PLURALNAME: 'Strony przekierowujące'
     REDIRECTTO: 'Przenieś do'
     REDIRECTTOEXTERNAL: 'Inna strona'
     REDIRECTTOPAGE: 'Strona na Twojej witrynie'
+    SINGULARNAME: 'Strona przekierowująca'
     YOURPAGE: 'Strona na Twojej witrynie'
-  RelationFieldsTestPage:
-    DESCRIPTION: 'Zwykła strona'
-    FILTER: Filtr
   ReportAdmin:
     MENUTITLE: Raporty
+    ReportTitle: Tytuł
   ReportAdminForm:
     FILTERBY: 'Filtruj po'
   SearchForm:
@@ -288,6 +278,8 @@ pl:
     EDITHEADER: 'Kto może edytować strony tego serwisu?'
     EDIT_PERMISSION: 'Zarządzanie konfiguracją serwisu'
     EDIT_PERMISSION_HELP: 'Możliwość edycji globalnych ustawień bezpieczeństwa/uprawnień do stron pierwszego poziomu.'
+    PLURALNAME: 'Konfiguracje strony'
+    SINGULARNAME: 'Konfiguracja strony'
     SITENAMEDEFAULT: 'Nazwa twojego serwisu'
     SITETAGLINE: 'Slogan serwisu'
     SITETITLE: 'Tytuł serwisu'
@@ -311,7 +303,6 @@ pl:
     BUTTONSAVEPUBLISH: 'Zapisz i opublikuj'
     BUTTONUNPUBLISH: Nieopublikowane
     BUTTONUNPUBLISHDESC: 'Zmień tę stronę na opublikowaną'
-    Back: Wstecz
     CREATED: 'Data utworzenia'
     Comments: Komentarze
     Content: Zawartość
@@ -347,6 +338,7 @@ pl:
     MODIFIEDONDRAFTHELP: 'Na stronie znajdują się nieopublikowane zmiany'
     MODIFIEDONDRAFTSHORT: Zmodyfikowana
     MetadataToggle: Metadane
+    OBSOLETECLASS: 'This page is of obsolete type {type}. Saving will reset it''s type and you may lose data'
     PAGELOCATION: 'Lokalizacja strony'
     PAGETITLE: 'Nazwa strony'
     PAGETYPE: 'Rodzaj strony'
@@ -356,7 +348,7 @@ pl:
     PARENTTYPE_SUBPAGE: 'Podstrona innej strony (wybierz poniżej)'
     PERMISSION_GRANTACCESS_DESCRIPTION: 'Zarządzaj prawami dostępu'
     PERMISSION_GRANTACCESS_HELP: 'Zezwól na ustawienie wymagań dostępu dla konkretnej strony w sekcji "Strony".'
-    PLURALNAME: 'Drzewa stron'
+    PLURALNAME: Strony
     PageTypNotAllowedOnRoot: '"{type}" nie jest dozwolona na głównym poziomie'
     PageTypeNotAllowed: '"{type}" nie jest dozwolona jako strona podrzędna dla tej strony'
     REMOVEDFROMDRAFTHELP: 'Strona jest opublikowana, ale została usunięta ze szkiców'
@@ -366,7 +358,7 @@ pl:
     REORGANISE_HELP: 'Zmień kolejność stron na drzewie witryny wykorzystując przeciągnij i  upuść.'
     SHOWINMENUS: 'Pokazuj w menu?'
     SHOWINSEARCH: 'Pokazuj w wyszukiwarce?'
-    SINGULARNAME: 'Drzewo strony'
+    SINGULARNAME: Strona
     TABBEHAVIOUR: Zachowanie
     TABCONTENT: Zawartość
     TABDEPENDENT: 'Strony zależne'
@@ -392,12 +384,23 @@ pl:
     NAME: 'Statyczny eksporter'
   TableListField:
     SELECT: 'Wybierz:'
-  TestFileUploadPage:
-    DESCRIPTION: 'Zwykła strona'
-  TestPage:
-    DESCRIPTION: 'Zwykła strona'
+  TableListField.ss:
+    NOITEMSFOUND: 'Nic nie znaleziono'
+    SORTASC: 'Sortuj w porządku rosnącym'
+    SORTDESC: 'Sortuj w porządku malejącym'
+  TableListField_PageControls.ss:
+    DISPLAYING: Wyświetlane
+    OF: z
+    TO: do
+    VIEWFIRST: 'Zobacz pierwsze'
+    VIEWLAST: 'Zobacz ostatnie'
+    VIEWNEXT: 'Zobacz następne'
+    VIEWPREVIOUS: 'Zobacz poprzednie'
   TreeTools:
     DisplayLabel: 'Wyświetl:'
+  ViewArchivedEmail.ss:
+    CANACCESS: 'Dostęp do zarchiwizowanej witryny:'
+    HAVEASKED: 'Poprosiłeś o obejrzenie treści naszej strony na'
   VirtualPage:
     CHOOSE: 'Zmień link do strony'
     DESCRIPTION: 'Wyświetla zawartość innej strony'
@@ -406,5 +409,3 @@ pl:
     PLURALNAME: 'Wirtualne Strony'
     PageTypNotAllowedOnRoot: '"{type}" nie jest dozwolona dla głównego poziomu wirtualnej strony'
     SINGULARNAME: 'Wirtualna Strona'
-  cms:
-    FILESYSTEMSYNC: 'Synchronizuj pliki'

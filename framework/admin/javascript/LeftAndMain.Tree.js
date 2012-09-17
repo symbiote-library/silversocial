@@ -86,7 +86,7 @@
 						.bind('move_node.jstree', function(e, data) {
 							if(self.getIsUpdatingTree()) return;
 
-							var movedNode = data.rslt.o, newParentNode = data.rslt.np, oldParentNode = data.inst._get_parent(movedNode);
+							var movedNode = data.rslt.o, newParentNode = data.rslt.np, oldParentNode = data.inst._get_parent(movedNode), newParentID = $(newParentNode).data('id') || 0, nodeID = $(movedNode).data('id');
 							var siblingIDs = $.map($(movedNode).siblings().andSelf(), function(el) {
 								return $(el).data('id');
 							});
@@ -94,9 +94,13 @@
 							$.ajax({
 								'url': self.data('urlSavetreenode'),
 								'data': {
-									ID: $(movedNode).data('id'), 
-									ParentID: $(newParentNode).data('id') || 0,
+									ID: nodeID, 
+									ParentID: newParentID,
 									SiblingIDs: siblingIDs
+								},
+								success: function() {
+									$('.cms-edit-form :input[name=ParentID]').val(newParentID);
+									self.updateNodesFromServer([nodeID]);
 								},
 								statusCode: {
 									403: function() {
@@ -285,7 +289,8 @@
 				}
 
 				// Replace inner content
-				node.addClass(origClasses).html(newNode.html());
+				var origChildren = node.children('ul').detach();
+				node.addClass(origClasses).html(newNode.html()).append(origChildren);
 
 				if (nextNode && nextNode.length) {
 					this.jstree('move_node', node, nextNode, 'before');
@@ -306,6 +311,7 @@
 				if(id) {
 					node = this.getNodeByID(id);
 					if(node.length) {
+						this.jstree('deselect_all');
 						this.jstree('select_node', node);
 					} else {
 						// If form is showing an ID that doesn't exist in the tree,
@@ -342,7 +348,7 @@
 				self.jstree('save_selected');
 
 				$.ajax({
-					url: this.data('urlUpdatetreenodes') + '?ids=' + ids.join(','),
+					url: $.path.addSearchParams(this.data('urlUpdatetreenodes'), 'ids=' + ids.join(',')),
 					dataType: 'json',
 					success: function(data, xhr) {
 						$.each(data, function(nodeId, nodeData) {
@@ -354,23 +360,25 @@
 								return;
 							}
 
+							var correctStateFn = function(node) {
+								self.jstree('deselect_all');
+								self.jstree('select_node', node);
+								// Similar to jstree's correct_state, but doesn't remove children
+								var hasChildren = (node.children('ul').length > 0);
+								node.toggleClass('jstree-leaf', !hasChildren);
+								if(!hasChildren) node.removeClass('jstree-closed jstree-open');
+							};
+
 							// Check if node exists, create if necessary
 							if(node.length) {
 								self.updateNode(node, nodeData.html, nodeData);
 								setTimeout(function() {
-									self.jstree('deselect_all');
-									self.jstree('select_node', node);
-									// Manually correct state, which checks for children and
-									// removes toggle arrow (should really be done by jstree internally)
-									self.jstree('correct_state', node);	
+									correctStateFn(node)	;
 								}, 500);
 							} else {
 								includesNewNode = true;
 								self.createNode(nodeData.html, nodeData, function(newNode) {
-									self.jstree('deselect_all');
-									self.jstree('select_node', newNode);
-									// Manually remove toggle node, see above
-									self.jstree('correct_state', newNode);
+									correctStateFn(newNode);
 								});
 							}
 						});

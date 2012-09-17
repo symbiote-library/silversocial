@@ -46,6 +46,7 @@ changes
 * Also check and update documentation on [doc.silverstripe.org](http://doc.silverstripe.org). Check for any references to functionality deprecated or extended through your patch. Documentation changes should be included in the patch.
 * We will attribute the change to you whereever possible (git does this automatically for pull requests)
 * If you get stuck, please post to the [forum](http://silverstripe.org/forum) or for deeper core problems, to the [core mailinglist](https://groups.google.com/forum/#!forum/silverstripe-dev)
+* When working with the CMS, please read the ["CMS Architecture Guide"](/reference/cms-architecture) first
 
 The core team is responsible for reviewing patches and deciding if they will make it into core.  If
 there are any problems they will follow up with you, so please ensure they have a way to contact you! 
@@ -101,7 +102,7 @@ Example: Bad commit message
 
 Example: Good commit message
 
-	ENHANCEMENT Formatting through prepValueForDB() 
+	BUG Formatting through prepValueForDB() 
 
 	Added prepValueForDB() which is called on DBField->writeToManipulation() 
 	to ensure formatting of value before insertion to DB on a per-DBField type basis (fixes #1234).
@@ -119,18 +120,37 @@ Report security issues to [security@silverstripe.com](mailto:security@silverstri
 ## Writing Documentation
 
 Documentation for a software project is a continued and collaborative effort,
-we encourage everybody to contribute, from simply fixing spelling mistakes, to writing recipes/howtos,
+we encourage everybody to contribute, from simply fixing spelling mistakes, to writing recipes/howtos, 
 reviewing existing documentation, and translating the whole thing.
-Modifying documentation requires basic [PHPDoc](http://en.wikipedia.org/wiki/PHPDoc) and
-[Markdown](http://daringfireball.net/projects/markdown/)/[SSMarkdown](ss-markdown) knowledge. 
-If you have downloaded SilverStripe or a module, chances
-are that you already have the documentation files - they are kept alongside the source code (in the `docs/` subfolder).
 
-In general, you have to "[fork](http://help.github.com/forking/)" the [github.com/silverstripe/sapphire](http://github.com/silverstripe/sapphire)
-and [github.com/silverstripe/silverstripe-cms](http://github.com/silverstripe/silverstripe-cms) repositories
-and send us "[pull requests](http://help.github.com/pull-requests/)". 
-Note: Smaller edits can be performed in the github.com web interface on your fork,
-every page view should have an "edit this file" button.
+Modifying documentation requires basic [PHPDoc](http://en.wikipedia.org/wiki/PHPDoc) and
+[Markdown](http://daringfireball.net/projects/markdown/)/[SSMarkdown](ss-markdown) knowledge,
+and a GitHub user account.
+
+### Editing online
+
+The easiest way of making a change the the documentation is to find the appropriate .md 
+file in the [github.com/silverstripe/sapphire](https://github.com/silverstripe/sapphire/edit/3.0/docs/) repository
+and press the "edit" button.  You will need a GitHub account to do this.
+
+ * After you have made your change, describe it in the "commit summary" and "extended description" fields below, and press "Commit Changes".
+ * After that you will see form to submit a Pull Request.  You should just be able to submit the form, and your changes will be sent to the core team for approval.
+
+**Coming soon:** each documentation page will have an "edit" link, to make it easier for you to find this feature.
+
+### Editing on your computer
+
+If you prefer to edit the content on your local machine, you can "[fork](http://help.github.com/forking/)" 
+the [github.com/silverstripe/sapphire](http://github.com/silverstripe/sapphire)
+and [github.com/silverstripe/silverstripe-cms](http://github.com/silverstripe/silverstripe-cms) 
+repositories and send us "[pull requests](http://help.github.com/pull-requests/)".   If you have 
+downloaded SilverStripe or a module, chances are that you already have these checkouts.
+
+The documentation is kept alongside the source code in the `docs/` subfolder.
+
+**Note:** If you submit a new feature or an API change, we strongly recommend that your patch
+includes updates to the necessary documentation.  This helps prevent our documentation from 
+getting out of date.
 
 ### Repositories
 

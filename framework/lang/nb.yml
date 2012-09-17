@@ -1,5 +1,7 @@
 nb:
   AssetAdmin:
+    ADDFILES: 'Add files'
+    EditOrgMenu: 'Edit &amp; organize'
     NEWFOLDER: 'Ny Mappe'
   AssetTableField:
     CREATED: 'First uploaded'
@@ -18,11 +20,12 @@ nb:
     DROPAREA: Droppunkt
     EDITALL: 'Endre alle'
     EDITANDORGANIZE: 'Rediger & organiser'
-    EDITINFO: 'Rediger filer'
+    EDITINFO: 'Edit files'
     FILES: Filer
-    FROMCOMPUTER: 'Velg filer fra din pc'
-    FROMCOMPUTERINFO: 'Last opp fra din pc'
+    FROMCOMPUTER: 'Choose files from your computer'
+    FROMCOMPUTERINFO: 'Upload from your computer'
     TOTAL: Total
+    TOUPLOAD: 'Choose files to upload...'
     UPLOADINPROGRESS: 'Vennligst vent... opplasting pågår'
     UPLOADOR: ELLER
   BBCodeParser:
@@ -50,23 +53,32 @@ nb:
     UNORDERED: Punktliste
     UNORDEREDDESCRIPTION: Punktliste
     UNORDEREDEXAMPLE1: 'punkt 1'
+  BackLink_Button.ss:
+    Back: Tilbake
   BasicAuth:
     ENTERINFO: 'Vennligst tast inn et brukernavn og passord'
     ERRORNOTADMIN: 'Denne brukeren er ikke administrator.'
     ERRORNOTREC: 'Det brukernavnet / Passord er ikke gjenkjent'
   Boolean:
-    0: Usant
+    0: 'False'
     ANY: Any
-    Hello: Hi
-    LOGOUT: 'Logg ut'
-    1: Sant
+    1: 'True'
+  CMSLoadingScreen.ss:
+    LOADING: 'Laster ...'
+    REQUIREJS: 'The CMS requires that you have JavaScript enabled.'
   CMSMain:
     ACCESS: 'Access to ''{title}'' section'
-    ACCESSALLINTERFACES: 'Access to all CMS sections'
-    ACCESSALLINTERFACESHELP: 'Overrules more specific access settings.'
+    ACCESSALLINTERFACES: 'Adgang til alle CMS-seksjoner'
+    ACCESSALLINTERFACESHELP: 'Overstyrer mer spesifikke adgangsinnstillinger'
     SAVE: Lagre
   CMSProfileController:
     MENUTITLE: CMSProfileController
+  ChangePasswordEmail.ss:
+    CHANGEPASSWORDTEXT1: 'Du har byttet passordet for'
+    CHANGEPASSWORDTEXT2: 'Du kan nå bruke følgende informasjon for å logge deg inn:'
+    EMAIL: Epost
+    HELLO: Hei
+    PASSWORD: Passord
   CheckboxField:
     - 'False'
     - 'True'
@@ -74,6 +86,14 @@ nb:
     CLOSEPOPUP: 'Lukk Popup'
     SUCCESSADD2: 'Lagt til {name}'
     SUCCESSEDIT: 'Lagret %s %s %s'
+  ComplexTableField.ss:
+    ADDITEM: 'Add %s'
+    NOITEMSFOUND: 'No items found'
+    SORTASC: 'Sorter stigende'
+    SORTDESC: 'Sorter fallende'
+  ComplexTableField_popup.ss:
+    NEXT: Neste
+    PREVIOUS: Forrige
   ConfirmedPasswordField:
     ATLEAST: 'Passordet må inneholde minst {min} skrifttegn'
     BETWEEN: 'Passord må inneholde {min} til {max} skrifttegn'
@@ -100,21 +120,20 @@ nb:
     MONTHS: måneder
     SEC: sekund
     SECS: sekunder
-    TIMEDIFFAGO: '{difference} ago'
-    TIMEDIFFIN: 'in {difference}'
+    TIMEDIFFAGO: '{difference} siden'
+    TIMEDIFFIN: 'i {difference}'
     YEAR: år
     YEARS: år
   DateField:
     NOTSET: mangler
     TODAY: 'i dag'
     VALIDDATEFORMAT2: 'Vennligst skriv inn et gyldig datoformat ({format})'
-    VALIDDATEMAXDATE: 'Your date has to be older or matching the maximum allowed date ({date})'
-    VALIDDATEMINDATE: 'Your date has to be newer or matching the minimum allowed date ({date})'
+    VALIDDATEMAXDATE: 'Din dato må være eldre eller i samsvar med maksimum tillatte dato ({date})'
+    VALIDDATEMINDATE: 'Din dato må være nyere eller i samsvar med minimum tillatte dato ({date})'
+  DatetimeField:
+    NOTSET: 'Not set'
   Director:
-    ADD: 'Legg til'
-    CSVEXPORT: 'Export to CSV'
     INVALID_REQUEST: 'Ugyldig forespørsel'
-    NOTFOUND: 'No items found'
   DropdownField:
     CHOOSE: (Velg)
   EmailField:
@@ -124,39 +143,64 @@ nb:
     SINGULARNAME: 'Email Bounce Record'
   Enum:
     ANY: Any
-    LOADING: 'Laster ...'
-    REQUIREJS: 'The CMS requires that you have JavaScript enabled.'
   File:
+    AviType: 'AVI video file'
     Content: Innhold
+    CssType: 'CSS file'
+    DmgType: 'Apple disk image'
+    DocType: 'Word document'
     Filename: Filnavn
+    GifType: 'GIF image - good for diagrams'
+    GzType: 'GZIP compressed file'
+    HtlType: 'HTML file'
+    HtmlType: 'HTML file'
     INVALIDEXTENSION: 'Extension is not allowed (valid: {extensions})'
     INVALIDEXTENSIONSHORT: 'Extension is not allowed'
+    IcoType: 'Icon image'
+    JpgType: 'JPEG image - good for photos'
+    JsType: 'Javascript file'
+    Mp3Type: 'MP3 audio file'
+    MpgType: 'MPEG video file'
     NOFILESIZE: 'Filstørrelsen var 0 bytes.'
-    NOVALIDUPLOAD: 'File is not a valid upload'
+    NOVALIDUPLOAD: 'Filen er ikke en gyldig opplasting'
     Name: Navn
     PLURALNAME: Filer
+    PdfType: 'Adobe Acrobat PDF file'
+    PngType: 'PNG image - good general-purpose format'
     SINGULARNAME: Fil
     TOOLARGE: 'Filstørrelse for stor, maksimum {size} tillatt '
     TOOLARGESHORT: 'Filstørrelse overstiger {size}'
+    TiffType: 'Tagged image format'
     Title: Tittel
+    WavType: 'WAV audo file'
+    XlsType: 'Excel spreadsheet'
+    ZipType: 'ZIP compressed file'
   FileIFrameField:
     ATTACH: 'Legg ved {type}'
-    ATTACHONCESAVED: '{type}s can be attached once you have saved the record for the first time.'
-    ATTACHONCESAVED2: 'Files can be attached once you have saved the record for the first time.'
+    ATTACHONCESAVED: '{type}er kan legges til når du har lagret oppføringen for første gang.'
+    ATTACHONCESAVED2: 'Filer kan legges til så snart du har lagret oppføringen for første gang.'
     DELETE: 'Slett {type}'
     DISALLOWEDFILETYPE: 'Det er ikke tillatt å laste opp denne filtypen'
     FILE: Fil
     FROMCOMPUTER: 'Fra din pc'
     FROMFILESTORE: 'Fra filarkivet'
-    NOSOURCE: 'Please select a source file to attach'
+    NOSOURCE: 'Vennligst legg til en valgt kildefil'
     REPLACE: 'Replace {type}'
+  FileIFrameField_iframe.ss:
+    TITLE: 'Bildeopplastnings ramme'
   Filesystem:
-    IMPORT_TAB_HEADER: Importer
-    SEARCHLISTINGS: Søk
     SYNCRESULTS: 'Sync complete: {createdcount} items created, {deletedcount} items deleted'
+  Folder:
+    PLURALNAME: Folders
+    SINGULARNAME: Folder
+  ForgotPasswordEmail.ss:
+    HELLO: Hei
+    TEXT1: 'Her er din'
+    TEXT2: 'passord resett link'
+    TEXT3: for
   Form:
     FIELDISREQUIRED: 'mangler %s'
-    TITLE: 'Bildeopplastnings ramme'
+    SubmitBtnLabel: Go
     VALIDATIONCREDITNUMBER: 'Vennligst sjekk at du har skrevet inn {number} korrekt kortnummer'
     VALIDATIONNOTUNIQUE: 'Den spesifiserte verdien er ikke unik'
     VALIDATIONPASSWORDSDONTMATCH: 'Passordene passer ikke med hverandre'
@@ -174,58 +218,50 @@ nb:
     Add: 'Legg til {name}'
     Filter: Filter
     FilterBy: 'Filter by '
-    Find: Find
+    Find: Finn
     LEVELUP: 'Level up'
-    LinkExisting: 'Link Existing'
+    LinkExisting: 'Eksisterende lenke'
     NewRecord: 'New %s'
     NoItemsFound: 'No items found'
     PRINTEDAT: 'Printed at'
     PRINTEDBY: 'Printed by'
-    PlaceHolder: 'Find {type}'
+    PlaceHolder: 'Finn {type}'
     PlaceHolderWithLabels: 'Find {type} by {name}'
     RelationSearch: 'Relation search'
     ResetFilter: Tilbakestille
   GridFieldAction_Delete:
-    DeletePermissionsFailure: 'No delete permissions'
-    NEXT: Neste
-    PREVIOUS: Forrige
+    DeletePermissionsFailure: 'Ikke tillatt å slette'
   GridFieldDetailForm:
+    CancelBtn: Cancel
     Create: Create
     Delete: Slett
-    DeletePermissionsFailure: 'No delete permissions'
-    Deleted: 'Deleted %s %s'
-    HELLO: Hei
+    DeletePermissionsFailure: 'Ikke tillatt å slette'
+    Deleted: 'Slettet %s %s'
     Save: Lagre
     Saved: 'Lagret %s %s'
-    TEXT1: 'Her er din'
-    TEXT2: 'passord resett link'
-    TEXT3: for
+  GridFieldItemEditView.ss: null
   Group:
     AddRole: 'Legg en rolle til denne gruppen'
-    CHANGEPASSWORDTEXT1: 'Du har byttet passordet for'
-    CHANGEPASSWORDTEXT2: 'Du kan nå bruke følgende informasjon for å logge deg inn:'
     Code: 'Gruppe Kode'
     DefaultGroupTitleAdministrators: Administratorer
     DefaultGroupTitleContentAuthors: Innholdsforfattere
     Description: Beskrivelse
-    EMAIL: Epost
     GroupReminder: 'Hvis du velger en overordnet gruppe, vil denne gruppen arve alle rollene'
-    HELLO: Hei
     Locked: 'Låst?'
     NoRoles: 'Ingen roller funnet'
-    PASSWORD: Passord
+    PLURALNAME: Groups
     Parent: 'Foreldre Gruppe'
     RolesAddEditLink: 'Administrer roller'
+    SINGULARNAME: Group
     Sort: Sorteringsrekkefølge
-    TITLE: 'Bildeopplasnings ramme'
     has_many_Permissions: Tillatelser
     many_many_Members: Medlemmer
   GroupImportForm:
     Help1: '<p>Import one or more groups in <em>CSV</em> format (comma-separated values). <small><a href="#" class="toggle-advanced">Show advanced usage</a></small></p>'
     Help2: '<div class="advanced">	<h4>Advanced usage</h4>	<ul>	<li>Allowed columns: <em>%s</em></li>	<li>Existing groups are matched by their unique <em>Code</em> value, and updated with any new values from the imported file</li>	<li>Group hierarchies can be created by using a <em>ParentCode</em> column.</li>	<li>Permission codes can be assigned by the <em>PermissionCode</em> column. Existing permission codes are not cleared.</li>	</ul></div>'
     ResultCreated: 'Created {count} groups'
-    ResultDeleted: 'Deleted %d groups'
-    ResultUpdated: 'Updated %d groups'
+    ResultDeleted: 'Slettede %d grupper'
+    ResultUpdated: 'Oppdaterte %d grupper'
   Hierarchy:
     InfiniteLoopNotAllowed: 'Infinite loop found within the "{type}" hierarchy. Please change the parent to resolve this'
   HtmlEditorField:
@@ -246,20 +282,20 @@ nb:
     EMAIL: 'Epost adresse'
     FILE: Fil
     FOLDER: Mappe
-    FROMCMS: 'From the CMS'
-    FROMCOMPUTER: 'From your computer'
+    FROMCMS: 'Fra CMS'
+    FROMCOMPUTER: 'Fra din pc'
     FROMWEB: 'From the web'
     FindInFolder: 'Finn i mappe'
     IMAGEALT: 'Alternativ tekst (alt)'
-    IMAGEALTTEXT: 'Alternative text (alt) - shown if image cannot be displayed'
+    IMAGEALTTEXT: 'Alternativ tekst (alt) - vist hvis bilde ikke kan vises'
     IMAGEALTTEXTDESC: 'Shown to screen readers or if image can not be displayed'
     IMAGEDIMENSIONS: Dimensjoner
     IMAGEHEIGHTPX: Høyde
-    IMAGETITLE: 'Title text (tooltip) - for additional information about the image'
-    IMAGETITLETEXT: 'Title text (tooltip)'
+    IMAGETITLE: 'Titteltekst (tooltip) - for tilleggsinformasjon om bildet'
+    IMAGETITLETEXT: 'Titteltekst (tooltip)'
     IMAGETITLETEXTDESC: 'For tilleggsinformasjon om bilde'
     IMAGEWIDTHPX: Bredde
-    INSERTMEDIA: 'Insert Media'
+    INSERTMEDIA: 'Sett inn Media'
     LINK: 'Sett inn/rediger lenke i fremhevet tekst'
     LINKANCHOR: 'Lenke på denne siden'
     LINKDESCR: 'Lenke beskrivelse'
@@ -272,18 +308,23 @@ nb:
     PAGE: Side
     URL: URL
     URLNOTANOEMBEDRESOURCE: 'The URL ''{url}'' could not be turned into a media resource.'
-    UpdateMEDIA: 'Update Media'
+    UpdateMEDIA: 'Oppdater Media'
+  Image:
+    PLURALNAME: Files
+    SINGULARNAME: File
   ImageField:
     IMAGE: Bilde
-  Image_iframe.ss: 'ChangePasswordEmail.ss:  BackLink_Button.ss:  CMSLoadingScreen.ss:  RelationComplexTableField.ss:  ForgotPasswordEmail.ss:    APPLY FILTER: "Apply Filter"  GridFieldItemEditView.ss:    Go back: "Gå tilbake"  ModelSidebar.ss:  TableListField_PageControls.ss:  ModelAdmin_Tools.ss:  ComplexTableField_popup.ss:  TableField.ss:  FileIFrameField_iframe.ss:  ComplexTableField.ss:  TableListField.ss:  ModelAdmin_ImportSpec.ss:  LeftAndMain_Menu.ss:'
+  Image_Cached:
+    PLURALNAME: Files
+    SINGULARNAME: File
+  Image_iframe.ss:
+    TITLE: 'Bildeopplasnings ramme'
   LeftAndMain:
-    ADD: 'Legg til en rad'
-    ADDITEM: 'Add %s'
     CANT_REORGANISE: 'You do not have permission to alter Top level pages. Your change was not saved.'
     DELETED: Slettet.
-    DropdownBatchActionsDefault: Actions
+    DropdownBatchActionsDefault: Handlinger
     HELP: Hjelp
-    PAGETYPE: 'Page type: '
+    PAGETYPE: Side-type
     PERMAGAIN: 'Du har blitt logget ut av CMS. Hvis du vil logge deg på igjen, skriv inn brukernavn og passord under.'
     PERMALREADY: 'Beklager, men du har ikke tilgang til denne delen av CMS. Hvis du vil logge inn som en annen bruker, gjør det nedenfor.'
     PERMDEFAULT: 'Vennligst velg en autentiseringsmetode og skriv inn brukernavn og passord for å få tilgang til CMS.'
@@ -292,9 +333,14 @@ nb:
     REORGANISATIONSUCCESSFUL: 'Omorganisering av sidetreet vellykket'
     SAVEDUP: Lagret.
     VersionUnknown: Ukjent
+  LeftAndMain_Menu.ss:
+    Hello: Hi
+    LOGOUT: 'Logg ut'
   LoginAttempt:
     Email: Epostadresse
     IP: 'IP adresse'
+    PLURALNAME: 'Login Attempts'
+    SINGULARNAME: 'Login Attempt'
     Status: Status
   Member:
     ADDGROUP: 'Legg til en gruppe'
@@ -304,6 +350,7 @@ nb:
     BUTTONLOSTPASSWORD: 'Jeg har mistet passordet'
     CONFIRMNEWPASSWORD: 'Bekreft Nytt Passord'
     CONFIRMPASSWORD: 'Bekreft passord'
+    DATEFORMAT: 'Date format'
     DefaultAdminFirstname: 'Standard admin'
     DefaultDateTime: Standard
     EMAIL: Epost
@@ -326,8 +373,9 @@ nb:
     SUBJECTPASSWORDCHANGED: 'Ditt passord har blitt endret'
     SUBJECTPASSWORDRESET: 'Link til passordannulering'
     SURNAME: Etternavn
+    TIMEFORMAT: 'Time format'
     VALIDATIONMEMBEREXISTS: 'Det eksisterer allerede et medlem med denne epost-kontoen.'
-    ValidationIdentifierFailed: 'Can''t overwrite existing member #{id} with identical identifier ({name} = {value}))'
+    ValidationIdentifierFailed: 'Kan ikke overskrive eksisterende medlem #{id} med identisk identifikator ({name})={value}))'
     WELCOMEBACK: 'Velkommen tilbake, {firstname}'
     YOUROLDPASSWORD: 'Ditt gamle passord'
     belongs_many_many_Groups: Grupper
@@ -341,31 +389,35 @@ nb:
     TITLE: 'Epost &amp; Passord'
   MemberDatetimeOptionsetField:
     AMORPM: 'AM (Ante meridiem) or PM (Post meridiem)'
+    'APPLY FILTER': 'Legg til filter'
     Custom: Custom
     DATEFORMATBAD: 'Datoformat er ugyldig'
-    DAYNOLEADING: 'Day of month without leading zero'
-    DIGITSDECFRACTIONSECOND: 'One or more digits representing a decimal fraction of a second'
+    DAYNOLEADING: 'Dag i måneden uten ledende null'
+    DIGITSDECFRACTIONSECOND: 'Ett eller flere siffer som representerer en desimlbrøkdel av et sekund'
     FOURDIGITYEAR: 'Firesifret årstall'
     FULLNAMEMONTH: 'Fullt navn på måned (eks. juni)'
-    HOURNOLEADING: 'Hour without leading zero'
-    MINUTENOLEADING: 'Minute without leading zero'
-    MONTHNOLEADING: 'Month digit without leading zero'
+    HOURNOLEADING: 'Time uten ledende null'
+    MINUTENOLEADING: 'Minutt uten ledende null'
+    MONTHNOLEADING: 'Månedssiffer uten ledende null'
     Preview: Forhåndsvisning
     SHORTMONTH: 'Forkortelse av måned (f.eks. jun)'
     TOGGLEHELP: 'Vis/skjul formateringshjelp'
     TWODIGITDAY: 'Tosifret månedstall'
-    TWODIGITHOUR: 'Two digits of hour (00 through 23)'
-    TWODIGITMINUTE: 'Two digits of minute (00 through 59)'
+    TWODIGITHOUR: 'Tosifret timetall (00 til 23)'
+    TWODIGITMINUTE: 'Tosifret minuttstall (00 til 59)'
     TWODIGITMONTH: 'Tosifret måned (01=Januar, etc.)'
-    TWODIGITSECOND: 'Two digits of second (00 through 59)'
+    TWODIGITSECOND: 'Tosifret sekundtall (00 til 59)'
     TWODIGITYEAR: 'Tosifret årstall'
   MemberImportForm:
     Help1: '<p>Import users in <em>CSV format</em> (comma-separated values). <small><a href="#" class="toggle-advanced">Show advanced usage</a></small></p>'
     Help2: '<div class="advanced">	<h4>Advanced usage</h4>	<ul>	<li>Allowed columns: <em>%s</em></li>	<li>Existing users are matched by their unique <em>Code</em> property, and updated with any new values from the imported file.</li>	<li>Groups can be assigned by the <em>Groups</em> column. Groups are identified by their <em>Code</em> property, multiple groups can be separated by comma. Existing group memberships are not cleared.</li>	</ul></div>'
     ResultCreated: 'Created {count} members'
-    ResultDeleted: 'Deleted %d members'
+    ResultDeleted: 'Slettet %d medlemmer'
     ResultNone: 'Ingen endringer'
     ResultUpdated: 'Updated {count} members'
+  MemberPassword:
+    PLURALNAME: 'Member Passwords'
+    SINGULARNAME: 'Member Password'
   MemberTableField: null
   ModelAdmin:
     DELETE: Slett
@@ -377,6 +429,17 @@ nb:
     RESET: Tilbakestille
     Title: 'Data Models'
     UPDATEDRECORDS: 'Updated {count} records.'
+  ModelAdmin_ImportSpec.ss:
+    IMPORTSPECFIELDS: 'Database columns'
+    IMPORTSPECLINK: 'Show Specification for %s'
+    IMPORTSPECRELATIONS: Relations
+    IMPORTSPECTITLE: 'Specification for %s'
+  ModelAdmin_Tools.ss:
+    FILTER: Filter
+    IMPORT: Importer
+  ModelSidebar.ss:
+    IMPORT_TAB_HEADER: Importer
+    SEARCHLISTINGS: Søk
   MoneyField:
     FIELDLABELAMOUNT: Mengde
     FIELDLABELCURRENCY: Currency
@@ -384,25 +447,37 @@ nb:
     IsNullLabel: 'Is Null'
   NumericField:
     VALIDATION: '''{value}'' er ikke et tall, kun tall aksepteres i dette feltet'
+  Pagination:
+    Page: Page
+    View: View
   Permission:
     AdminGroup: Administrator
-    CMS_ACCESS_CATEGORY: 'CMS Access'
+    CMS_ACCESS_CATEGORY: CMS-tilgang
     FULLADMINRIGHTS: 'Fulle administrative rettigheter'
     FULLADMINRIGHTS_HELP: 'Implies and overrules all other assigned permissions.'
-    IMPORTSPECFIELDS: 'Database columns'
-    IMPORTSPECLINK: 'Show Specification for %s'
-    IMPORTSPECRELATIONS: Relations
-    IMPORTSPECTITLE: 'Specification for %s'
+    PLURALNAME: Permissions
+    SINGULARNAME: Permission
   PermissionCheckboxSetField:
-    AssignedTo: 'assigned to "{title}"'
-    FromGroup: 'inherited from group "{title}"'
-    FromRole: 'inherited from role "{title}"'
+    AssignedTo: 'tilordnet "{title}"'
+    FromGroup: 'Arvet fra gruppe "{title}"'
+    FromRole: 'arvet fra rolle "{title}"'
     FromRoleOnGroup: 'inherited from role "%s" on group "%s"'
+  PermissionRole:
+    OnlyAdminCanApply: 'Only admin can apply'
+    PLURALNAME: Roles
+    SINGULARNAME: Role
+    Title: Title
+  PermissionRoleCode:
+    PLURALNAME: 'Permission Role Cods'
+    SINGULARNAME: 'Permission Role Code'
   Permissions:
-    PERMISSIONS_CATEGORY: 'Roles and access permissions'
+    PERMISSIONS_CATEGORY: 'Rolle- og tilgangstillatelser'
   PhoneNumberField:
-    Back: Tilbake
     VALIDATION: 'Vennligst skriv inn et gyldig tlf nummer'
+  RelationComplexTableField.ss:
+    ADD: 'Legg til'
+    CSVEXPORT: 'Export to CSV'
+    NOTFOUND: 'No items found'
   Security:
     ALREADYLOGGEDIN: 'Du har ikke adgang til denne siden. Hvis du har en annen konto som har adgang til denne siden, kan du logge inn med den under.'
     BUTTONSEND: 'Send meg lenke for å gi nytt passord'
@@ -416,9 +491,9 @@ nb:
     NOTERESETLINKINVALID: '<p>The password reset link is invalid or expired.</p><p>You can request a new one <a href="{link1}">here</a> or change your password after you <a href="{link2}">logged in</a>.</p>'
     NOTERESETPASSWORD: 'Skriv inn din epost adresse og vi vil sende deg en lenke som resetter passordet ditt.'
     PASSWORDSENTHEADER: 'Password reset link sent to ''{email}'''
-    PASSWORDSENTTEXT: 'Thank you! A reset link has been sent to ''{email}'', provided an account exists for this email address.'
+    PASSWORDSENTTEXT: 'Takk! En lenke for å lage nytt passord er sendt til ''{email}'', forutsatt at det eksisterer en konto for denne epostadressen.'
   SecurityAdmin:
-    ACCESS_HELP: 'Allow viewing, adding and editing users, as well as assigning permissions and roles to them.'
+    ACCESS_HELP: 'Tillat visning, tilføying og redigering av brukere, samt tildele adganger og roller til dem.'
     APPLY_ROLES: 'Legg til roller til grupper'
     APPLY_ROLES_HELP: 'Ability to edit the roles assigned to a group. Requires the "Access to ''Users'' section" permission.'
     EDITPERMISSIONS: 'Administrer tillatelser for grupper'
@@ -439,31 +514,33 @@ nb:
     BtnImport: 'Importer fra CSV'
     FileFieldLabel: 'CSV File <small>(Allowed extensions: *.csv)</small>'
   SilverStripeNavigator:
-    DISPLAYING: Displaying
     Edit: Rediger
-    FILTER: Filter
-    IMPORT: Importer
-    OF: of
-    TO: til
-    VIEWFIRST: 'Se første'
-    VIEWLAST: 'Se siste'
-    VIEWNEXT: 'Se neste'
-    VIEWPREVIOUS: 'Se forrige'
   SimpleImageField:
     NOUPLOAD: 'Ingen Bilder Lastet Opp'
   SiteTree:
     TABMAIN: Hovedinnstillinger
   TableField:
-    ADDITEM: 'Add %s'
     ISREQUIRED: 'In %s ''%s'' is required'
-    NOITEMSFOUND: 'No items found'
-    SORTASC: 'Sorter i stigende rekkefølge'
-    SORTDESC: 'Sorter i synkende rekkefølge'
+  TableField.ss:
+    ADD: 'Legg til en rad'
+    ADDITEM: 'Add %s'
   TableListField:
     CSVEXPORT: 'Eksporter til CSV'
     PRINT: 'Skriv ut'
     Print: Print
     SELECT: 'Velg:'
+  TableListField.ss:
+    NOITEMSFOUND: 'No items found'
+    SORTASC: 'Sorter i stigende rekkefølge'
+    SORTDESC: 'Sorter i synkende rekkefølge'
+  TableListField_PageControls.ss:
+    DISPLAYING: Displaying
+    OF: of
+    TO: to
+    VIEWFIRST: 'Se første'
+    VIEWLAST: 'Se siste'
+    VIEWNEXT: 'Se neste'
+    VIEWPREVIOUS: 'Se forrige'
   TimeField:
     VALIDATEFORMAT: 'Vennligst skriv inn et gyldig tidsformat ({format}]'
   ToggleField:
@@ -473,25 +550,26 @@ nb:
     ATTACHFILE: 'Legg ved fil'
     ATTACHFILES: 'Legg ved filer'
     AttachFile: 'Legg ved fil(er)'
-    DELETE: 'Slett fra filer'
+    DELETE: 'Delete from files'
     DELETEINFO: 'Slett filen permament fra filarkivet'
     DOEDIT: Lagre
     DROPFILE: 'Slipp en fil'
     DROPFILES: 'Slipp filer'
     Dimensions: Dimensjoner
-    EDIT: Rediger
+    EDIT: Edit
     EDITINFO: 'Rediger denne filen'
     FIELDNOTSET: 'Filinformasjon ikke funnet'
     FROMCOMPUTER: 'Fra din pc'
-    FROMCOMPUTERINFO: 'Velg fra filer'
+    FROMCOMPUTERINFO: 'Select from files'
     FROMFILES: 'Fra filer'
+    HOTLINKINFO: 'Info: This image will be hotlinked. Please ensure you have permissions from the original site creator to do so.'
     MAXNUMBEROFFILES: 'Maks antall {count} fil(er) overskredet'
     MAXNUMBEROFFILESSHORT: 'Kan kun laste opp {count} filer'
     REMOVE: Fjern
     REMOVEERROR: 'Feil ved fjerning av fil'
     REMOVEINFO: 'Fjern filen herfra, men ikke slett den fra filarkivet'
-    STARTALL: 'Start all'
-    STARTALLINFO: 'Start alle opplastinger'
+    STARTALL: 'Start alle'
+    STARTALLINFO: 'Start all uploads'
     Saved: Lagret
   Versioned:
     has_many_Versions: Versjoner

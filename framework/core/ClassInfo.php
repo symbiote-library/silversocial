@@ -58,8 +58,10 @@ class ClassInfo {
 	 * Returns the manifest of all classes which are present in the database.
 	 * @param string $class Class name to check enum values for ClassName field
 	 */
-	static function getValidSubClasses($class = 'SiteTree') {
-		return DB::getConn()->enumValuesForField($class, 'ClassName');
+	static function getValidSubClasses($class = 'SiteTree', $includeUnbacked = false) {
+		$classes = DB::getConn()->enumValuesForField($class, 'ClassName');
+		if (!$includeUnbacked) $classes = array_filter($classes, array('ClassInfo', 'exists'));
+		return $classes;
 	}
 
 	/**
@@ -230,6 +232,25 @@ class ClassInfo {
 		}
 
 		return $matchedClasses;
+	}
+
+	private static $method_from_cache = array();
+
+	static function has_method_from($class, $method, $compclass) {
+		if (!isset(self::$method_from_cache[$class])) self::$method_from_cache[$class] = array();
+
+		if (!array_key_exists($method, self::$method_from_cache[$class])) {
+			self::$method_from_cache[$class][$method] = false;
+
+			$classRef = new ReflectionClass($class);
+
+			if ($classRef->hasMethod($method)) {
+				$methodRef = $classRef->getMethod($method);
+				self::$method_from_cache[$class][$method] = $methodRef->getDeclaringClass()->getName();
+			}
+		}
+
+		return self::$method_from_cache[$class][$method] == $compclass;
 	}
 	
 }

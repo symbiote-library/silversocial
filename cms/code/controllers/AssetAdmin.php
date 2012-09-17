@@ -95,7 +95,7 @@ JS
 		// Don't filter list when a detail view is requested,
 		// to avoid edge cases where the filtered list wouldn't contain the requested
 		// record due to faulty session state (current folder not always encoded in URL, see #7408).
-		if($this->request->param('ID') == 'field') {
+		if(!$folder->ID && ($this->request->param('ID') == 'field')) {
 			return $list;
 		}
 
@@ -206,7 +206,7 @@ JS
 					'<a class="ss-ui-button ss-ui-action ui-button-text-icon-primary ss-ui-button-ajax" data-icon="arrow-circle-double" title="%s" href="%s">%s</a>',
 					_t('AssetAdmin.FILESYSTEMSYNCTITLE', 'Update the CMS database entries of files on the filesystem. Useful when new files have been uploaded outside of the CMS, e.g. through FTP.'),
 					$this->Link('doSync'),
-					_t('FILESYSTEMSYNC','Sync files')
+					_t('AssetAdmin.FILESYSTEMSYNC','Sync files')
 				)
 			);
 		} else {

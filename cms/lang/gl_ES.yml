@@ -5,6 +5,7 @@ gl_ES:
     ActionAdd: 'Engadir cartafol'
     AppCategoryArchive: Arquivo
     AppCategoryAudio: Audio
+    AppCategoryDocument: Document
     AppCategoryFlash: Flash
     AppCategoryImage: Imaxe
     AppCategoryVideo: Video
@@ -13,6 +14,7 @@ gl_ES:
     CurrentFolderOnly: 'Limitar ao cartafol actual?'
     DetailsView: Detalles
     FILES: Files
+    FILESYSTEMSYNC: 'Sync files'
     FILESYSTEMSYNCTITLE: 'Update the CMS database entries of files on the filesystem. Useful when new files have been uploaded outside of the CMS, e.g. through FTP.'
     FROMTHEINTERNET: 'Dende a Internet'
     FROMYOURCOMPUTER: 'Dende o teu Computador'
@@ -26,13 +28,15 @@ gl_ES:
     Upload: Subir
   AssetAdmin_DeleteBatchAction:
     TITLE: 'Eliminar cartafoles'
+  AssetAdmin_Tools:
+    FILTER: Filter
+  AssetAdmin_left.ss:
+    GO: Ir
   AssetTableField:
     BACKLINKCOUNT: 'Used on:'
     PAGES: page(s)
-  BasicFieldsTestPage:
-    DESCRIPTION: 'Páxina de contido xenérico'
-  BigFamilyPage:
-    DESCRIPTION: 'Generic content page'
+  BackLink_Button.ss:
+    Back: Atrás
   BrokenLinksReport:
     Any: Ningún
     BROKENLINKS: 'Informe de ligazóns rotas'
@@ -47,7 +51,6 @@ gl_ES:
     HasBrokenLink: 'ten ligazón rota'
     HasBrokenLinkAndFile: 'rompeu a ligazón e o ficheiro'
     HoverTitleEditPage: 'Editar Páxina'
-    NOITEMSFOUND: 'No items found'
     PageName: 'Nome da páxina'
     ReasonDropdown: 'Problema para comprobar'
     ReasonDropdownBROKENFILE: 'Ficheiro roto'
@@ -55,8 +58,6 @@ gl_ES:
     ReasonDropdownRPBROKENLINK: 'O redirector está apuntando a unha páxina inexistente'
     ReasonDropdownVPBROKENLINK: 'A páxina virtual está apuntando a unha páxina inexistente'
     RedirectorNonExistent: 'o redirector está apuntando a unha páxina inexistente'
-    SORTASC: 'Ordear ascendentemente'
-    SORTDESC: 'Ordear descendentemente'
     VirtualPageNonExistent: 'a páxina virtual está apuntando a unha páxina inexistente'
   CMSAddPageController:
     Title: 'Engadir páxina'
@@ -70,8 +71,6 @@ gl_ES:
     UNPUBLISHED_PAGES: '%d páxinas sen publicar'
     UNPUBLISH_PAGES: 'Sen publicar'
   CMSFileAddController:
-    CANACCESS: 'Podes acceder ao sitio arquivado nesta ligazón:'
-    HAVEASKED: 'Solicitaches ver o contido do sitio sobre'
     MENUTITLE: Ficheiros
   CMSMain:
     ACCESS: 'Access to ''{title}'' section'
@@ -88,7 +87,7 @@ gl_ES:
     EditTree: 'Edit Tree'
     ListFiltered: 'Filtered list.'
     MENUTITLE: 'Editar Páxina'
-    NEW: Novo
+    NEWPAGE: 'New {pagetype}'
     PAGENOTEXISTS: 'Esta páxina non existe'
     PAGES: Páxinas
     PAGETYPEANYOPT: Ningún
@@ -113,6 +112,9 @@ gl_ES:
     TabSettings: Configuracións
     TreeFiltered: 'Filtered tree.'
     TreeFilteredClear: 'Clear filter'
+  CMSMain_left.ss:
+    'APPLY FILTER': 'Aplicar Filtro'
+    RESET: Reiniciar
   CMSPageAddController:
     MENUTITLE: 'Engadir páxina'
     ParentMode_child: 'Baixo outra páxina'
@@ -129,7 +131,12 @@ gl_ES:
     SHOWVERSION: 'Amosar Versión'
     VIEW: ver
     VIEWINGVERSION: 'Currently viewing version {version}.'
-  CMSPageHistoryController_versions.ss: 'BackLink_Button.ss:  AssetAdmin_Tools.ss:  TableListField.ss:  CMSPagesController_Tools.ss:  CMSPagesController_ContentToolbar.ss:  AssetAdmin_left.ss:  TableListField_PageControls.ss:  ViewArchivedEmail.ss:  CMSMain_left.ss:    APPLY FILTER: "Aplicar Filtro"'
+  CMSPageHistoryController_versions.ss:
+    AUTHOR: Autor
+    NOTPUBLISHED: 'Non publicado'
+    PUBLISHER: Editor
+    UNKNOWN: Descoñecido
+    WHEN: Cando
   CMSPageSettingsController:
     MENUTITLE: 'Editar Páxina'
   CMSPagesController:
@@ -137,56 +144,45 @@ gl_ES:
     ListView: 'Vista en Listado'
     MENUTITLE: Páxinas
     TreeView: 'Vista en Árbore'
+  CMSPagesController_ContentToolbar.ss:
+    ENABLEDRAGGING: 'Arrastrar e soltar'
+    MULTISELECT: 'Selección múltiple'
+  CMSPagesController_Tools.ss:
+    FILTER: Filtro
   CMSSearch:
     FILTERDATEFROM: Desde
     FILTERDATEHEADING: Data
     FILTERDATETO: Ata
     FILTERLABELTEXT: Contido
   CMSSettingsController:
-    AUTHOR: Autor
     MENUTITLE: Configuracións
-    NOTPUBLISHED: 'Non publicado'
-    PUBLISHER: Editor
-    UNKNOWN: Descoñecido
-    WHEN: Cando
   CMSSiteTreeFilter_ChangedPages:
-    DISPLAYING: Displaying
-    ENABLEDRAGGING: 'Arrastrar e soltar'
-    GO: Ir
-    MULTISELECT: 'Selección múltiple'
-    OF: of
-    TO: to
     Title: 'Páxinas cambiadas'
-    VIEWFIRST: 'Ver primeiro'
-    VIEWLAST: 'Ver último'
-    VIEWNEXT: 'Ver seguinte'
-    VIEWPREVIOUS: 'Ver anterior'
   CMSSiteTreeFilter_DeletedPages:
     Title: 'Todas as páxinas, incluindo eliminadas'
   CMSSiteTreeFilter_Search:
     Title: 'Todas as páxinas'
-  CaseStudy:
-    DESCRIPTION: 'Case study page to fature work examples'
   ContentControl:
     NOTEWONTBESHOWN: 'Nota: esta mensaxe non se amosará aos visitantes'
   ContentController:
-    ARCHIVEDSITE: 'Sitio Arquivado'
+    ARCHIVEDSITE: 'Preview version'
     ARCHIVEDSITEFROM: 'Sitio arquivado dende'
     CMS: CMS
     DRAFTSITE: 'Sitio Borrador'
     DRAFT_SITE_ACCESS_RESTRICTION: 'You must log in with your CMS password in order to view the draft or archived content.  <a href="%s">Click here to go back to the published site.</a>'
     Email: Email
+    INSTALL_SUCCESS: 'Installation Successful!'
     InstallFilesDeleted: 'Installation files have been successfully deleted.'
     InstallSecurityWarning: 'For security reasons you should now delete the install files, unless you are planning to reinstall later (<em>requires admin login, see above</em>). The web server also now only needs write access to the "assets" folder, you can remove write access from all other folders. <a href="{link}" style="text-align: center;">Click here to delete the install files.</a>'
-    InstallSuccessCongratulations: 'SilverStripe has been successfully installed.'
+    InstallSuccessCongratulations: 'SilverStripe has been successfully installed!'
     LOGGEDINAS: 'Iniciada sesión como'
     LOGIN: 'Iniciar sesión'
     LOGOUT: 'Pechar sesión'
     NOTLOGGEDIN: 'Sen iniciar sesión'
     PUBLISHEDSITE: 'Sitio Publicado'
     Password: Password
-    PostInstallTutorialIntro: 'This website is a simplistic version of a SilverStripe 2 site. To extend this, please take a look at {link}.'
-    StartEditing: 'You can start editing your site\\''s content by opening <a href="{link}">the CMS</a>.'
+    PostInstallTutorialIntro: 'This website is a simplistic version of a SilverStripe 3 site. To extend this, please take a look at {link}.'
+    StartEditing: 'You can start editing your site''s content by opening <a href=\\"{link}\\">the CMS</a>.'
     UnableDeleteInstall: 'Unable to delete installation files. Please delete the files below manually'
     VIEWPAGEIN: 'Ver a Páxina en:'
   ErrorPage:
@@ -197,6 +193,8 @@ gl_ES:
     DEFAULTSERVERERRORPAGETITLE: 'Erro Servidor'
     DESCRIPTION: 'Custom content for different error cases (e.g. "Page not found")'
     ERRORFILEPROBLEM: 'Error opening file "{filename}" for writing. Please check file permissions.'
+    PLURALNAME: 'Error Pags'
+    SINGULARNAME: 'Error Page'
     400: '400 - Bad Request'
     401: '401 - Unauthorized'
     403: '403 - Forbidden'
@@ -226,9 +224,6 @@ gl_ES:
     UNUSEDFILESTITLE: 'Ficheiros sen usar'
     UNUSEDTHUMBNAILSTITLE: 'Miniaturas sen usar'
     UploadFilesButton: Subir
-  GridFieldTestPage:
-    DESCRIPTION: 'Páxina de contido xenérico'
-    FILTER: Filtro
   LeftAndMain:
     DELETED: Deleted.
     PreviewButton: Previsualizar
@@ -236,13 +231,8 @@ gl_ES:
     STATUSPUBLISHEDSUCCESS: 'Published ''{title}'' successfully'
     SearchResults: 'Resultados Busca'
     VersionUnknown: Descoñecido
-  LegacyTableFieldsTestPage:
-    DESCRIPTION: 'Páxina de contido xenérico'
-  Page:
-    DESCRIPTION: 'Páxina de contido xenérico'
   Permission:
     CMS_ACCESS_CATEGORY: 'Acceso CMS'
-    RESET: Reiniciar
   Permissions:
     CONTENT_CATEGORY: 'Permisos do Contido'
     PERMISSIONS_CATEGORY: 'Roles e permisos de acceso'
@@ -251,15 +241,15 @@ gl_ES:
     HASBEENSETUP: 'A redirector page has been set up without anywhere to redirect to.'
     HEADER: 'Esta páxina redirixirá os usuarios a outra páxina'
     OTHERURL: 'Outra URL do sitio web'
+    PLURALNAME: 'Redirector Pags'
     REDIRECTTO: 'Redirixir a'
     REDIRECTTOEXTERNAL: 'Outro sitio web'
     REDIRECTTOPAGE: 'Unha páxina no teu sitio web'
+    SINGULARNAME: 'Redirector Page'
     YOURPAGE: 'Páxina no teu sitio web'
-  RelationFieldsTestPage:
-    DESCRIPTION: 'Páxina de contido xenérico'
-    FILTER: Filtro
   ReportAdmin:
     MENUTITLE: Informes
+    ReportTitle: Title
   ReportAdminForm:
     FILTERBY: 'Filtrar por'
   SearchForm:
@@ -288,6 +278,8 @@ gl_ES:
     EDITHEADER: 'Quen pode editar neste sitio?'
     EDIT_PERMISSION: 'Xestionar a configuración do sitio'
     EDIT_PERMISSION_HELP: 'Ability to edit global access settings/top-level page permissions.'
+    PLURALNAME: 'Site Configs'
+    SINGULARNAME: 'Site Config'
     SITENAMEDEFAULT: 'O nome do teu Sitio'
     SITETAGLINE: 'Eslogan do sitio'
     SITETITLE: 'Título do Sitio'
@@ -311,7 +303,6 @@ gl_ES:
     BUTTONSAVEPUBLISH: 'Gardar e Publicar'
     BUTTONUNPUBLISH: 'Sen publicar'
     BUTTONUNPUBLISHDESC: 'Eliminar esta páxina do sitio publicado'
-    Back: Atrás
     CREATED: 'Data de Creación'
     Comments: Comentarios
     Content: Contido
@@ -324,7 +315,7 @@ gl_ES:
     DELETEDPAGEHELP: 'Page is no longer published'
     DELETEDPAGESHORT: Eliminado
     DEPENDENT_NOTE: 'The following pages depend on this page. This includes virtual pages, redirector pages, and pages with content links.'
-    DESCRIPTION: 'Generic content page'
+    DESCRIPTION: 'Páxina de contido xenérico'
     DependtPageColumnLinkType: 'Tipo de ligazón'
     DependtPageColumnURL: URL
     EDITANYONE: 'Ningún pode iniciar sesión no CMS'
@@ -347,6 +338,7 @@ gl_ES:
     MODIFIEDONDRAFTHELP: 'Page has unpublished changes'
     MODIFIEDONDRAFTSHORT: Modificado
     MetadataToggle: Metadata
+    OBSOLETECLASS: 'This page is of obsolete type {type}. Saving will reset it''s type and you may lose data'
     PAGELOCATION: 'Localización da páxina'
     PAGETITLE: 'Nome da páxina'
     PAGETYPE: 'Tipo de Páxina'
@@ -356,7 +348,7 @@ gl_ES:
     PARENTTYPE_SUBPAGE: 'Sub-page underneath a parent page'
     PERMISSION_GRANTACCESS_DESCRIPTION: 'Xestionar dereitos de acceso para o contido'
     PERMISSION_GRANTACCESS_HELP: 'Allow setting of page-specific access restrictions in the "Pages" section.'
-    PLURALNAME: 'Árbore do Sitio'
+    PLURALNAME: Pages
     PageTypNotAllowedOnRoot: 'Page type "{type}" is not allowed on the root level'
     PageTypeNotAllowed: 'Page type "{type}" not allowed as child of this parent page'
     REMOVEDFROMDRAFTHELP: 'Page is published, but has been deleted from draft'
@@ -366,7 +358,7 @@ gl_ES:
     REORGANISE_HELP: 'Reorganizar as páxinas na árbore do sitio a través de arrastrar e soltar.'
     SHOWINMENUS: 'Amosar nos menús?'
     SHOWINSEARCH: 'Amosar na busca?'
-    SINGULARNAME: 'Árbore do Sitio'
+    SINGULARNAME: Page
     TABBEHAVIOUR: Comportamento
     TABCONTENT: 'Contido Principal'
     TABDEPENDENT: 'Páxinas dependentes'
@@ -392,12 +384,23 @@ gl_ES:
     NAME: 'Exportar estáticos'
   TableListField:
     SELECT: 'Seleccionar:'
-  TestFileUploadPage:
-    DESCRIPTION: 'Páxina de contido xenérico'
-  TestPage:
-    DESCRIPTION: 'Páxina de contido xenérico'
+  TableListField.ss:
+    NOITEMSFOUND: 'No items found'
+    SORTASC: 'Ordear ascendentemente'
+    SORTDESC: 'Ordear descendentemente'
+  TableListField_PageControls.ss:
+    DISPLAYING: Displaying
+    OF: of
+    TO: to
+    VIEWFIRST: 'Ver primeiro'
+    VIEWLAST: 'Ver último'
+    VIEWNEXT: 'Ver seguinte'
+    VIEWPREVIOUS: 'Ver anterior'
   TreeTools:
     DisplayLabel: 'Visualizar:'
+  ViewArchivedEmail.ss:
+    CANACCESS: 'Podes acceder ao sitio arquivado nesta ligazón:'
+    HAVEASKED: 'Solicitaches ver o contido do sitio sobre'
   VirtualPage:
     CHOOSE: 'Escoller a páxina para ligar a'
     DESCRIPTION: 'Visualizar o contido doutra páxina'
@@ -406,5 +409,3 @@ gl_ES:
     PLURALNAME: 'Páxs Virtuais'
     PageTypNotAllowedOnRoot: 'Original page type "{type}" is not allowed on the root level for this virtual page'
     SINGULARNAME: 'Páxina Virtual'
-  cms:
-    FILESYSTEMSYNC: 'Sincronizar ficheiros'

@@ -1,5 +1,7 @@
 sl:
   AssetAdmin:
+    ADDFILES: 'Add files'
+    EditOrgMenu: 'Edit &amp; organize'
     NEWFOLDER: 'Nova mapa'
   AssetTableField:
     CREATED: 'Naloženo na začetku'
@@ -19,10 +21,11 @@ sl:
     EDITALL: 'Edit all'
     EDITANDORGANIZE: 'Edit & organize'
     EDITINFO: 'Edit files'
-    FILES: Files
+    FILES: Datoteke
     FROMCOMPUTER: 'Choose files from your computer'
     FROMCOMPUTERINFO: 'Upload from your computer'
     TOTAL: Total
+    TOUPLOAD: 'Choose files to upload...'
     UPLOADINPROGRESS: 'Please wait… upload in progress'
     UPLOADOR: OR
   BBCodeParser:
@@ -50,16 +53,19 @@ sl:
     UNORDERED: 'Neurejen seznam'
     UNORDEREDDESCRIPTION: 'Neurejen seznam'
     UNORDEREDEXAMPLE1: 'alineja na neurejenem seznamu'
+  BackLink_Button.ss:
+    Back: Back
   BasicAuth:
     ENTERINFO: 'Vpišite uporabniško ime in geslo.'
     ERRORNOTADMIN: 'Uporabnik ni administrator tega spletnega mesta.'
     ERRORNOTREC: 'Ne prepoznam uporabniškega imena ali gesla'
   Boolean:
-    0: Ne
+    0: 'False'
     ANY: Katerikoli
-    Hello: Hi
-    LOGOUT: 'Log out'
-    1: Da
+    1: 'True'
+  CMSLoadingScreen.ss:
+    LOADING: Loading...
+    REQUIREJS: 'The CMS requires that you have JavaScript enabled.'
   CMSMain:
     ACCESS: 'Access to ''{title}'' section'
     ACCESSALLINTERFACES: 'Dostop do vseh sklopov CMS'
@@ -67,13 +73,27 @@ sl:
     SAVE: Shrani
   CMSProfileController:
     MENUTITLE: CMSProfileController
+  ChangePasswordEmail.ss:
+    CHANGEPASSWORDTEXT1: 'Geslo ste spremenili v'
+    CHANGEPASSWORDTEXT2: 'Za prijavo lahko odslej uporabite naslednje podatke:'
+    EMAIL: E-naslov
+    HELLO: 'Pozdravljeni,'
+    PASSWORD: Geslo
   CheckboxField:
-    - Ne
-    - Da
+    - 'False'
+    - 'True'
   ComplexTableField:
     CLOSEPOPUP: 'Zapri okno'
     SUCCESSADD2: 'Added {name}'
     SUCCESSEDIT: 'Shranjeno: %s %s %s'
+  ComplexTableField.ss:
+    ADDITEM: 'Add %s'
+    NOITEMSFOUND: 'No items found'
+    SORTASC: 'Razvrsti naraščajoče'
+    SORTDESC: 'Razvrsti padajoče'
+  ComplexTableField_popup.ss:
+    NEXT: Naprej
+    PREVIOUS: Nazaj
   ConfirmedPasswordField:
     ATLEAST: 'Passwords must be at least {min} characters long.'
     BETWEEN: 'Passwords must be {min} to {max} characters long.'
@@ -110,11 +130,10 @@ sl:
     VALIDDATEFORMAT2: 'Please enter a valid date format ({format})'
     VALIDDATEMAXDATE: 'Your date has to be older or matching the maximum allowed date ({date})'
     VALIDDATEMINDATE: 'Your date has to be newer or matching the minimum allowed date ({date})'
+  DatetimeField:
+    NOTSET: 'Not set'
   Director:
-    ADD: Dodaj
-    CSVEXPORT: 'Export to CSV'
     INVALID_REQUEST: 'Invalid request'
-    NOTFOUND: 'No items found'
   DropdownField:
     CHOOSE: (Izberi)
   EmailField:
@@ -124,21 +143,38 @@ sl:
     SINGULARNAME: 'Zavrnjeno e-sporočilo'
   Enum:
     ANY: Katerikoli
-    LOADING: Loading...
-    REQUIREJS: 'The CMS requires that you have JavaScript enabled.'
   File:
+    AviType: 'AVI video file'
     Content: Vsebina
+    CssType: 'CSS file'
+    DmgType: 'Apple disk image'
+    DocType: 'Word document'
     Filename: 'Ime datoteke'
+    GifType: 'GIF image - good for diagrams'
+    GzType: 'GZIP compressed file'
+    HtlType: 'HTML file'
+    HtmlType: 'HTML file'
     INVALIDEXTENSION: 'Extension is not allowed (valid: {extensions})'
     INVALIDEXTENSIONSHORT: 'Extension is not allowed'
+    IcoType: 'Icon image'
+    JpgType: 'JPEG image - good for photos'
+    JsType: 'Javascript file'
+    Mp3Type: 'MP3 audio file'
+    MpgType: 'MPEG video file'
     NOFILESIZE: 'Velikost datoteke je 0 bajtov.'
     NOVALIDUPLOAD: 'Datoteke ni možno naložiti.'
     Name: Ime
     PLURALNAME: Datoteke
+    PdfType: 'Adobe Acrobat PDF file'
+    PngType: 'PNG image - good general-purpose format'
     SINGULARNAME: Datoteka
     TOOLARGE: 'Filesize is too large, maximum {size} allowed'
     TOOLARGESHORT: 'Filesize exceeds {size}'
+    TiffType: 'Tagged image format'
     Title: Naslov
+    WavType: 'WAV audo file'
+    XlsType: 'Excel spreadsheet'
+    ZipType: 'ZIP compressed file'
   FileIFrameField:
     ATTACH: 'Attach {type}'
     ATTACHONCESAVED: '{type}s can be attached once you have saved the record for the first time.'
@@ -150,13 +186,21 @@ sl:
     FROMFILESTORE: 'Iz knjižnice datotek'
     NOSOURCE: 'Izberite datoteko, ki jo boste pripeli.'
     REPLACE: 'Replace {type}'
+  FileIFrameField_iframe.ss:
+    TITLE: 'Image Uploading Iframe'
   Filesystem:
-    IMPORT_TAB_HEADER: Import
-    SEARCHLISTINGS: Search
     SYNCRESULTS: 'Sync complete: {createdcount} items created, {deletedcount} items deleted'
+  Folder:
+    PLURALNAME: Folders
+    SINGULARNAME: Folder
+  ForgotPasswordEmail.ss:
+    HELLO: 'Pozdravljeni,'
+    TEXT1: 'Tukaj je vaša'
+    TEXT2: 'povezava za ponastavitev gesla'
+    TEXT3: za
   Form:
     FIELDISREQUIRED: 'Vpišite %s (obvezen podatek).'
-    TITLE: 'Image Uploading Iframe'
+    SubmitBtnLabel: Go
     VALIDATIONCREDITNUMBER: 'Please ensure you have entered the {number} credit card number correctly'
     VALIDATIONNOTUNIQUE: 'Vpisana vrednost ni unikatna'
     VALIDATIONPASSWORDSDONTMATCH: 'Vpisani gesli se ne ujemata'
@@ -187,37 +231,29 @@ sl:
     ResetFilter: Reset
   GridFieldAction_Delete:
     DeletePermissionsFailure: 'No delete permissions'
-    NEXT: Naprej
-    PREVIOUS: Nazaj
   GridFieldDetailForm:
+    CancelBtn: Cancel
     Create: Create
-    Delete: Delete
+    Delete: Izbriši
     DeletePermissionsFailure: 'No delete permissions'
     Deleted: 'Deleted %s %s'
-    HELLO: 'Pozdravljeni,'
     Save: Save
     Saved: 'Saved %s %s'
-    TEXT1: 'Tukaj je vaša'
-    TEXT2: 'povezava za ponastavitev gesla'
-    TEXT3: za
+  GridFieldItemEditView.ss: null
   Group:
     AddRole: 'Add a role for this group'
-    CHANGEPASSWORDTEXT1: 'Geslo ste spremenili v'
-    CHANGEPASSWORDTEXT2: 'Za prijavo lahko odslej uporabite naslednje podatke:'
     Code: 'Koda skupine'
     DefaultGroupTitleAdministrators: Administratorji
     DefaultGroupTitleContentAuthors: 'Avtorji vsebine'
     Description: Opis
-    EMAIL: E-naslov
     GroupReminder: 'If you choose a parent group, this group will take all it''s roles'
-    HELLO: 'Pozdravljeni,'
     Locked: 'Zaklenjeno za urejanje?'
     NoRoles: 'No roles found'
-    PASSWORD: Geslo
+    PLURALNAME: Groups
     Parent: 'Nadrejena skupina'
     RolesAddEditLink: 'Dodaj in uredi vloge'
+    SINGULARNAME: Group
     Sort: 'Način razvrščanja'
-    TITLE: 'Slika "uploading iframe"'
     has_many_Permissions: Dovoljenja
     many_many_Members: Uporabniki
   GroupImportForm:
@@ -273,12 +309,17 @@ sl:
     URL: URL
     URLNOTANOEMBEDRESOURCE: 'The URL ''{url}'' could not be turned into a media resource.'
     UpdateMEDIA: 'Update Media'
+  Image:
+    PLURALNAME: Files
+    SINGULARNAME: File
   ImageField:
     IMAGE: Slika
-  Image_iframe.ss: 'ChangePasswordEmail.ss:  BackLink_Button.ss:  CMSLoadingScreen.ss:  RelationComplexTableField.ss:  ForgotPasswordEmail.ss:    APPLY FILTER: "Apply Filter"  GridFieldItemEditView.ss:    Go back: "Go back"  ModelSidebar.ss:  TableListField_PageControls.ss:  ModelAdmin_Tools.ss:  ComplexTableField_popup.ss:  TableField.ss:  FileIFrameField_iframe.ss:  ComplexTableField.ss:  TableListField.ss:  ModelAdmin_ImportSpec.ss:  LeftAndMain_Menu.ss:'
+  Image_Cached:
+    PLURALNAME: Files
+    SINGULARNAME: File
+  Image_iframe.ss:
+    TITLE: 'Slika "uploading iframe"'
   LeftAndMain:
-    ADD: 'Dodaj vrstico'
-    ADDITEM: 'Add %s'
     CANT_REORGANISE: 'You do not have permission to alter Top level pages. Your change was not saved.'
     DELETED: Deleted.
     DropdownBatchActionsDefault: Actions
@@ -292,9 +333,14 @@ sl:
     REORGANISATIONSUCCESSFUL: 'Reorganised the site tree successfully.'
     SAVEDUP: Saved.
     VersionUnknown: unknown
+  LeftAndMain_Menu.ss:
+    Hello: Hi
+    LOGOUT: 'Log out'
   LoginAttempt:
     Email: E-naslov
     IP: IP-naslov
+    PLURALNAME: 'Login Attempts'
+    SINGULARNAME: 'Login Attempt'
     Status: Stanje
   Member:
     ADDGROUP: 'Add group'
@@ -304,6 +350,7 @@ sl:
     BUTTONLOSTPASSWORD: 'Pozabil-a sem geslo'
     CONFIRMNEWPASSWORD: 'Potrdi novo geslo'
     CONFIRMPASSWORD: 'Potrdi geslo'
+    DATEFORMAT: 'Date format'
     DefaultAdminFirstname: 'Privzeti administrator'
     DefaultDateTime: default
     EMAIL: E-naslov
@@ -326,6 +373,7 @@ sl:
     SUBJECTPASSWORDCHANGED: 'Geslo je bilo spremenjeno'
     SUBJECTPASSWORDRESET: 'Povezava za resetiranje vašega gesla'
     SURNAME: Priimek
+    TIMEFORMAT: 'Time format'
     VALIDATIONMEMBEREXISTS: 'Uporabnik s tem %s že obstaja'
     ValidationIdentifierFailed: 'Can''t overwrite existing member #{id} with identical identifier ({name} = {value}))'
     WELCOMEBACK: 'Welcome Back, {firstname}'
@@ -341,6 +389,7 @@ sl:
     TITLE: 'Uporabniški račun'
   MemberDatetimeOptionsetField:
     AMORPM: 'AM (Ante meridiem) or PM (Post meridiem)'
+    'APPLY FILTER': 'Apply Filter'
     Custom: Custom
     DATEFORMATBAD: 'Date format is invalid'
     DAYNOLEADING: 'Day of month without leading zero'
@@ -366,6 +415,9 @@ sl:
     ResultDeleted: 'Število izbrisanih uporabnikov: %d'
     ResultNone: 'Ni sprememb'
     ResultUpdated: 'Updated {count} members'
+  MemberPassword:
+    PLURALNAME: 'Member Passwords'
+    SINGULARNAME: 'Member Password'
   MemberTableField: null
   ModelAdmin:
     DELETE: Izbriši
@@ -377,6 +429,17 @@ sl:
     RESET: Reset
     Title: 'Data Models'
     UPDATEDRECORDS: 'Updated {count} records.'
+  ModelAdmin_ImportSpec.ss:
+    IMPORTSPECFIELDS: 'Database columns'
+    IMPORTSPECLINK: 'Show Specification for %s'
+    IMPORTSPECRELATIONS: Relations
+    IMPORTSPECTITLE: 'Specification for %s'
+  ModelAdmin_Tools.ss:
+    FILTER: Filter
+    IMPORT: Import
+  ModelSidebar.ss:
+    IMPORT_TAB_HEADER: Import
+    SEARCHLISTINGS: Search
   MoneyField:
     FIELDLABELAMOUNT: Znesek
     FIELDLABELCURRENCY: Valuta
@@ -384,25 +447,37 @@ sl:
     IsNullLabel: 'Prazno polje'
   NumericField:
     VALIDATION: '''{value}'' is not a number, only numbers can be accepted for this field'
+  Pagination:
+    Page: Page
+    View: View
   Permission:
     AdminGroup: Administrator
     CMS_ACCESS_CATEGORY: 'Dostop do CMS-vmesnika'
     FULLADMINRIGHTS: 'Popolne administratorske pravice'
     FULLADMINRIGHTS_HELP: 'Lahko izniči oziroma upravlja z vsemi drugimi dovoljenji.'
-    IMPORTSPECFIELDS: 'Database columns'
-    IMPORTSPECLINK: 'Show Specification for %s'
-    IMPORTSPECRELATIONS: Relations
-    IMPORTSPECTITLE: 'Specification for %s'
+    PLURALNAME: Permissions
+    SINGULARNAME: Permission
   PermissionCheckboxSetField:
     AssignedTo: 'assigned to "{title}"'
     FromGroup: 'inherited from group "{title}"'
     FromRole: 'inherited from role "{title}"'
     FromRoleOnGroup: 'podedovano iz vloge "%s" na skupino "%s"'
+  PermissionRole:
+    OnlyAdminCanApply: 'Only admin can apply'
+    PLURALNAME: Roles
+    SINGULARNAME: Role
+    Title: Title
+  PermissionRoleCode:
+    PLURALNAME: 'Permission Role Cods'
+    SINGULARNAME: 'Permission Role Code'
   Permissions:
     PERMISSIONS_CATEGORY: 'Vloge in dovoljenja za dostop'
   PhoneNumberField:
-    Back: Back
     VALIDATION: 'Vpišite veljavno telefonsko številko'
+  RelationComplexTableField.ss:
+    ADD: Dodaj
+    CSVEXPORT: 'Export to CSV'
+    NOTFOUND: 'No items found'
   Security:
     ALREADYLOGGEDIN: 'Nimate dovoljenja za dostop do te strani. Če imate uporabniško ime z večimi pravicami, se lahko <a href="%s">ponovno prijavite</a>.'
     BUTTONSEND: 'Pošlji povezavo za ponastavitev gesla'
@@ -439,31 +514,33 @@ sl:
     BtnImport: Uvozi
     FileFieldLabel: 'CSV-datoteka <small>(Samo končnica: *.csv)</small>'
   SilverStripeNavigator:
-    DISPLAYING: Displaying
     Edit: Edit
-    FILTER: Filter
-    IMPORT: Import
+  SimpleImageField:
+    NOUPLOAD: 'Slika ni naložena'
+  SiteTree:
+    TABMAIN: Domov
+  TableField:
+    ISREQUIRED: 'In %s ''%s'' is required'
+  TableField.ss:
+    ADD: 'Dodaj vrstico'
+    ADDITEM: 'Add %s'
+  TableListField:
+    CSVEXPORT: 'Izvozi kot CSV-datoteko'
+    PRINT: Natisni
+    Print: Print
+    SELECT: 'Izberi:'
+  TableListField.ss:
+    NOITEMSFOUND: 'No items found'
+    SORTASC: 'Razvrsti naraščajoče'
+    SORTDESC: 'Razvrsti padajoče'
+  TableListField_PageControls.ss:
+    DISPLAYING: Displaying
     OF: of
     TO: to
     VIEWFIRST: 'Na začetek'
     VIEWLAST: 'Na konec'
     VIEWNEXT: Naslednja
     VIEWPREVIOUS: Prejšnja
-  SimpleImageField:
-    NOUPLOAD: 'Slika ni naložena'
-  SiteTree:
-    TABMAIN: Domov
-  TableField:
-    ADDITEM: 'Add %s'
-    ISREQUIRED: 'In %s ''%s'' is required'
-    NOITEMSFOUND: 'No items found'
-    SORTASC: 'Razvrsti naraščajoče'
-    SORTDESC: 'Razvrsti padajoče'
-  TableListField:
-    CSVEXPORT: 'Izvozi kot CSV-datoteko'
-    PRINT: Natisni
-    Print: Print
-    SELECT: 'Izberi:'
   TimeField:
     VALIDATEFORMAT: 'Please enter a valid time format ({format})'
   ToggleField:
@@ -485,6 +562,7 @@ sl:
     FROMCOMPUTER: 'From your computer'
     FROMCOMPUTERINFO: 'Select from files'
     FROMFILES: 'From files'
+    HOTLINKINFO: 'Info: This image will be hotlinked. Please ensure you have permissions from the original site creator to do so.'
     MAXNUMBEROFFILES: 'Max number of {count} file(s) exceeded.'
     MAXNUMBEROFFILESSHORT: 'Can only upload {count} files'
     REMOVE: Remove

@@ -36,6 +36,11 @@ class LeftAndMain extends Controller implements PermissionProvider {
 	 * @var string
 	 */
 	static $menu_title;
+
+	/**
+	 * @var string
+	 */
+	static $menu_icon;
 	
 	/**
 	 * @var int
@@ -92,6 +97,14 @@ class LeftAndMain extends Controller implements PermissionProvider {
 	 * See {@link canView()} for more details on permission checks.
 	 */
 	static $required_permission_codes;
+
+	/**
+	 * @var String Namespace for session info, e.g. current record.
+	 * Defaults to the current class name, but can be amended to share a namespace in case
+	 * controllers are logically bundled together, and mainly separated
+	 * to achieve more flexible templating.
+	 */
+	static $session_namespace;
 	
 	/**
 	 * Register additional requirements through the {@link Requirements} class.
@@ -289,6 +302,7 @@ class LeftAndMain extends Controller implements PermissionProvider {
 					FRAMEWORK_ADMIN_DIR . '/javascript/LeftAndMain.Preview.js',
 					FRAMEWORK_ADMIN_DIR . '/javascript/LeftAndMain.BatchActions.js',
 					FRAMEWORK_ADMIN_DIR . '/javascript/LeftAndMain.FieldHelp.js',
+					FRAMEWORK_ADMIN_DIR . '/javascript/LeftAndMain.TreeDropdownField.js',
 				),
 				Requirements::add_i18n_javascript(FRAMEWORK_DIR . '/javascript/lang', true, true),
 				Requirements::add_i18n_javascript(FRAMEWORK_ADMIN_DIR . '/javascript/lang', true, true)
@@ -296,9 +310,9 @@ class LeftAndMain extends Controller implements PermissionProvider {
 		);
 
 		// TODO Confuses jQuery.ondemand through document.write()
-		// if (Director::isDev()) {
-			// Requirements::javascript(THIRDPARTY_DIR . '/jquery-entwine/src/jquery.entwine.inspector.js');
-		// }
+		if (Director::isDev()) {
+			Requirements::javascript(THIRDPARTY_DIR . '/jquery-entwine/src/jquery.entwine.inspector.js');
+		}
 
 		Requirements::css(FRAMEWORK_ADMIN_DIR . '/thirdparty/jquery-notice/jquery.notice.css');
 		Requirements::css(THIRDPARTY_DIR . '/jquery-ui-themes/smoothness/jquery-ui.css');
@@ -336,9 +350,8 @@ class LeftAndMain extends Controller implements PermissionProvider {
 	}
 	
 	function handleRequest(SS_HTTPRequest $request, DataModel $model = null) {
-		$title = $this->Title();
-		
 		$response = parent::handleRequest($request, $model);
+		$title = $this->Title();
 		if(!$response->getHeader('X-Controller')) $response->addHeader('X-Controller', $this->class);
 		if(!$response->getHeader('X-Title')) $response->addHeader('X-Title', $title);
 		
@@ -432,6 +445,22 @@ class LeftAndMain extends Controller implements PermissionProvider {
 		if(!$title) $title = preg_replace('/Admin$/', '', $class);
 		return $title;
 	}
+
+	/**
+	 * Return styling for the menu icon, if a custom icon is set for this class
+	 *
+	 * Example: static $menu-icon = '/path/to/image/';
+	 * @param type $class
+	 * @return string
+	 */
+	static function menu_icon_for_class($class) {
+		$icon = Config::inst()->get($class, 'menu_icon', Config::FIRST_SET);
+		if (!empty($icon)) {
+			$class = strtolower($class);
+			return ".icon.icon-16.icon-{$class} { background: url('{$icon}'); } ";
+		}
+		return '';
+	}
 	
 	public function show($request) {
 		// TODO Necessary for TableListField URLs to work properly
@@ -486,6 +515,10 @@ class LeftAndMain extends Controller implements PermissionProvider {
 			// Encode into DO set
 			$menu = new ArrayList();
 			$menuItems = CMSMenu::get_viewable_menu_items();
+
+			// extra styling for custom menu-icons
+			$menuIconStyling = '';
+
 			if($menuItems) {
 				foreach($menuItems as $code => $menuItem) {
 					// alternate permission checks (in addition to LeftAndMain->canView())
@@ -526,6 +559,14 @@ class LeftAndMain extends Controller implements PermissionProvider {
 					} else {
 						$title = $menuItem->title;
 					}
+
+					// Provide styling for custom $menu-icon. Done here instead of in
+					// CMSMenu::populate_menu(), because the icon is part of
+					// the CMS right pane for the specified class as well...
+					if($menuItem->controller) {
+						$menuIcon = LeftAndMain::menu_icon_for_class($menuItem->controller);
+						if (!empty($menuIcon)) $menuIconStyling .= $menuIcon;
+					}
 					
 					$menu->push(new ArrayData(array(
 						"MenuItem" => $menuItem,
@@ -536,6 +577,7 @@ class LeftAndMain extends Controller implements PermissionProvider {
 					)));
 				}
 			}
+			if ($menuIconStyling) Requirements::customCSS($menuIconStyling);
 
 			$this->_cache_MainMenu = $menu;
 		}
@@ -754,9 +796,9 @@ class LeftAndMain extends Controller implements PermissionProvider {
 			$next = $prev = null;
 
 			$className = $this->stat('tree_class');
-			$next = DataObject::get($className, 'ParentID = '.$record->ParentID.' AND Sort > '.$record->Sort)->first();
+			$next = DataObject::get($className)->filter('ParentID', $record->ParentID)->filter('Sort:GreaterThan', $record->Sort)->first();
 			if (!$next) {
-				$prev = DataObject::get($className, 'ParentID = '.$record->ParentID.' AND Sort < '.$record->Sort)->reverse()->first();
+				$prev = DataObject::get($className)->filter('ParentID', $record->ParentID)->filter('Sort:LessThan', $record->Sort)->reverse()->first();
 			}
 
 			$link = Controller::join_links($recordController->Link("show"), $record->ID);
@@ -1165,7 +1207,7 @@ class LeftAndMain extends Controller implements PermissionProvider {
 			),
 			new FieldList(
 				// TODO i18n
-				new FormAction('submit', "Go")
+				new FormAction('submit', _t('Form.SubmitBtnLabel', "Go"))
 			)
 		);
 		$form->addExtraClass('cms-batch-actions nostyle');
@@ -1218,8 +1260,8 @@ class LeftAndMain extends Controller implements PermissionProvider {
 			return $this->request->requestVar('ID');
 		} elseif (isset($this->urlParams['ID']) && is_numeric($this->urlParams['ID'])) {
 			return $this->urlParams['ID'];
-		} elseif(Session::get("{$this->class}.currentPage")) {
-			return Session::get("{$this->class}.currentPage");
+		} elseif(Session::get($this->sessionNamespace() . ".currentPage")) {
+			return Session::get($this->sessionNamespace() . ".currentPage");
 		} else {
 			return null;
 		}
@@ -1234,7 +1276,7 @@ class LeftAndMain extends Controller implements PermissionProvider {
 	 * @param int $id
 	 */
 	public function setCurrentPageID($id) {
-		Session::set("{$this->class}.currentPage", $id);
+		Session::set($this->sessionNamespace() . ".currentPage", $id);
 	}
 
 	/**
@@ -1257,6 +1299,14 @@ class LeftAndMain extends Controller implements PermissionProvider {
 		return ($record->ID == $this->currentPageID());
 	}
 	
+	/**
+	 * @return String
+	 */
+	protected function sessionNamespace() {
+		$override = $this->stat('session_namespace');
+		return $override ? $override : $this->class;
+	}
+
 	/**
 	 * URL to a previewable record which is shown through this controller.
 	 * The controller might not have any previewable content, in which case 
@@ -1342,8 +1392,10 @@ class LeftAndMain extends Controller implements PermissionProvider {
 	 * @return string
 	 */
 	function SectionTitle() {
-		if($title = $this->stat('menu_title')) return $title;
-		
+		$class = get_class($this);
+		$defaultTitle = LeftAndMain::menu_title_for_class($class);
+		if($title = _t("{$class}.MENUTITLE", $defaultTitle)) return $title;
+
 		foreach($this->MainMenu() as $menuItem) {
 			if($menuItem->LinkingMode != 'link') return $menuItem->Title;
 		}

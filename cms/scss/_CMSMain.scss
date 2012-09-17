@@ -68,9 +68,6 @@
 		.cms-tree-expand-trigger {
 			display: inline-block;
 			margin:0 0 2px 0;
-			position:absolute;
-			top:8px;
-			right:4px;
 			span.ui-button-text{
 					padding-right:8px;
 			}
@@ -96,12 +93,8 @@
  * ----------------------------------------------------------------- */
 .field.urlsegment {
 
-	&.disabled {
-		color: #444;
-		padding-left: 0px;
-		margin-left: 0px;
-		background: none;
-		border-color: transparent;
+	&.loading {
+		background: url(../images/loading.gif) no-repeat 162px 8px;
 	}
 
 	.prefix,

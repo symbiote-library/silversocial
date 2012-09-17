@@ -5,6 +5,7 @@ tr:
     ActionAdd: 'Add folder'
     AppCategoryArchive: Archive
     AppCategoryAudio: Audio
+    AppCategoryDocument: Document
     AppCategoryFlash: Flash
     AppCategoryImage: Image
     AppCategoryVideo: Video
@@ -13,6 +14,7 @@ tr:
     CurrentFolderOnly: 'Limit to current folder?'
     DetailsView: Details
     FILES: Files
+    FILESYSTEMSYNC: 'Sync files'
     FILESYSTEMSYNCTITLE: 'Update the CMS database entries of files on the filesystem. Useful when new files have been uploaded outside of the CMS, e.g. through FTP.'
     FROMTHEINTERNET: 'From the internet'
     FROMYOURCOMPUTER: 'From your computer'
@@ -26,13 +28,15 @@ tr:
     Upload: Upload
   AssetAdmin_DeleteBatchAction:
     TITLE: 'Klasörleri sil'
+  AssetAdmin_Tools:
+    FILTER: Filter
+  AssetAdmin_left.ss:
+    GO: Git
   AssetTableField:
     BACKLINKCOUNT: 'Used on:'
     PAGES: page(s)
-  BasicFieldsTestPage:
-    DESCRIPTION: 'Generic content page'
-  BigFamilyPage:
-    DESCRIPTION: 'Generic content page'
+  BackLink_Button.ss:
+    Back: Back
   BrokenLinksReport:
     Any: Any
     BROKENLINKS: 'Broken links report'
@@ -47,7 +51,6 @@ tr:
     HasBrokenLink: 'has broken link'
     HasBrokenLinkAndFile: 'has broken link and file'
     HoverTitleEditPage: 'Edit page'
-    NOITEMSFOUND: 'No items found'
     PageName: 'Page name'
     ReasonDropdown: 'Problem to check'
     ReasonDropdownBROKENFILE: 'Broken file'
@@ -55,8 +58,6 @@ tr:
     ReasonDropdownRPBROKENLINK: 'Redirector page pointing to non-existent page'
     ReasonDropdownVPBROKENLINK: 'Virtual page pointing to non-existent page'
     RedirectorNonExistent: 'redirector page pointing to non-existent page'
-    SORTASC: 'Artan olarak sırala'
-    SORTDESC: 'Azalan olarak sırala'
     VirtualPageNonExistent: 'virtual page pointing to non-existent page'
   CMSAddPageController:
     Title: 'Add page'
@@ -70,8 +71,6 @@ tr:
     UNPUBLISHED_PAGES: 'Un-published %d pages'
     UNPUBLISH_PAGES: 'Yayından kaldır'
   CMSFileAddController:
-    CANACCESS: 'Arşivdeki siteye şu bağlantıdan erişebilirsiniz:'
-    HAVEASKED: 'Şu tarihe kadar olan site içeriğini görüntülemek istediniz:'
     MENUTITLE: Dosyalar
   CMSMain:
     ACCESS: 'Access to ''{title}'' section'
@@ -88,7 +87,7 @@ tr:
     EditTree: 'Edit Tree'
     ListFiltered: 'Filtered list.'
     MENUTITLE: 'Edit Page'
-    NEW: Yeni
+    NEWPAGE: 'New {pagetype}'
     PAGENOTEXISTS: 'Sayfa bulunamadı'
     PAGES: Pages
     PAGETYPEANYOPT: Any
@@ -113,6 +112,9 @@ tr:
     TabSettings: Settings
     TreeFiltered: 'Filtered tree.'
     TreeFilteredClear: 'Clear filter'
+  CMSMain_left.ss:
+    'APPLY FILTER': 'Filteri Uygula'
+    RESET: Sıfırla
   CMSPageAddController:
     MENUTITLE: 'Add page'
     ParentMode_child: 'Under another page'
@@ -120,16 +122,21 @@ tr:
   CMSPageEditController:
     MENUTITLE: 'Edit Page'
   CMSPageHistoryController:
-    COMPAREMODE: 'Compare mode (select two)'
+    COMPAREMODE: 'Kıyaslama modu (iki tane seçiniz)'
     COMPAREVERSIONS: 'Versiyonları karşılaştır'
     COMPARINGVERSION: 'Comparing versions {version1} and {version2}.'
     MENUTITLE: Geçmiş
-    REVERTTOTHISVERSION: 'Revert to this version'
-    SHOWUNPUBLISHED: 'Show unpublished versions'
-    SHOWVERSION: 'Show Version'
-    VIEW: view
+    REVERTTOTHISVERSION: 'Bu versiyona düşür'
+    SHOWUNPUBLISHED: 'Yayınlanmamış versiyonları göster'
+    SHOWVERSION: 'Versiyonu Göster'
+    VIEW: 'Göz at'
     VIEWINGVERSION: 'Currently viewing version {version}.'
-  CMSPageHistoryController_versions.ss: 'BackLink_Button.ss:  AssetAdmin_Tools.ss:  TableListField.ss:  CMSPagesController_Tools.ss:  CMSPagesController_ContentToolbar.ss:  AssetAdmin_left.ss:  TableListField_PageControls.ss:  ViewArchivedEmail.ss:  CMSMain_left.ss:    APPLY FILTER: "Filteri Uygula"'
+  CMSPageHistoryController_versions.ss:
+    AUTHOR: Yazar
+    NOTPUBLISHED: Yayınlanmamış
+    PUBLISHER: Yayınlayan
+    UNKNOWN: Bilinmeyen
+    WHEN: 'Ne zaman'
   CMSPageSettingsController:
     MENUTITLE: 'Sayfayı düzenle'
   CMSPagesController:
@@ -137,56 +144,45 @@ tr:
     ListView: 'Liste Görünümü'
     MENUTITLE: Sayfalar
     TreeView: 'Ağaç Görünümü'
+  CMSPagesController_ContentToolbar.ss:
+    ENABLEDRAGGING: 'Drag''n''drop'
+    MULTISELECT: Multi-selection
+  CMSPagesController_Tools.ss:
+    FILTER: Filter
   CMSSearch:
     FILTERDATEFROM: Kimden
     FILTERDATEHEADING: Tarih
     FILTERDATETO: Kime
     FILTERLABELTEXT: İçerik
   CMSSettingsController:
-    AUTHOR: Yazar
     MENUTITLE: Ayarlar
-    NOTPUBLISHED: Yayınlanmamış
-    PUBLISHER: Yayınlayan
-    UNKNOWN: Bilinmeyen
-    WHEN: 'Ne zaman'
   CMSSiteTreeFilter_ChangedPages:
-    DISPLAYING: Displaying
-    ENABLEDRAGGING: 'Drag''n''drop'
-    GO: Git
-    MULTISELECT: Multi-selection
-    OF: of
-    TO: to
     Title: 'Changed pages'
-    VIEWFIRST: 'Birinciyi görüntüle'
-    VIEWLAST: 'Sonuncuyu görüntüle'
-    VIEWNEXT: 'Sonrakini görüntüle'
-    VIEWPREVIOUS: 'Öncekini görüntüle'
   CMSSiteTreeFilter_DeletedPages:
-    Title: 'All pages, including deleted'
+    Title: 'Silinmişler dahil bütün sayfalar'
   CMSSiteTreeFilter_Search:
     Title: 'Tüm sayfalar'
-  CaseStudy:
-    DESCRIPTION: 'Case study page to fature work examples'
   ContentControl:
-    NOTEWONTBESHOWN: 'Note: this message will not be shown to your visitors'
+    NOTEWONTBESHOWN: 'Not: Bu mesaj ziyaretçilerinize gösterilmeyecektir.'
   ContentController:
-    ARCHIVEDSITE: 'Archived Site'
+    ARCHIVEDSITE: 'Preview version'
     ARCHIVEDSITEFROM: 'Archived site from'
     CMS: CMS
     DRAFTSITE: 'Draft Site'
     DRAFT_SITE_ACCESS_RESTRICTION: 'Taslak veya arşivlenmiş içeriği görebilmek için CMS şifrenizle giriş yapmış olmanız gerekmektedir. <a href="%s">Yayınlanmış siteye geri dönmek için buraya tıklayın.</a>'
     Email: Email
+    INSTALL_SUCCESS: 'Installation Successful!'
     InstallFilesDeleted: 'Installation files have been successfully deleted.'
     InstallSecurityWarning: 'For security reasons you should now delete the install files, unless you are planning to reinstall later (<em>requires admin login, see above</em>). The web server also now only needs write access to the "assets" folder, you can remove write access from all other folders. <a href="{link}" style="text-align: center;">Click here to delete the install files.</a>'
-    InstallSuccessCongratulations: 'SilverStripe has been successfully installed.'
+    InstallSuccessCongratulations: 'SilverStripe has been successfully installed!'
     LOGGEDINAS: 'Logged in as'
     LOGIN: Login
     LOGOUT: 'Log out'
     NOTLOGGEDIN: 'Not logged in'
     PUBLISHEDSITE: 'Published Site'
     Password: Password
-    PostInstallTutorialIntro: 'This website is a simplistic version of a SilverStripe 2 site. To extend this, please take a look at {link}.'
-    StartEditing: 'You can start editing your site\\''s content by opening <a href="{link}">the CMS</a>.'
+    PostInstallTutorialIntro: 'This website is a simplistic version of a SilverStripe 3 site. To extend this, please take a look at {link}.'
+    StartEditing: 'You can start editing your site''s content by opening <a href=\\"{link}\\">the CMS</a>.'
     UnableDeleteInstall: 'Unable to delete installation files. Please delete the files below manually'
     VIEWPAGEIN: 'View Page in:'
   ErrorPage:
@@ -197,6 +193,8 @@ tr:
     DEFAULTSERVERERRORPAGETITLE: 'Server error'
     DESCRIPTION: 'Custom content for different error cases (e.g. "Page not found")'
     ERRORFILEPROBLEM: 'Error opening file "{filename}" for writing. Please check file permissions.'
+    PLURALNAME: 'Error Pags'
+    SINGULARNAME: 'Error Page'
     400: '400 - Hatalı İstek'
     401: '401 - Erişim Engellenmiş'
     403: '403 - Yasak'
@@ -221,14 +219,11 @@ tr:
     504: '504 - Arayapı Zaman Aşımı'
     505: '505 - HTTP Versiyonu Desteklenmiyor'
   Folder:
-    AddFolderButton: 'Add folder'
+    AddFolderButton: 'Klasör ekle'
     DELETEUNUSEDTHUMBNAILS: 'Kullanılmamış thumbnail leri sil'
     UNUSEDFILESTITLE: 'Kullanılmamış dosyalar'
     UNUSEDTHUMBNAILSTITLE: 'Kullanılmamış thumbnail ler'
-    UploadFilesButton: Upload
-  GridFieldTestPage:
-    DESCRIPTION: 'Generic content page'
-    FILTER: Filter
+    UploadFilesButton: Yükle
   LeftAndMain:
     DELETED: Deleted.
     PreviewButton: Önizleme
@@ -236,30 +231,25 @@ tr:
     STATUSPUBLISHEDSUCCESS: 'Published ''{title}'' successfully'
     SearchResults: 'Arama Sonuçları'
     VersionUnknown: Bilinmeyen
-  LegacyTableFieldsTestPage:
-    DESCRIPTION: 'Generic content page'
-  Page:
-    DESCRIPTION: 'Generic content page'
   Permission:
     CMS_ACCESS_CATEGORY: 'CMS Erişimi'
-    RESET: Sıfırla
   Permissions:
     CONTENT_CATEGORY: 'Content permissions'
     PERMISSIONS_CATEGORY: 'Roles and access permissions'
   RedirectorPage:
-    DESCRIPTION: 'Redirects to a different internal page'
+    DESCRIPTION: 'Başka iç sayfaya yönlendir'
     HASBEENSETUP: 'Yönlendirilecek yeri olmayan bir yönlendirme sayfası ayarlandı.'
     HEADER: 'Bu sayfa, kullanıcıları başka bir sayfaya yönlendirir'
     OTHERURL: 'Başka bir siteye ait URL'
+    PLURALNAME: 'Redirector Pags'
     REDIRECTTO: 'Şuraya yönlendir'
     REDIRECTTOEXTERNAL: 'Başka bir site'
     REDIRECTTOPAGE: 'Web sitenizdeki bir sayfa'
+    SINGULARNAME: 'Redirector Page'
     YOURPAGE: 'Web sitenizdeki bir sayfa'
-  RelationFieldsTestPage:
-    DESCRIPTION: 'Generic content page'
-    FILTER: Filter
   ReportAdmin:
     MENUTITLE: Raporlar
+    ReportTitle: Title
   ReportAdminForm:
     FILTERBY: 'Filter by'
   SearchForm:
@@ -279,15 +269,17 @@ tr:
     ParameterLiveCheckbox: 'Yayındaki siteyi kontrol et'
     REPEMPTY: 'The {title} report is empty.'
   SilverStripeNavigatorLink:
-    ShareInstructions: 'To share a this to this page, copy and paste the link below.'
-    ShareLink: 'Share link'
+    ShareInstructions: 'Bu sayfayı paylaşmak için, aşağıdaki linki kopyalayıp yapıştırınız.'
+    ShareLink: 'Linki paylaş'
   SilverStripeNavigatorLinkl:
-    CloseLink: Close
+    CloseLink: Kapat
   SiteConfig:
     DEFAULTTHEME: '(Use default theme)'
     EDITHEADER: 'Who can edit pages on this site?'
     EDIT_PERMISSION: 'Manage site configuration'
     EDIT_PERMISSION_HELP: 'Ability to edit global access settings/top-level page permissions.'
+    PLURALNAME: 'Site Configs'
+    SINGULARNAME: 'Site Config'
     SITENAMEDEFAULT: 'Your Site Name'
     SITETAGLINE: 'Site Tagline/Slogan'
     SITETITLE: 'Site title'
@@ -311,8 +303,7 @@ tr:
     BUTTONSAVEPUBLISH: 'Kaydet ve Yayınla'
     BUTTONUNPUBLISH: 'Yayından kaldır'
     BUTTONUNPUBLISHDESC: 'Bu sayfayı yayından kaldır'
-    Back: Back
-    CREATED: 'Date Created'
+    CREATED: 'Oluşturulma Tarihi'
     Comments: Yorumlar
     Content: İçerik
     DEFAULTABOUTCONTENT: '<p>Bu sayfayı kendi içeriğinizle doldurabilir, ya da bu sayfayı silip kendi sayfalarınızı oluşturabilirsiniz.<br /></p>'
@@ -325,7 +316,7 @@ tr:
     DELETEDPAGESHORT: Deleted
     DEPENDENT_NOTE: 'The following pages depend on this page. This includes virtual pages, redirector pages, and pages with content links.'
     DESCRIPTION: 'Generic content page'
-    DependtPageColumnLinkType: 'Link type'
+    DependtPageColumnLinkType: 'Link tipi'
     DependtPageColumnURL: URL
     EDITANYONE: 'CMS''e giriş yapabilen herkes'
     EDITHEADER: 'Bu sayfayı kimler düzenleyebilir?'
@@ -337,7 +328,7 @@ tr:
     HASBROKENLINKS: 'Bu sayfada hatalı linkler var.'
     HTMLEDITORTITLE: İçerik
     INHERIT: 'Üst sayfadan kalan'
-    LASTUPDATED: 'Last Updated'
+    LASTUPDATED: 'Son Güncellenen'
     LINKCHANGENOTE: 'Changing this page''s link will also affect the links of all child pages.'
     MENUTITLE: 'Navigasyon etiketi'
     METADESC: Tanım
@@ -345,28 +336,29 @@ tr:
     METAKEYWORDS: 'Anahtar kelimeler'
     METATITLE: Başlık
     MODIFIEDONDRAFTHELP: 'Page has unpublished changes'
-    MODIFIEDONDRAFTSHORT: Modified
+    MODIFIEDONDRAFTSHORT: Değiştirilmiş
     MetadataToggle: Metadata
-    PAGELOCATION: 'Page location'
+    OBSOLETECLASS: 'This page is of obsolete type {type}. Saving will reset it''s type and you may lose data'
+    PAGELOCATION: 'Sayfa yeri'
     PAGETITLE: 'Sayfa ismi'
     PAGETYPE: 'Sayfa tipi'
     PARENTID: 'Ana sayfa'
     PARENTTYPE: 'Sayfa konumu'
-    PARENTTYPE_ROOT: 'Top-level page'
+    PARENTTYPE_ROOT: 'Üst seviye sayfa'
     PARENTTYPE_SUBPAGE: 'Sub-page underneath a parent page'
     PERMISSION_GRANTACCESS_DESCRIPTION: 'Grupların işlem ve düzenlemelerinin kontrolü'
     PERMISSION_GRANTACCESS_HELP: 'Allow setting of page-specific access restrictions in the "Pages" section.'
-    PLURALNAME: 'Site Ağaçları'
+    PLURALNAME: Pages
     PageTypNotAllowedOnRoot: 'Page type "{type}" is not allowed on the root level'
     PageTypeNotAllowed: 'Page type "{type}" not allowed as child of this parent page'
     REMOVEDFROMDRAFTHELP: 'Page is published, but has been deleted from draft'
     REMOVEDFROMDRAFTSHORT: 'Removed from draft'
     REMOVE_INSTALL_WARNING: 'Warning: You should remove install.php from this SilverStripe install for security reasons.'
-    REORGANISE_DESCRIPTION: 'Change site structure'
-    REORGANISE_HELP: 'Rearrange pages in the site tree through drag&drop.'
+    REORGANISE_DESCRIPTION: 'Site yapısını değiştir'
+    REORGANISE_HELP: 'Site ağacının sürükle&bırak şeklinde tekrardan düzenle'
     SHOWINMENUS: 'Menülerde gösterilsin mi?'
     SHOWINSEARCH: 'Aramalarda gösterilsin mi?'
-    SINGULARNAME: 'Site Ağacı'
+    SINGULARNAME: Page
     TABBEHAVIOUR: Davranış
     TABCONTENT: İçerik
     TABDEPENDENT: 'Dependent pages'
@@ -379,7 +371,7 @@ tr:
     VIEW_DRAFT_CONTENT: 'View draft content'
     VIEW_DRAFT_CONTENT_HELP: 'Applies to viewing pages outside of the CMS in draft mode. Useful for external collaborators without CMS access.'
     Viewers: 'Görüntüleyici Grupları'
-    Visibility: Visibility
+    Visibility: Görünürlük
     has_one_Parent: 'Üst Sayfa'
     many_many_BackLinkTracking: 'Geri bağlantı izi'
     many_many_ImageTracking: 'İmaj izi'
@@ -392,19 +384,28 @@ tr:
     NAME: 'Statik Aktarıcı'
   TableListField:
     SELECT: 'Select:'
-  TestFileUploadPage:
-    DESCRIPTION: 'Generic content page'
-  TestPage:
-    DESCRIPTION: 'Generic content page'
+  TableListField.ss:
+    NOITEMSFOUND: 'No items found'
+    SORTASC: 'Artan olarak sırala'
+    SORTDESC: 'Azalan olarak sırala'
+  TableListField_PageControls.ss:
+    DISPLAYING: Displaying
+    OF: of
+    TO: to
+    VIEWFIRST: 'Birinciyi görüntüle'
+    VIEWLAST: 'Sonuncuyu görüntüle'
+    VIEWNEXT: 'Sonrakini görüntüle'
+    VIEWPREVIOUS: 'Öncekini görüntüle'
   TreeTools:
     DisplayLabel: 'Display:'
+  ViewArchivedEmail.ss:
+    CANACCESS: 'Arşivdeki siteye şu bağlantıdan erişebilirsiniz:'
+    HAVEASKED: 'Şu tarihe kadar olan site içeriğini görüntülemek istediniz:'
   VirtualPage:
     CHOOSE: 'Bağlantı vermek için bir sayfa seçiniz'
-    DESCRIPTION: 'Displays the content of another page'
+    DESCRIPTION: 'Başka sayfanın içeriğini gösterir'
     EDITCONTENT: 'içeriği düzenlemek için buraya tıklayın'
     HEADER: 'Bu sanal bir sayfadır'
     PLURALNAME: 'Sanal Sayfalar'
     PageTypNotAllowedOnRoot: 'Original page type "{type}" is not allowed on the root level for this virtual page'
     SINGULARNAME: 'Sanal Sayfa'
-  cms:
-    FILESYSTEMSYNC: 'Dosyaları senkronla'
