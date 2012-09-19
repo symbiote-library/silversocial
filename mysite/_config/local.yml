@@ -1,0 +1,7 @@
+---
+Name: localqueuesettings
+After: '#queuedjobs'
+---
+Injector:
+  QueueHandler: 
+    class: GearmanQueueHandler

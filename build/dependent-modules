@@ -45,4 +45,4 @@ syncrotron git://github.com/nyeholt/silverstripe-syncrotron.git local
 
 queuedjobs git://github.com/nyeholt/silverstripe-queuedjobs.git local
 
-
+gearman git://github.com/nyeholt/silverstripe-gearman.git local

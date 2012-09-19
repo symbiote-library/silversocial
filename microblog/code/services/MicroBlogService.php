@@ -22,6 +22,11 @@ class MicroBlogService {
 	public $transactionManager;
 	
 	/**
+	 * @var QueuedJobService
+	 */
+	public $queuedJobService;
+	
+	/**
 	 * @var PermissionService
 	 */
 	public $permissionService;
@@ -29,6 +34,7 @@ class MicroBlogService {
 	public static $dependencies = array(
 		'dataService'			=> '%$DataService',
 		'permissionService'		=> '%$PermissionService',
+		'queuedJobService'		=> '%$QueuedJobService',
 		'securityContext'		=> '%$SecurityContext',
 		'transactionManager'	=> '%$TransactionManager',
 	);
@@ -98,14 +104,14 @@ class MicroBlogService {
 			}
 		}
 
-		$this->extractTags($post);
-
 		$this->rewardMember($member, 3);
 		
 		// we stick this in here so the UI can update...
 		$post->RemainingVotes = $member->VotesToGive;
 		
 		$source = $post->permissionSource();
+		
+		$this->queuedJobService->queueJob(new ProcessPostJob($post));
 
 		return $post;
 	}
@@ -132,8 +138,7 @@ class MicroBlogService {
 		if ($post->checkPerm('Write') && isset($data['Content'])) {
 			$post->Content = $data['Content'];
 			$post->write();
-			
-			$this->extractTags($post);
+			$this->queuedJobService->queueJob(new ProcessPostJob($post));
 			return $post;
 		}
 	}

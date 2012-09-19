@@ -22,7 +22,13 @@ class ProcessPostJob extends AbstractQueuedJob {
 	
 	public static $dependencies = array(
 		'socialGraphService'	=> '%$SocialGraphService',
+		'microBlogService'		=> '%$MicroBlogService',
 	);
+	
+	/**
+	 * @var MicroBlogService
+	 */
+	public $microBlogService;
 	
 	/**
 	 * @var SocialGraphService
@@ -50,6 +56,8 @@ class ProcessPostJob extends AbstractQueuedJob {
 		if ($post) {
 			$author = $post->Owner();
 			$balance = $author->Balance;
+
+			$this->microBlogService->extractTags($post);
 
 			if (self::$api_key && $balance < self::USER_THRESHOLD && $post->Content != self::SPAM_CONTENT) {
 				require_once Director::baseFolder() . '/microblog/thirdparty/defensio/Defensio.php';
