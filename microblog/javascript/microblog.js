@@ -12,11 +12,11 @@ Microblog.Member = {};
 	}
 
 	Microblog.track = function (category, action, label, value) {
-		if (window._gaq) {
-			_gaq.push(['_trackEvent', category, action, label, value]);
+		if (typeof(_gaq) != 'undefined') {
+			_gaq.push(['_trackEvent', category, action, label, parseInt(value)]);
 		}
 	}
-	
+
 	$(function () {
 		if ($('#MemberDetails').length) {
 			var member = $('#MemberDetails').data('member');
@@ -31,7 +31,7 @@ Microblog.Member = {};
 				}
 			})
 		}
-		
+
 		$('form.ajaxsubmitted').entwine({
 			onmatch: function () {
 				$(this).ajaxForm({

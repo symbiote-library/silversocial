@@ -1,6 +1,6 @@
 ---
 Name: localqueuesettings
-After: '#queuedjobs'
+After: '#queuedjobsettings'
 ---
 Injector:
   QueueHandler: 

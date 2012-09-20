@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 
 /**
@@ -85,7 +84,9 @@ $name = preg_replace("/[^\w_]/","",Director::baseFolder() .'_handle');
 require_once 'Net/Gearman/Worker.php';
 
 function gearman_handle($args) {
-	echo "Doing job\n";
+	echo "Executing job \n";
+	print_r($args);
+
 	Injector::inst()->GearmanService->handleCall($args);
 }
 

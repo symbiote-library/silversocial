@@ -246,6 +246,7 @@ window.Microblog = window.Microblog || {}
 				onclick: function () {
 					var postId = $(this).parents('.microPost').attr('data-id');
 					Microblog.track('timeline', 'post_click', $(this).attr('href'), postId);
+					this._super();
 				}
 			})
 			
@@ -353,6 +354,7 @@ window.Microblog = window.Microblog || {}
 							}
 						}
 					}
+					this._super();
 				}
 			})
 
