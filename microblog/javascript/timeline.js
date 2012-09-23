@@ -245,7 +245,7 @@ window.Microblog = window.Microblog || {}
 			$('div.postText a').entwine({
 				onclick: function () {
 					var postId = $(this).parents('.microPost').attr('data-id');
-					Microblog.track('timeline', 'post_click', $(this).attr('href'), postId);
+					Microblog.track('timeline', 'post_click', $(this).attr('href'));
 					this._super();
 				}
 			})
