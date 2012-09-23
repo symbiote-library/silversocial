@@ -25,11 +25,12 @@ textarea[name=Content].expanded-content {
 
 div.microPost {
 	padding: 10px;
+	padding-right: 0px;
 }
 
 div.postImage {
-	float: left; 
-	margin-left: -60px;
+	float: right; 
+	margin: 5px 5px 0px 0px;
 }
 
 div.postImage img {
@@ -44,6 +45,10 @@ div.postText, div.postPreview {
 	border-radius: 10px;
 	background: #fff;
 	padding: 10px;
+}
+
+div.postReplies {
+	border-left: 1px dashed #bbb;
 }
 
 form.replyForm {
