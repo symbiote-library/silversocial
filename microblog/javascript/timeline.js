@@ -184,7 +184,7 @@ window.Microblog = window.Microblog || {}
 				if (post && post.response) {
 					
 					var editorField = $('<textarea name="Content" class="postContent expandable">');
-					editorField.val(post.response.Content);
+					editorField.val(post.response.OriginalContent ? post.response.OriginalContent : post.response.Content);
 					
 					var postId = 'post' + id;
 					var postContent = $($('#' + postId).find('.postText')[0]);

@@ -70,28 +70,17 @@ class SocialGraphService {
 			return DBField::create_field('Text', $content)->LimitWordCount(5, '');
 		}
 	}
-
+	
 	/**
-	 * Analyse a post and see if there's particular content that should be extracted
+	 * Convert a single URL, assumes $url has been verified to be 
+	 * a real URL
 	 * 
-	 * @param string $post
-	 * @param string $url
-	 * @return type 
+	 * @param string $url 
 	 */
-	public function convertPostContent($post) {
-		$url = $post->Content;
-		
-		if (!$this->isWebpage($url)) {
-			return;
-		}
-		
-		// let's check for stuff
+	public function convertUrl($url) {
 		$oembed = Oembed::get_oembed_from_url($url, false, $this->oembedOptions);
 		if ($oembed) {
-			$post->OriginalLink = $url;
-			$post->IsOembed = true;
-			$post->Content = $oembed->forTemplate();
-			return;
+			return array('Title' => '', 'Content' => $oembed->forTemplate());
 		} 
 
 		$graph = OpenGraph::fetch($url);
@@ -101,11 +90,7 @@ class SocialGraphService {
 				$data[$key] = Varchar::create_field('Varchar', $value);
 			}
 			if (isset($data['url'])) {
-				$post->OriginalLink = $url;
-				$post->IsOembed = true;
-				$post->Title = $graph->title;
-				$post->Content = $post->customise($data)->renderWith('OpenGraphPost');
-				return;
+				return array('Title' => $graph->Title, 'Content' => MicroPost::create()->customise($data)->renderWith('OpenGraphPost'));
 			}
 		}
 		
@@ -115,10 +100,58 @@ class SocialGraphService {
 		
 		if ($response && $response->getStatusCode() == 200) {
 			if (preg_match('/<title>(.*?)<\/title>/is', $response->getBody(), $matches)) {
-				$post->Title = $matches[1];
-				$post->OriginalLink = $url;
-				$post->Content = "[$post->Title]($url)";
+				$title = Convert::raw2xml(trim($matches[1]));
+				return array('Title' => $title, 'Content' => "<a href='$url'>$title</a>");
 			}
+		}
+	}
+
+	/**
+	 * Analyse a post and see if there's particular content that should be extracted
+	 * 
+	 * @param string $post
+	 * @param string $url
+	 * @return type 
+	 */
+	public function convertPostContent($post) {
+		$content = $post->Content;
+		
+		$lines = explode("\n", $content);
+		
+		$newContent = array();
+		$title = '';
+		$converted = false;
+		
+		// store the converted items
+		$convertedLinks = array();
+		
+		foreach ($lines as $line) {
+			$url = trim($line);
+			if (strlen($url) && $this->isWebpage($url)) {
+				$convertedContent = $this->convertUrl($url);
+				if ($convertedContent) {
+					$converted = true;
+					$line = 'CONVERTEDCONTENT:' . count($convertedLinks);
+					$convertedLinks[] = $convertedContent;
+					$title = strlen($convertedContent['Title']) ? $convertedContent['Title'] : '';
+				}
+			} 
+			$newContent[] = $line;
+		}
+
+		$newContent = implode("\n", $newContent);
+		$newContent = RestrictedMarkdown::create($newContent)->parse();
+		
+		// replace the converted bits
+		$newContent = preg_replace_callback('/CONVERTEDCONTENT:(\d+)/is', function ($bit) use ($convertedLinks) {
+			return isset($convertedLinks[$bit[1]]) ? $convertedLinks[$bit[1]]['Content'] : '';
+		}, $newContent);
+		
+		if ($converted) {
+			$post->IsOembed = true;
+			$post->OriginalContent = $post->Content;
+			$post->Content = $newContent;
+			$post->Title = $title;
 		}
 
 		return $post;

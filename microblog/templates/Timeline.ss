@@ -2,7 +2,7 @@
 <% if Posts %>
 <input type="hidden" class="postQueryOffset" value="$Posts.QueryOffset" />
 <% loop Posts %>
-<div class="microPost" data-id="$ID" data-owner="$Owner.ID" data-parent="$ParentID" id="post$ID" data-rating="$WilsonRating" data-sortby="$Top.SortBy" <% if IsOembed %><% else %>data-editable="1" <% end_if %>>
+<div class="microPost" data-id="$ID" data-owner="$Owner.ID" data-parent="$ParentID" id="post$ID" data-rating="$WilsonRating" data-sortby="$Top.SortBy" data-editable="1">
 		<div class="postImage">
 			<a href="$Owner.Link"><img src="http://www.gravatar.com/avatar/{$Owner.gravatarHash}.jpg?s=40" /></a>
 		</div>

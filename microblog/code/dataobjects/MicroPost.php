@@ -6,13 +6,14 @@
  */
 class MicroPost extends DataObject implements Syncroable {
 	public static $db = array(
-		'Title'			=> 'Varchar(255)',
-		'Content'		=> 'Text',
-		'Author'		=> 'Varchar(255)',
-		'OriginalLink'	=> 'Varchar',
-		'IsOembed'		=> 'Boolean',
-		'Deleted'		=> 'Boolean',
-		'NumReplies'	=> 'Int',
+		'Title'				=> 'Varchar(255)',
+		'Content'			=> 'Text',
+		'Author'			=> 'Varchar(255)',
+		'OriginalLink'		=> 'Varchar',
+		'OriginalContent'	=> 'Text',
+		'IsOembed'			=> 'Boolean',
+		'Deleted'			=> 'Boolean',
+		'NumReplies'		=> 'Int',
 	);
 
 	public static $has_one = array(
