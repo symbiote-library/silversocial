@@ -1,0 +1,23 @@
+.cms table.ss-gridfield-table thead tr th.sortablerowsheading {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.cms table.ss-gridfield-table thead tr th.sortablerowsheading .gridfield-sortablerows input[type=checkbox] {
+	height: auto;
+}
+
+.cms table.ss-gridfield-table thead tr th.sortablerowsheading .gridfield-sortablerows {
+	line-height: 28px;
+}
+
+.cms table.ss-gridfield-table thead tr th.sortablerowsheading .gridfield-sortablerows button {
+	display: none;
+}
+
+.cms table.ss-gridfield-table.dragSorting tbody tr td {
+	cursor: move;
+}
+
+.cms table.ss-gridfield-table .datagrid-pagination button.sortablerows-droptarget {
+	background-image: url(./../images/pagination-arrows-drop.gif) !important;
+}

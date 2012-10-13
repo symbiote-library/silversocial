@@ -37,7 +37,7 @@
 				<% if $Owner.ID == $CurrentMember.ID %>
 				Me
 				<% else %>
-				<a href="$Owner.Link">$Owner.Title</a>
+				<a href="$Owner.Link">$Owner.Username</a>
 				<% end_if %>
 			</p>
 			<!-- note that the action is left blank and filled in with JS because otherwise the

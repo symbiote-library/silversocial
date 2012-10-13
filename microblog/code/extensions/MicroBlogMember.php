@@ -10,7 +10,8 @@ class MicroBlogMember extends DataExtension {
 	const FOLLOWERS = 'Followers';
 	
 	public static $db = array(
-		'PostPermission'		=> 'Varchar',
+		'Username'					=> 'Varchar',
+		'PostPermission'			=> 'Varchar',
 		'VotesToGive'				=> 'Int',
 		'Balance'					=> 'Int',
 		'Up'						=> 'Int',
@@ -18,8 +19,8 @@ class MicroBlogMember extends DataExtension {
 	);
 
 	public static $has_one = array(
-		'UploadFolder'		=> 'Folder',
-		'Profile'			=> 'PublicProfile',
+		'UploadFolder'			=> 'Folder',
+		'Profile'				=> 'PublicProfile',
 
 		// where all our friends get added 
 		'FriendsGroup'			=> 'Group',
@@ -31,7 +32,7 @@ class MicroBlogMember extends DataExtension {
 	public static $defaults = array(
 		'PostPermission'		=> 'Public'
 	);
-	
+
 	public static $dependencies = array(
 		'microBlogService'		=> '%$MicroBlogService',
 		'permissionService'		=> '%$PermissionService',
@@ -68,16 +69,29 @@ class MicroBlogMember extends DataExtension {
 	
 	public function onBeforeWrite() {
 
-		if (!$this->owner->ID && !$this->owner->Email) {
-			throw new Exception("Cannot create user without Email");
-			throw new Exception(print_r(debug_backtrace(), true));
+		if (!$this->owner->ID && !$this->owner->Username) {
+			throw new Exception("Cannot create user without a username");
+		}
+		
+		// @TODO Make this allow various utf8 characters
+		if (preg_match('/\W+/', $this->owner->Username)) {
+			throw new ValidationException('Username must only contain word characters');
+		}
+
+		if (!$this->owner->ID) {
+			// find an existing user with this username and bail if so
+			$existing = DataList::create('Member')->filter(array('Username' => $this->owner->Username))->first();
+			if ($existing && $existing->ID) {
+				throw new Exception("Username already exists");
+			}
 		}
 
 		parent::onBeforeWrite();
+
 		if ($this->owner->OwnerID != $this->owner->ID) {
 			$this->owner->OwnerID = $this->owner->ID;
 		}
-		
+
 		if (!$this->owner->ID) {
 			$this->owner->InheritPerms = true;
 		}

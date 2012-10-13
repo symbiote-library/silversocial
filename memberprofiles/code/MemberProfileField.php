@@ -16,7 +16,8 @@ class MemberProfileField extends DataObject {
 		'Note'                    => 'Varchar(255)',
 		'CustomError'             => 'Varchar(255)',
 		'Unique'                  => 'Boolean',
-		'Required'                => 'Boolean'
+		'Required'                => 'Boolean',
+		'Sort'					  => 'Int',
 	);
 
 	public static $has_one = array (
@@ -35,6 +36,8 @@ class MemberProfileField extends DataObject {
 	public static $extensions = array(
 		// 'Orderable'
 	);
+	
+	public static $default_sort = 'Sort ASC';
 
 	/**
 	 * Temporary local cache of form fields - otherwise we can potentially be calling

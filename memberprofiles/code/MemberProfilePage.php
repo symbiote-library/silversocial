@@ -159,6 +159,11 @@ class MemberProfilePage extends Page {
 			'Required' => function($val, $obj) { return $obj->dbObject('Required')->Nice(); }
 		));
 
+		if (class_exists('GridFieldSortableRows')) {
+			$grid->addComponent(new GridFieldSortableRows('Sort'));
+			$grid->getComponentByType('GridFieldPaginator')->setItemsPerPage(30);
+		}
+
 		if(!$this->AllowProfileViewing) {
 			$disabledNote = new LiteralField('PublisProfileDisabledNote', sprintf(
 				'<p class="message notice">%s</p>', _t(
