@@ -45,3 +45,5 @@ Zend_Date::setOptions(array('cache' => $coreCache));
 Member::set_title_columns(array('FirstName', 'Surname'));
 
 Object::add_extension('PostAggregatorPage', 'SimpleCachePublisherExtension');
+
+Member::set_unique_identifier_field('Username');
