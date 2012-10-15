@@ -104,7 +104,7 @@ class MicroBlogService {
 			}
 		}
 
-		$this->rewardMember($member, 3);
+		$this->rewardMember($member, 2);
 		
 		// we stick this in here so the UI can update...
 		$post->RemainingVotes = $member->VotesToGive;
@@ -292,21 +292,7 @@ class MicroBlogService {
 		$join = null;
 
 		if (count($tags)) {
-			array_walk($tags, function (&$item) {
-				$item = Convert::raw2sql($item);
-			});
-			
-			$join = array(
-				array(
-					'table'		=> 'MicroPost_Tags',
-					'clause'	=> 'MicroPost_Tags.MicroPostID = MicroPost.ID'
-				),
-				array(
-					'table'		=> 'Tag',
-					'clause'	=> 'MicroPost_Tags.TagID = Tag.ID',
-					'where'		=> '"Tag"."Title" IN (\''.  implode('\',\'', $tags) .'\')'
-				)
-			);
+			$filter['Tags.Title:ExactMatchMulti'] = $tags;
 		}
 
 		$posts = $this->dataService->getAllMicroPost($filter, $sort, $join, $limit);
