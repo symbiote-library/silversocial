@@ -22,13 +22,12 @@ class UpdateMemberUsernameTask extends BuildTask {
 			foreach ($members as $member) {
 				if (!$member->Username) {
 					list($username) = explode('@', $member->Email);
-					$member->Username = $username;
+					$member->Username = preg_replace('/\W+/', '_', $username);
+					echo "Updating '$username' <br/>\n";
 					$member->write();
-					echo "Updated $username <br/>\n";
 				 } else {
 					 echo "$member->Username already set <br/>\n";
 				 }
-				
 			}
 		});
 	}

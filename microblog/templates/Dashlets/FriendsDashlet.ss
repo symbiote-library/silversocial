@@ -17,7 +17,7 @@
 		<a class="deleteFriend ui-icon ui-icon-close" data-id="$ID">remove</a>
 		<a href="$Other.Link">
 			<img src="http://www.gravatar.com/avatar/{$Other.gravatarHash}.jpg?s=24" />
-			$Other.FirstName $Other.Surname 
+			$Other.Username 
 		</a>
 	</div>
 	<% end_loop %>

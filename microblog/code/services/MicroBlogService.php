@@ -309,7 +309,7 @@ class MicroBlogService {
 	public function findMember($searchTerm) {
 		$term = Convert::raw2sql($searchTerm);
 		$current = (int) $this->securityContext->getMember()->ID;
-		$filter = '("FirstName" LIKE \'%' . $term .'%\' OR "Surname" LIKE \'%' . $term . '%\') AND "ID" <> ' . $current;
+		$filter = '("Username" LIKE \'%' . $term .'%\' OR "FirstName" LIKE \'%' . $term .'%\' OR "Surname" LIKE \'%' . $term . '%\') AND "ID" <> ' . $current;
 
 		$items = $this->dataService->getAllPublicProfile($filter);
 		

@@ -8,6 +8,7 @@
  */
 class PublicProfile extends DataObject {
 	public static $db = array(
+		'Username'		=> 'Varchar',
 		'FirstName'		=> 'Varchar',
 		'Surname'		=> 'Varchar',
 		'Email'			=> 'Varchar(256)', 

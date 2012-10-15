@@ -47,6 +47,7 @@ class MicroBlogMember extends DataExtension {
 	);
 	
 	static $summary_fields = array(
+		'Username',
 		'Up',
 		'Down',
 		'Balance',
@@ -96,7 +97,7 @@ class MicroBlogMember extends DataExtension {
 			$this->owner->InheritPerms = true;
 		}
 
-		$changed = $this->owner->isChanged('FirstName') || $this->owner->isChanged('Surname') || $this->owner->isChanged('Email');
+		$changed = $this->owner->isChanged('Username') || $this->owner->isChanged('FirstName') || $this->owner->isChanged('Surname') || $this->owner->isChanged('Email');
 
 		if ($this->owner->ID && !$this->owner->ProfileID) {
 			$profile = PublicProfile::create();
@@ -119,14 +120,13 @@ class MicroBlogMember extends DataExtension {
 	}
 
 	protected function syncProfile($profile) {
-		$profile->FirstName = $this->owner->FirstName;
-		$profile->Surname = $this->owner->Surname;
+		$profile->Username = $this->owner->Username;
 		$profile->Email = $this->owner->Email;
 		$profile->MemberID = $this->owner->ID;
 		$profile->Votes = $this->owner->VotesToGive;
 		$profile->write();
 	}
-	
+
 	public function publicProfile() {
 		if ($this->owner->ID && !$this->owner->ProfileID) {
 			$profile = PublicProfile::create();

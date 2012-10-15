@@ -48,7 +48,7 @@
             <ul class="nav">
               <li>
 			  <% if CurrentMember %>
-			  <a href="Security/logout">logout $CurrentMember.Title</a>
+			  <a href="Security/logout">logout $CurrentMember.Username</a>
 			  <% else %>
 			  <a href="Security/login?BackURL=">login</a>
 			  <% end_if %>
