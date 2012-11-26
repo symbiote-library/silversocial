@@ -253,7 +253,9 @@ class Restrictable extends DataExtension {
 			if ($members) {
 				$source = $members->map();
 			}
-			$ownerField->setSource($source);
+                        if ($ownerField->hasMethod('setSource')) {
+                            $ownerField->setSource($source);
+                        }
 		}
 	}
 

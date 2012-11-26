@@ -87,6 +87,20 @@ class TimelineController extends ContentController {
 		return $this->renderWith('FullTimeline');
 	}
 
+	public function MemberDetails() {
+		$m = Member::currentUser();
+		if ($m) {
+			$m = $m->publicProfile();
+			return Varchar::create_field('Varchar', Convert::raw2json(array(
+				'Title'			=> $m->getTitle(),
+				'FirstName'		=> $m->FirstName,
+				'Surname'		=> $m->Surname,
+				'ProfileID'		=> $m->ID,
+				'MemberID'		=> $m->MemberID,
+			)));
+		}
+	}
+	
 	/**
 	 * Show a particular post
 	 * 

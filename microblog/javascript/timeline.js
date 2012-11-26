@@ -182,15 +182,15 @@ window.Microblog = window.Microblog || {}
 		var editPost = function (id) {
 			return SSWebServices.get('microBlog', 'rawPost', {id: id}, function (post) {
 				if (post && post.response) {
-					
-					var editorField = $('<textarea name="Content" class="postContent expandable">');
+					$('.postEditorField').remove();
+					var editorField = $('<textarea name="Content" class="postContent expandable postEditorField">');
 					editorField.val(post.response.OriginalContent ? post.response.OriginalContent : post.response.Content);
 					
 					var postId = 'post' + id;
 					var postContent = $($('#' + postId).find('.postText')[0]);
 					postContent.append(editorField);
-					
-					var save = $('<input type="button" value="Save">');
+
+					var save = $('<input type="button" value="Save" class="postEditorField">');
 					save.insertAfter(editorField);
 					
 					save.click(function () {
