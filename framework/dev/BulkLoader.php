@@ -123,7 +123,7 @@ abstract class BulkLoader extends ViewableData {
 	 */
 	public $deleteExistingRecords = false;
 	
-	function __construct($objectClass) {
+	public function __construct($objectClass) {
 		$this->objectClass = $objectClass;
 		parent::__construct();
 	}
@@ -135,7 +135,7 @@ abstract class BulkLoader extends ViewableData {
 	 * @return BulkLoader_Result See {@link self::processAll()}
 	 */
 	public function load($filepath) {
-		ini_set('max_execution_time', 3600);
+		increase_time_limit_to(3600);
 		increase_memory_limit_to('512M');
 		
 		//get all instances of the to be imported data object 

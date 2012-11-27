@@ -35,8 +35,32 @@ abstract class CMSSiteTreeFilter extends Object {
 	 * @var String 
 	 */
 	protected $childrenMethod = null;
+	
+	/**
+	 * Returns a sorted array of all implementators of CMSSiteTreeFilter, suitable for use in a dropdown.
+	 * 
+	 * @return array
+	 */
+	public static function get_all_filters() {
+		// get all filter instances
+		$filters = ClassInfo::subclassesFor('CMSSiteTreeFilter');
+		// remove abstract CMSSiteTreeFilter class
+		array_shift($filters);
+		// add filters to map
+		$filterMap = array();
 		
-	function __construct($params = null) {
+		foreach($filters as $filter) {
+			$filterMap[$filter] = call_user_func(array($filter, 'title'));
+		}
+		// ensure that 'all pages' filter is on top position
+		uasort($filterMap, 
+			create_function('$a,$b', 'return ($a == "CMSSiteTreeFilter_Search") ? 1 : -1;')
+		);
+		
+		return $filterMap;
+	}
+		
+	public function __construct($params = null) {
 		if($params) $this->params = $params;
 		
 		parent::__construct();
@@ -46,14 +70,14 @@ abstract class CMSSiteTreeFilter extends Object {
 	 * @return String Method on {@link Hierarchy} objects
 	 * which is used to traverse into children relationships.
 	 */
-	function getChildrenMethod() {
+	public function getChildrenMethod() {
 		return $this->childrenMethod;
 	}
 	
 	/**
 	 * @return Array Map of Page IDs to their respective ParentID values.
 	 */
-	function pagesIncluded() {}
+	public function pagesIncluded() {}
 	
 	/**
 	 * Populate the IDs of the pages returned by pagesIncluded(), also including
@@ -71,12 +95,14 @@ abstract class CMSSiteTreeFilter extends Object {
 				$parents[$pageArr['ParentID']] = true;
 				$this->_cache_ids[$pageArr['ID']] = true;
 			}
-		
-			if(!empty($parents)) {
+
+			while(!empty($parents)) {
 				$q = new SQLQuery();
 				$q->setSelect(array('"ID"','"ParentID"'))
 					->setFrom('"SiteTree"')
 					->setWhere('"ID" in ('.implode(',',array_keys($parents)).')');
+
+				$parents = array();
 
 				foreach($q->execute() as $row) {
 					if ($row['ParentID']) $parents[$row['ParentID']] = true;
@@ -114,11 +140,11 @@ class CMSSiteTreeFilter_DeletedPages extends CMSSiteTreeFilter {
 	
 	protected $childrenMethod = "AllHistoricalChildren";
 	
-	static function title() {
+	static public function title() {
 		return _t('CMSSiteTreeFilter_DeletedPages.Title', "All pages, including deleted");
 	}
 	
-	function pagesIncluded() {
+	public function pagesIncluded() {
 		$ids = array();
 		// TODO Not very memory efficient, but usually not very many deleted pages exist
 		$pages = Versioned::get_including_deleted('SiteTree');
@@ -137,11 +163,11 @@ class CMSSiteTreeFilter_DeletedPages extends CMSSiteTreeFilter {
  */
 class CMSSiteTreeFilter_ChangedPages extends CMSSiteTreeFilter {
 	
-	static function title() {
+	static public function title() {
 		return _t('CMSSiteTreeFilter_ChangedPages.Title', "Changed pages");
 	}
 	
-	function pagesIncluded() {
+	public function pagesIncluded() {
 		$ids = array();
 		$q = new SQLQuery();
 		$q->setSelect(array('"SiteTree"."ID"','"SiteTree"."ParentID"'))
@@ -163,7 +189,7 @@ class CMSSiteTreeFilter_ChangedPages extends CMSSiteTreeFilter {
  */
 class CMSSiteTreeFilter_Search extends CMSSiteTreeFilter {
 
-	static function title() {
+	static public function title() {
 		return _t('CMSSiteTreeFilter_Search.Title', "All pages");
 	}
 	

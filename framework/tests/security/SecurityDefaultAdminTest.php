@@ -1,7 +1,7 @@
 <?php
 class SecurityDefaultAdminTest extends SapphireTest {
 	
-	function setUp() {
+	public function setUp() {
 		parent::setUp();
 
 		// TODO Workaround to force database clearing with no fixture present, 
@@ -10,10 +10,13 @@ class SecurityDefaultAdminTest extends SapphireTest {
 		self::empty_temp_db();
 	}
 	
-	function testCheckDefaultAdmin() {
-		// TODO There's currently no way to inspect default admin state,
-		//  hence we don't override existing settings
-		if(Security::has_default_admin()) return;
+	public function testCheckDefaultAdmin() {
+		if(Security::has_default_admin()) {
+			$this->markTestSkipped(
+				'Default admin present. There\'s no way to inspect default admin state, ' .
+				'so we don\'t override existing settings'
+			);
+		}
 		
 		Security::setDefaultAdmin('admin', 'password');
 		
@@ -34,7 +37,7 @@ class SecurityDefaultAdminTest extends SapphireTest {
 		Security::setDefaultAdmin(null, null);
 	}
 	
-	function testFindAnAdministratorCreatesNewUser() {
+	public function testFindAnAdministratorCreatesNewUser() {
 		$adminMembers = Permission::get_members_by_permission('ADMIN');
 		$this->assertEquals(0, $adminMembers->count());
 		

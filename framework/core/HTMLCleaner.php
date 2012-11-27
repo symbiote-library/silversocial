@@ -47,7 +47,7 @@ abstract class HTMLCleaner extends Object {
 	 * @param String HTML
 	 * @return String HTML, tidied
 	 */
-	public abstract function cleanHTML($content);
+	abstract public function cleanHTML($content);
 
 	/**
 	 * Experimental inst class to create a default html cleaner class
@@ -93,6 +93,8 @@ class TidyHTMLCleaner extends HTMLCleaner {
 	public function cleanHTML($content) {
 		$tidy = new tidy();
 		$output = $tidy->repairString($content, $this->config);
-		return $output;
+		
+		// Clean leading/trailing whitespace
+		return preg_replace('/(^\s+)|(\s+$)/', '', $output);
 	}
 }

@@ -5,7 +5,23 @@
  */
 class FormFieldTest extends SapphireTest {
 
-	function testAttributes() {
+	public function testAddExtraClass() {
+		$field = new FormField('MyField');
+		$field->addExtraClass('class1');
+		$field->addExtraClass('class2');
+		$this->assertStringEndsWith('class1 class2', $field->extraClass());
+	}
+
+	public function testRemoveExtraClass() {
+		$field = new FormField('MyField');
+		$field->addExtraClass('class1');
+		$field->addExtraClass('class2');
+		$this->assertStringEndsWith('class1 class2', $field->extraClass());
+		$field->removeExtraClass('class1');
+		$this->assertStringEndsWith('class2', $field->extraClass());
+	}
+
+	public function testAttributes() {
 		$field = new FormField('MyField');
 		$field->setAttribute('foo', 'bar');
 		$this->assertEquals('bar', $field->getAttribute('foo'));
@@ -14,7 +30,7 @@ class FormFieldTest extends SapphireTest {
 		$this->assertEquals('bar', $attrs['foo']);
 	}
 
-	function testAttributesHTML() {
+	public function testAttributesHTML() {
 		$field = new FormField('MyField');
 
 		$field->setAttribute('foo', 'bar');
@@ -48,8 +64,8 @@ class FormFieldTest extends SapphireTest {
 		$this->assertNotContains('two="2"', $field->getAttributesHTML('one', 'two'));
 		$this->assertContains('three="3"', $field->getAttributesHTML('one', 'two'));
 	}
-	
-	function testEveryFieldTransformsReadonlyAsClone() {
+
+	public function testEveryFieldTransformsReadonlyAsClone() {
 		$fieldClasses = ClassInfo::subclassesFor('FormField');
 		foreach($fieldClasses as $fieldClass) {
 			$reflectionClass = new ReflectionClass($fieldClass);
@@ -68,21 +84,21 @@ class FormFieldTest extends SapphireTest {
 			$this->assertEquals(
 				$isReadonlyBefore, 
 				$instance->isReadonly(),
-				"FormField class '{$fieldClass} retains its readonly state after calling performReadonlyTransformation()"
+				"FormField class {$fieldClass} retains its readonly state after calling performReadonlyTransformation()"
 			);
 			$this->assertTrue(
 				$readonlyInstance->isReadonly(),
-				"FormField class '{$fieldClass} returns a valid readonly representation as of isReadonly()"
+				"FormField class {$fieldClass} returns a valid readonly representation as of isReadonly()"
 			);
 			$this->assertNotSame(
 				$readonlyInstance,
 				$instance,
-				"FormField class '{$fieldClass} returns a valid cloned readonly representation"
+				"FormField class {$fieldClass} returns a valid cloned readonly representation"
 			);
 		}
 	}
 	
-	function testEveryFieldTransformsDisabledAsClone() {
+	public function testEveryFieldTransformsDisabledAsClone() {
 		$fieldClasses = ClassInfo::subclassesFor('FormField');
 		foreach($fieldClasses as $fieldClass) {
 			$reflectionClass = new ReflectionClass($fieldClass);
@@ -102,16 +118,16 @@ class FormFieldTest extends SapphireTest {
 			$this->assertEquals(
 				$isDisabledBefore, 
 				$instance->isDisabled(),
-				"FormField class '{$fieldClass} retains its disabled state after calling performDisabledTransformation()"
+				"FormField class {$fieldClass} retains its disabled state after calling performDisabledTransformation()"
 			);
 			$this->assertTrue(
 				$disabledInstance->isDisabled(),
-				"FormField class '{$fieldClass} returns a valid disabled representation as of isDisabled()"
+				"FormField class {$fieldClass} returns a valid disabled representation as of isDisabled()"
 			);
 			$this->assertNotSame(
 				$disabledInstance,
 				$instance,
-				"FormField class '{$fieldClass} returns a valid cloned disabled representation"
+				"FormField class {$fieldClass} returns a valid cloned disabled representation"
 			);
 		}
 	}

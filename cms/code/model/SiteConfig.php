@@ -1,15 +1,8 @@
 <?php
+
 /**
  * Sitewide configuration.
  * 
- * h2. Translation
- * 
- * To enable translation of configurations alongside the {@link Translatable} extension.
- * This also allows assigning language-specific toplevel permissions for viewing and editing
- * pages, in addition to the normal `TRANSLATE_*`/`TRANSLATE_ALL` permissions.
- * 
- * 	Object::add_extension('SiteConfig', 'Translatable');
- *
  * @author Tom Rix
  * @package cms
  */
@@ -31,18 +24,26 @@ class SiteConfig extends DataObject implements PermissionProvider {
 	
 	protected static $disabled_themes = array();
 	
-	public static function disable_theme($theme) {
+	static public function disable_theme($theme) {
 		self::$disabled_themes[$theme] = $theme;
 	}
-	
+
+	public function populateDefaults()
+	{
+		$this->Title = _t('SiteConfig.SITENAMEDEFAULT', "Your Site Name");
+		$this->Tagline = _t('SiteConfig.TAGLINEDEFAULT', "your tagline here");
+		
+		// Allow these defaults to be overridden
+		parent::populateDefaults();
+	}
+
 	/**
 	 * Get the fields that are sent to the CMS. In
 	 * your extensions: updateCMSFields($fields)
 	 *
 	 * @return FieldList
 	 */
-	function getCMSFields() {
-		Requirements::javascript(CMS_DIR . "/javascript/SitetreeAccess.js");
+	public function getCMSFields() {
 
 		$groupsMap = Group::get()->map('ID', 'Breadcrumbs')->toArray();
 		asort($groupsMap);
@@ -84,13 +85,6 @@ class SiteConfig extends DataObject implements PermissionProvider {
 		
 		$topLevelCreatorsOptionsField->setSource($editorsOptionsSource);
 		
-		// Translatable doesn't handle updateCMSFields on DataObjects,
-		// so add it here to save the current Locale,
-		// because onBeforeWrite does not work.
-		if(class_exists('Translatable') && Object::has_extension('SiteConfig',"Translatable")){ 
-			$fields->push(new HiddenField("Locale"));
-		}
-
 		if (!Permission::check('EDIT_SITECONFIG')) {
 			$fields->makeFieldReadonly($viewersOptionsField);
 			$fields->makeFieldReadonly($viewerGroupsField);
@@ -135,7 +129,7 @@ class SiteConfig extends DataObject implements PermissionProvider {
 	 *
 	 * @return Fieldset
 	 */
-	function getCMSActions() {
+	public function getCMSActions() {
 		if (Permission::check('ADMIN') || Permission::check('EDIT_SITECONFIG')) {
 			$actions = new FieldList(
 				FormAction::create('save_siteconfig', _t('CMSMain.SAVE','Save'))
@@ -153,7 +147,7 @@ class SiteConfig extends DataObject implements PermissionProvider {
 	/**
 	 * @return String
 	 */
-	function CMSEditLink() {
+	public function CMSEditLink() {
 		return singleton('CMSSettingsController')->Link();
 	}
 	
@@ -161,26 +155,18 @@ class SiteConfig extends DataObject implements PermissionProvider {
 	 * Get the current sites SiteConfig, and creates a new one
 	 * through {@link make_site_config()} if none is found.
 	 *
-	 * @param string $locale
 	 * @return SiteConfig
 	 */
-	static function current_site_config($locale = null) {
-		if(class_exists('Translatable') && Object::has_extension('SiteConfig',"Translatable")){
-			$locale = isset($locale) ? $locale : Translatable::get_current_locale();
-			$siteConfig = Translatable::get_one_by_locale('SiteConfig', $locale);
-		} else {
-			$siteConfig = DataObject::get_one('SiteConfig');
-		}
+	static public function current_site_config() {
+		if ($siteConfig = DataObject::get_one('SiteConfig')) return $siteConfig;
 		
-		if (!$siteConfig) $siteConfig = self::make_site_config($locale);
-		
-		return $siteConfig;
+		return self::make_site_config();
 	}
-	
+
 	/**
 	 * Setup a default SiteConfig record if none exists
 	 */
-	function requireDefaultRecords() {
+	public function requireDefaultRecords() {
 		parent::requireDefaultRecords();
 		$siteConfig = DataObject::get_one('SiteConfig');
 		if(!$siteConfig) {
@@ -191,39 +177,16 @@ class SiteConfig extends DataObject implements PermissionProvider {
 	
 	/**
 	 * Create SiteConfig with defaults from language file.
-	 * if Translatable is enabled on SiteConfig, see if one already exist
-	 * and use those values for the translated defaults. 
 	 * 
 	 * @param string $locale
 	 * @return SiteConfig
 	 */
-	static function make_site_config($locale = null) {
-		if(class_exists('Translatable') && !$locale) $locale = Translatable::get_current_locale();
-		
-		$siteConfig = new SiteConfig();
-		$siteConfig->Title = _t('SiteConfig.SITENAMEDEFAULT',"Your Site Name");
-		$siteConfig->Tagline = _t('SiteConfig.TAGLINEDEFAULT',"your tagline here");
+	static public function make_site_config() {
+		$config = SiteConfig::create();
+		$config->write();
+		return $config;
+	}
 
-		if(class_exists('Translatable') && $siteConfig->hasExtension('Translatable')){
-			Translatable::disable_locale_filter();
-			$defaultConfig = SiteConfig::get()->first();
-			Translatable::enable_locale_filter();			
-			
-			if($defaultConfig){					
-				return $defaultConfig->createTranslation($locale);
-			}			
-			
-			// TODO Copy view/edit group settings
-			
-			// set the correct Locale
-			$siteConfig->Locale = $locale;
-		}
-
-		$siteConfig->write();
-		
-		return $siteConfig;
- 	}
-	
 	/**
 	 * Can a user view pages on this site? This method is only
 	 * called if a page is set to Inherit, but there is nothing
@@ -272,7 +235,7 @@ class SiteConfig extends DataObject implements PermissionProvider {
 		return false;
 	}
 	
-	function providePermissions() {
+	public function providePermissions() {
 		return array(
 			'EDIT_SITECONFIG' => array(
 				'name' => _t('SiteConfig.EDIT_PERMISSION', 'Manage site configuration'),

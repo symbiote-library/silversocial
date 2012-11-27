@@ -76,7 +76,8 @@ class Deprecation {
 	}
 
 	/**
-	 * Given a backtrace, get the module name from the caller two removed (the caller of the method that called #notice)
+	 * Given a backtrace, get the module name from the caller two removed (the caller of the method that called
+	 * #notice)
 	 *
 	 * @static
 	 * @param $backtrace array - a backtrace as returned from debug_backtrace
@@ -85,11 +86,11 @@ class Deprecation {
 	protected static function get_calling_module_from_trace($backtrace) {
 		if (!isset($backtrace[1]['file'])) return;
 
-		$callingfile = $backtrace[1]['file'];
+		$callingfile = realpath($backtrace[1]['file']);
 
 		global $manifest;
 		foreach ($manifest->getModules() as $name => $path) {
-			if (strpos($callingfile, $path) === 0) {
+			if (strpos($callingfile, realpath($path)) === 0) {
 				return $name;
 			}
 		}
@@ -139,7 +140,9 @@ class Deprecation {
 
 		if(self::$module_version_overrides) {
 			$module = self::get_calling_module_from_trace($backtrace = debug_backtrace(0));
-			if(isset(self::$module_version_overrides[$module])) $checkVersion = self::$module_version_overrides[$module];
+			if(isset(self::$module_version_overrides[$module])) {
+				$checkVersion = self::$module_version_overrides[$module];
+			}
 		}
 
 		// Check the version against the notice version

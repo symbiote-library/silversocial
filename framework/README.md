@@ -1,4 +1,6 @@
-## Overview
+## SilverStripe Framework
+
+[![Build Status](https://secure.travis-ci.org/silverstripe/sapphire.png?branch=3.0)](https://travis-ci.org/silverstripe/sapphire)
 
 PHP5 framework forming the base for the SilverStripe CMS ([http://silverstripe.org](http://silverstripe.org)). 
 Requires a [`silverstripe-installer`](http://github.com/silverstripe/silverstripe-installer) base project. Typically used alongside the [`cms`](http://github.com/silverstripe/silverstripe-cms) module.
@@ -7,6 +9,14 @@ Requires a [`silverstripe-installer`](http://github.com/silverstripe/silverstrip
 
 See [installation on different platforms](http://doc.silverstripe.org/framework/en/installation/),
 and [installation from source](http://doc.silverstripe.org/framework/en/installation/from-source).
+
+## Development and contribution ##
+
+If you would like to make changes to SilverStripe core product, we have an extensive [guide to contributing code](http://doc.silverstripe.org/framework/en/misc/contributing/code) that we invite you to look at before submitting a pull request.
+
+If you would like to get involved, but don't know what to fix, the [Trac tickets](http://open.silverstripe.org/report/125) are a good place to start.
+
+For other ways to contribute, see the [code contribution guidelines](http://doc.silverstripe.org/framework/en/misc/contributing)
 
 ## Links ##
 
@@ -18,7 +28,7 @@ and [installation from source](http://doc.silverstripe.org/framework/en/installa
 
 ## License ##
 
-	Copyright (c) 2007-2011, SilverStripe Limited - www.silverstripe.com
+	Copyright (c) 2007-2012, SilverStripe Limited - www.silverstripe.com
 	All rights reserved.
 
 	Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:

@@ -2,6 +2,9 @@
 class CMSProfileController extends LeftAndMain {
 
 	static $url_segment = 'myprofile';
+
+	static $menu_title = 'My Profile';
+
 	static $required_permission_codes = false;
 
 	public function index($request) {
@@ -16,7 +19,7 @@ class CMSProfileController extends LeftAndMain {
 		return new Member_ProfileForm($this, 'Member_ProfileForm', Member::currentUser());
 	}
 
-	function canView($member = null) {
+	public function canView($member = null) {
 		if(!$member && $member !== FALSE) $member = Member::currentUser();
 		
 		// cms menus only for logged-in members

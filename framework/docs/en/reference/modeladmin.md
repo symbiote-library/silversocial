@@ -9,7 +9,7 @@ It uses the framework's knowledge about the model to provide sensible defaults,
 allowing you to get started in a couple of lines of code,
 while still providing a solid base for customization.
 
-The interface is mainly powered by the `[GridField](/topics/grid-field)` class,
+The interface is mainly powered by the `[GridField](/reference/grid-field)` class,
 which can also be used in other CMS areas (e.g. to manage a relation on a `SiteTree`
 record in the standard CMS interface).
 
@@ -69,7 +69,7 @@ for the search form, override `[api:DataObject->getCustomSearchContext()]` on yo
 
 ## Result Columns
 
-The results are shown in a tabular listing, powered by the `[GridField](/topics/grid-field)`,
+The results are shown in a tabular listing, powered by the `[GridField](/reference/grid-field)`,
 more specifically the `[api:GridFieldDataColumns]` component.
 It looks for a `[api:DataObject::$summary_fields]` static on your model class,
 where you can add or remove columns, or change their title.
@@ -97,7 +97,7 @@ For example, we might want to exclude all products without prices in our sample 
 	:::php
 	class MyAdmin extends ModelAdmin {
 		// ...
-		function getList() {
+		public function getList() {
 			$list = parent::getList();
 			// Always limit by model class, in case you're managing multiple
 			if($this->modelClass == 'Product') {
@@ -113,14 +113,14 @@ For example, we might want to have a checkbox which limits search results to exp
 	:::php
 	class MyAdmin extends ModelAdmin {
 		// ...
-		function getSearchContext() {
+		public function getSearchContext() {
 			$context = parent::getSearchContext();
 			if($this->modelClass == 'Product') {
 				$context->getFields()->push(new CheckboxField('q[ExpensiveOnly]', 'Only expensive stuff'));
 			}
 			return $context;
 		}
-		function getList() {
+		public function getList() {
 			$list = parent::getList();
 			$params = $this->request->requestVar('q'); // use this to access search parameters
 			if($this->modelClass == 'Product' && isset($params['ExpensiveOnly']) && $params['ExpensiveOnly']) {
@@ -130,13 +130,26 @@ For example, we might want to have a checkbox which limits search results to exp
 		}
 	}
 
+To alter how the results are displayed (via `[api:GridField]`), you can also overload the `getEditForm()` method. For example, to add a new component.
+
+	:::php
+	class MyAdmin extends ModelAdmin {
+		// ...
+		public function getEditForm($id = null, $fields = null) {
+			$form = parent::getEditForm($id, $fields);
+			$gridField = $form->Fields()->fieldByName($this->sanitiseClassName($this->modelClass));
+			$gridField->getConfig()->addComponent(new GridFieldFilterHeader());
+			return $form;
+		}
+	}
+
 ## Managing Relationships
 
 Has-one relationships are simply implemented as a `[api:DropdownField]` by default.
 Consider replacing it with a more powerful interface in case you have many records
 (through customizing `[api:DataObject->getCMSFields]`).
 
-Has-many and many-many relationships are usually handled via the `[GridField](/topics/grid-field)` class,
+Has-many and many-many relationships are usually handled via the `[GridField](/reference/grid-field)` class,
 more specifically the `[api:GridFieldAddExistingAutocompleter]` and `[api:GridFieldRelationDelete]` components.
 They provide a list/detail interface within a single record edited in your ModelAdmin.
 
@@ -172,7 +185,7 @@ To customize the exported columns, create a new method called `getExportFields` 
 	:::php
 	class MyAdmin extends ModelAdmin {
 		// ...
-		function getExportFields() {
+		public function getExportFields() {
 			return array(
 				'Name' => 'Name',
 				'ProductCode' => 'Product Code',
@@ -192,7 +205,7 @@ also another tool at your disposal: The `[api:Extension]` API.
 	:::php
 	class MyAdminExtension extends Extension {
 		// ...
-		function updateEditForm(&$form) {
+		public function updateEditForm(&$form) {
 			$form->Fields()->push(/* ... */)
 		}
 	}
@@ -217,7 +230,7 @@ For an introduction how to customize the CMS templates, see our [CMS Architectur
 
 ## Related
 
-* [/topics/grid-field](GridField): The UI component powering ModelAdmin
+* [/reference/grid-field](GridField): The UI component powering ModelAdmin
 * [/tutorials/5-dataobject-relationship-management](Tutorial 5: Dataobject Relationship Management)
 *  `[api:SearchContext]`
 * [genericviews Module](http://silverstripe.org/generic-views-module)

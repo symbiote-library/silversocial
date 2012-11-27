@@ -16,7 +16,7 @@ class RandomGenerator {
 	 * 
 	 * @return string Returns a random series of bytes
 	 */
-	function generateEntropy() {
+	public function generateEntropy() {
 		$isWin = preg_match('/WIN/', PHP_OS);
 		
 		// TODO Fails with "Could not gather sufficient random data" on IIS, temporarily disabled on windows
@@ -58,15 +58,31 @@ class RandomGenerator {
 		// Fallback to good old mt_rand()
 		return uniqid(mt_rand(), true);
 	}
-	
+
 	/**
-	 * Generates a hash suitable for manual session identifiers, CSRF tokens, etc.
+	 * Generates a random token that can be used for session IDs, CSRF tokens etc., based on
+	 * hash algorithms.
+	 *
+	 * If you are using it as a password equivalent (e.g. autologin token) do NOT store it 
+	 * in the database as a plain text but encrypt it with Member::encryptWithUserSettings.
 	 * 
 	 * @param String $algorithm Any identifier listed in hash_algos() (Default: whirlpool)
-	 *  If possible, choose a slow algorithm which complicates brute force attacks.
+	 *
 	 * @return String Returned length will depend on the used $algorithm
 	 */
-	function generateHash($algorithm = 'whirlpool') {
+	public function randomToken($algorithm = 'whirlpool') {
 		return hash($algorithm, $this->generateEntropy());
-	}	
+	}
+
+	/**
+	 * @deprecated 3.1
+	 */
+	public function generateHash($algorithm = 'whirlpool') {
+		Deprecation::notice('3.1',
+			'RandomGenerator::generateHash is deprecated because of a confusing name that hints the output is secure, '.
+			'while in fact it is just a random string. Use RandomGenerator::randomToken instead.',
+			Deprecation::SCOPE_METHOD);
+
+		return $this->randomToken($algorithm);
+	}
 }

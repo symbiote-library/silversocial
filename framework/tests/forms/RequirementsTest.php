@@ -11,8 +11,8 @@ class RequirementsTest extends SapphireTest {
 	static $html_template = '<html><head></head><body></body></html>';
 	
 	static $old_requirements = null;
-	
-	function testExternalUrls() {
+
+	public function testExternalUrls() {
 		$backend = new Requirements_Backend;
 		$backend->set_combined_files_enabled(true);
 
@@ -96,7 +96,7 @@ class RequirementsTest extends SapphireTest {
 			);
 		}
 
-	function testCombinedJavascript() {
+	public function testCombinedJavascript() {
 		$backend = new Requirements_Backend;
 		$backend->set_combined_files_enabled(true);
 		$backend->setCombinedFilesFolder('assets');
@@ -108,21 +108,28 @@ class RequirementsTest extends SapphireTest {
 		$html = $backend->includeInHTML(false, self::$html_template);
 
 		/* COMBINED JAVASCRIPT FILE IS INCLUDED IN HTML HEADER */
-		$this->assertTrue((bool)preg_match('/src=".*\/RequirementsTest_bc\.js/', $html), 'combined javascript file is included in html header');
+		$this->assertTrue((bool)preg_match('/src=".*\/RequirementsTest_bc\.js/', $html),
+			'combined javascript file is included in html header');
 		
 		/* COMBINED JAVASCRIPT FILE EXISTS */
-		$this->assertTrue(file_exists($combinedFilePath), 'combined javascript file exists');
+		$this->assertTrue(file_exists($combinedFilePath),
+			'combined javascript file exists');
 		
 		/* COMBINED JAVASCRIPT HAS CORRECT CONTENT */
-		$this->assertTrue((strpos(file_get_contents($combinedFilePath), "alert('b')") !== false), 'combined javascript has correct content');
-		$this->assertTrue((strpos(file_get_contents($combinedFilePath), "alert('c')") !== false), 'combined javascript has correct content');
+		$this->assertTrue((strpos(file_get_contents($combinedFilePath), "alert('b')") !== false),
+			'combined javascript has correct content');
+		$this->assertTrue((strpos(file_get_contents($combinedFilePath), "alert('c')") !== false),
+			'combined javascript has correct content');
 
 		/* COMBINED FILES ARE NOT INCLUDED TWICE */
-		$this->assertFalse((bool)preg_match('/src=".*\/RequirementsTest_b\.js/', $html), 'combined files are not included twice');
-		$this->assertFalse((bool)preg_match('/src=".*\/RequirementsTest_c\.js/', $html), 'combined files are not included twice');
+		$this->assertFalse((bool)preg_match('/src=".*\/RequirementsTest_b\.js/', $html),
+			'combined files are not included twice');
+		$this->assertFalse((bool)preg_match('/src=".*\/RequirementsTest_c\.js/', $html),
+			'combined files are not included twice');
 		
 		/* NORMAL REQUIREMENTS ARE STILL INCLUDED */
-		$this->assertTrue((bool)preg_match('/src=".*\/RequirementsTest_a\.js/', $html), 'normal requirements are still included');
+		$this->assertTrue((bool)preg_match('/src=".*\/RequirementsTest_a\.js/', $html),
+			'normal requirements are still included');
 
 		$backend->delete_combined_files('RequirementsTest_bc.js');
 		
@@ -138,23 +145,29 @@ class RequirementsTest extends SapphireTest {
 		$html = $backend->includeInHTML(false, self::$html_template);
 
 		/* COMBINED JAVASCRIPT FILE IS INCLUDED IN HTML HEADER */
-		$this->assertTrue((bool)preg_match('/src=".*\/RequirementsTest_bc\.js/', $html), 'combined javascript file is included in html header');
+		$this->assertTrue((bool)preg_match('/src=".*\/RequirementsTest_bc\.js/', $html),
+			'combined javascript file is included in html header');
 		
 		/* COMBINED JAVASCRIPT FILE EXISTS */
-		$this->assertTrue(file_exists($combinedFilePath), 'combined javascript file exists');
+		$this->assertTrue(file_exists($combinedFilePath),
+			'combined javascript file exists');
 		
 		/* COMBINED JAVASCRIPT HAS CORRECT CONTENT */
-		$this->assertTrue((strpos(file_get_contents($combinedFilePath), "alert('b')") !== false), 'combined javascript has correct content');
-		$this->assertTrue((strpos(file_get_contents($combinedFilePath), "alert('c')") !== false), 'combined javascript has correct content');
+		$this->assertTrue((strpos(file_get_contents($combinedFilePath), "alert('b')") !== false),
+			'combined javascript has correct content');
+		$this->assertTrue((strpos(file_get_contents($combinedFilePath), "alert('c')") !== false),
+			'combined javascript has correct content');
 		
 		/* COMBINED FILES ARE NOT INCLUDED TWICE */
-		$this->assertFalse((bool)preg_match('/src=".*\/RequirementsTest_b\.js/', $html), 'combined files are not included twice');
-		$this->assertFalse((bool)preg_match('/src=".*\/RequirementsTest_c\.js/', $html), 'combined files are not included twice');
+		$this->assertFalse((bool)preg_match('/src=".*\/RequirementsTest_b\.js/', $html),
+			'combined files are not included twice');
+		$this->assertFalse((bool)preg_match('/src=".*\/RequirementsTest_c\.js/', $html),
+			'combined files are not included twice');
 
 		$backend->delete_combined_files('RequirementsTest_bc.js');
 	}
 	
-	function testBlockedCombinedJavascript() {
+	public function testBlockedCombinedJavascript() {
 		$basePath = $this->getCurrentRelativePath();
 		
 		$backend = new Requirements_Backend;
@@ -170,7 +183,8 @@ class RequirementsTest extends SapphireTest {
 		clearstatcache(); // needed to get accurate file_exists() results
 		$html = $backend->includeInHTML(false, self::$html_template);
 
-		$this->assertFalse((bool)preg_match('/src=".*\/RequirementsTest_bc\.js/', $html), 'blocked combined files are not included ');
+		$this->assertFalse((bool)preg_match('/src=".*\/RequirementsTest_bc\.js/', $html),
+			'blocked combined files are not included ');
 		$backend->unblock('RequirementsTest_bc.js');
 
 		/* BLOCKED UNCOMBINED FILES ARE NOT INCLUDED */
@@ -179,7 +193,8 @@ class RequirementsTest extends SapphireTest {
 		$backend->delete_combined_files('RequirementsTest_bc.js');
 		clearstatcache(); // needed to get accurate file_exists() results
 		$html = $backend->includeInHTML(false, self::$html_template);
-		$this->assertFalse((strpos(file_get_contents($combinedFilePath), "alert('b')") !== false), 'blocked uncombined files are not included');
+		$this->assertFalse((strpos(file_get_contents($combinedFilePath), "alert('b')") !== false),
+			'blocked uncombined files are not included');
 		$backend->unblock('RequirementsTest_b.js');
 		
 		/* A SINGLE FILE CAN'T BE INCLUDED IN TWO COMBINED FILES */
@@ -205,7 +220,7 @@ class RequirementsTest extends SapphireTest {
 		$backend->delete_combined_files('RequirementsTest_bc.js');
 	}
 	
-	function testArgsInUrls() {
+	public function testArgsInUrls() {
 		$basePath = $this->getCurrentRelativePath();
 		
 		$backend = new Requirements_Backend;
@@ -218,66 +233,82 @@ class RequirementsTest extends SapphireTest {
 		$html = $backend->includeInHTML(false, self::$html_template);
 
 		/* Javascript has correct path */
-		$this->assertTrue((bool)preg_match('/src=".*\/RequirementsTest_a\.js\?m=\d\d+&test=1&test=2&test=3/', $html), 'javascript has correct path'); 
+		$this->assertTrue((bool)preg_match('/src=".*\/RequirementsTest_a\.js\?m=\d\d+&test=1&test=2&test=3/', $html),
+			'javascript has correct path'); 
 
 		/* CSS has correct path */
-		$this->assertTrue((bool)preg_match('/href=".*\/RequirementsTest_a\.css\?m=\d\d+&test=1&test=2&test=3/', $html), 'css has correct path'); 
+		$this->assertTrue((bool)preg_match('/href=".*\/RequirementsTest_a\.css\?m=\d\d+&test=1&test=2&test=3/',$html),
+			'css has correct path'); 
 	}
 	
-	function testRequirementsBackend() {
+	public function testRequirementsBackend() {
 		$basePath = $this->getCurrentRelativePath();
 		
 		$backend = new Requirements_Backend();
 		$backend->javascript($basePath . '/a.js');
 		
-		$this->assertTrue(count($backend->get_javascript()) == 1, "There should be only 1 file included in required javascript.");
-		$this->assertTrue(in_array($basePath . '/a.js', $backend->get_javascript()), "a.js should be included in required javascript.");
+		$this->assertTrue(count($backend->get_javascript()) == 1,
+			"There should be only 1 file included in required javascript.");
+		$this->assertTrue(in_array($basePath . '/a.js', $backend->get_javascript()),
+			"a.js should be included in required javascript.");
 		
 		$backend->javascript($basePath . '/b.js');
-		$this->assertTrue(count($backend->get_javascript()) == 2, "There should be 2 files included in required javascript.");
+		$this->assertTrue(count($backend->get_javascript()) == 2,
+			"There should be 2 files included in required javascript.");
 		
 		$backend->block($basePath . '/a.js');
-		$this->assertTrue(count($backend->get_javascript()) == 1, "There should be only 1 file included in required javascript.");
-		$this->assertFalse(in_array($basePath . '/a.js', $backend->get_javascript()), "a.js should not be included in required javascript after it has been blocked.");
-		$this->assertTrue(in_array($basePath . '/b.js', $backend->get_javascript()), "b.js should be included in required javascript.");
+		$this->assertTrue(count($backend->get_javascript()) == 1,
+			"There should be only 1 file included in required javascript.");
+		$this->assertFalse(in_array($basePath . '/a.js', $backend->get_javascript()),
+			"a.js should not be included in required javascript after it has been blocked.");
+		$this->assertTrue(in_array($basePath . '/b.js', $backend->get_javascript()),
+			"b.js should be included in required javascript.");
 		
 		$backend->css($basePath . '/a.css');
-		$this->assertTrue(count($backend->get_css()) == 1, "There should be only 1 file included in required css.");
-		$this->assertArrayHasKey($basePath . '/a.css', $backend->get_css(), "a.css should be in required css.");
+		$this->assertTrue(count($backend->get_css()) == 1,
+			"There should be only 1 file included in required css.");
+		$this->assertArrayHasKey($basePath . '/a.css', $backend->get_css(),
+			"a.css should be in required css.");
 		
 		$backend->block($basePath . '/a.css');
-		$this->assertTrue(count($backend->get_css()) == 0, "There should be nothing in required css after file has been blocked.");
+		$this->assertTrue(count($backend->get_css()) == 0,
+			"There should be nothing in required css after file has been blocked.");
 	}
 
-	function testConditionalTemplateRequire() {
+	public function testConditionalTemplateRequire() {
 		$basePath = $this->getCurrentRelativePath();
-		// we're asserting "framework", so set the relative path accordingly in case FRAMEWORK_DIR was changed to something else
+		// we're asserting "framework", so set the relative path accordingly in case FRAMEWORK_DIR was changed
+		// to something else
 		$basePath = 'framework' . substr($basePath, strlen(FRAMEWORK_DIR));
 
-		$backend = new RequirementsTest_Backend();
+		$backend = new Requirements_Backend();
 		$holder = Requirements::backend();
 		Requirements::set_backend($backend);
 		$data = new ArrayData(array(
 			'FailTest' => true,
 		));
 		$data->renderWith('RequirementsTest_Conditionals');
-		$backend->assertFileIncluded('css', $basePath .'/RequirementsTest_a.css');
-		$backend->assertFileIncluded('js', array($basePath .'/RequirementsTest_b.js', $basePath .'/RequirementsTest_c.js'));
-		$backend->assertFileNotIncluded('js', $basePath .'/RequirementsTest_a.js');
-		$backend->assertFileNotIncluded('css', array($basePath .'/RequirementsTest_b.css', $basePath .'/RequirementsTest_c.css'));
+		$this->assertFileIncluded($backend, 'css', $basePath .'/RequirementsTest_a.css');
+		$this->assertFileIncluded($backend, 'js',
+			array($basePath .'/RequirementsTest_b.js', $basePath .'/RequirementsTest_c.js'));
+		$this->assertFileNotIncluded($backend, 'js', $basePath .'/RequirementsTest_a.js');
+		$this->assertFileNotIncluded($backend, 'css',
+			array($basePath .'/RequirementsTest_b.css', $basePath .'/RequirementsTest_c.css'));
 		$backend->clear();
 		$data = new ArrayData(array(
 			'FailTest' => false,
 		));
 		$data->renderWith('RequirementsTest_Conditionals');
-		$backend->assertFileNotIncluded('css', $basePath .'/RequirementsTest_a.css');
-		$backend->assertFileNotIncluded('js', array($basePath .'/RequirementsTest_b.js', $basePath .'/RequirementsTest_c.js'));
-		$backend->assertFileIncluded('js', $basePath .'/RequirementsTest_a.js');
-		$backend->assertFileIncluded('css', array($basePath .'/RequirementsTest_b.css', $basePath .'/RequirementsTest_c.css'));
+		$this->assertFileNotIncluded($backend, 'css', $basePath .'/RequirementsTest_a.css');
+		$this->assertFileNotIncluded($backend, 'js',
+			array($basePath .'/RequirementsTest_b.js', $basePath .'/RequirementsTest_c.js'));
+		$this->assertFileIncluded($backend, 'js', $basePath .'/RequirementsTest_a.js');
+		$this->assertFileIncluded($backend, 'css',
+			array($basePath .'/RequirementsTest_b.css', $basePath .'/RequirementsTest_c.css'));
 		Requirements::set_backend($holder);
 	}
 
-	function testJsWriteToBody() {
+	public function testJsWriteToBody() {
 		$backend = new Requirements_Backend();
 		$backend->javascript('http://www.mydomain.com/test.js');
 
@@ -292,82 +323,93 @@ class RequirementsTest extends SapphireTest {
 		$html = $backend->includeInHTML(false, $template);
 		$this->assertNotContains('<head><script', $html);
 		$this->assertContains('</script></body>', $html);
-
 	}
-}
 
-class RequirementsTest_Backend extends Requirements_Backend implements TestOnly {
-	function assertFileIncluded($type, $files) {
+	public function assertFileIncluded($backend, $type, $files) {
 		$type = strtolower($type);
 		switch (strtolower($type)) {
 			case 'css':
-				$var = 'css';
+				$method = 'get_css';
 				$type = 'CSS';
 				break;
 			case 'js':
 			case 'javascript':
 			case 'script':
-				$var = 'javascript';
+				$method = 'get_javascript';
 				$type = 'JavaScript';
 				break;
 		}
+		$includedFiles = $backend->$method();
+
+		// Workaround for inconsistent return formats
+		if($method == 'get_javascript') {
+			$includedFiles = array_combine(array_values($includedFiles), array_values($includedFiles));
+		}
+
 		if(is_array($files)) {
 			$failedMatches = array();
 			foreach ($files as $file) {
-				if(!array_key_exists($file, $this->$var)) {
+				if(!array_key_exists($file, $includedFiles)) {
 					$failedMatches[] = $file;
 				}
 			}
-			if(count($failedMatches) > 0) throw new PHPUnit_Framework_AssertionFailedError(
+			$this->assertTrue(
+				(count($failedMatches) == 0),
 				"Failed asserting the $type files '"
 				. implode("', '", $failedMatches)
 				. "' have exact matches in the required elements:\n'"
-				. implode("'\n'", array_keys($this->$var)) . "'"
+				. implode("'\n'", array_keys($includedFiles)) . "'"
 			);
 		} else {
-			if(!array_key_exists($files, $this->$var)) {
-				throw new PHPUnit_Framework_AssertionFailedError(
-					"Failed asserting the $type file '$files' has an exact match in the required elements:\n'"
-					. implode("'\n'", array_keys($this->$var)) . "'"
-				);
-			}
+			$this->assertTrue(
+				(array_key_exists($files, $includedFiles)),
+				"Failed asserting the $type file '$files' has an exact match in the required elements:\n'"
+				. implode("'\n'", array_keys($includedFiles)) . "'"
+			);
 		}
 	}
   	
-	function assertFileNotIncluded($type, $files) {
+	public function assertFileNotIncluded($backend, $type, $files) {
 		$type = strtolower($type);
 		switch ($type) {
 			case 'css':
-				$var = 'css';
+				$method = 'get_css';
 				$type = 'CSS';
 				break;
 			case 'js':
-			case 'javascript':
+			case 'get_javascript':
 			case 'script':
-				$var = 'javascript';
+				$method = 'get_javascript';
 				$type = 'JavaScript';
 				break;
 		}
+		$includedFiles = $backend->$method();
+
+		// Workaround for inconsistent return formats
+		if($method == 'get_javascript') {
+			$includedFiles = array_combine(array_values($includedFiles), array_values($includedFiles));
+		}
+
 		if(is_array($files)) {
 			$failedMatches = array();
 			foreach ($files as $file) {
-				if(array_key_exists($file, $this->$var)) {
+				if(array_key_exists($file, $includedFiles)) {
 					$failedMatches[] = $file;
 				}
 			}
-			if(count($failedMatches) > 0) throw new PHPUnit_Framework_AssertionFailedError(
+			$this->assertTrue(
+				(count($failedMatches) == 0),
 				"Failed asserting the $type files '"
 				. implode("', '", $failedMatches)
 				. "' do not have exact matches in the required elements:\n'"
-				. implode("'\n'", array_keys($this->$var)) . "'"
+				. implode("'\n'", array_keys($includedFiles)) . "'"
 			);
 		} else {
-			if(array_key_exists($files, $this->$var)) {
-				throw new PHPUnit_Framework_AssertionFailedError(
-					"Failed asserting the $type file '$files' does not have an exact match in the required elements:\n'"
-					. implode("'\n'", array_keys($this->$var)) . "'"
-				);
-			}
+			$this->assertFalse(
+				(array_key_exists($files, $includedFiles)),
+				"Failed asserting the $type file '$files' does not have an exact match in the required elements:"
+						. "\n'" . implode("'\n'", array_keys($includedFiles)) . "'"
+			);
 		}
 	}
 }

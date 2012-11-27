@@ -549,7 +549,7 @@ body.cms {
  * -------------------------------------------- */
 
 .cms-content-toolbar {
-
+	min-height:35px;
 	display: block;
 	margin: 0 0 15px 0;
 	
@@ -776,6 +776,32 @@ body.cms {
 	position:  relative;
 	display: block;
 	margin-left: 8px;
+
+	.view-mode-batchactions-wrapper {
+		float: left;
+		padding: 4px 6px;
+		border: 1px solid #aaa;
+		margin-bottom: 8px;
+		@include background-image(linear-gradient(top, #fff, #D9D9D9));
+		border-top-left-radius: 4px;
+		border-bottom-left-radius: 4px;	
+
+		label {
+			display: none;
+		}
+
+		fieldset, .Actions {
+			display: inline-block;
+		}
+	}
+
+		&.inactive .view-mode-batchactions-wrapper {
+			border-radius: 4px;		
+
+			label {
+				display: inline;
+			}
+		}
 	
 	form > * {
 		display: block;
@@ -784,6 +810,27 @@ body.cms {
 	
 	form.cms-batch-actions {
 		float:  left;
+	}
+
+	&.inactive form {
+		display: none;
+	}
+
+	.chzn-container-single .chzn-single {
+		margin-left: -1px;
+		border-radius: 0;
+		@include background-image(linear-gradient(top, #fff, #D9D9D9));
+	}
+
+	.cms-batch-actions .Actions .ss-ui-button {
+		margin-left: -1px;
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+
+		&.ui-state-disabled {
+			opacity: 1;
+			color: #ccc;
+		}
 	}
 }
 
@@ -1805,7 +1852,7 @@ form.import-form {
 				position: static;
 			}
 
-			.ui-tabs-panel {
+			.ui-tabs-nav ~ .ui-tabs-panel {
 				background: darken($color-widget-bg, 2%);
 				border-top:1px solid $color-button-generic-border;
 				clear: both;

@@ -44,7 +44,7 @@ available for opensource projects, including wiki and bugtracker functionality
 your modules page on silverstripe.org
 * Be involved in our community 
     * Subscripe to our developer mailing list and be available to answer questions on the forum. 
-    * Attend [irc:our weekly core discussions on IRC](irc/our weekly core discussions on IRC) as regularly as you can.
+    * Attend our weekly core discussions on IRC as regularly as you can.
 * Create an **issue tracker** so your users can file bugs and feature requests (see ["Feedback and Bugtracking"](module-release-process#feedback-and-bugtracking) below)
 * Create a **roadmap** and **milestones** outlining future release planning
 
@@ -64,7 +64,7 @@ release candidate.  If your release candidate is found to be stable, then you ca
 
 You should have both **developer documentation** and **user documentation**, and keep them updated with your releases.
 See [Producing OSS: "Documentation"](http://producingoss.com/en/getting-started.html#documentation) and our 
-[contributing guide](contributing#writing-documentation).
+[contributing guide](contributing/documentation).
 
 ### README file
 
@@ -111,7 +111,7 @@ that you can link from the `README.md` file. Example:
 			tutorial.md
 			howto-search-mymodule.md
 
-The ["sapphiredocs" module](http://open.silverstripe.org/browser/modules/sapphiredocs/trunk) can be used
+The ["docsviewer" module](http://open.silverstripe.org/browser/modules/docsviewer/trunk) can be used
 to list and render content inside a `docs/` folder (although it is not required, Markdown is designed
 to be readable in plain text as well).
 
@@ -236,7 +236,7 @@ trunk.
 ## See Also
 
 * [Module Development](/topics/module-development)
-* [Documentation Guide](contributing#writing-documentation)
-* [Contributing to SilverStripe](http://silverstripe.org/contributing-to-silverstripe/)
+* [Documentation Guide](contributing/documentation)
+* [Contributing to SilverStripe](contributing)
 * [Submit your Module](http://silverstripe.org/modules/manage/add)
 * [subversion](subversion)

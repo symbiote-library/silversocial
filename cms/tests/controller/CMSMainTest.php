@@ -7,11 +7,9 @@ class CMSMainTest extends FunctionalTest {
 
 	static $fixture_file = 'CMSMainTest.yml';
 	
-	protected $autoFollowRedirection = false;
-	
 	static protected $orig = array();
 	
-	static function set_up_once() {
+	public function setUpOnce() {
 		self::$orig['CMSBatchActionHandler_batch_actions'] = CMSBatchActionHandler::$batch_actions;
 		CMSBatchActionHandler::$batch_actions = array(
 			'publish' => 'CMSBatchAction_Publish',
@@ -19,25 +17,24 @@ class CMSMainTest extends FunctionalTest {
 			'deletefromlive' => 'CMSBatchAction_DeleteFromLive',
 		);
 		
-		parent::set_up_once();
+		parent::setUpOnce();
 	}
 	
-	static function tear_down_once() {
+	public function tearDownOnce() {
 		CMSBatchActionHandler::$batch_actions = self::$orig['CMSBatchActionHandler_batch_actions'];
 		
-		parent::tear_down_once();
+		parent::tearDownOnce();
 	}
 	
 	/**
 	 * @todo Test the results of a publication better
 	 */
-	function testPublish() {
+	public function testPublish() {
 		$page1 = $this->objFromFixture('Page', "page1");
 		$page2 = $this->objFromFixture('Page', "page2");
 		$this->session()->inst_set('loggedInAs', $this->idFromFixture('Member', 'admin'));
 		
 		$response = $this->get('admin/pages/publishall?confirm=1');
-
 		$this->assertContains(
 			'Done: Published 30 pages',
 			$response->getBody()
@@ -45,7 +42,7 @@ class CMSMainTest extends FunctionalTest {
 	
 		// Some modules (e.g., cmsworkflow) will remove this action
 		if(isset(CMSBatchActionHandler::$batch_actions['publish'])) {
-			$response = Director::test('admin/pages/batchactions/publish', array('csvIDs' => implode(',', array($page1->ID, $page2->ID)), 'ajax' => 1), $this->session());
+			$response = $this->get('admin/pages/batchactions/publish?ajax=1&csvIDs=' . implode(',', array($page1->ID, $page2->ID)));
 			$responseData = Convert::json2array($response->getBody());
 			$this->assertArrayHasKey($page1->ID, $responseData['modified']);
 			$this->assertArrayHasKey($page2->ID, $responseData['modified']);
@@ -74,7 +71,7 @@ class CMSMainTest extends FunctionalTest {
 	/**
 	 * Test publication of one of every page type
 	 */
-	function testPublishOneOfEachKindOfPage() {
+	public function testPublishOneOfEachKindOfPage() {
 		return;
 		$classes = ClassInfo::subclassesFor("SiteTree");
 		array_shift($classes);
@@ -100,7 +97,7 @@ class CMSMainTest extends FunctionalTest {
 	 * Test that getCMSFields works on each page type.
 	 * Mostly, this is just checking that the method doesn't return an error
 	 */
-	function testThatGetCMSFieldsWorksOnEveryPageType() {
+	public function testThatGetCMSFieldsWorksOnEveryPageType() {
 		$classes = ClassInfo::subclassesFor("SiteTree");
 		array_shift($classes);
 	
@@ -118,7 +115,7 @@ class CMSMainTest extends FunctionalTest {
 		}
 	}
 	
-	function testCanPublishPageWithUnpublishedParentWithStrictHierarchyOff() {
+	public function testCanPublishPageWithUnpublishedParentWithStrictHierarchyOff() {
 		$this->logInWithPermission('ADMIN');
 		
 		SiteTree::set_enforce_strict_hierarchy(true);
@@ -139,7 +136,7 @@ class CMSMainTest extends FunctionalTest {
 	/**
 	 * Test that a draft-deleted page can still be opened in the CMS
 	 */
-	function testDraftDeletedPageCanBeOpenedInCMS() {
+	public function testDraftDeletedPageCanBeOpenedInCMS() {
 		$this->session()->inst_set('loggedInAs', $this->idFromFixture('Member', 'admin'));
 	
 		// Set up a page that is delete from live
@@ -161,7 +158,7 @@ class CMSMainTest extends FunctionalTest {
 	/**
 	 * Test CMSMain::getRecord()
 	 */
-	function testGetRecord() {
+	public function testGetRecord() {
 		// Set up a page that is delete from live
 		$page1 = $this->objFromFixture('Page','page1');
 		$page1ID = $page1->ID;
@@ -185,14 +182,17 @@ class CMSMainTest extends FunctionalTest {
 	
 	}
 	
-	function testDeletedPagesSiteTreeFilter() {
+	public function testDeletedPagesSiteTreeFilter() {
 		$id = $this->idFromFixture('Page', 'page3');
 		$this->logInWithPermission('ADMIN');
 		$result = $this->get('admin/pages/getsubtree?filter=CMSSiteTreeFilter_DeletedPages&ajax=1&ID=' . $id);
 		$this->assertEquals(200, $result->getStatusCode());
 	}
 	
-	function testCreationOfTopLevelPage(){
+	public function testCreationOfTopLevelPage(){
+		$origFollow = $this->autoFollowRedirection;
+		$this->autoFollowRedirection = false;
+
 		$cmsUser = $this->objFromFixture('Member', 'allcmssectionsuser');
 		$rootEditUser = $this->objFromFixture('Member', 'rootedituser');
 
@@ -220,9 +220,14 @@ class CMSMainTest extends FunctionalTest {
 		$this->assertContains('/show/',$location, 'Must redirect to /show/ the new page');
 		// TODO Logout
 		$this->session()->inst_set('loggedInAs', NULL);
+
+		$this->autoFollowRedirection = $origFollow;
 	}
 
-	function testCreationOfRestrictedPage(){
+	public function testCreationOfRestrictedPage(){
+		$origFollow = $this->autoFollowRedirection;
+		$this->autoFollowRedirection = false;
+
 		$adminUser = $this->objFromFixture('Member', 'admin');
 		$adminUser->logIn();
 
@@ -258,9 +263,11 @@ class CMSMainTest extends FunctionalTest {
 		);
 
 		$this->session()->inst_set('loggedInAs', NULL);
+
+		$this->autoFollowRedirection = $origFollow;
 	}
 
-	function testBreadcrumbs() {
+	public function testBreadcrumbs() {
 		$page3 = $this->objFromFixture('Page', 'page3');		
 		$page31 = $this->objFromFixture('Page', 'page31');		
 		$adminuser = $this->objFromFixture('Member', 'admin');

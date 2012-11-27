@@ -14,6 +14,7 @@ class Security extends Controller {
 	    'lostpassword', 
 	    'passwordsent', 
 	    'changepassword', 
+		'ping',
 		'LoginForm',
 		'ChangePasswordForm',
 		'LostPasswordForm',
@@ -85,7 +86,7 @@ class Security extends Controller {
 	/**
 	 * Get location of word list file
 	 */
-	static function get_word_list() {
+	public static function get_word_list() {
 		return Security::$wordlist;
 	}
 	
@@ -116,7 +117,7 @@ class Security extends Controller {
 	 * 
 	 * @param string $wordListFile Location of word list file
 	 */
-	static function set_word_list($wordListFile) {
+	public static function set_word_list($wordListFile) {
 		Security::$wordlist = $wordListFile;
 	}
 	
@@ -125,7 +126,7 @@ class Security extends Controller {
 	 *
 	 * @param string|array $messageSet
 	 */
-	static function set_default_message_set($messageSet) {
+	public static function set_default_message_set($messageSet) {
 		self::$default_message_set = $messageSet;
 	}
 
@@ -157,7 +158,7 @@ class Security extends Controller {
 	 * The alreadyLoggedIn value can contain a '%s' placeholder that will be replaced with a link
 	 * to log in.
 	 */
-	static function permissionFailure($controller = null, $messageSet = null) {
+	public static function permissionFailure($controller = null, $messageSet = null) {
 		self::set_ignore_disallowed_actions(true);
 		
 		if(!$controller) $controller = Controller::curr();
@@ -294,6 +295,13 @@ class Security extends Controller {
 		return "Security/$action";
 	}
 
+	/**
+	 * This action is available as a keep alive, so user
+	 * sessions don't timeout. A common use is in the admin.
+	 */
+	public function ping() {
+		return 1;
+	}
 
 	/**
 	 * Log the currently logged in user out
@@ -341,7 +349,7 @@ class Security extends Controller {
 			// Disable ID-based caching  of the log-in page by making it a random number
 			$tmpPage->ID = -1 * rand(1,10000000);
 
-			$controller = new Page_Controller($tmpPage);
+			$controller = Page_Controller::create($tmpPage);
 			$controller->setDataModel($this->model);
 			$controller->init();
 			//Controller::$currentController = $controller;
@@ -353,7 +361,8 @@ class Security extends Controller {
 		$content = '';
 		$forms = $this->GetLoginForms();
 		if(!count($forms)) {
-			user_error('No login-forms found, please use Authenticator::register_authenticator() to add one', E_USER_ERROR);
+			user_error('No login-forms found, please use Authenticator::register_authenticator() to add one',
+				E_USER_ERROR);
 		}
 		
 		// only display tabs when more than one authenticator is provided
@@ -380,8 +389,12 @@ class Security extends Controller {
 			$content_forms = '';
 
 			foreach($forms as $form) {
-				$content .= "<li><a href=\"#{$form->FormName()}_tab\">{$form->getAuthenticator()->get_name()}</a></li>\n";
-				$content_forms .= '<div class="tab" id="' . $form->FormName() . '_tab">' . $form->forTemplate() . "</div>\n";
+				$content .= "<li><a href=\"#{$form->FormName()}_tab\">"
+					. $form->getAuthenticator()->get_name()
+					. "</a></li>\n";
+
+				$content_forms .= '<div class="tab" id="' . $form->FormName() . '_tab">'
+					. $form->forTemplate() . "</div>\n";
 			}
 
 			$content .= "</ul>\n" . $content_forms . "\n</div>\n</div>\n";
@@ -410,10 +423,12 @@ class Security extends Controller {
 		Session::clear('Security.Message');
 
 		// custom processing
-		return $customisedController->renderWith(array('Security_login', 'Security', $this->stat('template_main'), 'BlankPage'));
+		return $customisedController->renderWith(
+			array('Security_login', 'Security', $this->stat('template_main'), 'BlankPage')
+		);
 	}
 	
-	function basicauthlogin() {
+	public function basicauthlogin() {
 		$member = BasicAuth::requireLogin("SilverStripe login", 'ADMIN');
 		$member->LogIn();
 	}
@@ -429,7 +444,7 @@ class Security extends Controller {
 			$tmpPage->Title = _t('Security.LOSTPASSWORDHEADER', 'Lost Password');
 			$tmpPage->URLSegment = 'Security';
 			$tmpPage->ID = -1; // Set the page ID to -1 so we dont get the top level pages as its children
-			$controller = new Page_Controller($tmpPage);
+			$controller = Page_Controller::create($tmpPage);
 			$controller->init();
 		} else {
 			$controller = $this;
@@ -447,7 +462,9 @@ class Security extends Controller {
 		));
 		
 		//Controller::$currentController = $controller;
-		return $customisedController->renderWith(array('Security_lostpassword', 'Security', $this->stat('template_main'), 'BlankPage'));
+		return $customisedController->renderWith(
+			array('Security_lostpassword', 'Security', $this->stat('template_main'), 'BlankPage')
+		);
 	}
 
 
@@ -486,7 +503,7 @@ class Security extends Controller {
 			$tmpPage->Title = _t('Security.LOSTPASSWORDHEADER');
 			$tmpPage->URLSegment = 'Security';
 			$tmpPage->ID = -1; // Set the page ID to -1 so we dont get the top level pages as its children
-			$controller = new Page_Controller($tmpPage);
+			$controller = Page_Controller::create($tmpPage);
 			$controller->init();
 		} else {
 			$controller = $this;
@@ -495,29 +512,40 @@ class Security extends Controller {
 		$email = Convert::raw2xml(rawurldecode($request->param('ID')) . '.' . $request->getExtension());
 
 		$customisedController = $controller->customise(array(
-			'Title' => _t('Security.PASSWORDSENTHEADER', "Password reset link sent to '{email}'", array('email' => $email)),
+			'Title' => _t('Security.PASSWORDSENTHEADER', "Password reset link sent to '{email}'",
+				array('email' => $email)),
 			'Content' =>
-				"<p>" . 
-				_t('Security.PASSWORDSENTTEXT', "Thank you! A reset link has been sent to '{email}', provided an account exists for this email address.", array('email' => $email)) .
-				"</p>",
+				"<p>"
+				. _t('Security.PASSWORDSENTTEXT', 
+					"Thank you! A reset link has been sent to '{email}', provided an account exists for this email"
+					. " address.", 
+					array('email' => $email))
+				. "</p>",
 			'Email' => $email
 		));
 		
 		//Controller::$currentController = $controller;
-		return $customisedController->renderWith(array('Security_passwordsent', 'Security', $this->stat('template_main'), 'BlankPage'));
+		return $customisedController->renderWith(
+			array('Security_passwordsent', 'Security', $this->stat('template_main'), 'BlankPage')
+		);
 	}
 
 
 	/**
-	 * Create a link to the password reset form
+	 * Create a link to the password reset form.
 	 *
-	 * @param string $autoLoginHash The auto login hash
+	 * GET parameters used:
+	 * - m: member ID
+	 * - t: plaintext token
+	 *
+	 * @param Member $member Member object associated with this link.
+	 * @param string $autoLoginHash The auto login token.
 	 */
-	public static function getPasswordResetLink($autoLoginHash) {
-		$autoLoginHash = urldecode($autoLoginHash);
+	public static function getPasswordResetLink($member, $autologinToken) {
+		$autologinToken = urldecode($autologinToken);
 		$selfControllerClass = __CLASS__;
 		$selfController = new $selfControllerClass();
-		return $selfController->Link('changepassword') . "?h=$autoLoginHash";
+		return $selfController->Link('changepassword') . "?m={$member->ID}&t=$autologinToken";
 	}
 	
 	/**
@@ -538,21 +566,28 @@ class Security extends Controller {
 			$tmpPage->Title = _t('Security.CHANGEPASSWORDHEADER', 'Change your password');
 			$tmpPage->URLSegment = 'Security';
 			$tmpPage->ID = -1; // Set the page ID to -1 so we dont get the top level pages as its children
-			$controller = new Page_Controller($tmpPage);
+			$controller = Page_Controller::create($tmpPage);
 			$controller->init();
 		} else {
 			$controller = $this;
 		}
 
-		// First load with hash: Redirect to same URL without hash to avoid referer leakage
-		if(isset($_REQUEST['h']) && Member::member_from_autologinhash($_REQUEST['h'])) {
-			// The auto login hash is valid, store it for the change password form.
-			// Temporary value, unset in ChangePasswordForm
-			Session::set('AutoLoginHash', $_REQUEST['h']);
+		// Extract the member from the URL.
+		$member = null;
+		if (isset($_REQUEST['m'])) {
+			$member = Member::get()->filter('ID', (int)$_REQUEST['m'])->First();
+		}
+
+		// Check whether we are merely changin password, or resetting.
+		if(isset($_REQUEST['t']) && $member && $member->validateAutoLoginToken($_REQUEST['t'])) {
+			// On first valid password reset request redirect to the same URL without hash to avoid referrer leakage.
+
+			// Store the hash for the change password form. Will be unset after reload within the ChangePasswordForm.
+			Session::set('AutoLoginHash', $member->encryptWithUserSettings($_REQUEST['t']));
 			
 			return $this->redirect($this->Link('changepassword'));
-		// Redirection target after "First load with hash"
 		} elseif(Session::get('AutoLoginHash')) {
+			// Subsequent request after the "first load with hash" (see previous if clause).
 			$customisedController = $controller->customise(array(
 				'Content' =>
 					'<p>' . 
@@ -561,20 +596,23 @@ class Security extends Controller {
 				'Form' => $this->ChangePasswordForm(),
 			));
 		} elseif(Member::currentUser()) {
-			// let a logged in user change his password
+			// Logged in user requested a password change form.
 			$customisedController = $controller->customise(array(
-				'Content' => '<p>' . _t('Security.CHANGEPASSWORDBELOW', 'You can change your password below.') . '</p>',
+				'Content' => '<p>' 
+					. _t('Security.CHANGEPASSWORDBELOW', 'You can change your password below.') . '</p>',
 				'Form' => $this->ChangePasswordForm()));
 
 		} else {
-			// show an error message if the auto login hash is invalid and the
+			// show an error message if the auto login token is invalid and the
 			// user is not logged in
-			if(isset($_REQUEST['h'])) {
+			if(!isset($_REQUEST['t']) || !$member) {
 				$customisedController = $controller->customise(
 					array('Content' =>
 						_t(
 							'Security.NOTERESETLINKINVALID',
-							'<p>The password reset link is invalid or expired.</p><p>You can request a new one <a href="{link1}">here</a> or change your password after you <a href="{link2}">logged in</a>.</p>',
+							'<p>The password reset link is invalid or expired.</p>'
+							. '<p>You can request a new one <a href="{link1}">here</a> or change your password after'
+							. ' you <a href="{link2}">logged in</a>.</p>',
 							array('link1' => $this->Link('lostpassword'), 'link2' => $this->link('login'))
 						)
 					)
@@ -588,7 +626,9 @@ class Security extends Controller {
 			}
 		}
 
-		return $customisedController->renderWith(array('Security_changepassword', 'Security', $this->stat('template_main'), 'BlankPage'));
+		return $customisedController->renderWith(
+			array('Security_changepassword', 'Security', $this->stat('template_main'), 'BlankPage')
+		);
 	}
 	
 	/**
@@ -613,7 +653,7 @@ class Security extends Controller {
 	 * 
 	 * @return Member 
 	 */
-	static function findAnAdministrator() {
+	public static function findAnAdministrator() {
 		// coupling to subsites module
 		$origSubsite = null;
 		if(is_callable('Subsite::changeSubsite')) {
@@ -624,8 +664,11 @@ class Security extends Controller {
 		$member = null;
 
 		// find a group with ADMIN permission
-		$adminGroup = DataObject::get('Group')->where("\"Permission\".\"Code\" = 'ADMIN'")
-			->sort("\"Group\".\"ID\"")->innerJoin("Permission", "\"Group\".\"ID\"=\"Permission\".\"GroupID\"")->First();
+		$adminGroup = DataObject::get('Group')
+			->where("\"Permission\".\"Code\" = 'ADMIN'")
+			->sort("\"Group\".\"ID\"")
+			->innerJoin("Permission", "\"Group\".\"ID\"=\"Permission\".\"GroupID\"")
+			->First();
 		
 		if(is_callable('Subsite::changeSubsite')) {
 			Subsite::changeSubsite($origSubsite);
@@ -765,7 +808,7 @@ class Security extends Controller {
 	 * @see encrypt_passwords()
 	 * @see set_password_encryption_algorithm()
 	 */
-	static function encrypt_password($password, $salt = null, $algorithm = null, $member = null) {
+	public static function encrypt_password($password, $salt = null, $algorithm = null, $member = null) {
 		if(
 			// if the password is empty, don't encrypt
 			strlen(trim($password)) == 0  

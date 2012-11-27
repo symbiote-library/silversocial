@@ -6,7 +6,8 @@ class CMSSettingsController extends LeftAndMain {
 	static $menu_priority = -1;
 	static $menu_title = 'Settings';
 	static $tree_class = 'SiteConfig';
-
+	static $required_permission_codes = array('EDIT_SITECONFIG');
+	
 	public function getResponseNegotiator() {
 		$neg = parent::getResponseNegotiator();
 		$controller = $this;
@@ -19,7 +20,7 @@ class CMSSettingsController extends LeftAndMain {
 		/**
 	 * @return Form
 	 */
-	function getEditForm($id = null, $fields = null) {
+	public function getEditForm($id = null, $fields = null) {
 		$siteConfig = SiteConfig::current_site_config();
 		$fields = $siteConfig->getCMSFields();
 
@@ -51,7 +52,7 @@ class CMSSettingsController extends LeftAndMain {
 	 * @param Form $form 
 	 * @return String
 	 */
-	function save_siteconfig($data, $form) {
+	public function save_siteconfig($data, $form) {
 		$siteConfig = SiteConfig::current_site_config();
 		$form->saveInto($siteConfig);
 		$siteConfig->write();
@@ -60,11 +61,11 @@ class CMSSettingsController extends LeftAndMain {
 		return $this->getResponseNegotiator()->respond($this->request);
 	}
 	
-	function LinkPreview() {
+	public function LinkPreview() {
 		return false;
 	}
 
-	function Breadcrumbs($unlinked = false) {
+	public function Breadcrumbs($unlinked = false) {
 		$defaultTitle = self::menu_title_for_class(get_class($this));
 		return new ArrayList(array(
 			new ArrayData(array(

@@ -8,11 +8,11 @@
 
 class BrokenLinksReport extends SS_Report {
 
-	function title() {
+	public function title() {
 		return _t('BrokenLinksReport.BROKENLINKS',"Broken links report");
 	}
 	
-	function sourceRecords($params, $sort, $limit) {
+	public function sourceRecords($params, $sort, $limit) {
 		$join = '';
 		$sortBrokenReason = false;
 		if($sort) {
@@ -29,9 +29,8 @@ class BrokenLinksReport extends SS_Report {
 				$sort = '';
 			}
 		}
-		$q = DB::USE_ANSI_SQL ? '"' : '`';
-		if (!isset($_REQUEST['CheckSite']) || $params['CheckSite'] == 'Published') $ret = Versioned::get_by_stage('SiteTree', 'Live', "({$q}SiteTree{$q}.{$q}HasBrokenLink{$q} = 1 OR {$q}SiteTree{$q}.{$q}HasBrokenFile{$q} = 1)", $sort, $join, $limit);
-		else $ret = DataObject::get('SiteTree', "({$q}SiteTree{$q}.{$q}HasBrokenFile{$q} = 1 OR {$q}HasBrokenLink{$q} = 1)", $sort, $join, $limit);
+		if (!isset($_REQUEST['CheckSite']) || $params['CheckSite'] == 'Published') $ret = Versioned::get_by_stage('SiteTree', 'Live', '("SiteTree"."HasBrokenLink" = 1 OR "SiteTree"."HasBrokenFile" = 1)', $sort, $join, $limit);
+		else $ret = DataObject::get('SiteTree', '("SiteTree"."HasBrokenFile" = 1 OR "HasBrokenLink" = 1)', $sort, $join, $limit);
 		
 		$returnSet = new ArrayList();
 		if ($ret) foreach($ret as $record) {
@@ -73,7 +72,7 @@ class BrokenLinksReport extends SS_Report {
 		
 		return $returnSet;
 	}
-	function columns() {
+	public function columns() {
 		if(isset($_REQUEST['CheckSite']) && $_REQUEST['CheckSite'] == 'Draft') {
 			$dateTitle = _t('BrokenLinksReport.ColumnDateLastModified', 'Date last modified');
 		} else {
@@ -112,7 +111,7 @@ class BrokenLinksReport extends SS_Report {
 		
 		return $fields;
 	}
-	function parameterFields() {
+	public function parameterFields() {
 		return new FieldList(
 			new DropdownField('CheckSite', _t('BrokenLinksReport.CheckSite','Check site'), array(
 				'Published' => _t('BrokenLinksReport.CheckSiteDropdownPublished', 'Published Site'),

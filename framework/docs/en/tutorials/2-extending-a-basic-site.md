@@ -90,7 +90,7 @@ to be children of the page in the site tree. As we only want **news articles** i
 
 We will be introduced to other fields like this as we progress; there is a full list in the documentation for `[api:SiteTree]`.
 
-Now that we have created our page types, we need to let SilverStripe rebuild the database: [http://localhost/your_site_name/dev/build?flush=all](http://localhost/your_site_name/dev/build?flush=all). SilverStripe should detect that there are two new page types, and add them to the list of page types in the database.
+Now that we have created our page types, we need to let SilverStripe rebuild the database: [http://localhost/your_site_name/dev/build](http://localhost/your_site_name/dev/build). SilverStripe should detect that there are two new page types, and add them to the list of page types in the database.
 
 <div class="hint" markdown="1">
 It is SilverStripe convention to suffix general page types with "Page", and page types that hold other page types with
@@ -177,7 +177,7 @@ There are many more fields available in the default installation, listed in ["fo
 	return $fields;
 
 
-Finally, we return the fields to the CMS. If we flush the cache (by adding ?flush=all at the end of the URL), we will be able to edit the fields in the CMS.
+Finally, we return the fields to the CMS. If we flush the cache (by adding ?flush=1 at the end of the URL), we will be able to edit the fields in the CMS.
 
 Now that we have created our page types, let's add some content. Go into the CMS and create an *ArticleHolder* page named "News", then create a few *ArticlePage*'s within it.
 
@@ -193,7 +193,6 @@ the date field will have the date format defined by your locale.
 
 	:::php
 	<?php
-	
 	class ArticlePage extends Page {
 	
 	// .....
@@ -356,12 +355,11 @@ It would be nice to greet page visitors with a summary of the latest news when t
 **mysite/code/HomePage.php**
 
 	:::php
-	...
+	// ...
 	public function LatestNews($num=5) {
 		$holder = ArticleHolder::get()->First();
 		return ($holder) ? ArticlePage::get()->filter('ParentID', $holder->ID)->sort('Date DESC')->limit($num) : false;
 	}
-	...
 
 
 This function simply runs a database query that gets the latest news articles from the database. By default, this is five, but you can change it by passing a number to the function. See the [Data Model](../topics/datamodel) documentation for details. We can reference this function as a page control in our *HomePage* template:
@@ -369,13 +367,12 @@ This function simply runs a database query that gets the latest news articles fr
 **themes/simple/templates/Layout/Homepage.ss**
 
 	:::ss
-	...
-		<div class="content">$Content</div>
+	<!-- ... -->
+	<div class="content">$Content</div>
 	</article>
 	<% loop LatestNews %>
 		<% include ArticleTeaser %>
 	<% end_loop %>
-	...
 
 
 When SilverStripe comes across a variable or page control it doesn't recognize, it first passes control to the controller. If the controller doesn't have a function for the variable or page control, it then passes control to the data object. If it has no matching functions, it then searches its database fields. Failing that it will return nothing.
@@ -394,7 +391,7 @@ An RSS feed is something that no news section should be without. SilverStripe ma
 	:::php
 	public function rss() {
 		$rss = new RSSFeed($this->Children(), $this->Link(), "The coolest news around");
-		$rss->outputToBrowser();
+		return $rss->outputToBrowser();
 	}
 
 
@@ -444,7 +441,6 @@ Nothing here should be new. The *StaffPage* page type is more interesting though
 
 	:::php
 	<?php
-	
 	class StaffPage extends Page {
 		static $db = array(
 		);
@@ -462,7 +458,6 @@ Nothing here should be new. The *StaffPage* page type is more interesting though
 	}
 	
 	class StaffPage_Controller extends Page_Controller {
-		
 	}
 
 
@@ -474,7 +469,7 @@ the CMS.
 
 ![](_images/tutorial2_photo.jpg)
 
-Rebuild the database ([http://localhost/your_site_name/dev/build?flush=1](http://localhost/your_site_name/dev/build?flush=1)) and open the CMS. Create
+Rebuild the database ([http://localhost/your_site_name/dev/build](http://localhost/your_site_name/dev/build)) and open the CMS. Create
 a new *StaffHolder* called "Staff", and create some *StaffPage*s in it.
 
 ![](_images/tutorial2_create-staff.jpg)

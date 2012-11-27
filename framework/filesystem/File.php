@@ -71,18 +71,10 @@ class File extends DataObject {
 	static $plural_name = "Files";
 
 	static $db = array(
-		"Name" => "Varchar(255)",
-		"Title" => "Varchar(255)",
-		"Filename" => "Text",
-		"Content" => "Text",
-		// Only applies to files, doesn't inherit for folder
+		"File" => "FileContent",
 		'ShowInSearch' => 'Boolean(1)',
 	);
 	
-	static $has_one = array(
-		"Parent" => "File",
-		"Owner" => "Member"
-	);
 	
 	static $has_many = array();
 	
@@ -124,8 +116,8 @@ class File extends DataObject {
 	 */
 	static $app_categories = array(
 		'audio' => array(
-			"aif" ,"au" ,"mid" ,"midi" ,"mp3" ,"ra" ,"ram" ,"rm","mp3" ,"wav" ,"m4a" ,"snd" ,"aifc" ,"aiff" ,"wma" ,"apl",
-			"avr" ,"cda" ,"mp4" ,"ogg"
+			"aif" ,"au" ,"mid" ,"midi" ,"mp3" ,"ra" ,"ram" ,"rm","mp3" ,"wav" ,"m4a" ,"snd" ,"aifc" ,"aiff" ,"wma",
+			"apl", "avr" ,"cda" ,"mp4" ,"ogg"
 		),
 		'mov' => array(
 			"mpeg" ,"mpg" ,"m1v" ,"mp2" ,"mpa" ,"mpe" ,"ifo" ,"vob","avi" ,"wmv" ,"asf" ,"m2v" ,"qt"
@@ -138,6 +130,9 @@ class File extends DataObject {
 		),
 		'flash' => array(
 			'swf', 'fla'
+		),
+		'doc' => array(
+			'doc','docx','txt','rtf','xls','xlsx','pages', 'ppt','pptx','pps','csv', 'html','htm','xhtml', 'xml','pdf'
 		)
 	);
 
@@ -204,7 +199,7 @@ class File extends DataObject {
 	 * @param String $filename Matched against the "Name" property.
 	 * @return mixed null if not found, File object of found file
 	 */
-	static function find($filename) {
+	public static function find($filename) {
 		// Get the base file if $filename points to a resampled file
 		$filename = preg_replace('/_resampled\/[^-]+-/', '', $filename);
 
@@ -223,18 +218,18 @@ class File extends DataObject {
 		return $item;
 	}
 	
-	function Link() {
+	public function Link() {
 		return Director::baseURL() . $this->RelativeLink();
 	}
 
-	function RelativeLink() {
+	public function RelativeLink() {
 		return $this->Filename;
 	}
 
 	/**
 	 * @deprecated 3.0 Use getTreeTitle()
 	 */
-	function TreeTitle() {
+	public function TreeTitle() {
 		Deprecation::notice('3.0', 'Use getTreeTitle() instead.');
 		return $this->getTreeTitle();
 	}
@@ -242,7 +237,7 @@ class File extends DataObject {
 	/**
 	 * @return string
 	 */
-	function getTreeTitle() {
+	public function getTreeTitle() {
 		return Convert::raw2xml($this->Title);
 	}
 
@@ -267,7 +262,7 @@ class File extends DataObject {
 	 * 
 	 * @return boolean
 	 */
-	function canView($member = null) {
+	public function canView($member = null) {
 		if(!$member) $member = Member::currentUser();
 		
 		$results = $this->extend('canView', $member);
@@ -284,7 +279,7 @@ class File extends DataObject {
 	 * 
 	 * @return boolean
 	 */
-	function canEdit($member = null) {
+	public function canEdit($member = null) {
 		if(!$member) $member = Member::currentUser();
 		
 		$result = $this->extendedCan('canEdit', $member);
@@ -296,7 +291,7 @@ class File extends DataObject {
 	/**
 	 * @return boolean
 	 */
-	function canCreate($member = null) {
+	public function canCreate($member = null) {
 		if(!$member) $member = Member::currentUser();
 		
 		$result = $this->extendedCan('canCreate', $member);
@@ -308,7 +303,7 @@ class File extends DataObject {
 	/**
 	 * @return boolean
 	 */
-	function canDelete($member = null) {
+	public function canDelete($member = null) {
 		if(!$member) $member = Member::currentUser();
 		
 		$results = $this->extend('canDelete', $member);
@@ -324,13 +319,14 @@ class File extends DataObject {
 	 * 
 	 * @return FieldList
 	 */
-	function getCMSFields() {
+	public function getCMSFields() {
 		// Preview
 		if($this instanceof Image) {
 			$formattedImage = $this->getFormattedImage('SetWidth', Image::$asset_preview_width);
 			$thumbnail = $formattedImage ? $formattedImage->URL : '';
 			$previewField = new LiteralField("ImageFull",
-				"<img id='thumbnailImage' class='thumbnail-preview' src='{$thumbnail}?r=" . rand(1,100000)  . "' alt='{$this->Name}' />\n"
+				"<img id='thumbnailImage' class='thumbnail-preview' src='{$thumbnail}?r=" 
+					. rand(1,100000)  . "' alt='{$this->Name}' />\n"
 			);
 		} else {
 			$previewField = new LiteralField("ImageFull", $this->CMSThumbnail());
@@ -418,7 +414,7 @@ class File extends DataObject {
 		return self::get_app_category($this->Extension);
 	}
 
-	function CMSThumbnail() {
+	public function CMSThumbnail() {
 		return '<img src="' . $this->Icon() . '" />';
 	}
 
@@ -429,7 +425,7 @@ class File extends DataObject {
 	 * 
 	 * @return String 
 	 */
-	function Icon() {
+	public function Icon() {
 		$ext = $this->Extension;
 		if(!Director::fileExists(FRAMEWORK_DIR . "/images/app_icons/{$ext}_32.gif")) {
 			$ext = $this->appCategory();
@@ -445,7 +441,7 @@ class File extends DataObject {
 	/**
 	 * Should be called after the file was uploaded 
 	 */ 
-	function onAfterUpload() {
+	public function onAfterUpload() {
 		$this->extend('onAfterUpload');
 	}
 
@@ -523,11 +519,16 @@ class File extends DataObject {
 		if(!file_exists($pathAfterAbs)) {
 			if(!is_a($this, 'Folder')) {
 				// Only throw a fatal error if *both* before and after paths don't exist.
-				if(!file_exists($pathBeforeAbs)) throw new Exception("Cannot move $pathBefore to $pathAfter - $pathBefore doesn't exist");
+				if(!file_exists($pathBeforeAbs)) {
+					throw new Exception("Cannot move $pathBefore to $pathAfter - $pathBefore doesn't exist");
+				}
 				
 				// Check that target directory (not the file itself) exists.
 				// Only check if we're dealing with a file, otherwise the folder will need to be created
-				if(!file_exists(dirname($pathAfterAbs))) throw new Exception("Cannot move $pathBefore to $pathAfter - Directory " . dirname($pathAfter) . " doesn't exist");
+				if(!file_exists(dirname($pathAfterAbs))) {
+					throw new Exception("Cannot move $pathBefore to $pathAfter - Directory " . dirname($pathAfter)
+						. " doesn't exist");
+				}
 			} 
 
 			// Rename file or folder
@@ -568,7 +569,7 @@ class File extends DataObject {
 	 * 
 	 * @param String $name
 	 */
-	function setName($name) {
+	public function setName($name) {
 		$oldName = $this->Name;
 
 		// It can't be blank, default to Title
@@ -586,14 +587,18 @@ class File extends DataObject {
 			$base = pathinfo($name, PATHINFO_BASENAME);
 			$ext = self::get_file_extension($name);
 			$suffix = 1;
-			while(DataObject::get_one("File", "\"Name\" = '" . Convert::raw2sql($name) . "' AND \"ParentID\" = " . (int)$this->ParentID)) {
+			while(DataObject::get_one("File", "\"Name\" = '" . Convert::raw2sql($name) 
+					. "' AND \"ParentID\" = " . (int)$this->ParentID)) {
+
 				$suffix++;
 				$name = "$base-$suffix$ext";
 			}
 		}
 
 		// Update title
-		if(!$this->getField('Title')) $this->__set('Title', str_replace(array('-','_'),' ', preg_replace('/\.[^.]+$/', '', $name)));
+		if(!$this->getField('Title')) {
+			$this->__set('Title', str_replace(array('-','_'),' ', preg_replace('/\.[^.]+$/', '', $name)));
+		}
 		
 		// Update actual field value
 		$this->setField('Name', $name);
@@ -616,7 +621,7 @@ class File extends DataObject {
 	/**
 	 * Does not change the filesystem itself, please use {@link write()} for this.
 	 */
-	function setParentID($parentID) {
+	public function setParentID($parentID) {
 		$this->setField('ParentID', (int)$parentID);
 
 		// Don't change on the filesystem, we'll handle that in onBeforeWrite()
@@ -631,7 +636,7 @@ class File extends DataObject {
 	 * @uses Director::absoluteBaseURL()
 	 * @return string
 	 */
-	function getAbsoluteURL() {
+	public function getAbsoluteURL() {
 		return Director::absoluteBaseURL() . $this->getFilename();
 	}
 	
@@ -641,7 +646,7 @@ class File extends DataObject {
 	 * @uses Director::baseURL()
 	 * @return string
 	 */
-	function getURL() {
+	public function getURL() {
 		return Director::baseURL() . $this->getFilename();
 	}
 
@@ -651,7 +656,7 @@ class File extends DataObject {
 	 * 
 	 * @return String 
 	 */
-	function getFullPath() {
+	public function getFullPath() {
 		$baseFolder = Director::baseFolder();
 		
 		if(strpos($this->getFilename(), $baseFolder) === 0) {
@@ -671,9 +676,10 @@ class File extends DataObject {
 	 * 
 	 * @return String
 	 */
-	function getRelativePath() {
+	public function getRelativePath() {
 		if($this->ParentID) {
-			$p = DataObject::get_by_id('Folder', $this->ParentID, false); // Don't use the cache, the parent has just been changed
+			// Don't use the cache, the parent has just been changed
+			$p = DataObject::get_by_id('Folder', $this->ParentID, false); 
 			if($p && $p->exists()) return $p->getRelativePath() . $this->getField("Name");
 			else return ASSETS_DIR . "/" . $this->getField("Name");
 		} else if($this->getField("Name")) {
@@ -686,11 +692,11 @@ class File extends DataObject {
 	/**
 	 * @todo Coupling with cms module, remove this method.
 	 */
-	function DeleteLink() {
+	public function DeleteLink() {
 		return Director::absoluteBaseURL()."admin/assets/removefile/".$this->ID;
 	}
 
-	function getFilename() {
+	public function getFilename() {
 		// Default behaviour: Return field if its set
 		if($this->getField('Filename')) {
 			return $this->getField('Filename');
@@ -702,7 +708,7 @@ class File extends DataObject {
 	/**
 	 * Does not change the filesystem itself, please use {@link write()} for this.
 	 */
-	function setFilename($val) {
+	public function setFilename($val) {
 		$this->setField('Filename', $val);
 		
 		// "Filename" is the "master record" (existing on the filesystem), 
@@ -719,7 +725,7 @@ class File extends DataObject {
 	 * 
 	 * @return String
 	 */
-	function getExtension() {
+	public function getExtension() {
 		return self::get_file_extension($this->getField('Filename'));
 	}
 	
@@ -747,7 +753,7 @@ class File extends DataObject {
 	 *
 	 * @return string
 	 */
-	function getFileType() {
+	public function getFileType() {
 		$types = array(
 			'gif' => _t('File.GifType', 'GIF image - good for diagrams'),
 			'jpg' => _t('File.JpgType', 'JPEG image - good for photos'),
@@ -780,7 +786,7 @@ class File extends DataObject {
 	/**
 	 * Returns the size of the file type in an appropriate format.
 	 */
-	function getSize() {
+	public function getSize() {
 		$size = $this->getAbsoluteSize();
 		
 		return ($size) ? self::format_size($size) : false;
@@ -822,7 +828,7 @@ class File extends DataObject {
 	 * Return file size in bytes.
 	 * @return int
 	 */
-	function getAbsoluteSize(){
+	public function getAbsoluteSize(){
 		if(file_exists($this->getFullPath())) {
 			$size = filesize($this->getFullPath());
 			return $size;
@@ -842,7 +848,7 @@ class File extends DataObject {
 	 * @param boolean $includerelations a boolean value to indicate if the labels returned include relation fields
 	 * 
 	 */
-	function fieldLabels($includerelations = true) {
+	public function fieldLabels($includerelations = true) {
 		$labels = parent::fieldLabels($includerelations);
 		$labels['Name'] = _t('File.Name', 'Name');
 		$labels['Title'] = _t('File.Title', 'Title');
@@ -853,7 +859,7 @@ class File extends DataObject {
 		return $labels;
 	}
 	
-	function validate() {
+	public function validate() {
 		if(File::$apply_restrictions_to_admin || !Permission::check('ADMIN')) {
 			// Extension validation
 			// TODO Merge this with Upload_Validator
@@ -907,7 +913,7 @@ class File extends DataObject {
 	 * to specify a generic fallback if no mapping is found for an extension.
 	 * @return String Classname for a subclass of {@link File}
 	 */
-	static function get_class_for_file_extension($ext) {
+	public static function get_class_for_file_extension($ext) {
 		$map = array_change_key_case(self::$class_for_file_extension, CASE_LOWER);
 		return (array_key_exists(strtolower($ext), $map)) ? $map[strtolower($ext)] : $map['*'];
 	}
@@ -918,7 +924,7 @@ class File extends DataObject {
 	 * @param String|array
 	 * @param String
 	 */
-	static function set_class_for_file_extension($exts, $class) {
+	public static function set_class_for_file_extension($exts, $class) {
 		if(!is_array($exts)) $exts = array($exts);
 		
 		foreach($exts as $ext) {

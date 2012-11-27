@@ -4,7 +4,6 @@ php:
  - 5.4
 
 env:
- - TESTDB=SQLITE
  - TESTDB=MYSQL
  - TESTDB=PGSQL
 
@@ -16,11 +15,23 @@ matrix:
       env: TESTDB=SQLITE
 
 before_script:
+ - pear install pear/PHP_CodeSniffer
+ - phpenv rehash
  - ./tests/travis/before_script ~/builds/ss 
  - cd ~/builds/ss
 
 script: 
  - phpunit -c phpunit.xml.dist 
+ - phpcs --encoding=utf-8 --tab-width=4 --standard=framework/tests/phpcs -np framework
+
+branches:
+  except:
+    - 2.1
+    - 2.2
+    - 2.3
+    - 2.4
+    - post-2.4
+    - translation-staging
 
 notifications:
   irc:

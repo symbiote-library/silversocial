@@ -119,7 +119,7 @@ body, html { font-size: 12px; line-height: 16px; font-family: Arial, sans-serif;
 .cms .ui-tabs { padding: 0; background: none; }
 .cms .ui-tabs .ui-widget-header { border: 0; background: none; }
 .cms .ui-tabs .ui-tabs-nav { margin: 0; padding: 0; }
-.cms .ui-tabs .ui-tabs-nav li { top: 0; }
+.cms .ui-tabs .ui-tabs-nav li { top: 0; border-bottom: 0 !important; }
 .cms .ui-tabs .ui-tabs-nav li a { padding: 0 15px; }
 .cms .ui-tabs .ui-tabs-nav.ui-state-active { border-color: gray; }
 .cms .ui-tabs .ui-tabs-panel { background: transparent; }
@@ -149,8 +149,9 @@ form.nostyle input.text, form.nostyle textarea, form.nostyle select, form.nostyl
 .field:after { content: "\0020"; display: block; height: 0; clear: both; overflow: hidden; visibility: hidden; }
 .field.nolabel .middleColumn { margin-left: 0; }
 .field.nolabel .help { margin-left: 0; }
+.field.checkbox label.right { margin: 4px 0 0 0; display: inline; font-style: normal; color: #444444; clear: none; }
 .field label.left { float: left; display: block; width: 176px; padding: 8px 8px 8px 0; line-height: 16px; font-weight: bold; text-shadow: 1px 1px 0 white; }
-.field label.right { cursor: pointer; }
+.field label.right { cursor: pointer; clear: both; color: #777777; display: block; font-style: italic; margin: 4px 0 0 184px; }
 .field .middleColumn { margin-left: 184px; }
 .field span.readonly { padding-top: 8px; line-height: 16px; display: block; }
 .field .help { clear: both; color: #777777; display: block; font-style: italic; margin: 4px 0 0 184px; }
@@ -367,7 +368,7 @@ body.cms { overflow: hidden; }
 .cms-add-form #PageType ul li .description { font-style: italic; }
 
 /** -------------------------------------------- Content toolbar -------------------------------------------- */
-.cms-content-toolbar { display: block; margin: 0 0 15px 0; border-bottom: 1px solid rgba(201, 205, 206, 0.8); -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); -o-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); *zoom: 1; /* smaller treedropdown */ }
+.cms-content-toolbar { min-height: 35px; display: block; margin: 0 0 15px 0; border-bottom: 1px solid rgba(201, 205, 206, 0.8); -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); -o-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8); *zoom: 1; /* smaller treedropdown */ }
 .cms-content-toolbar:after { content: "\0020"; display: block; height: 0; clear: both; overflow: hidden; visibility: hidden; }
 .cms-content-toolbar .cms-tree-view-modes { float: right; padding-top: 5px; }
 .cms-content-toolbar .cms-tree-view-modes * { display: inline-block; }
@@ -409,8 +410,17 @@ body.cms { overflow: hidden; }
 
 /**  CMS Batch actions */
 .cms-content-batchactions { float: left; position: relative; display: block; margin-left: 8px; }
+.cms-content-batchactions .view-mode-batchactions-wrapper { float: left; padding: 4px 6px; border: 1px solid #aaa; margin-bottom: 8px; background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2Q5ZDlkOSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA=='); background-size: 100%; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #d9d9d9)); background-image: -webkit-linear-gradient(top, #ffffff, #d9d9d9); background-image: -moz-linear-gradient(top, #ffffff, #d9d9d9); background-image: -o-linear-gradient(top, #ffffff, #d9d9d9); background-image: linear-gradient(top, #ffffff, #d9d9d9); border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
+.cms-content-batchactions .view-mode-batchactions-wrapper label { display: none; }
+.cms-content-batchactions .view-mode-batchactions-wrapper fieldset, .cms-content-batchactions .view-mode-batchactions-wrapper .Actions { display: inline-block; }
+.cms-content-batchactions.inactive .view-mode-batchactions-wrapper { border-radius: 4px; }
+.cms-content-batchactions.inactive .view-mode-batchactions-wrapper label { display: inline; }
 .cms-content-batchactions form > * { display: block; float: left; }
 .cms-content-batchactions form.cms-batch-actions { float: left; }
+.cms-content-batchactions.inactive form { display: none; }
+.cms-content-batchactions .chzn-container-single .chzn-single { margin-left: -1px; border-radius: 0; background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2Q5ZDlkOSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA=='); background-size: 100%; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(100%, #d9d9d9)); background-image: -webkit-linear-gradient(top, #ffffff, #d9d9d9); background-image: -moz-linear-gradient(top, #ffffff, #d9d9d9); background-image: -o-linear-gradient(top, #ffffff, #d9d9d9); background-image: linear-gradient(top, #ffffff, #d9d9d9); }
+.cms-content-batchactions .cms-batch-actions .Actions .ss-ui-button { margin-left: -1px; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.cms-content-batchactions .cms-batch-actions .Actions .ss-ui-button.ui-state-disabled { opacity: 1; color: #ccc; }
 
 #Form_BatchActionsForm select { width: 200px; }
 
@@ -622,7 +632,7 @@ form.import-form label.left { width: 250px; }
 .cms-container .CMSPageEditController .cms-edit-form .ui-tabs-nav .ui-state-default, .cms-container .CMSPageEditController .cms-edit-form .ui-tabs-nav .ui-widget-content .ui-state-default, .cms-container .CMSPageEditController .cms-edit-form .ui-tabs-nav .ui-widget-header .ui-state-default, .cms-container .CMSPageSettingsController .cms-edit-form .ui-tabs-nav .ui-state-default, .cms-container .CMSPageSettingsController .cms-edit-form .ui-tabs-nav .ui-widget-content .ui-state-default, .cms-container .CMSPageSettingsController .cms-edit-form .ui-tabs-nav .ui-widget-header .ui-state-default, .cms-container .CMSPageHistoryController .cms-edit-form .ui-tabs-nav .ui-state-default, .cms-container .CMSPageHistoryController .cms-edit-form .ui-tabs-nav .ui-widget-content .ui-state-default, .cms-container .CMSPageHistoryController .cms-edit-form .ui-tabs-nav .ui-widget-header .ui-state-default { border: 1px solid #c0c0c2; }
 .cms-container .CMSPageEditController .cms-edit-form .ui-tabs-nav .ui-state-active, .cms-container .CMSPageEditController .cms-edit-form .ui-tabs-nav .ui-widget-content .ui-state-active, .cms-container .CMSPageEditController .cms-edit-form .ui-tabs-nav .ui-widget-header .ui-state-active, .cms-container .CMSPageSettingsController .cms-edit-form .ui-tabs-nav .ui-state-active, .cms-container .CMSPageSettingsController .cms-edit-form .ui-tabs-nav .ui-widget-content .ui-state-active, .cms-container .CMSPageSettingsController .cms-edit-form .ui-tabs-nav .ui-widget-header .ui-state-active, .cms-container .CMSPageHistoryController .cms-edit-form .ui-tabs-nav .ui-state-active, .cms-container .CMSPageHistoryController .cms-edit-form .ui-tabs-nav .ui-widget-content .ui-state-active, .cms-container .CMSPageHistoryController .cms-edit-form .ui-tabs-nav .ui-widget-header .ui-state-active { padding-bottom: 1px; background: #e6eaed; border: 1px solid #c0c0c2; }
 .cms-container .CMSPageEditController .ss-tabset .ss-tabset, .cms-container .CMSPageSettingsController .ss-tabset .ss-tabset, .cms-container .CMSPageHistoryController .ss-tabset .ss-tabset { position: static; }
-.cms-container .CMSPageEditController .ss-tabset .ui-tabs-panel, .cms-container .CMSPageSettingsController .ss-tabset .ui-tabs-panel, .cms-container .CMSPageHistoryController .ss-tabset .ui-tabs-panel { background: #e6eaed; border-top: 1px solid #c0c0c2; clear: both; }
+.cms-container .CMSPageEditController .ss-tabset .ui-tabs-nav ~ .ui-tabs-panel, .cms-container .CMSPageSettingsController .ss-tabset .ui-tabs-nav ~ .ui-tabs-panel, .cms-container .CMSPageHistoryController .ss-tabset .ui-tabs-nav ~ .ui-tabs-panel { background: #e6eaed; border-top: 1px solid #c0c0c2; clear: both; }
 .cms-container .CMSPageEditController .ss-tabset.ss-tabset-tabshidden .ui-tabs-panel, .cms-container .CMSPageSettingsController .ss-tabset.ss-tabset-tabshidden .ui-tabs-panel, .cms-container .CMSPageHistoryController .ss-tabset.ss-tabset-tabshidden .ui-tabs-panel { border-top: none; }
 
 /** -------------------------------------------- Page Settings Controller -------------------------------------------- */
@@ -649,7 +659,7 @@ form.import-form label.left { width: 250px; }
 .cms .jstree a > .jstree-icon, .TreeDropdownField .treedropdownfield-panel .jstree a > .jstree-icon { margin-right: 3px; }
 .cms .jstree li.jstree-open > ul, .TreeDropdownField .treedropdownfield-panel .jstree li.jstree-open > ul { display: block; }
 .cms .jstree li.jstree-closed > ul, .TreeDropdownField .treedropdownfield-panel .jstree li.jstree-closed > ul { display: none; }
-.cms .jstree li.disabled a, .TreeDropdownField .treedropdownfield-panel .jstree li.disabled a { color: #aaaaaa; }
+.cms .jstree li.disabled > a, .TreeDropdownField .treedropdownfield-panel .jstree li.disabled > a { color: #aaaaaa; }
 .cms .jstree-rtl a > .jstree-icon, .TreeDropdownField .treedropdownfield-panel .jstree-rtl a > .jstree-icon { margin-left: 3px; margin-right: 0; }
 .cms .jstree-rtl li, .TreeDropdownField .treedropdownfield-panel .jstree-rtl li { margin-left: 0; margin-right: 18px; }
 .cms .jstree-rtl > ul > li, .TreeDropdownField .treedropdownfield-panel .jstree-rtl > ul > li { margin-right: 0px; }
@@ -753,8 +763,8 @@ li.class-ErrorPage > a .jstree-pageicon { background-position: 0 -112px; }
 .cms-tree a.jstree-loading .jstree-pageicon { background: url(../images/throbber.gif) top left no-repeat; }
 
 /** Styles for the left hand side menu and header for the admin panels.  Take into consideration CSS selector performance.   @package framework @subpackage admin */
-.cms-logo-header { background-color: #00111d; position: relative; padding: 0 8px 0 4px; line-height: 24px; background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMTExZCIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjMDAzMDUwIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDAxMTFkIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g'); background-size: 100%; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00111d), color-stop(50%, #003050), color-stop(100%, #00111d)); background-image: -webkit-linear-gradient(#00111d, #003050, #00111d); background-image: -moz-linear-gradient(#00111d, #003050, #00111d); background-image: -o-linear-gradient(#00111d, #003050, #00111d); background-image: linear-gradient(#00111d, #003050, #00111d); }
-.cms-logo-header span { color: white; display: block; }
+.cms-logo-header { background-color: #00111d; position: relative !important; top: auto !important; height: auto !important; padding: 0 8px 0 4px; line-height: 24px; background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjUwJSIgeTE9IjAlIiB4Mj0iNTAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMTExZCIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjMDAzMDUwIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMDAxMTFkIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g'); background-size: 100%; background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00111d), color-stop(50%, #003050), color-stop(100%, #00111d)); background-image: -webkit-linear-gradient(#00111d, #003050, #00111d); background-image: -moz-linear-gradient(#00111d, #003050, #00111d); background-image: -o-linear-gradient(#00111d, #003050, #00111d); background-image: linear-gradient(#00111d, #003050, #00111d); }
+.cms-logo-header span { color: white; display: block; padding-left: 26px; }
 .cms-logo-header span a { color: #3ebae0; display: inline; }
 
 .cms-logo { border-bottom: 1px solid #03090c; overflow: hidden; padding: 8px 0; position: relative; vertical-align: middle; font-size: 12px; }
@@ -763,12 +773,12 @@ li.class-ErrorPage > a .jstree-pageicon { background-position: 0 -112px; }
 .cms-logo a { position: absolute; top: 8px; bottom: 8px; left: 4px; display: block; width: 24px; background: url("../images/logo_small.png") no-repeat left center; text-indent: -9999em; padding-right: 7px; border-right: 1px solid #19435c; }
 .cms-logo span { font-weight: bold; font-size: 14px; line-height: 20px; padding: 2px 0; margin-left: 44px; }
 
-.cms-login-status { border-top: 1px solid #19435c; height: 24px; padding: 7px 4px 0 4px; overflow: hidden; line-height: 16px; font-size: 11px; }
+.cms-login-status { border-top: 1px solid #19435c; padding: 7px 4px; line-height: 16px; font-size: 11px; }
 .cms-login-status .logout-link { display: inline-block; height: 16px; width: 16px; float: left; margin: 0 8px 0 3px; background: url('../images/sprites-32x32-sb47394f892.png') 0 -76px no-repeat; text-indent: -9999em; }
 
 .cms-menu { z-index: 80; background: #b0bec7; width: 192px; -webkit-box-shadow: rgba(0, 0, 0, 0.9) 0 0 3px; -moz-box-shadow: rgba(0, 0, 0, 0.9) 0 0 3px; box-shadow: rgba(0, 0, 0, 0.9) 0 0 3px; }
 .cms-menu a { text-decoration: none; }
-.cms-menu .cms-panel-content { width: 191px; /* 8x24 - 1 */ overflow-x: hidden; overflow-y: auto; }
+.cms-menu .cms-panel-content { width: 191px; /* 8x24 - 1 */ overflow-x: hidden; overflow-y: auto; position: relative !important; top: auto !important; left: auto !important; }
 .cms-menu.collapsed { width: 40px; cursor: auto; z-index: 1000; }
 .cms-menu.collapsed .cms-panel-header { width: 30px; }
 .cms-menu.collapsed .cms-panel-header span { display: none; }
@@ -776,6 +786,9 @@ li.class-ErrorPage > a .jstree-pageicon { background-position: 0 -112px; }
 .cms-menu.collapsed .cms-menu-list li { width: 100%; float: left; }
 .cms-menu.collapsed .cms-menu-list li span.text { display: none; }
 .cms-menu.collapsed .cms-menu-list li ul { display: none; }
+.cms-menu.collapsed .cms-login-status { height: 16px; }
+.cms-menu.collapsed .cms-login-status span { display: none; }
+.cms-menu.collapsed .cms-logo { height: 24px; }
 .cms-menu.collapsed.cms-panel .cms-panel-content { display: block; }
 
 .cms-menu-list li { /* Style applied to the menu flyout only when the collapsed setting */ }
@@ -851,6 +864,14 @@ li.class-ErrorPage > a .jstree-pageicon { background-position: 0 -112px; }
 .ModelAdmin .cms-content-fields .cms-content-tools .cms-panel-content #Form_ImportForm { overflow: hidden; }
 
 .SecurityAdmin .permissioncheckboxset .optionset li, .SecurityAdmin .permissioncheckboxsetfield_readonly .optionset li { float: none; width: auto; }
+
+/* For user permissions the readonly checkboxes are set as display none and are replaced with a <span> that has a 
+green tick icon as a background this is created using compass generated classes and hardcoded in the php */
+.permissioncheckboxsetfield_readonly .optionset li.odd, .permissioncheckboxsetfield_readonly .optionset li.even { margin-left: 16px; }
+.permissioncheckboxsetfield_readonly .optionset li.help { width: 384px; }
+.permissioncheckboxsetfield_readonly .optionset li input { display: none; }
+.permissioncheckboxsetfield_readonly .optionset li label { position: relative; }
+.permissioncheckboxsetfield_readonly .optionset li label span { position: absolute; left: -16px; top: -2px; }
 
 .cms .cms-content .SecurityAdmin .cms-content-fields { overflow-y: auto; }
 .cms .cms-content .SecurityAdmin .cms-content-fields .aligned-right-label { margin-left: 184px; padding: 8px 0; }

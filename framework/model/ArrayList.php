@@ -19,14 +19,14 @@ class ArrayList extends ViewableData implements SS_List, SS_Filterable, SS_Sorta
 	 * @param array $items - an initial array to fill this object with
 	 */
 	public function __construct(array $items = array()) {
-		$this->items = $items;
+		$this->items = array_values($items);
 		parent::__construct();
 	}
 	
 	/**
 	 * Return the class of items in this list, by looking at the first item inside it.
 	 */
-	function dataClass() {
+	public function dataClass() {
 		if(count($this->items) > 0) return get_class($this->items[0]);
 	}
 
@@ -107,7 +107,8 @@ class ArrayList extends ViewableData implements SS_List, SS_Filterable, SS_Sorta
 	 * @return ArrayList 
 	 */
 	public function getRange($offset, $length) {
-		Deprecation::notice("3.0", 'getRange($offset, $length) is deprecated.  Use limit($length, $offset) instead.  Note the new argument order.');
+		Deprecation::notice("3.0", 'getRange($offset, $length) is deprecated.  Use limit($length, $offset) instead.'
+			. ' Note the new argument order.');
 		return $this->limit($length, $offset);
 	}
 
@@ -137,9 +138,14 @@ class ArrayList extends ViewableData implements SS_List, SS_Filterable, SS_Sorta
 	 * @param mixed $item 
 	 */
 	public function remove($item) {
+		$renumberKeys = false;
 		foreach ($this->items as $key => $value) {
-			if ($item === $value) unset($this->items[$key]);
+			if ($item === $value) {
+				$renumberKeys = true;
+				unset($this->items[$key]);
+			}
 		}
+		if($renumberKeys) $this->items = array_values($this->items);
 	}
 
 	/**
@@ -176,16 +182,20 @@ class ArrayList extends ViewableData implements SS_List, SS_Filterable, SS_Sorta
 	 */
 	public function removeDuplicates($field = 'ID') {
 		$seen = array();
+		$renumberKeys = false;
 
 		foreach ($this->items as $key => $item) {
 			$value = $this->extractValue($item, $field);
 
 			if (array_key_exists($value, $seen)) {
+				$renumberKeys = true;
 				unset($this->items[$key]);
 			}
 
 			$seen[$value] = true;
 		}
+
+		if($renumberKeys) $this->items = array_values($this->items);
 	}
 
 	/**
@@ -331,7 +341,9 @@ class ArrayList extends ViewableData implements SS_List, SS_Filterable, SS_Sorta
 		// One argument and it's a string
 		if(count($args)==1 && is_string($args[0])){
 			$column = $args[0];
-			if(strpos($column, ' ') !== false) throw new InvalidArgumentException("You can't pass SQL fragments to sort()");
+			if(strpos($column, ' ') !== false) {
+				throw new InvalidArgumentException("You can't pass SQL fragments to sort()");
+			}
 			$columnsToSort[$column] = SORT_ASC;
 
 		} else if(count($args)==2){
@@ -391,7 +403,8 @@ class ArrayList extends ViewableData implements SS_List, SS_Filterable, SS_Sorta
 	 * @example $list->filter('Name', array('aziz', 'bob'); // aziz and bob in list
 	 * @example $list->filter(array('Name'=>'bob, 'Age'=>21)); // bob with the Age 21 in list
 	 * @example $list->filter(array('Name'=>'bob, 'Age'=>array(21, 43))); // bob with the Age 21 or 43
-	 * @example $list->filter(array('Name'=>array('aziz','bob'), 'Age'=>array(21, 43))); // aziz with the age 21 or 43 and bob with the Age 21 or 43
+	 * @example $list->filter(array('Name'=>array('aziz','bob'), 'Age'=>array(21, 43))); 
+	 *          // aziz with the age 21 or 43 and bob with the Age 21 or 43
 	 */
 	public function filter() {
 		if(count(func_get_args())>2){
@@ -447,7 +460,8 @@ class ArrayList extends ViewableData implements SS_List, SS_Filterable, SS_Sorta
 	 * @example $list->exclude('Name', array('aziz', 'bob'); // exclude aziz and bob from list
 	 * @example $list->exclude(array('Name'=>'bob, 'Age'=>21)); // exclude bob that has Age 21
 	 * @example $list->exclude(array('Name'=>'bob, 'Age'=>array(21, 43))); // exclude bob with Age 21 or 43
-	 * @example $list->exclude(array('Name'=>array('bob','phil'), 'Age'=>array(21, 43))); // bob age 21 or 43, phil age 21 or 43 would be excluded
+	 * @example $list->exclude(array('Name'=>array('bob','phil'), 'Age'=>array(21, 43)));
+	 *          // bob age 21 or 43, phil age 21 or 43 would be excluded
 	 */
 	public function exclude() {
 		if(count(func_get_args())>2){
@@ -469,7 +483,6 @@ class ArrayList extends ViewableData implements SS_List, SS_Filterable, SS_Sorta
 			}
 		}
 
-		$itemsToKeep = array();
 
 		$hitsRequiredToRemove = count($removeUs);
 		$matches = array();
@@ -484,13 +497,17 @@ class ArrayList extends ViewableData implements SS_List, SS_Filterable, SS_Sorta
 		}
 
 		$keysToRemove = array_keys($matches,$hitsRequiredToRemove);
-		// TODO 3.1: This currently mutates existing array
-		$list = /* clone */ $this;
 
-		foreach($keysToRemove as $itemToRemoveIdx){
-			$list->remove($this->items[$itemToRemoveIdx]);
+		$itemsToKeep = array();
+		foreach($this->items as $key => $value) {
+			if(!in_array($key, $keysToRemove)) {
+				$itemsToKeep[] = $value;
+			}
 		}
 
+		// TODO 3.1: This currently mutates existing array
+		$list = /* clone */ $this;
+		$list->items = $itemsToKeep;
 		return $list;
 	}
 

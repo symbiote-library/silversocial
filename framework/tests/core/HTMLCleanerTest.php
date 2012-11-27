@@ -6,18 +6,18 @@
 
 class HTMLCleanerTest extends SapphireTest {
 	
-	function testHTMLClean() {
+	public function testHTMLClean() {
 		$cleaner = HTMLCleaner::inst();
 
 		if ($cleaner) {
 			$this->assertEquals(
-				$cleaner->cleanHTML('<p>wrong <b>nesting</i></p>' . "\n"),
-				'<p>wrong <b>nesting</b></p>' . "\n",
+				$cleaner->cleanHTML('<p>wrong <b>nesting</i></p>'),
+				'<p>wrong <b>nesting</b></p>',
 				"HTML cleaned properly"
 			);
 			$this->assertEquals(
-				$cleaner->cleanHTML('<p>unclosed paragraph' . "\n"),
-				'<p>unclosed paragraph</p>' . "\n",
+				$cleaner->cleanHTML('<p>unclosed paragraph'),
+				'<p>unclosed paragraph</p>',
 				"HTML cleaned properly"
 			);
 		} else {

@@ -221,15 +221,6 @@ since 1/1/2011.
 		'LastVisited:GreaterThan' => '2011-01-01'
 	));
 
-If you wish to match against any of a number of columns, you can list several field names, separated by commas. 
-This will return all members whose first name or surname contain the string 'sam'.
-
-	:::php
-	$members = Member::get()->filter(array(
-		'FirstName,Surname:PartialMatch' => 'sam'
-	));
-
-
 ### Subtract
 
 You can subtract entries from a DataList by passing in another DataList to `subtract()`
@@ -276,7 +267,6 @@ For example:
 	:::php
 	// Without an alias
 	$members = Member::get()->leftJoin("Group_Members", "\"Group_Members\".\"MemberID\" = \"Member\".\"ID\"");
-
 	$members = Member::get()->innerJoin("Group_Members", "\"Rel\".\"MemberID\" = \"Member\".\"ID\"", "REl");
 	
 Passing a *$join* statement to DataObject::get will filter results further by the JOINs performed against the foreign

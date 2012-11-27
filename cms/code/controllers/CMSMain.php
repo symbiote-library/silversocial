@@ -81,7 +81,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		CMSBatchActionHandler::register('deletefromlive', 'CMSBatchAction_DeleteFromLive');
 	}
 
-	function index($request) {
+	public function index($request) {
 		// In case we're not showing a specific record, explicitly remove any session state,
 		// to avoid it being highlighted in the tree, and causing an edit form to show.
 		if(!$request->param('Action')) $this->setCurrentPageId(null);
@@ -104,7 +104,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 	 *
 	 * @return boolean
 	 */
-	function ShowSwitchView() {
+	public function ShowSwitchView() {
 		return true;
 	}
 	
@@ -112,7 +112,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 	 * Overloads the LeftAndMain::ShowView. Allows to pass a page as a parameter, so we are able
 	 * to switch view also for archived versions.
 	 */
-	function SwitchView($page = null) {
+	public function SwitchView($page = null) {
 		if(!$page) {
 			$page = $this->currentPage();
 		}
@@ -202,7 +202,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		return $link;
 	}
 
-	function LinkPageAdd($extraArguments = null) {
+	public function LinkPageAdd($extraArguments = null) {
 		$link = singleton("CMSPageAddController")->Link();
 		$this->extend('updateLinkPageAdd', $link);
 		if($extraArguments) $link = Controller::join_links ($link, $extraArguments);
@@ -245,75 +245,99 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		return $html;
 	}
 	
-	function SearchForm() {
-		// get all page types in a dropdown-compatible format
-		$pageTypeClasses = SiteTree::page_type_classes(); 
-		$pageTypes = array();
-		foreach ($pageTypeClasses as $pageTypeClass) {
-			$pageTypes[$pageTypeClass] = _t($pageTypeClass.'.SINGULARNAME', $pageTypeClass);
-		}
-		asort($pageTypes);
-		
-		// get all filter instances
-		$filters = ClassInfo::subclassesFor('CMSSiteTreeFilter');
-		$filterMap = array();
-		// remove base class
-		array_shift($filters);
-		// add filters to map
-		foreach($filters as $filter) {
-			$filterMap[$filter] = call_user_func(array($filter, 'title'));
-		}
-		// ensure that 'all pages' filter is on top position
-		uasort($filterMap, 
-			create_function('$a,$b', 'return ($a == "CMSSiteTreeFilter_Search") ? 1 : -1;')
+	/**
+	 * Returns a Form for page searching for use in templates.
+	 * 
+	 * Can be modified from a decorator by a 'updateSearchForm' method
+	 *
+	 * @return Form
+	 */
+	public function SearchForm() {
+		// Create the fields
+		$content = new TextField('q[Term]', _t('CMSSearch.FILTERLABELTEXT', 'Content'));
+		$dateHeader = new HeaderField('q[Date]', _t('CMSSearch.FILTERDATEHEADING', 'Date'), 4);
+		$dateFrom = new DateField(
+			'q[LastEditedFrom]', 
+			_t('CMSSearch.FILTERDATEFROM', 'From')
 		);
+		$dateFrom->setConfig('showcalendar', true);
+		$dateTo = new DateField(
+			'q[LastEditedTo]',
+			_t('CMSSearch.FILTERDATETO', 'To')
+		);
+		$dateTo->setConfig('showcalendar', true);
+		$pageFilter = new DropdownField(
+			'q[FilterClass]', 
+			_t('CMSMain.PAGES', 'Pages'), 
+			CMSSiteTreeFilter::get_all_filters()
+		);
+		$pageClasses = new DropdownField(
+			'q[ClassName]', 
+			_t('CMSMain.PAGETYPEOPT', 'Page Type', 'Dropdown for limiting search to a page type'), 
+			$this->getPageTypes()
+		);
+		$pageClasses->setEmptyString(_t('CMSMain.PAGETYPEANYOPT','Any'));
 		
-		$fields = new FieldList(
-			new TextField('q[Term]', _t('CMSSearch.FILTERLABELTEXT', 'Content')),
-			$dateGroup = new FieldGroup(
-				new HeaderField('q[Date]', _t('CMSSearch.FILTERDATEHEADING', 'Date'), 4),
-				$dateFrom = new DateField('q[LastEditedFrom]', _t('CMSSearch.FILTERDATEFROM', 'From')),
-				$dateTo = new DateField('q[LastEditedTo]', _t('CMSSearch.FILTERDATETO', 'To'))
-			),
-			new DropdownField(
-				'q[FilterClass]',
-				_t('CMSMain.PAGES', 'Pages'),
-				$filterMap
-			),
-			$classDropdown = new DropdownField(
-				'q[ClassName]',
-				_t('CMSMain.PAGETYPEOPT','Page Type', 'Dropdown for limiting search to a page type'),
-				$pageTypes
-			)
-			// new TextField('MetaTags', _t('CMSMain.SearchMetaTags', 'Meta tags'))
+		// Group the Datefields
+		$dateGroup = new FieldGroup(
+			$dateHeader,
+			$dateFrom,
+			$dateTo
 		);
 		$dateGroup->setFieldHolderTemplate('FieldGroup_DefaultFieldHolder')->addExtraClass('stacked');
-		$dateFrom->setConfig('showcalendar', true);
-		$dateTo->setConfig('showcalendar', true);
-		$classDropdown->setEmptyString(_t('CMSMain.PAGETYPEANYOPT','Any'));
-
+		
+		// Create the Field list
+		$fields = new FieldList(
+			$content,
+			$dateGroup,
+			$pageFilter,
+			$pageClasses
+		);
+		
+		// Create the Search and Reset action
 		$actions = new FieldList(
 			FormAction::create('doSearch',  _t('CMSMain_left.ss.APPLY FILTER', 'Apply Filter'))
 			->addExtraClass('ss-ui-action-constructive'),
 			Object::create('ResetFormAction', 'clear', _t('CMSMain_left.ss.RESET', 'Reset'))
 		);
 
-		// Use <button> to allow full jQuery UI styling
-		foreach($actions->dataFields() as $action) $action->setUseButtonTag(true);
+		// Use <button> to allow full jQuery UI styling on the all of the Actions
+		foreach($actions->dataFields() as $action) {
+			$action->setUseButtonTag(true);
+		}
 		
+		// Create the form
 		$form = Form::create($this, 'SearchForm', $fields, $actions)
 			->addExtraClass('cms-search-form')
 			->setFormMethod('GET')
 			->setFormAction($this->Link())
 			->disableSecurityToken()
 			->unsetValidator();
+		
+		// Load the form with previously sent search data
 		$form->loadDataFrom($this->request->getVars());
 
+		// Allow decorators to modify the form
 		$this->extend('updateSearchForm', $form);
+		
 		return $form;
 	}
 	
-	function doSearch($data, $form) {
+	/**
+	 * Returns a sorted array suitable for a dropdown with pagetypes and their translated name
+	 * 
+	 * @return array
+	 */
+	protected function getPageTypes() {
+		$pageTypes = array();
+		foreach(SiteTree::page_type_classes() as $pageTypeClass) {
+			$pageTypes[$pageTypeClass] = _t($pageTypeClass.'.SINGULARNAME', $pageTypeClass);
+		}
+		asort($pageTypes);
+		return $pageTypes;
+	}
+	
+	public function doSearch($data, $form) {
 		return $this->getsubtree($this->request);
 	}
 
@@ -341,7 +365,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 	public function SiteTreeHints() {
 		$json = '';
 
-	 	$classes = ClassInfo::subclassesFor( $this->stat('tree_class') );
+		$classes = SiteTree::page_type_classes();
 
 	 	$cacheCanCreate = array();
 	 	foreach($classes as $class) $cacheCanCreate[$class] = singleton($class)->canCreate();
@@ -373,7 +397,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 					
 					if($instance instanceof HiddenClass) continue;
 
-					if(!$cacheCanCreate[$child]) continue;
+					if(!array_key_exists($child, $cacheCanCreate) || !$cacheCanCreate[$child]) continue;
 
 					// skip this type if it is restricted
 					if($instance->stat('need_permission') && !$this->can(singleton($class)->stat('need_permission'))) continue;
@@ -993,13 +1017,13 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		return $this->getResponseNegotiator()->respond($this->request);
 	}
 
-	function publish($data, $form) {
+	public function publish($data, $form) {
 		$data['publish'] = '1';
 		
 		return $this->save($data, $form);
 	}
 
-	function unpublish($data, $form) {
+	public function unpublish($data, $form) {
 		$className = $this->stat('tree_class');
 		$record = DataObject::get_by_id($className, $data['ID']);
 		
@@ -1019,7 +1043,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 	/**
 	 * @return array
 	 */
-	function rollback() {
+	public function rollback() {
 		return $this->doRollback(array(
 			'ID' => $this->currentPageID(),
 			'Version' => $this->request->param('VersionID')
@@ -1034,7 +1058,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 	 *
 	 * @return html
 	 */
-	function doRollback($data, $form) {
+	public function doRollback($data, $form) {
 		$this->extend('onBeforeRollback', $data['ID']);
 		
 		$id = (isset($data['ID'])) ? (int) $data['ID'] : null;
@@ -1074,11 +1098,11 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 	/**
 	 * Batch Actions Handler
 	 */
-	function batchactions() {
+	public function batchactions() {
 		return new CMSBatchActionHandler($this, 'batchactions');
 	}
 	
-	function BatchActionParameters() {
+	public function BatchActionParameters() {
 		$batchActions = CMSBatchActionHandler::$batch_actions;
 
 		$forms = array();
@@ -1101,11 +1125,11 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 	/**
 	 * Returns a list of batch actions
 	 */
-	function BatchActionList() {
+	public function BatchActionList() {
 		return $this->batchactions()->batchActionList();
 	}
 	
-	function buildbrokenlinks($request) {
+	public function buildbrokenlinks($request) {
 		// Protect against CSRF on destructive action
 		if(!SecurityToken::inst()->checkRequest($request)) return $this->httpError(400);
 		
@@ -1141,7 +1165,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		}
 	}
 
-	function publishall($request) {
+	public function publishall($request) {
 		if(!Permission::check('ADMIN')) return Security::permissionFailure($this);
 
 		increase_time_limit_to();
@@ -1198,7 +1222,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 	/**
 	 * Restore a completely deleted page from the SiteTree_versions table.
 	 */
-	function restore($data, $form) {
+	public function restore($data, $form) {
 		if(!isset($data['ID']) || !is_numeric($data['ID'])) {
 			return new SS_HTTPResponse("Please pass an ID in the form content", 400);
 		}
@@ -1221,7 +1245,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		return $this->getResponseNegotiator()->respond($this->request);
 	}
 
-	function duplicate($request) {
+	public function duplicate($request) {
 		// Protect against CSRF on destructive action
 		if(!SecurityToken::inst()->checkRequest($request)) return $this->httpError(400);
 		
@@ -1247,7 +1271,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		}
 	}
 
-	function duplicatewithchildren($request) {
+	public function duplicatewithchildren($request) {
 		// Protect against CSRF on destructive action
 		if(!SecurityToken::inst()->checkRequest($request)) return $this->httpError(400);
 		
@@ -1288,7 +1312,7 @@ class CMSMain extends LeftAndMain implements CurrentPageIdentifier, PermissionPr
 		);
 	}
 
-	function providePermissions() {
+	public function providePermissions() {
 		$title = _t("CMSPagesController.MENUTITLE", LeftAndMain::menu_title_for_class('CMSPagesController'));
 		return array(
 			"CMS_ACCESS_CMSMain" => array(

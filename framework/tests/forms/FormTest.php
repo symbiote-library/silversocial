@@ -153,7 +153,7 @@ class FormTest extends FunctionalTest {
 		$captainWithDetails = $this->objFromFixture('FormTest_Player', 'captainNoDetails');
 		$team2 = $this->objFromFixture('FormTest_Team', 'team2');
 		$form->loadDataFrom($captainWithDetails);
-		$form->loadDataFrom($team2, true);
+		$form->loadDataFrom($team2, Form::MERGE_CLEAR_MISSING);
 		$this->assertEquals(
 			$form->getData(), 
 			array(
@@ -166,7 +166,35 @@ class FormTest extends FunctionalTest {
 			'LoadDataFrom() overwrites fields not found in the object with $clearMissingFields=true'
 		);
 	}
-	
+
+	public function testLoadDataFromIgnoreFalseish() {
+		$form = new Form(
+			new Controller(),
+			'Form',
+			new FieldList(
+				new TextField('Biography', 'Biography', 'Custom Default')
+			),
+			new FieldList()
+		);
+
+		$captainNoDetails = $this->objFromFixture('FormTest_Player', 'captainNoDetails');
+		$captainWithDetails = $this->objFromFixture('FormTest_Player', 'captainWithDetails');
+
+		$form->loadDataFrom($captainNoDetails, Form::MERGE_IGNORE_FALSEISH);
+		$this->assertEquals(
+			$form->getData(),
+			array('Biography' => 'Custom Default'),
+			'LoadDataFrom() doesn\'t overwrite fields when MERGE_IGNORE_FALSEISH set and values are false-ish'
+		);
+
+		$form->loadDataFrom($captainWithDetails, Form::MERGE_IGNORE_FALSEISH);
+		$this->assertEquals(
+			$form->getData(),
+			array('Biography' => 'Bio 1'),
+			'LoadDataFrom() does overwrite fields when MERGE_IGNORE_FALSEISH set and values arent false-ish'
+		);
+	}
+
 	public function testFormMethodOverride() {
 		$form = $this->getStubForm();
 		$form->setFormMethod('GET');
@@ -191,7 +219,7 @@ class FormTest extends FunctionalTest {
 		);
 	}
 	
-	function testSessionValidationMessage() {
+	public function testSessionValidationMessage() {
 		$this->get('FormTest_Controller');
 		
 		$response = $this->post(
@@ -218,7 +246,7 @@ class FormTest extends FunctionalTest {
 		
 	}
 	
-	function testSessionSuccessMessage() {
+	public function testSessionSuccessMessage() {
 		$this->get('FormTest_Controller');
 		
 		$response = $this->post(
@@ -237,7 +265,7 @@ class FormTest extends FunctionalTest {
 		);
 	}
 	
-	function testGloballyDisabledSecurityTokenInheritsToNewForm() {
+	public function testGloballyDisabledSecurityTokenInheritsToNewForm() {
 		SecurityToken::enable();
 		
 		$form1 = $this->getStubForm();
@@ -251,7 +279,7 @@ class FormTest extends FunctionalTest {
 		SecurityToken::enable();
 	}
 	
-	function testDisableSecurityTokenDoesntAddTokenFormField() {
+	public function testDisableSecurityTokenDoesntAddTokenFormField() {
 		SecurityToken::enable();
 		
 		$formWithToken = $this->getStubForm();
@@ -269,7 +297,7 @@ class FormTest extends FunctionalTest {
 		);
 	}
 	
-	function testDisableSecurityTokenAcceptsSubmissionWithoutToken() {
+	public function testDisableSecurityTokenAcceptsSubmissionWithoutToken() {
 		SecurityToken::enable();
 		
 		$response = $this->get('FormTest_ControllerWithSecurityToken');
@@ -303,7 +331,7 @@ class FormTest extends FunctionalTest {
 		$this->assertEquals(200, $response->getStatusCode(), 'Submission suceeds with security token');
 	}
 	
-	function testEnableSecurityToken() {
+	public function testEnableSecurityToken() {
 		SecurityToken::disable();
 		$form = $this->getStubForm();
 		$this->assertFalse($form->getSecurityToken()->isEnabled());
@@ -313,7 +341,7 @@ class FormTest extends FunctionalTest {
 		SecurityToken::disable(); // restore original
 	}
 	
-	function testDisableSecurityToken() {
+	public function testDisableSecurityToken() {
 		SecurityToken::enable();
 		$form = $this->getStubForm();
 		$this->assertTrue($form->getSecurityToken()->isEnabled());
@@ -339,7 +367,7 @@ class FormTest extends FunctionalTest {
 	}
 
 
-	function testAttributes() {
+	public function testAttributes() {
 		$form = $this->getStubForm();
 		$form->setAttribute('foo', 'bar');
 		$this->assertEquals('bar', $form->getAttribute('foo'));
@@ -348,7 +376,7 @@ class FormTest extends FunctionalTest {
 		$this->assertEquals('bar', $attrs['foo']);
 	}
 
-	function testAttributesHTML() {
+	public function testAttributesHTML() {
 		$form = $this->getStubForm();
 
 		$form->setAttribute('foo', 'bar');
@@ -418,11 +446,12 @@ class FormTest_Controller extends Controller implements TestOnly {
 
 	protected $template = 'BlankPage';
 	
-	function Link($action = null) {
-		return Controller::join_links('FormTest_Controller', $this->request->latestParam('Action'), $this->request->latestParam('ID'), $action);
+	public function Link($action = null) {
+		return Controller::join_links('FormTest_Controller', $this->request->latestParam('Action'),
+			$this->request->latestParam('ID'), $action);
 	}
 	
-	function Form() {
+	public function Form() {
 		$form = new Form(
 			$this,
 			'Form',
@@ -446,7 +475,7 @@ class FormTest_Controller extends Controller implements TestOnly {
 		return $form;
 	}
 	
-	function FormWithSecurityToken() {
+	public function FormWithSecurityToken() {
 		$form = new Form(
 			$this,
 			'FormWithSecurityToken',
@@ -461,12 +490,12 @@ class FormTest_Controller extends Controller implements TestOnly {
 		return $form;
 	}
 	
-	function doSubmit($data, $form, $request) {
+	public function doSubmit($data, $form, $request) {
 		$form->sessionMessage('Test save was successful', 'good');
 		return $this->redirectBack();
 	}
 
-	function getViewer($action = null) {
+	public function getViewer($action = null) {
 		return new SSViewer('BlankPage');
 	}
 
@@ -479,11 +508,12 @@ class FormTest_ControllerWithSecurityToken extends Controller implements TestOnl
 
 	protected $template = 'BlankPage';
 	
-	function Link($action = null) {
-		return Controller::join_links('FormTest_ControllerWithSecurityToken', $this->request->latestParam('Action'), $this->request->latestParam('ID'), $action);
+	public function Link($action = null) {
+		return Controller::join_links('FormTest_ControllerWithSecurityToken', $this->request->latestParam('Action'),
+			$this->request->latestParam('ID'), $action);
 	}
 	
-	function Form() {
+	public function Form() {
 		$form = new Form(
 			$this,
 			'Form',
@@ -498,12 +528,12 @@ class FormTest_ControllerWithSecurityToken extends Controller implements TestOnl
 		return $form;
 	}
 	
-	function doSubmit($data, $form, $request) {
+	public function doSubmit($data, $form, $request) {
 		$form->sessionMessage('Test save was successful', 'good');
 		return $this->redirectBack();
 	}
 
-	function getViewer($action = null) {
+	public function getViewer($action = null) {
 		return new SSViewer('BlankPage');
 	}
 }

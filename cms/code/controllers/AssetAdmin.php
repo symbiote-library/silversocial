@@ -120,11 +120,17 @@ JS
 
 		// Category filter
 		if(isset($params['AppCategory'])) {
-			$exts = File::$app_categories[$params['AppCategory']];
+			if(isset(File::$app_categories[$params['AppCategory']])) {
+				$exts = File::$app_categories[$params['AppCategory']];
+			} else {
+				$exts = array();
+			}
 			$categorySQLs = array();
 			foreach($exts as $ext) $categorySQLs[] = '"File"."Name" LIKE \'%.' . $ext . '\'';
 			// TODO Use DataList->filterAny() once OR connectives are implemented properly
-			$list = $list->where('(' . implode(' OR ', $categorySQLs) . ')');
+			if (count($categorySQLs) > 0) {
+				$list = $list->where('(' . implode(' OR ', $categorySQLs) . ')');
+			}
 		}
 
 		return $list;
@@ -336,6 +342,7 @@ JS
 			'mov' => _t('AssetAdmin.AppCategoryVideo', 'Video'),
 			'flash' => _t('AssetAdmin.AppCategoryFlash', 'Flash', 'The fileformat'),
 			'zip' => _t('AssetAdmin.AppCategoryArchive', 'Archive', 'A collection of files'),
+			'doc' => _t('AssetAdmin.AppCategoryDocument', 'Document')
 		);
 		$context->addField(
 			$typeDropdown = new DropdownField(
@@ -477,13 +484,15 @@ JS
 	public function currentPage() {
 		$id = $this->currentPageID();
 		if($id && is_numeric($id) && $id > 0) {
-			return DataObject::get_by_id('Folder', $id);
-		} else {
-			return new Folder();
+			$folder = DataObject::get_by_id('Folder', $id);
+			if($folder && $folder->exists()) {
+				return $folder;
+			}
 		}
+		return new Folder();
 	}
 	
-	function getSiteTreeFor($className, $rootID = null, $childrenMethod = null, $numChildrenMethod = null, $filterFunction = null, $minNodeCount = 30) {
+	public function getSiteTreeFor($className, $rootID = null, $childrenMethod = null, $numChildrenMethod = null, $filterFunction = null, $minNodeCount = 30) {
 		if (!$childrenMethod) $childrenMethod = 'ChildFolders';
 		return parent::getSiteTreeFor($className, $rootID, $childrenMethod, $numChildrenMethod, $filterFunction, $minNodeCount);
 	}
@@ -637,7 +646,7 @@ JS
 		return $items;
 	}
 
-	function providePermissions() {
+	public function providePermissions() {
 		$title = _t("AssetAdmin.MENUTITLE", LeftAndMain::menu_title_for_class($this->class));
 		return array(
 			"CMS_ACCESS_AssetAdmin" => array(
