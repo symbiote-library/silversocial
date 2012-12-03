@@ -18,3 +18,5 @@ _ss_environment.php
 silverstripe-cache/
 sitemap.xml
 google*.htmlcontent-servicescdntheme
+*/xhprof_lib/config.php
+xhprof_runs.php

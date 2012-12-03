@@ -207,6 +207,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 				<exclude name="mysite/local.conf.php" />
 				<exclude name="mysite/_config/local.yml" />
 				<exclude name="mysite/db.conf.php" />
+				<exclude name="mysite/thirdparty/xhprof/xhprof_lib/config.php" />
 				<exclude name="mysite/*.log" />
 				<exclude name="**/.svn/**" />
 				<exclude name="**/.git/**" />
@@ -263,6 +264,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 				<exclude name="sitemap.xml" />
 				<exclude name="google*.html" />
 				<exclude name="mysite/db.conf.php" />
+				<exclude name="mysite/thirdparty/xhprof/xhprof_lib/config.php" />
 				<exclude name="mysite/local.conf.php" />
 				<exclude name="mysite/_config/local.yml" />
 				<exclude name="mysite/*.log" />
