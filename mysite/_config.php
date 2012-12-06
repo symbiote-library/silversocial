@@ -47,6 +47,3 @@ Member::set_title_columns(array('FirstName', 'Surname'));
 Object::add_extension('PostAggregatorPage', 'SimpleCachePublisherExtension');
 
 Member::set_unique_identifier_field('Username');
-
-Object::add_extension('File', 'CdnFileExtension');
-Object::add_extension('Folder', 'CdnFolderExtension');
