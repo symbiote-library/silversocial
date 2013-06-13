@@ -12,6 +12,7 @@ class DashboardController extends FrontendModelController {
 		'widget/$ID'					=> 'handleDashlet',
 		'dashlet/$ID'					=> 'handleDashlet',	// what it should be
 		'board/$URLSegment/$MemberID'	=> 'handleBoard',
+		'user/$Identifier/$Segment'		=> 'handleUser',
 	);
 
 	public static $allowed_actions = array(
@@ -77,8 +78,6 @@ class DashboardController extends FrontendModelController {
 				$this->currentDashboard = $this->getDashboard();
 			}
 			Restrictable::set_enabled(true);
-			
-			
 		}
 		
 		parent::init();
@@ -112,6 +111,89 @@ class DashboardController extends FrontendModelController {
 	
 	public static function get_allowed_dashlets() {
 		return self::$allowed_dashlets;
+	}
+	
+	public function handleUser($request) {
+		$segment = $this->request->param('Segment');
+		$identifier = $this->request->param('Identifier');
+		try {
+			$userId = (int) $identifier;
+			if (!$userId) {
+				$field = Member::get_unique_identifier_field();
+				$member = DataList::create('Member')->filter(array($field => $identifier))->first();
+				if ($member) {
+					$userId = $member->ID;
+				}
+			}
+			if (!$segment) {
+				$segment = 'main';
+			}
+			$board = $this->getDashboard($segment, $userId);
+		} catch (PermissionDeniedException $pde) {
+			return Security::permissionFailure($this, 'You do not have permission to view that');
+		}
+
+		if ($board) {
+			// need this call to make sure the params are properly processed
+			$this->request->allParams();
+			$cls = get_class($this);
+			$controller = $this->injector->create($cls, $this->dataRecord, $board);
+			return $controller;
+		}
+		return $this->httpError(404, "Board $segment does not exist");
+	}
+	
+	public function handleBoard($request) {
+		$segment = $this->request->param('URLSegment');
+		$userId = $this->request->param('MemberID');
+		try {
+			$board = $this->getDashboard($segment, $userId);
+		} catch (PermissionDeniedException $pde) {
+			return Security::permissionFailure($this, 'You do not have permission to view that');
+		}
+
+		if ($board) {
+			// need this call to make sure the params are properly processed
+			$this->request->allParams();
+			$cls = get_class($this);
+			$controller = $this->injector->create($cls, $this->dataRecord, $board);
+			return $controller;
+		}
+		return $this->httpError(404, "Board $segment does not exist");
+	}
+
+	/**
+	 * Handles widgets attached to a page through one or more {@link WidgetArea} elements.
+	 * Iterated through each $has_one relation with a {@link WidgetArea}
+	 * and looks for connected widgets by their database identifier.
+	 * Assumes URLs in the following format: <URLSegment>/widget/<Widget-ID>.
+	 * 
+	 * @return RequestHandler
+	 */
+	function handleDashlet() {
+		$SQL_id = $this->request->param('ID');
+		if(!$SQL_id) return false;
+
+		// find widget
+		$dataService = $this->dataService;
+		
+		$widget = $dataService->dashletById($SQL_id);
+		if (!$widget) {
+			throw new Exception("Invalid widget #$SQL_id");
+		}
+
+		// find controller
+		$controllerClass = '';
+		foreach(array_reverse(ClassInfo::ancestry($widget->class)) as $widgetClass) {
+			$controllerClass = "{$widgetClass}_Controller";
+			if(class_exists($controllerClass)) break;
+		}
+		if(!$controllerClass) user_error(
+			sprintf('No controller available for %s', $widget->class),
+			E_USER_ERROR
+		);
+		
+		return $this->injector->create($controllerClass, $widget, $this);
 	}
 	
 	public function getDashletsList() {
@@ -152,7 +234,8 @@ class DashboardController extends FrontendModelController {
 			if (!$this->securityContext->getMember()) {
 				return Security::permissionFailure($this, _t('DashboardController.USER_REQUIRED', 'You must be logged in to do that'));
 			}
-			$page = $this->securityContext->getMember()->createDashboard('main', true);
+			$page = $this->securityContext->getMember()->getAnyDashboard();
+			$this->currentDashboard = $page;
 		}
 		return $this->customise(array('Dashboard' => $page))->renderWith(array('Dashboard', 'Page'));
 	}
@@ -163,9 +246,13 @@ class DashboardController extends FrontendModelController {
 	public function board() {
 		return $this->index();
 	}
+	
+	public function user() {
+		return $this->index();
+	}
 
 	protected function getDashboard($name='main', $memberId = null) {
-		if ($memberId) {
+		if (is_int($memberId)) {
 			// try and get the page from that user, if there's read access
 			// we're deliberately loading the member without permission checks 
 			$member = Member::get()->byID($memberId);
@@ -268,59 +355,6 @@ class DashboardController extends FrontendModelController {
 		}
 
 		return $this->redirect($this->currentDashboard->Link());
-	}
-	
-	public function handleBoard($request) {
-		$segment = $this->request->param('URLSegment');
-		$userId = $this->request->param('MemberID');
-		try {
-			$board = $this->getDashboard($segment, $userId);
-		} catch (PermissionDeniedException $pde) {
-			return Security::permissionFailure($this, 'You do not have permission to view that');
-		}
-
-		if ($board) {
-			// need this call to make sure the params are properly processed
-			$this->request->allParams();
-			$cls = get_class($this);
-			$controller = $this->injector->create($cls, $this->dataRecord, $board);
-			return $controller;
-		}
-		return $this->httpError(404, "Board $segment does not exist");
-	}
-
-	/**
-	 * Handles widgets attached to a page through one or more {@link WidgetArea} elements.
-	 * Iterated through each $has_one relation with a {@link WidgetArea}
-	 * and looks for connected widgets by their database identifier.
-	 * Assumes URLs in the following format: <URLSegment>/widget/<Widget-ID>.
-	 * 
-	 * @return RequestHandler
-	 */
-	function handleDashlet() {
-		$SQL_id = $this->request->param('ID');
-		if(!$SQL_id) return false;
-
-		// find widget
-		$dataService = $this->dataService;
-		
-		$widget = $dataService->dashletById($SQL_id);
-		if (!$widget) {
-			throw new Exception("Invalid widget #$SQL_id");
-		}
-
-		// find controller
-		$controllerClass = '';
-		foreach(array_reverse(ClassInfo::ancestry($widget->class)) as $widgetClass) {
-			$controllerClass = "{$widgetClass}_Controller";
-			if(class_exists($controllerClass)) break;
-		}
-		if(!$controllerClass) user_error(
-			sprintf('No controller available for %s', $widget->class),
-			E_USER_ERROR
-		);
-		
-		return $this->injector->create($controllerClass, $widget, $this);
 	}
 	
 	/**

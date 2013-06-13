@@ -32,6 +32,14 @@ class DashboardUser extends DataExtension {
 		$dashboard = $this->dataService->getOneDashboardPage('"OwnerID" = '.$this->owner->ID.' AND "URLSegment" = \''.Convert::raw2sql($segment).'\'');
 		return $dashboard;
 	}
+	
+	public function getAnyDashboard() {
+		$dashboard = $this->dataService->getOneDashboardPage('"OwnerID" = '.$this->owner->ID);
+		if (!$dashboard) {
+			$dashboard = $this->securityContext->getMember()->createDashboard('main', true);
+		}
+		return $dashboard;
+	}
 
 	public function createDashboard($name, $createDefault = false) {
 		$url = preg_replace('/ +/', '-', trim($name)); // Replace any spaces

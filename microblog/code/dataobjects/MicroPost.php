@@ -180,9 +180,10 @@ class MicroPost extends DataObject implements Syncroable {
 	public function Link() {
 		$additional = '';
 		if (strlen($this->Title)) {
-			$additional = str_replace('.', '-', '-' . URLSegmentFilter::create()->filter($this->Title));
+			$additional = str_replace('.', '-', URLSegmentFilter::create()->filter($this->Title));
 		}
 		
+		return 'timeline/show/' . $this->ID . '/' . $additional;
 		return 'timeline/show/' . $this->ID . $additional;
 	}
 	

@@ -289,6 +289,8 @@ class MicroBlogMember extends DataExtension {
 	
 	public function Link() {
 		$microblog = DataObject::get_one('SiteDashboardPage', '"ParentID" = 0');
-		return $microblog->Link('board/main/' . $this->owner->ID);
+		$field = Member::get_unique_identifier_field();
+		$bit = $this->owner->$field;
+		return $microblog->Link('user/' . $bit);
 	}
 }

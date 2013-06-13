@@ -126,8 +126,11 @@
 			refresh: function () {
 				var id = this.attr('data-id');
 				var reloadUrl = segment + '/loaddashlet';
+				this.loadUrl(reloadUrl, {DashletID: id});
+			},
+			loadUrl: function (reloadUrl, params) {
 				var _this = this;
-				$.get(reloadUrl, {DashletID: id}, function (data) {
+				$.get(reloadUrl, params, function (data) {
 					if (data && data.length && data.indexOf('dashlet') >= 0) {
 						_this.replaceWith(data);
 						delete _this;

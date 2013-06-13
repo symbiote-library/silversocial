@@ -20,6 +20,11 @@ class PublicProfile extends DataObject {
 	);
 
 	public function Link() {
+		$member = $this->member();
+		if ($member) {
+			return $member->Link();
+		}
+		
 		$microblog = DataObject::get_one('SiteDashboardPage', '"ParentID" = 0');
 		return $microblog->Link('board/main/' . $this->MemberID);
 	}

@@ -53,8 +53,11 @@ class SiteDashboardPage_Controller extends DashboardController {
 		$dashboard = $this->currentDashboard;
 
 		if($dashboard && $dashboard->URLSegment != 'main') {
+			$identifier = Member::get_unique_identifier_field();
+			$identifier = $dashboard->Owner()->$identifier;
+			
 			return Controller::join_links(
-				$this->data()->Link(true), 'board', $dashboard->URLSegment, $action
+				$this->data()->Link(true), 'user', $identifier, $dashboard->URLSegment, $action
 			);
 		} else {
 			return $this->data()->Link($action ? $action : true);
