@@ -202,7 +202,7 @@ This is how you do it:
 
  * **Install the module as you would normally.** Use the regular composer function - there are no special flags to use a fork. Your fork will be used in place of the package version.
 
- 		composer require silverstripe/advancedworkflow
+ 		composer require symbiote/silverstripe-advancedworkflow
 
 Composer will scan all of the repositories you list, collect meta-data about the packages within them, and use them in favour of the packages listed on packagist.  To switch back to using the mainline version of the package, just remove your the `repositories` section from `composer.json` and run `composer update`.
 
