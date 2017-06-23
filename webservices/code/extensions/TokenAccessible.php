@@ -3,7 +3,7 @@
 /**
  * Adds token-based access for users.
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class TokenAccessible extends DataExtension {

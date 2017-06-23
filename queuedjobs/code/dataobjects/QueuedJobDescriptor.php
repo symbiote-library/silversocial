@@ -8,7 +8,7 @@
  * this will determine which queue it is placed within so that some shorter jobs can execute immediately without needing
  * to wait for a potentially long running job.
  *
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  * @license BSD http://silverstripe.org/bsd-license/
  */
 class QueuedJobDescriptor extends DataObject {

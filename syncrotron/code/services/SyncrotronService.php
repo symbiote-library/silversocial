@@ -4,7 +4,7 @@
  * Service layer for syncrotron interactions. Largely, this is responsible for 
  * publishing the list of changes on this node for the relevant nodes that might dial in
  * 
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class SyncrotronService {

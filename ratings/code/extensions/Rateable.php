@@ -5,7 +5,7 @@
  * 
  * @see http://www.evanmiller.org/how-not-to-sort-by-average-rating.html
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class Rateable extends DataExtension {

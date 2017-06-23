@@ -6,7 +6,7 @@
  * Note that it is NOT necessary to declare both WebServiceable AND
  * webEnabledMethods; it's just done for completeness
  * 
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  */
 class DummyWebService implements WebServiceable {
 	

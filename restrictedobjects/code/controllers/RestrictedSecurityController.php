@@ -4,7 +4,7 @@
  * Controller that handles Security logout to prevent write errors
  * as logout tries to write the user AFTER logging out
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class RestrictedSecurityController extends Security {

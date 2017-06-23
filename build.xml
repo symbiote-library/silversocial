@@ -45,7 +45,7 @@
 	<target name="help">
 		<echo>
 
-SilverStripe Australia Project Build
+Symbiote Project Build
 ------------------------------------
 
 This build file contains targets to assist in creating new SilverStripe project builds. 
@@ -131,7 +131,7 @@ Other features
 		<delete dir="assets" />
 		<delete file="${project.basedir}/mysite/local.conf.php" />
 		<delete file="${project.basedir}/mysite/_config/local.yml" />
-		<delete file="${project.basedir}/ssautesting/testing.conf.php" />
+		<delete file="${project.basedir}/silverstripe-test-assist/testing.conf.php" />
 		<property name="properties_exist" value="true" override="true" />
 		<property file="${project.basedir}/build/build.properties"></property>
 	</target>
@@ -161,7 +161,7 @@ RemoveType .php .phtml .php3 .php4 .php5 .inc
 		</copy>
 
 		<!-- Copy the configs to be used for testing. Set the required variables in the build.properties file -->
-		<copy tofile="ssautesting/testing.conf.php" file="${testing.config}" overwrite="false">
+		<copy tofile="silverstripe-test-assist/testing.conf.php" file="${testing.config}" overwrite="false">
 			<filterchain>
 				<expandproperties />
 			</filterchain>
@@ -349,7 +349,7 @@ Deny from all
 		<mkdir dir="${testing.logdir}" />
 		<mkdir dir="assets" />
 		<!-- Copy the configs - done so that we can override the reporter type from an exernal source -->
-		<copy tofile="ssautesting/testing.conf.php" file="${testing.config}" overwrite="false">
+		<copy tofile="silverstripe-test-assist/testing.conf.php" file="${testing.config}" overwrite="false">
 			<filterchain>
 				<expandproperties />
 			</filterchain>

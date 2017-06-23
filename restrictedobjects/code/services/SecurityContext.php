@@ -4,7 +4,7 @@
  * A context describing the security in place in the application,
  * effectively the user that's logged in
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class SecurityContext {

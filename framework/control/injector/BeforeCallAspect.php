@@ -6,7 +6,7 @@
  * This is a declared interface, but isn't actually required
  * as PHP doesn't really care about types... 
  * 
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  * @package framework
  * @subpackage injector
  * @license BSD http://silverstripe.org/BSD-license

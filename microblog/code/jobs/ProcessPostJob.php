@@ -3,7 +3,7 @@
 /**
  * Performs post processing of a post to do things like oembed lookup etc
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class ProcessPostJob extends AbstractQueuedJob {
@@ -66,7 +66,7 @@ class ProcessPostJob extends AbstractQueuedJob {
 					'type' => 'comment', 
 					'content' => $post->Content, 
 					'platform' => 'silverstripe_microblog', 
-					'client' => 'MicroBlog Defensio-PHP | 0.1 | Marcus Nyeholt | marcus@silverstripe.com.au', 
+					'client' => 'MicroBlog Defensio-PHP | 0.1 | Marcus Nyeholt | marcus@symbiote.com.au', 
 					'async' => 'false'
 				);
 

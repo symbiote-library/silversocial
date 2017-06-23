@@ -293,7 +293,7 @@ class SimpleCache {
 /**
  * Basic wrapper around items that need to be stored in the cache
  * 
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  *
  */
 class SimpleCacheItem {

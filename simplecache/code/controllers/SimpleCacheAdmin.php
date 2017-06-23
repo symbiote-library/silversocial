@@ -3,7 +3,7 @@
 /**
  * Description of SimpleCacheAdmin
  *
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  */
 class SimpleCacheAdmin extends LeftAndMain {
 	static $url_segment = 'simplecache';

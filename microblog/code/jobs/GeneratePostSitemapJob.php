@@ -3,7 +3,7 @@
 /**
  * Generate google sitemap for all posts
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class GeneratePostSitemapJob extends AbstractQueuedJob {

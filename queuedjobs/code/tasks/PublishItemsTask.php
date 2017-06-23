@@ -5,7 +5,7 @@
  * queued jobs project can be used
  * 
  *
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  * @license BSD http://silverstripe.org/bsd-license/
  */
 class PublishItemsTask extends BuildTask

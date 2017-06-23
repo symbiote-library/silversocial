@@ -10,7 +10,7 @@
  * 
  * depending on whether you're doing UpdatedUTC updates or LastEditedUTC updates
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class SyncroableExtension extends DataExtension {

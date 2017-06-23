@@ -3,7 +3,7 @@
 /**
  * Displays the list of tags in the system
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class TagsDashlet extends Dashlet {

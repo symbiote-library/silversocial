@@ -3,7 +3,7 @@
 /**
  * A cache store that uses the filesystem for storing cached content
  * 
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  *
  */
 class SimpleFileBasedCacheStore implements SimpleCacheStore {
@@ -85,7 +85,7 @@ class SimpleFileBasedCacheStore implements SimpleCacheStore {
 /**
  * A cache store that uses the filesystem for storing cached content
  * 
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  *
  */
 class SimpleApcBasedCacheStore implements SimpleCacheStore {
@@ -121,7 +121,7 @@ class SimpleApcBasedCacheStore implements SimpleCacheStore {
 /**
  * A cache store that uses the php-memcacheD module for storing cached content
  * 
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  *
  */
 class SimpleMemcacheBasedCacheStore implements SimpleCacheStore {
@@ -180,7 +180,7 @@ class SimpleMemcacheBasedCacheStore implements SimpleCacheStore {
 /**
  * A cache store that uses the php-memcacheD module for storing cached content
  * 
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  *
  */
 class SimpleMemcachedBasedCacheStore implements SimpleCacheStore {
@@ -241,7 +241,7 @@ class SimpleMemcachedBasedCacheStore implements SimpleCacheStore {
 /**
  * A cache store definition
  * 
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  *
  */
 interface SimpleCacheStore {

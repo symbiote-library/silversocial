@@ -3,7 +3,7 @@
 /**
  * Arbitrary listings of data objects
  *
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  */
 class ListingDashlet extends Dashlet {
 	static $title = "Listing";

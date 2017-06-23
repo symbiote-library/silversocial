@@ -4,7 +4,7 @@
  * A service interface to functionality related to getting and setting
  * permission information for nodes
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class PermissionService {

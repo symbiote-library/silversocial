@@ -3,7 +3,7 @@
 /**
  * Description of ArrayJsonConverter
  *
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  */
 class ArrayJsonConverter {
 	public function convert($array, $controller) {

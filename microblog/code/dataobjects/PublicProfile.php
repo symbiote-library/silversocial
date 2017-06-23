@@ -3,7 +3,7 @@
 /**
  * Information about a user that's visible to everyone
  * 
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class PublicProfile extends DataObject {

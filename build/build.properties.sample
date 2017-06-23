@@ -40,7 +40,7 @@ testing.db.name=tmpdb_silverstripe_testing
 
 # Configuration details for how the output of the testing should be managed - PhingXMLPHPUnit3ResultFormatter
 testing.reporter=CliTestReporter
-testing.logdir=ssautesting/logs
+testing.logdir=silverstripe-test-assist/logs
 testing.logfile=testsuite.xml
 
 testcase=

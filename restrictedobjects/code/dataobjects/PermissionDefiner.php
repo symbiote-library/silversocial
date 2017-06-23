@@ -3,7 +3,7 @@
 /**
  * Indicates that this class defines some low level permssions
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 interface PermissionDefiner {

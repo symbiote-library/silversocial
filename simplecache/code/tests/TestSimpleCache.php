@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  */
 class SimpleCacheTest extends SapphireTest {
 	public function testSimpleCache() {

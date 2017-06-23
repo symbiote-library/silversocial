@@ -4,7 +4,7 @@
  * A class that proxies another, allowing various functionality to be
  * injected
  * 
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @package framework
  * @subpackage injector
  * 

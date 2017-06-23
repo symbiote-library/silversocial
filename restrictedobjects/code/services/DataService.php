@@ -5,7 +5,7 @@
  * when loading objects
  * 
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class DataService {

@@ -7,7 +7,7 @@ define('TEST_SERVICES', dirname(__FILE__) . '/testservices');
  * 
  * Note that these are SS conversions of the existing Simpletest unit tests
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class InjectorTest extends SapphireTest {

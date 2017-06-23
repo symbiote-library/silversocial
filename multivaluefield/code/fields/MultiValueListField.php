@@ -1,7 +1,7 @@
 <?php
 /*
 
-Copyright (c) 2009, SilverStripe Australia PTY LTD - www.silverstripe.com.au
+Copyright (c) 2009, Symbiote PTY LTD - www.symbiote.com.au
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -23,7 +23,7 @@ OF SUCH DAMAGE.
 /**
  * A multivalued field that uses a multi choice select box for selecting the value 
  *
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  */
 class MultiValueListField extends MultiValueTextField {
 	protected $source;

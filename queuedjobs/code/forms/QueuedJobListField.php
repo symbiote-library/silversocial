@@ -21,7 +21,7 @@ class QueuedJobListField extends TableListField {
 }
 
 /**
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  */
 class QueuedJobListField_Item extends TableListField_Item
 {

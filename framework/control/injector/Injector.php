@@ -108,7 +108,7 @@
  * * Injector::inst()->setAutoScanProperties(true) is called and
  * * A service named 'PermissionService' has been configured 
  * 
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @package framework
  * @subpackage injector
  * @license BSD License http://silverstripe.org/bsd-license/

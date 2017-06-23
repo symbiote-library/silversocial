@@ -3,7 +3,7 @@
 /**
  * Service style class responsible for publishing urls into a cache
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class SimpleCachePublisher {

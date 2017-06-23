@@ -3,7 +3,7 @@
 /**
  * A site config used for sites that are cached
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class CachedSiteConfig extends DataExtension {

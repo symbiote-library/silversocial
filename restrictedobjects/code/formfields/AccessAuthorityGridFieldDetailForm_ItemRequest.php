@@ -4,7 +4,7 @@
  * Special handler for saving access authority objects to make sure it's run through 
  * the permission service to make sure all grants are handled correctly
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class AccessAuthorityGridFieldDetailForm_ItemRequest extends GridFieldDetailForm_ItemRequest {

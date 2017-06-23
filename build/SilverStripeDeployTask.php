@@ -4,7 +4,7 @@
  * A phing task to perform a deployment of a specified
  * tarball to a remote server
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class SilverStripeDeployTask extends SilverStripeBuildTask {

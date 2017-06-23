@@ -9,7 +9,7 @@
  * to a SilverStripe Page object, but doesn't need to be (ie this can 
  * operate via direct controller requests). 
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class DashboardPage extends DataObject {

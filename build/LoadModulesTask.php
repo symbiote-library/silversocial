@@ -9,7 +9,7 @@ include_once dirname(__FILE__) . '/SilverStripeBuildTask.php';
  * svn checkout/updates, so you must have these on your path when this
  * runs.
  *
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  *
  */
 class LoadModulesTask extends SilverStripeBuildTask {

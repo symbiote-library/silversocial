@@ -3,7 +3,7 @@
 /**
  * Description of AccessRoleAdmin
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class AccessRoleAdmin extends ModelAdmin {

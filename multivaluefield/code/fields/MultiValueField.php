@@ -4,7 +4,7 @@
  * A DB field that serialises an array before writing it to the db, and returning the array
  * back to the end user. 
  *
- * @author Marcus Nyeholt <marcus@silverstripe.com.au>
+ * @author Marcus Nyeholt <marcus@symbiote.com.au>
  */
 class MultiValueField extends DBField implements CompositeDBField {
 	protected $changed = false;

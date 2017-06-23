@@ -6,7 +6,7 @@
  * Legacy to support those items that used to inherit this but now can
  * use the extension directly
  * 
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class RestrictedObject extends DataObject {

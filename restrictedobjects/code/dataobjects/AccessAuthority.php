@@ -4,7 +4,7 @@
  * An access authority describes the Role a user or group has
  * which is then associated with a given object
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class AccessAuthority extends DataObject {

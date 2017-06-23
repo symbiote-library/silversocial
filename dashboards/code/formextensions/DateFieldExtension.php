@@ -4,7 +4,7 @@
  * Adds a simple rendering option for the field so it still gets
  * the calendar stuff added, but none of the junk added by FieldHolder
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  */
 class DateFieldExtension extends Extension {
 	public function SimpleFieldHolder() {

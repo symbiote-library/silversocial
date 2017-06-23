@@ -5,7 +5,7 @@
  * request occurs. By returning 'false' from the preRequest method,
  * request execution will be stopped from continuing
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 interface RequestFilter {

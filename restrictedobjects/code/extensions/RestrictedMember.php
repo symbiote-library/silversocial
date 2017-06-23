@@ -3,7 +3,7 @@
 /**
  * Capture the user being logged in and set them into the security context
  *
- * @author marcus@silverstripe.com.au
+ * @author marcus@symbiote.com.au
  * @license BSD License http://silverstripe.org/bsd-license/
  */
 class RestrictedMember extends DataExtension {
